@@ -69,7 +69,8 @@ axis([0,30,0.4,1])
             binar_x(:,j) = binar_x(:,j)/n_it;
         end
         subplot(2,1,1)
-            plot_sensorlocsV4(binar_x(:,q_sens),par);
+%             plot_sensorlocsV4(binar_x(:,q_sens),par);
+            plotSensorLocs(binar_x(:,q_sens),par);
             title('Strain in x')
     end 
     

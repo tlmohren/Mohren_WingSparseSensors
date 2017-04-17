@@ -1,4 +1,4 @@
-function  plot_sensorlocsV4( binar,par)
+function  plotSensorLocs( binar,par)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
