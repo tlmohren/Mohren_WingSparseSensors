@@ -1,4 +1,4 @@
-function  [  sensors  ] = SensorLocSSPOC_april(   Xtrain,Gtrain , par)
+function  [  sensors  ] = sensorLocSSPOC(  Xtrain,Gtrain , par)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 % [  sensors  ] = SensorLocSSPOC_april(   Xtrain,Gtrain,r,SSPOC_on,w_trunc , par)
