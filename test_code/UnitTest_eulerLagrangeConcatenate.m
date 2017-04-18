@@ -4,8 +4,12 @@
 % -----------------------------
 % initialize path and clear memory 
 clc;clear all;close all
-run('link_folders_SSPOC.m')
+% run('link_folders_SSPOC.m')
 
+
+scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
+addpath([scriptLocation filesep 'scripts']);
+addpathFolderStructure()
 
             
 %% Run testcases
@@ -23,9 +27,9 @@ if testCase == 1
     par.chordElements = 26;
     par.spanElements = 51;
 elseif testCase == 2
-    ph = 0;
-    th = 0.1; 
-    par.runSim = 0;
+    ph = 0.1;
+    th = 0; 
+    par.runSim = 1;
     par.saveSim = 1;
     par.chordElements = 26;
     par.spanElements = 51;

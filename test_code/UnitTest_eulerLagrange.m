@@ -3,13 +3,16 @@
 % TLM 2017
 % -----------------------------
 % initialize path and clear memory 
-run('link_folders_SSPOC.m')
+scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
+addpath([scriptLocation filesep 'scripts']);
+addpathFolderStructure()
+
 clc;clear all;close all
 
 %% Run testcases
 % Specify testcase 
 par = setParameters();
-testCase =4;
+testCase =3;
 
 if testCase == 1
     % regular testcase

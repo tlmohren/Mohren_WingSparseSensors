@@ -101,35 +101,10 @@ function [strain] = eulerLagrange(frot, th,ph ,par )
     end
 
 %% Generate function with equations for ODEs
-%Delete prior PlateODE.m file     
 
-% ---------------------------------own, wrong?, breaks something --------------------------------------------
-%     if exist('functions/PlateODE.m','file') == 2;
-%         delete('functions/PlateODE.m')
-%         display('Deleted functions/PlateODE.m')
-%     end
-%     
-% % Create ODE file 
-%     [M K Ma Ia Q] = createODEfile_rotvect(a,b,E,G,nu,h,density,dampingfactor,phi,theta,gamma,globalangle,N,dxi);
-%     pause(5)
-% % Make sure file saves before solving the ODE, is this really necessary? 
-%     if exist('functions/PlateODE.m', 'file') ~= 2
-%         iter =1;
-%         display('Saving functions/PlateODE.m takes time, pause until done')
-%         while (exist('functions/PlateODE.m', 'file') ~= 2) 
-%             pause(0.1)
-%             iter = iter+1;
-%             if iter>30
-%                 error('Takes too long (over 3 seconds) for PlateODE to save')
-%             end
-%         end 
-%     end
-% --------------------------------------------------------------------------------------------------
-
-% --------------transplant-----------, this works 
+% ensure no previous version of this ODE file exists 
 if exist('functions/PlateODE.m') == 2
     display('PlateODE exists, deleting now ')
-    clear('functions/PlateODE.m')
 end
 %     delete('functions/PlateODE.m')
 clear('functions/PlateODE.m')
@@ -137,17 +112,13 @@ clear('functions/PlateODE.m')
     
 [M K Ma Ia Q] = createODEfile_rotvect(a,b,E,G,nu,h,density,dampingfactor,phi,theta,gamma,globalangle,N,dxi);
 
-pause(4) %make sure file saves before solving the ODE 
+% pause(4) %make sure file saves before solving the ODE 
 % this section is problematic
 iter =1; 
 while exist('functions/PlateODE.m', 'file') ~= 2 && iter<5
     pause(2)
     iter = iter+1; 
 end 
-% ------------------------------------------------------------------------------
-
-
-
 
 
 

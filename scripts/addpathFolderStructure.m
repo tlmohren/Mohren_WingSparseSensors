@@ -8,19 +8,33 @@ function addpathFolderStructure()
 % Also checks if CVX is installed
 
 %% Find location of this script 
-    baseDirectory = fileparts(fileparts(mfilename('fullpath') ));
-    cd(baseDirectory );
+%     scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
+%     cd(scriptLocation );
+    
+    scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
+    [folderLocation,baseName] = fileparts(scriptLocation);
+    dataFolderLocation = [folderLocation filesep baseName,'Data'];
+    if ~exist(dataFolderLocation)
+        display('Data folder does not exist yet')
+        display(dataFolderLocation)
+        
+        % ask permission to create folder
+        prompt = 'Permission to create folder [y/n]: ';
+        if input( prompt,'s') ==  'y'
+            mkdir(folderLocation , [baseName,'Data'])
+            display('created folder')
+        end
+    else
+        display('dataFolder exists')
+    end
+    
+    cd(scriptLocation );
+    
 
 %% Add paths required for main script
-    addpath([baseDirectory filesep 'functions'])
-%     addpath([baseDirectory filesep 'functionsXXYY'])
-    addpath([baseDirectory filesep 'functions_UnitTested'])
-    addpath([baseDirectory filesep 'test_code'])
-    addpath([baseDirectory filesep 'data'])
-    addpath([baseDirectory filesep 'results'])
-    addpath([baseDirectory filesep 'scripts'])
-%     addpath([baseDirectory filesep 'scripts figures'])
-%     addpath([baseDirectory filesep 'scriptsXXYY'])
+    addpath([scriptLocation filesep 'functions'])
+    addpath([scriptLocation filesep 'results'])
+    addpath([scriptLocation filesep 'scripts'])
 
 %% Check if CVX is downloaded/installed
     if size(strfind(path, 'cvx')) < 1

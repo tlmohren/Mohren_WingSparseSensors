@@ -7,8 +7,8 @@ clc;clear all;close all
 % 
 % addpath('scripts')
 % addpathFolderStruture()
-pwd
-addpath('scripts')
+scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
+addpath([scriptLocation filesep 'scripts']);
 addpathFolderStructure()
 %% Run testcases
 % load parameters 
