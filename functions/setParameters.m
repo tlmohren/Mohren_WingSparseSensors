@@ -21,20 +21,23 @@ function [ par] = setParameters
     par.runSim = 0;
     par.saveSim = 0;
 % neural encoding parameters match filter 
-    par.STA = 1;
-    par.STAwidth = 3;
-    par.STAshift = -10;% 
-    par.STAFunc = @(t)  2 * exp( -(t-par.STAshift) .^2/ (2*par.STAwidth^2) ) ...
-        ./ (sqrt(3*par.STAwidth) *pi^1/4)...
-        .* ( 1-(t-par.STAshift).^2/par.STAwidth^2);
-    par.STAt = -39:0; 
-    par.STAfilt = par.STAFunc(par.STAt);      
+    par.STAsel = 1;
+    par.jSTA = 1;
+    par.STAwidth = [3,6,10];
+    par.STAshift = [-10,-15,-20];% 
+%     par.STAFunc = @(t)  2 * exp( -(t-par.STAshift) .^2 ...
+%         ./ (2*par.STAwidth(par.jSTA) ^2) ) ...
+%         ./ (sqrt(3*par.STAwidth(par.jSTA)) *pi^1/4)...
+%         .* ( 1-(t-par.STAshift).^2/par.STAwidth(par.jSTA)^2);
+%     par.STAt = -39:0;   
+%     par.STAfilt = par.STAFunc(par.STAt);    
 % neural encoding parameters non-linear filter 
-    par.NLD = 0;
-    par.NLDshift = 0.5;                % with ramp, shift best turned off 
-    par.NLDsharpness= 10; 
-    par.NLD = @(s) 1./(  1 +...
-        exp( -(s-par.NLDshift) * par.NLDsharpness )  );
+    par.NLDsel = 1;
+    par.jNLD = 1;
+    par.NLDshift = [0,0.5,0,0,5];                % with ramp, shift best turned off 
+    par.NLDsharpness= [2,2,10,10]; 
+%     par.NLD = @(s) 1./(  1 +...
+%         exp( -(s-par.NLDshift) * par.NLDsharpness(par.jNLD) )  );
 % sparse sensor placement parameters 
     par.w_range = 15;
     par.rmodes = 40;

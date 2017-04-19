@@ -12,6 +12,23 @@ function [ X,G] = neuralEncoding( strainSet,par)
 % create empty matrices to fill later 
     X = [];
     G = [];
+    
+    % define neural filters 
+        par.STAt = -39:0;   
+         
+        par.STAFunc = @(t)  2 * exp( -(t-par.STAshift(par.jSTA)) .^2 ...
+            ./ (2*par.STAwidth(par.jSTA) ^2) ) ...
+            ./ (sqrt(3*par.STAwidth(par.jSTA)) *pi^1/4)...
+            .* ( 1-(t-par.STAshift(par.jSTA)).^2/par.STAwidth(par.jSTA)^2);
+        par.STAfilt = par.STAFunc(par.STAt);   
+%         figure(100);plot(par.STAfilt);hold on;drawnow
+        
+        
+        
+        par.NLD = @(s) 1./(  1 +...
+            exp( -(s-par.NLDshift(par.jNLD)) * par.NLDsharpness(par.jNLD) )  );
+%         figure(101);plot(par.NLD(-1:0.01:1));hold on;drawnow; grid on
+    
 
 % apply neural encoding to strain, one rotation rate at a time 
     for j = 1:numel(fn)
@@ -26,6 +43,8 @@ function [ X,G] = neuralEncoding( strainSet,par)
         strainConv = zeros(m,n_out);
         
         % Part1) For each individual sensor, convolve strain with match filter over time
+        
+        
         for jj = 1:m
             strainConv(jj,:) = conv(  strainSet.(fn{j})(jj,n_conv) , (par.STAfilt),'valid');
             

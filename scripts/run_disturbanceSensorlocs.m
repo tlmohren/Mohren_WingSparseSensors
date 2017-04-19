@@ -14,8 +14,8 @@ if 0
 end
 
 %% 
-[ii,jj,kk,ll,mm]=ind2sub(size(Datamat),find(Datamat));
-[~ ,~ ,~ ,~ ,mmm,nnn]=ind2sub(size(Sensmat),find(Sensmat));
+[iSTA,iNLD,ii,jj,kk,ll,mm]=ind2sub(size(Datamat),find(Datamat));
+[~ ,~ ,~ ,~ ,~ ,~ ,mmm,nnn]=ind2sub(size(Sensmat),find(Sensmat));
 
 qs = unique(ll);
 %%  plot sensor locations 
@@ -29,13 +29,13 @@ qs = unique(ll);
     if par.xInclude == 1
         binar_x = zeros(    par.chordElements * par.spanElements,par.rmodes );
         for k = 1:length(qs)
-            j = qs(k)
-            n_it = length( nonzeros(Datamat(1,1,1,j,:) ));
+            j = qs(k);
+            n_it = length( nonzeros(Datamat(1,1,1,1,1,j,:) ));
             
             
             for kk = 1:n_it
-                kk
-                sensors = squeeze(Sensmat(1,1,1,j,1:j,kk));
+%                 kk
+                sensors = squeeze(Sensmat(1,1,1,1,1,j,1:j,kk));
                 sensors_x = sensors(sensors<= (par.spanElements*par.chordElements));
                 binar_x(sensors_x,j) = binar_x(sensors_x,j) + 1;
 %                 binar( Sensmat(1,1,1,j,1:j,kk),j) = binar(Sensmat(1,1,1,j,1:j,kk),j) + 1;
@@ -53,9 +53,9 @@ qs = unique(ll);
         binar_y = zeros(    par.chordElements * par.spanElements,par.rmodes );
         for k = 1:length(qs)
             j = qs(k);
-            n_it = length( nonzeros(Datamat(1,1,1,j,:) ));
+            n_it = length( nonzeros(Datamat(1,1,1,1,1,j,:) ));
             for kk = 1:n_it
-                sensors = squeeze(Sensmat(1,1,1,j,1:j,kk));
+                sensors = squeeze(Sensmat(1,1,1,1,1,j,1:j,kk));
                 if par.xInclude == 1
                    sensors = sensors - par.chordElements*par.spanElements; 
                 end

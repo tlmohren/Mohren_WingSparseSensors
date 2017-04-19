@@ -25,10 +25,10 @@ for j = unique(ii)'
     
     [~,~,~,ll,~]=ind2sub(  size(Datamat(j,1,1,:,:)) , find(Datamat(j,1,1,:,:))) ;
 %     unique(ll)
-    length(unique(ll))
+%     length(unique(ll))
     % suspicious, all same length, would expect at least some q's to drop out 
     for k = unique(ll)'
-       nonzeros(Datamat(j,1,1,k,:))
+%        nonzeros(Datamat(j,1,1,k,:))
        MeanMat(j,k) = mean(nonzeros(Datamat(j,1,1,k,:)));
     end
 end
@@ -75,10 +75,10 @@ for j = unique(jj)'
     
     [~,~,~,ll,~]=ind2sub(  size(Datamat(1,j,1,:,:)) , find(Datamat(1,j,1,:,:))) ;
 %     unique(ll)
-    length(unique(ll))
+%     length(unique(ll))
     % suspicious, all same length, would expect at least some q's to drop out 
     for k = unique(ll)'
-       nonzeros(Datamat(1,j,1,k,:))
+%        nonzeros(Datamat(1,j,1,k,:))
        MeanMat(j,k) = mean(nonzeros(Datamat(1,j,1,k,:)));
     end
 end
