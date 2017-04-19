@@ -14,7 +14,12 @@ function  [  sensors  ] = sensorLocSSPOC(  Xtrain,Gtrain , par)
             %---optionlal-----------------------
                 [~,Sigma, ~] = svd(Xtrain, 'econ' );
                 sing_vals = diag(Sigma(1:length(w_r),1:length(w_r)));
-                [~,Iw]=sort(abs(w_r).*sing_vals,'descend');  
+                
+                if par.singValsMult == 1
+                    [~,Iw]=sort(abs(w_r).*sing_vals,'descend');  
+                else
+                    [~,Iw]=sort(abs(w_r),'descend');  
+                end
             % -------------------------
             big_modes = Iw(1:par.w_trunc);
             w_t = w_r(big_modes);

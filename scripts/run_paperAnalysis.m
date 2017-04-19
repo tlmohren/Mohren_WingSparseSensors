@@ -7,16 +7,24 @@
 clear all, close all, clc
 addpathFolderStructure()
 
-%%  Build struct with parameters to carry to all simulations
-par = setParameters();           % creates parameter structure
-par.savename = 'test_3x3_yonly';
-par.iter = 8;
-par.showFigure = 0;
-par.theta_dist = [0,0.1,1];
-par.phi_dist = [0,0.1,1];
-par.w_range = 5:20;
-par.cases = {'SSPOC + filt','Random filt'} ;
+%%  Build struct with parameters to carry throughout simulation
 
+% creates pre defined parameter structure
+par = setParameters();     
+
+% adjust commonly changed parameters 
+par.savename = 'temp';
+par.iter = 1;
+par.showFigure = 0;
+par.theta_dist = 0;%[0,0.1,1];
+par.theta_dist = 10.^[-3:0.4:3];%[0,0.1,1];
+par.phi_dist = 0;%[0,0.1,1];
+par.w_range = 16;
+par.xInclude = 1;
+par.yInlucde = 1;
+par.cases = {'SSPOC + filt'} ;
+par.setBaseZero = 1;
+par.singValsMult = 0;
 par
 errorCheckPar(par); 
 %% Initialize results matrices, 5D matrix
@@ -41,8 +49,11 @@ for th = 1:length(par.theta_dist)
                     strainSet = eulerLagrangeConcatenate( par.theta_dist(th) , par.phi_dist(ph) ,par );
             
                     % Apply neural filters to strain ----------------------
-                    [X,G] = neuralEncoding(strainSet, par); 
+                    [X,G] = neuralEncoding(strainSet, par);
                     
+                    if par.setBaseZero == 1
+                        X(1:par.chordElements,:) = 0;
+                    end
                     % Find accuracy and optimal sensor locations  ---------
                     [acc,sensors ] = sparseWingSensors( X,G, par);
                     
@@ -51,7 +62,9 @@ for th = 1:length(par.theta_dist)
                     prev = length(find( Datamat(th,ph,c,q,:) )  );
                     Datamat(th,ph,c,q, prev+1) = acc; 
                     Sensmat(th,ph,c,q, 1:q,prev+1) = sensors ; 
-%                     fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[par.w_trunc,q,acc])
+                    
+                    % Print accuracy in command window --------------------
+                    fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[par.w_trunc,q,acc])
                 end
             end
         end
@@ -63,7 +76,8 @@ save(  ['results/',par.savename,'_',date]  ,'Datamat','Sensmat','par')
 fprintf('Saving as : %s.m \n',['results/',par.savename,'_',date])
 
 %% Plot figures 
-run('run_paperAnalysis_outputtest')
+run('run_disturbanceSensorlocs')
+run('run_disturbancePlot')
         
 
 
