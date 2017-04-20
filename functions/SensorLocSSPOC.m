@@ -5,7 +5,7 @@ function  [  sensors  ] = sensorLocSSPOC(  Xtrain,Gtrain , par)
     n =  size(Xtrain,1);
     classes = unique(Gtrain); 
     c = numel(classes); 
-    if par.SSPOC_on == 1
+    if par.SSPOCon == 1
     % LDA
         [w_r, Psi, centroid] = PCA_LDA(Xtrain, Gtrain, 'nFeatures',par.rmodes);
 

@@ -16,17 +16,17 @@ function [ X,G] = neuralEncoding( strainSet,par)
     % define neural filters 
         par.STAt = -39:0;   
          
-        par.STAFunc = @(t)  2 * exp( -(t-par.STAshift(par.jSTA)) .^2 ...
-            ./ (2*par.STAwidth(par.jSTA) ^2) ) ...
-            ./ (sqrt(3*par.STAwidth(par.jSTA)) *pi^1/4)...
-            .* ( 1-(t-par.STAshift(par.jSTA)).^2/par.STAwidth(par.jSTA)^2);
+        par.STAFunc = @(t)  2 * exp( -(t-par.STAshift) .^2 ...
+            ./ (2*par.STAwidth ^2) ) ...
+            ./ (sqrt(3*par.STAwidth) *pi^1/4)...
+            .* ( 1-(t-par.STAshift).^2/par.STAwidth^2);
         par.STAfilt = par.STAFunc(par.STAt);   
 %         figure(100);plot(par.STAfilt);hold on;drawnow
         
         
         
         par.NLD = @(s) 1./(  1 +...
-            exp( -(s-par.NLDshift(par.jNLD)) * par.NLDsharpness(par.jNLD) )  );
+            exp( -(s-par.NLDshift) * par.NLDsharpness)  );
 %         figure(101);plot(par.NLD(-1:0.01:1));hold on;drawnow; grid on
     
 
@@ -59,6 +59,9 @@ function [ X,G] = neuralEncoding( strainSet,par)
         
     end
     
+    if par.setBaseZero == 1
+        X(1:par.chordElements,:) = 0;
+    end
 end
 
 %% notes
