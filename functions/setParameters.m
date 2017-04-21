@@ -1,12 +1,12 @@
-function [ par] = setParameters_DisturbanceSweep
+function [ par] = setParameters
 %setParameters Create parameter structure
 %     par = SetParameters() sets which filter, number of iterations, and
 %     other parameters will be used throughout the simulation
 %  TLM 2017
 
 % variable parameters 
-    par.theta_distList = [0,0.1,1];
-    par.phi_distList = [0,0.1,1];
+    par.theta_distList = [0];
+    par.phi_distList = [0];
     par.xIncludeList = [0];
     par.yIncludeList = [1];
     par.SSPOConList = [1];

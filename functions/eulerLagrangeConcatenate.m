@@ -17,7 +17,7 @@ function [ strainSet ] = eulerLagrangeConcatenate(ph,th,par)
     if (par.runSim == 0) && (exist(simLocationName,'file')==2) 
         % if exists and don't run: load data
             strainSet = load(simLocationName);
-            display(['Loaded simulation data: ', simName]); 
+            fprintf(['Loaded simData: ', simName,'..  ']); 
     else
         % Run simulations for the given parameters 
         fprintf(['Running simulations for: ' simName '\n']); 
