@@ -16,6 +16,6 @@ function [accuracy, sensors] = sparseWingSensors(X,G,par)
 %     save('testdata_SensorLocSSPOC_april.mat','Xtrain','Gtrain','par')
     sensors = sensorLocSSPOC(Xtrain,Gtrain,par);
 
-    accuracy = SensorLocClassify(  sensors,Xtrain,Gtrain,Xtest,Gtest );
+    accuracy = sensorLocClassify(  sensors,Xtrain,Gtrain,Xtest,Gtest );
 
 end

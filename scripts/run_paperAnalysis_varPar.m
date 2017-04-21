@@ -8,31 +8,49 @@ addpathFolderStructure()
 
 %%  Build struct with parameters to carry throughout simulation
 
-% set up fixed parameters 
-par = setParameters_DisturbanceSweep;
-par.iter = 1;
-par.wList = [15];
-par.savename = 'test_varPar';
-varParList = setVariableParameters(par);
-par.varParNames = fieldnames(varParList);
+saveName = 'analysis_FigR1toR4_yOnly_87Par';
 
-% Initialize results matrices, 3D matrix=
-Datamat = zeros( length(varParList) , par.rmodes ,  par.iter);
-Sensmat = zeros( length(varParList) ,  par.rmodes , par.rmodes , par.iter);
+if  exist(['results', filesep , saveName,'.mat']) == 2 
+   load(['results', filesep ,saveName,'.mat'])
+   display('loaded previous data')
+else
+    varPar_end = 1;
+    wTrunc_end = 1;
+    iter_end = 1;
+    
+    % set up fixed parameters 
+    par = setParameters_DisturbanceSweep;
+    varParList = setVariableParameters_MultipleSets(par);
+    par.varParNames = fieldnames(varParList);
+    
+    % initialize data matrices 
+    Datamat = zeros( length(varParList) , par.rmodes ,  par.iter);
+    Sensmat = zeros( length(varParList) ,  par.rmodes , par.rmodes , par.iter);
+end
+par.saveName = saveName; 
+par.iter = 5;
+par.wList = 5:1:20;
 %% Run simulation and Sparse sensor placement for combinations of 4 parameters, over a set number of iterations
+% start were the simulation ended last time 
+varPar_start = varPar_end
+wTrunc_start = wTrunc_end
+iter_start = iter_end
+nonzeros_inDatamat = nnz(Datamat)
+
 tic 
-for j = 1:length(varParList)
+for j = varPar_start:length(varParList)
     fprintf('Running varPar=%g, toc = %g \n',[j,toc])
     % adjust parameters for this set of iterations----------------------
-    varPar = varParList(j)
+    varPar = varParList(j);
     for k = 1:length(par.varParNames)
         par.(par.varParNames{k}) = varPar.(par.varParNames{k});
     end
-%     par
+    
     % run for w-trunc---------------------------------------------------
-    for j2 = 1:length(par.wList)
+    for j2 = wTrunc_start:length(par.wList)
         par.w_trunc = par.wList(j2);
-        for k = 1:par.iter
+        for k = iter_start:par.iter
+            
             % Generate strain with Euler-Lagrange simulation ----------
             strainSet = eulerLagrangeConcatenate( varPar.theta_dist , varPar.phi_dist ,par);
     % % 
@@ -47,11 +65,20 @@ for j = 1:length(varParList)
             prev = length(find( Datamat(j,q,:) )  );
             Datamat(j,q, prev+1) = acc; 
             Sensmat(j,q, 1:q,prev+1) = sensors ;    
+            
             % Print accuracy in command window --------------------
             fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[par.w_trunc,q,acc])
         end
+        iter_start = 1; 
     end
+    wTrunc_start = 1;
 end
+
+
 %% Save results 
-save(  ['results/',par.savename,'_',date]  ,'Datamat','Sensmat','par','varParList')
-fprintf('Saving as : %s.m \n',['results/',par.savename,'_',date])
+varPar_end = j
+wTrunc_end = j2
+iter_end = k
+nonzeros_inDatamat = nnz(Datamat)
+save(  ['results/', saveName]  ,'Datamat','Sensmat','par','varParList','j_end','j2_end','k_end')
+fprintf('Saving as : %s.mat \n',['results' filesep saveName])
