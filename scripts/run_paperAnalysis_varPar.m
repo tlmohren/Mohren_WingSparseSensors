@@ -80,5 +80,5 @@ varPar_end = j
 wTrunc_end = j2
 iter_end = k
 nonzeros_inDatamat = nnz(Datamat)
-save(  ['results/', saveName]  ,'Datamat','Sensmat','par','varParList','j_end','j2_end','k_end')
+save(  ['results/', saveName]  ,'Datamat','Sensmat','par','varParList','varPar_end','wTrunc_end','iter_end')
 fprintf('Saving as : %s.mat \n',['results' filesep saveName])
