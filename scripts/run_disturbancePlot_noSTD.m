@@ -63,6 +63,7 @@ for j = 1:length(unique(ii))
     end
 end
 
+
 %                 legend_vec = [b,a.mainLine];
                 legend_vec = [b,c,a];
 % add legend to last plot of first row 

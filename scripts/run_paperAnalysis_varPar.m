@@ -19,7 +19,7 @@ else
     iter_end = 1;
     
     % set up fixed parameters 
-    par = setParameters_DisturbanceSweep;
+    par = setParameters;
     varParList = setVariableParameters_MultipleSets(par);
     par.varParNames = fieldnames(varParList);
     

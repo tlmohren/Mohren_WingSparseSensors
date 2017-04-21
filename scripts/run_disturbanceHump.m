@@ -40,7 +40,6 @@ axis([min(x)*0.5,max(x)*1.5,0.4,1])
 xlabel(['\theta',char(39),'-disturbance'])
 ylabel('accuracy')
 
-
 % try coloring groups 
 groups = 6;
 col = ceil( ((1:max(ll))/max(ll)*  (groups))   );

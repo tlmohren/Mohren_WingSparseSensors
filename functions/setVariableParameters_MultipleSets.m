@@ -21,7 +21,7 @@ for j0= 1:nFigures
     elseif j0 == 2
         % hump phi disturbance plot
         par.theta_distList = [0];
-        par.phi_distList = spa_sf( 10.^[-3:0.4,2] ,2);
+        par.phi_distList = spa_sf( 10.^[-3:0.4:2] ,2);
         par.xIncludeList = [0];
         par.yIncludeList = [1];
         par.SSPOConList = [0,1];
@@ -32,7 +32,7 @@ for j0= 1:nFigures
         
     elseif j0 == 3
         % hump theta disturbance plot  
-        par.theta_distList = spa_sf( 10.^[-3:0.4,2] ,2);
+        par.theta_distList = spa_sf( 10.^[-3:0.4:2] ,2);
         par.phi_distList = [0];
         par.xIncludeList = [0];
         par.yIncludeList = [1];
@@ -69,6 +69,7 @@ for j0= 1:nFigures
     
     
     
+        count
     
     
     
