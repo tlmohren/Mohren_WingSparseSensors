@@ -19,7 +19,7 @@ function [ par] = setParameters
     par.iter = 2;
     par.showFigure = 0;
     par.setBaseZero = 1;
-    par.singValsMult = 0;
+    par.singValsMult = 1;
 
 % eulerLagrange parameters 
     par.chordElements = 26;
