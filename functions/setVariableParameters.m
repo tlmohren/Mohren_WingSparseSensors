@@ -7,17 +7,6 @@ function [ varParList] = setVariableParameters(par)
 sets = 2;
 count = 0;
 for j0= 1:sets
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     for j1 = 1:length(par.STAwidthList)
         for j2 = 1:length(par.STAshiftList)
             for j3 = 1:length(par.theta_distList)
