@@ -5,25 +5,25 @@ scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
 addpath([scriptLocation filesep 'scripts']);
 addpathFolderStructure()
 
-load(['results' filesep 'analysis_FigR1toR4_yOnly_87Par.mat'])
-
+% load(['results' filesep 'analysis_FigR1toR4_yOnly_87Par.mat'])
+load(['results' filesep 'analysis_FigR1toR4_XXYY_270Par'])
 %% 
 
-Datamat = rand(size(Datamat))*0.2 + 0.6;
+% Datamat = rand(size(Datamat))*0.2 + 0.6;
 
 %% see which simulations belong to this parameter set 
 
 bin_SSPOCon = ( [varParList.STAwidth] == 3) & ...
             ( [varParList.STAshift] == -10) & ...
             ( [varParList.SSPOCon] == 1 ) & ...
-            ( [varParList.xInclude] == 0) & ...
+            ( [varParList.xInclude] == 1) & ...
             ( [varParList.yInclude] == 1) & ...
             ( [varParList.NLDshift] == 0.5) & ...
             ( [varParList.NLDsharpness] == 10);
 bin_SSPOCoff = ( [varParList.STAwidth] == 3) & ...
             ( [varParList.STAshift] == -10) & ...
             ( [varParList.SSPOCon] == 0 ) & ...
-            ( [varParList.xInclude] == 0) & ...
+            ( [varParList.xInclude] == 1) & ...
             ( [varParList.yInclude] == 1) & ...
             ( [varParList.NLDshift] == 0.5) & ...
             ( [varParList.NLDsharpness] == 10);
@@ -36,8 +36,8 @@ ind_SSPOCoff = find(bin_SSPOCoff);
 % par.phi_dist = [0,0.1,1,10];
 % par.phi_distList = spa_sf( 10.^[-3:0.4:2] ,2);
 % par.theta_distList = spa_sf( 10.^[-3:0.4:2] ,2);
-par.phi_distList = spa_sf( 10.^[-3:0.4,2] ,2);
-par.theta_distList = spa_sf( 10.^[-3:0,4:2] ,2);
+par.phi_distList = spa_sf( 10.^[-3:0.4:2] ,2);
+par.theta_distList = spa_sf( 10.^[-3:0.4:2] ,2);
 
 
 total_humpsim = ind_SSPOCon(17:end);
@@ -49,6 +49,9 @@ ind_SSPOCoff_theta = ind_SSPOCoff(17+ length(total_humpsimoff)/2 :end)
 
 col = {'-k','-r'};
 dotcol = {'.k','.r'}; 
+
+
+Datamat(:,[1:10,15:40],:) = 0;
 
 %% create subplot routine
 % 
@@ -64,11 +67,18 @@ for j = 1:size(Datamat,2)
     end
     
      if ~any(isnan(meanVec(j,:)))
-        semilogx(par.phi_distList,meanVec(j,:),'r','Linewidth',0.8)
+%          display('semilog x')
+%          meanVec(j,:)
+% figure() 
+        hold on
+         semilogx(par.phi_distList,meanVec(j,:),'r','Linewidth',0.8)
+         hold on
      end
-    hold on
+%     hold on
 end
 
+%      set(gca,'xscale','log');
+%
 for j = 1:size(Datamat,2)
 %     for k2 = 1:size(Datamat,2)
     for k = 1:length(ind_SSPOCoff_phi)
@@ -76,10 +86,15 @@ for j = 1:size(Datamat,2)
         stdVec(j,k) = std(nonzeros(Datamat(ind_SSPOCoff_phi(k)  ,j,:)));
     end
     if ~any(isnan(meanVec(j,:)))
-        semilogx(par.phi_distList,meanVec(j,:),'k','Linewidth',0.8)
+        semilogx( par.phi_distList,meanVec(j,:),'k','Linewidth',0.8)
+         hold on
     end
-    hold on
+%     hold on
 end
+     set(gca,'xscale','log');
+%      title('$\phi$-disturbance
+     xlabel('\phi-disturbance [rad/s]')
+     ylabel('accuracy')
 
 
 subplot(212)
@@ -92,8 +107,9 @@ for j = 1:size(Datamat,2)
     
      if ~any(isnan(meanVec(j,:)))
         semilogx(par.phi_distList,meanVec(j,:),'r','Linewidth',0.8)
+         hold on
      end
-    hold on
+%     hold on
 end
 
 for j = 1:size(Datamat,2)
@@ -104,9 +120,13 @@ for j = 1:size(Datamat,2)
     end
     if ~any(isnan(meanVec(j,:)))
         semilogx(par.phi_distList,meanVec(j,:),'k','Linewidth',0.8)
+         hold on
     end
-    hold on
+%     hold on
 end
+     set(gca,'xscale','log');
+     xlabel('\theta-disturbance [rad/s]')
+     ylabel('accuracy')
 
 
 saveas(fig2,['figs' filesep 'Figure2B_PhiTheta_hump'], 'png')

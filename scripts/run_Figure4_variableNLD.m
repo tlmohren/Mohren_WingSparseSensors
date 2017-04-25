@@ -4,12 +4,12 @@ clc;clear all; close all
 scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
 addpath([scriptLocation filesep 'scripts']);
 addpathFolderStructure()
-
-load(['results' filesep 'analysis_FigR1toR4_yOnly_87Par.mat'])
-
+% 
+% load(['results' filesep 'analysis_FigR1toR4_yOnly_87Par.mat'])
+load(['results' filesep 'analysis_FigR1toR4_XXYY_270Par'])
 %% 
 
-Datamat = rand(size(Datamat))*0.2 + 0.6;
+% Datamat = rand(size(Datamat))*0.2 + 0.6;
 
 %% see which simulations belong to this parameter set 
 test = ( [varParList.phi_dist] == 0)& ...
@@ -21,14 +21,14 @@ figure();plot(test)
 bin_SSPOCon = ( [varParList.phi_dist] == 0) & ...
             ( [varParList.theta_dist] == 0) & ...
             ( [varParList.SSPOCon] == 1 ) & ...
-            ( [varParList.xInclude] == 0) & ...%%%%% note error in assignment of yinlude~!!
+            ( [varParList.xInclude] == 1) & ...%%%%% note error in assignment of yinlude~!!
             ( [varParList.yInclude] == 1) & ...%%%%% note error in assignment ofyinlude~!!
             ( [varParList.STAwidth] == 3) & ...
             ( [varParList.STAshift] == -10);
 bin_SSPOCoff = ( [varParList.phi_dist] == 0)  & ...
             ( [varParList.theta_dist] == 0) & ...
             ( [varParList.SSPOCon] == 0 ) & ...
-            ( [varParList.xInclude] == 0) & ...    %%%%% note error in assignment of yinlude~!!
+            ( [varParList.xInclude] == 1) & ...    %%%%% note error in assignment of yinlude~!!
             ( [varParList.yInclude] == 1) & ...%%%%% note error in assignment ofyxinlude~!!
             ( [varParList.STAwidth] == 3) & ...
             ( [varParList.STAshift] == -10);
@@ -60,24 +60,12 @@ vec_3 = sort(mat_2(:));
 vec_v = mat_1(2:end,1);
 
 % color_vec = {'-r','-k'};
-fig2=figure();
+fig2=figure('Position', [100, 100, 1000, 800]);
 for j = 1:length(vec_3)
     subplot(n_y,n_x, vec_3(j))
 
     
-%     Datamat( ind_SSPOCon(j),k,:)
-   % plot sspoc off
-        Dat_I = ind_SSPOCon( j);
-        for k2 = 1:size(Datamat,2)
-            meanVec(k2) = mean(  nonzeros(Datamat(Dat_I,k2,:))   );
-            stdVec(k2) = std(  nonzeros(Datamat(Dat_I,k2,:))   );
-            iters = length(nonzeros(Datamat(Dat_I,k2,:)) );
-%             scatter( ones(iters,1)*k2,nonzeros(Datamat(Dat_I,k2,:)) , dotcol{1})
-            hold on
-        end
-        realNumbers = find(~isnan(meanVec));
-        a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1},0.8);
-        
+       
     % plot sspoc on 
         Dat_I = ind_SSPOCoff(j);
         for k2 = 1:size(Datamat,2)
@@ -91,6 +79,21 @@ for j = 1:length(vec_3)
         end
         realNumbers = find(~isnan(meanVec));
         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1},0.8);
+        
+        
+        
+   % plot sspoc off
+        Dat_I = ind_SSPOCon( j);
+        for k2 = 1:size(Datamat,2)
+            meanVec(k2) = mean(  nonzeros(Datamat(Dat_I,k2,:))   );
+            stdVec(k2) = std(  nonzeros(Datamat(Dat_I,k2,:))   );
+            iters = length(nonzeros(Datamat(Dat_I,k2,:)) );
+%             scatter( ones(iters,1)*k2,nonzeros(Datamat(Dat_I,k2,:)) , dotcol{1})
+            hold on
+        end
+        realNumbers = find(~isnan(meanVec));
+        a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{2},0.8);
+     
         axis([0,20,0.4,1])
         axis off
 end

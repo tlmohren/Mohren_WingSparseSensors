@@ -7,11 +7,15 @@ addpath([scriptLocation filesep 'scripts']);
 addpathFolderStructure()
 %% 
 
-load(['results' filesep 'analysis_FigR1toR4_yOnly_87Par.mat'])
+% load(['results' filesep 'analysis_FigR1toR4_yOnly_87Par.mat'])
+load(['results' filesep 'analysis_FigR1toR4_XXYY_270Par'])
+
+
+% analysis_FigR1toR4_XXYY_270Par
 
 col = {'-k','-r'};
 dotcol = {'.k','.r'}; 
-fig1 = figure();
+fig1 = figure('Position', [100, 100, 1000, 800]);
 for j = 1:2
     for k = 1:size(Datamat,2)
         meanVec(k) = mean(  nonzeros(Datamat(j,k,:))   );
@@ -38,7 +42,7 @@ j_inlist = ( [varParList.STAwidth] == 3) & ...
             ( [varParList.theta_dist] == 0) & ...
             ( [varParList.phi_dist] == 0) & ...
             ( [varParList.SSPOCon] == 0 |  [varParList.SSPOCon] == 1 ) & ...
-            ( [varParList.xInclude] == 0) & ...
+            ( [varParList.xInclude] == 1) & ...
             ( [varParList.yInclude] == 1) & ...
             ( [varParList.NLDshift] == 0.5) & ...
             ( [varParList.NLDsharpness] == 10);
