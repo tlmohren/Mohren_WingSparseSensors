@@ -51,7 +51,6 @@ for j = 1:n_y
         sub_nr = (j-1)*n_y + k;
         subplot(n_y,n_x, sub_nr)
         hold on
-        sub_nr
         
    % plot sspoc off
         Dat_I = ind_SSPOCoff(sub_nr);
