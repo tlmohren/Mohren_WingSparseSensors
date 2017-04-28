@@ -57,7 +57,7 @@ for j =1:4, %length(varParList)
     fprintf('Runtime = %g[s], Saved as: %s \n',[toc,saveName]) 
     
     if mod(j, 2)==0,
-        system('git commit -am "pushing data from more runs"');
+        system('git commit * -m "pushing data from more runs"');
         system('git push');
     end;
 end
