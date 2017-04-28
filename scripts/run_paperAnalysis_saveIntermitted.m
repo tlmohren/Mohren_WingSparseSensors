@@ -55,5 +55,9 @@ for j =1:3, %length(varParList)
     saveName = [saveName,computer,'_',c,'.mat'];
     save(  ['data',filesep, saveName]  ,'DataMat','SensMat','par')
     fprintf('Runtime = %g[s], Saved as: %s \n',[toc,saveName]) 
+    
+    %if mod(j, 100),
+        
+    %end;
 end
 
