@@ -18,7 +18,7 @@ par.iter = 10;
 %% Run simulation and Sparse sensor placement for combinations of 4 parameters, over a set number of iterations
 
 tic 
-for j =1:4, %length(varParList)
+for j = 1:4 %345 %1:length(varParList)
     % adjust parameters for this set of iterations----------------------
     DataMat = zeros(par.rmodes,par.iter);
     SensMat = zeros(par.rmodes,par.rmodes,par.iter);
@@ -58,7 +58,7 @@ for j =1:4, %length(varParList)
     
     if mod(j, 2)==0,
         system('git add data/*.mat');
-        system('git commit * -m "pushing data from more runs"');
+        system(sprintf('git commit * -m "pushing data from more runs %i"', j));
         system('git push');
     end;
 end
