@@ -18,7 +18,7 @@ par.iter = 10;
 %% Run simulation and Sparse sensor placement for combinations of 4 parameters, over a set number of iterations
 
 tic 
-for j =1:length(varParList)
+for j =1:3, %length(varParList)
     % adjust parameters for this set of iterations----------------------
     DataMat = zeros(par.rmodes,par.iter);
     SensMat = zeros(par.rmodes,par.rmodes,par.iter);
@@ -52,7 +52,7 @@ for j =1:length(varParList)
                         [par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
                         par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , par.wTrunc ]); 
                     
-    saveName = [saveName,computer,'_',datestr(date),'.mat'];
+    saveName = [saveName,computer,'_',c,'.mat'];
     save(  ['data',filesep, saveName]  ,'DataMat','SensMat','par')
     fprintf('Runtime = %g[s], Saved as: %s \n',[toc,saveName]) 
 end
