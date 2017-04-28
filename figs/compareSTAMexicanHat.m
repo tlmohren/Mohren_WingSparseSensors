@@ -5,9 +5,9 @@ clc;clear all;close all
 %% 
 
         par.STAwidthList = [1:2:10];
-        par.STAshiftList = [-1:-2:-10];% 
-        par.NLDshiftList = [-0.2:0.2:0.8];
-        par.NLDsharpnessList = [5:2:15];
+        par.STAshiftList = [-4:-3:-16];% 
+        par.NLDshiftList = [-0.1:0.2:0.9];
+        par.NLDsharpnessList = [4:2:12];
 
 fig1 = figure('Position', [100, 100, 1200, 600]);
 
@@ -31,7 +31,7 @@ legend('Experimental STA','Mexican hat','Location','Best')
 % legend('Experimental STA','Mexican hat','Location','NorthEastOutside')
 
 subplot(232)
-        par.STAwidthList = [1:2:10];
+%         par.STAwidthList = [1:2:10];
         par.STAwidth = 3;
         for j= 1:length(par.STAwidthList)
             par.STAwidth = par.STAwidthList(j);
@@ -40,12 +40,16 @@ subplot(232)
                 ./ (sqrt(3*par.STAwidth) *pi^1/4)...
                 .* ( 1-(t-par.STAshift).^2/par.STAwidth^2);
             par.STAfilt = par.STAFunc(t_sta);   
-            plot(par.STAfilt); hold on;
+            if par.STAwidth == 3
+                plot(par.STAfilt,'k','LineWidth',4); hold on;
+            else
+                plot(par.STAfilt,'Color',ones(1,3)*0.7); hold on;
+            end
         end
             
 %         par.STAshiftList = [-1:-2:-10];% +
 subplot(233)
-        par.STAshiftList = [-1:-2:-10];% 
+%         par.STAshiftList = [-4:-3:-16];% 
         par.STAwidth = 3;
         for j= 1:length(par.STAshiftList)
             par.STAshift = par.STAshiftList(j);
@@ -54,7 +58,12 @@ subplot(233)
                 ./ (sqrt(3*par.STAwidth) *pi^1/4)...
                 .* ( 1-(t-par.STAshift).^2/par.STAwidth^2);
             par.STAfilt = par.STAFunc(t_sta);   
-            plot(par.STAfilt); hold on;
+            if par.STAshift == -10
+                display('happened')
+                plot(par.STAfilt,'k','LineWidth',4); hold on;
+            else
+                plot(par.STAfilt,'Color',ones(1,3)*0.7); hold on;
+            end
         end
 %         
 %         
@@ -86,7 +95,12 @@ subplot(235)
             par.NLD = @(s) 1./(  1 +...
                 exp( -(s-par.NLDshift) * par.NLDsharpness)  );
             x = -1:0.02:1;
-        plot(x,par.NLD(x)); hold on
+            if  par.NLDsharpness  == 8
+%                 display('happened')
+                plot(x,par.NLD(x),'k','LineWidth',4); hold on;
+            else
+                plot(x,par.NLD(x),'Color',ones(1,3)*0.7); hold on;
+            end
     end
 %         legend('Experimental NLD','Location','Best')
     % legend('Experimental NLD','Location','NorthEastOutside')
@@ -100,7 +114,12 @@ subplot(236)
             par.NLD = @(s) 1./(  1 +...
                 exp( -(s-par.NLDshift) * par.NLDsharpness)  );
             x = -1:0.02:1;
-        plot(x,par.NLD(x)); hold on
+            if  par.NLDshift  == 0.5
+%                 display('happened')
+                plot(x,par.NLD(x),'k','LineWidth',4); hold on;
+            else
+                plot(x,par.NLD(x),'Color',ones(1,3)*0.7); hold on;
+            end
     end
     
     

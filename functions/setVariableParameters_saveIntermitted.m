@@ -76,7 +76,7 @@ for j0= 1:nFigures
         par.yIncludeList = [1];
         par.SSPOConList = [0,1];
         par.STAwidthList = [1:2:10];
-        par.STAshiftList = [-11:-2:-20];% 
+        par.STAshiftList = [-4:-3:-16];% 
         par.NLDshiftList = [0.5];
         par.NLDsharpnessList = [10];
         par.wTruncList = 1:30;
@@ -89,8 +89,8 @@ for j0= 1:nFigures
         par.SSPOConList = [0,1];
         par.STAwidthList = [3];
         par.STAshiftList = [-10];% 
-        par.NLDshiftList = [-0.2:0.2:0.8];
-        par.NLDsharpnessList = [5:2:15];
+        par.NLDshiftList = [-0.1:0.2:0.9];
+        par.NLDsharpnessList = [4:2:12];
         par.wTruncList = 1:30;
     end
     

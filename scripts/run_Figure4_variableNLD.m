@@ -41,16 +41,21 @@ ind_SSPOCoff = find(bin_SSPOCoff);
 ind_SSPOCon = ind_SSPOCon(2:end);
 ind_SSPOCoff = ind_SSPOCoff(2:end);
 
+% old one 
+% par.NLDshiftList = [-0.2:0.2:0.8];
+% par.NLDsharpnessList = [5:2:15];
 
-par.NLDshiftList = [-0.2:0.2:0.8];
-par.NLDsharpnessList = [5:2:15];
-% n_plots = (length(par.NLDshiftList) + 1) *...
-%             (length(par.NLDsharpnessList) +1); 
+    % will be the new one
+        par.NLDshiftList = [-0.1:0.2:0.9];
+        par.NLDsharpnessList = [4:2:12];
+        
+        % just for now 
+        par.NLDshiftList = [-0.1:0.2:0.9];
+        par.NLDsharpnessList = [4:2:14];
 n_x = (length(par.NLDshiftList) + 1);
 n_y = (length(par.NLDsharpnessList) +1); 
 n_plots = n_x*n_y; 
 
-% col = {'-k','-r'};
 col = {ones(3,1)*0.5,'-r'};
 dotcol = {'.k','.r'}; 
 %% create subplot routine
@@ -60,13 +65,10 @@ mat_2 = mat_1(2:end,2:end);
 vec_3 = sort(mat_2(:));
 vec_v = mat_1(2:end,1);
 
-% color_vec = {'-r','-k'};
 fig2=figure('Position', [100, 100, 1000, 800]);
 for j = 1:length(vec_3)
     subplot(n_y,n_x, vec_3(j))
 
-    
-       
     % plot sspoc on 
         Dat_I = ind_SSPOCoff(j);
         for k2 = 1:size(Datamat,2)
@@ -76,12 +78,9 @@ for j = 1:length(vec_3)
             iters = length(nonzeros(Datamat(Dat_I,k2,:)) );
 %             scatter( ones(iters,1)*k2,nonzeros(Datamat(Dat_I,k2,:)) , dotcol{2})
             hold on
-    
         end
         realNumbers = find(~isnan(meanVec));
         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1},0.8);
-        
-        
         
    % plot sspoc off
         Dat_I = ind_SSPOCon( j);
@@ -93,67 +92,64 @@ for j = 1:length(vec_3)
             hold on
         end
         realNumbers = find(~isnan(meanVec));
-        plot(realNumbers,meanVec(realNumbers),col{2})
-        
+        plot(realNumbers,meanVec(realNumbers),col{2})    
 %         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{2},0.8);
-     
-%         axis([0,20,0.4,1])
         ax = gca;
         ax.YTick = 0.4:0.2:1;
         axis([0,20,0.4,1])
-%         axis off
-%         axis off
 end
 
 for j = 2:n_x
    subplot(n_y,n_x,j )
-   par.NLDshift = 0;
+   par.NLDshift = 0.5;
    par.NLDsharpness = par.NLDsharpnessList(j-1);
         par.NLD = @(s) 1./(  1 +...
             exp( -(s-par.NLDshift) * par.NLDsharpness)  );
         x = -1:0.02:1;
-        
-   plot(  x,par.NLD(x))
+    if par.NLDsharpness == 8
+        plot(  x,par.NLD(x),'k','LineWidth',2);hold on
+    else
+         plot(  x,par.NLD(x))
+    end
+            
+            
+               
    axis off
 end
-% function [ h ] = drawArrow( x,y,xlimits,ylimits,props )
-% h = annotation('arrow');
-% set(h,'parent', gca, ...
-%     'position', [x(1),y(1),x(2)-x(1),y(2)-y(1)], ...
-%     'HeadLength', 10, 'HeadWidth', 10, 'HeadStyle', 'cback1', ...
-%     props{:} );
 
-% end
-% drawArrow = @(x,y,varargin) quiver( x(1),y(1),x(2)-x(1),y(2)-y(1),0, varargin) 
+
+        x = -1:0.02:1;
+        
 for j = 1:length(vec_v)
    subplot(n_y,n_x,vec_v(j) )
    
-   plot([0,0],[0,1],'k','LineWidth',[2])
+   plot([0.5,0.5],[0,1],'Color',ones(1,3)*0.5,'LineWidth',[2])
    hold on 
    
-%    x1= [0,par.NLDshiftList(j)];
-%    y1 = [0.5,0.5];
-%    drawArrow(x1,y1,[1, 100],[1, 100],{'Color','b','LineWidth',3}); hold on
-%    drawArrow([0,par.NLDshiftList(j)],[0.5,0.5],{'MaxHeadSize',10})
+   quiver( 0.5,0.5,par.NLDshiftList(j)-0.5,0,'m','LineWidth',3,'MaxHeadSize',1.5)
+
+   plot([0,0]+ par.NLDshiftList(j),[0,1],'k','LineWidth',[2])
    
-
-   quiver( 0,0.5,par.NLDshiftList(j),0,'m','LineWidth',3,'MaxHeadSize',1.5)
-
-
-   plot([0,0]+ par.NLDshiftList(j),[0,1] ,'Color',ones(1,3)*0.5,'LineWidth',[2])
    
-%    par.NLDshift = par.NLDshiftList(j);
-%    par.NLDsharpness = par.NLDsharpnessList(1);
-%         par.NLD = @(s) 1./(  1 +...
-%             exp( -(s-par.NLDshift) * par.NLDsharpness)  );
-%         x = -1:0.02:1;
-        
-%    plot(  x,par.NLD(x))
-axis([par.NLDshiftList(1),par.NLDshiftList(end),0,1])
+   
+   
+   par.NLDshift = par.NLDshiftList(j);
+   for k = 1:length(par.NLDsharpnessList)
+       par.NLDsharpness = par.NLDsharpnessList(k);
+            par.NLD = @(s) 1./(  1 +...
+                exp( -(s-par.NLDshift) * par.NLDsharpness)  );  
+        if par.NLDsharpness == 8 && par.NLDshiftList(j) == 0.5
+            plot(  x,par.NLD(x),'k','LineWidth',2);hold on
+        else
+             plot(  x,par.NLD(x),'Color',ones(1,3)*0.7,'LineWidth',0.5);hold on
+        end
+   end
+
+    axis([-1,1,0,1])
    axis off
 end
 
-
+%% 
 
 saveas(fig2,['figs' filesep 'Figure4_variableNLD'], 'png')
 
