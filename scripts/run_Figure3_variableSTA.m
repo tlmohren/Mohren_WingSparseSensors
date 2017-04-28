@@ -46,7 +46,8 @@ n_y = (length(par.STAshiftList) +1);
 n_plots = n_x*n_y; 
 % col = fliplr({'-k','-r'});
 % dotcol = fliplr({'.k','.r'}); 
-col = ({'-k','-r'});
+% col = ({'-k','-r'});
+col = {ones(3,1)*0.5,'-r'};
 dotcol = ({'.k','.r'}); 
 
 %% create subplot routine
@@ -72,7 +73,7 @@ for j = 1:length(vec_3)
             stdVec(k2) = std(  nonzeros(Datamat(Dat_I,k2,:))   );
 % 
             iters = length(nonzeros(Datamat(Dat_I,k2,:)) );
-            scatter( ones(iters,1)*k2,nonzeros(Datamat(Dat_I,k2,:)) , dotcol{1})
+%             scatter( ones(iters,1)*k2,nonzeros(Datamat(Dat_I,k2,:)) , dotcol{1})
             hold on
    
         end
@@ -80,7 +81,7 @@ for j = 1:length(vec_3)
         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1},0.8);
     
     
-   % plot sspoc off
+   % plot sspoc om
         Dat_I = ind_SSPOCon( j);
         for k2 = 1:size(Datamat,2)
             iters = length(nonzeros(Datamat(Dat_I,k2,:)) );
@@ -95,14 +96,18 @@ for j = 1:length(vec_3)
             hold on
         end
         realNumbers = find(~isnan(meanVec));
-        a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{2},0.8);
+%         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{2},0.8);
+        
+        plot(realNumbers,meanVec(realNumbers),col{2})
         
         
         
         
-        
+%         yticks([0.4:0.2:1])
+        ax = gca;
+        ax.YTick = 0.4:0.2:1;
         axis([0,20,0.4,1])
-        axis off
+%         axis off
 end
 
 for j = 2:n_x
@@ -123,17 +128,40 @@ for j = 2:n_x
 end
 for j = 1:length(vec_v)
    subplot(n_y,n_x,vec_v(j) )
-   par.STAwidth = par.STAwidthList(1);
-   par.STAshift = par.STAshiftList(j);
-
-   t_sta = -39:0;
-      par.STAFunc = @(t)  2 * exp( -(t-par.STAshift) .^2 ...
-            ./ (2*par.STAwidth ^2) ) ...
-            ./ (sqrt(3*par.STAwidth) *pi^1/4)...
-            .* ( 1-(t-par.STAshift).^2/par.STAwidth^2);
-        par.STAfilt = par.STAFunc(t_sta);   
+%    par.STAwidth = par.STAwidthList(1);
+%    par.STAshift = par.STAshiftList(j);
+% 
+%    t_sta = -39:0;
+%       par.STAFunc = @(t)  2 * exp( -(t-par.STAshift) .^2 ...
+%             ./ (2*par.STAwidth ^2) ) ...
+%             ./ (sqrt(3*par.STAwidth) *pi^1/4)...
+%             .* ( 1-(t-par.STAshift).^2/par.STAwidth^2);
+%         par.STAfilt = par.STAFunc(t_sta);   
         
-   plot(  t_sta,par.STAfilt)
+
+% drawArrow = @(x,y,varargin) quiver( x(1),y(1),x(2)-x(1),y(2)-y(1),0, varargin) 
+
+   x_mid = mean(par.STAshiftList);
+   
+   
+   plot([x_mid,x_mid],[0,1],'k','LineWidth',[2])
+   hold on 
+
+   quiver( x_mid,0.5,  - x_mid + par.STAshiftList(j),0,'m','LineWidth',3,'MaxHeadSize',1.5)
+
+
+   plot([0,0]+ par.STAshiftList(j),[0,1] ,'Color',ones(1,3)*0.5,'LineWidth',[2])
+   
+%    par.NLDshift = par.NLDshiftList(j);
+%    par.NLDsharpness = par.NLDsharpnessList(1);
+%         par.NLD = @(s) 1./(  1 +...
+%             exp( -(s-par.NLDshift) * par.NLDsharpness)  );
+%         x = -1:0.02:1;
+        
+%    plot(  x,par.NLD(x))
+    axis([par.STAshiftList(end),par.STAshiftList(1),0,1])
+
+
    axis off
 end
 

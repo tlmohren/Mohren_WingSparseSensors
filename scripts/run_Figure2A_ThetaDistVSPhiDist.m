@@ -41,6 +41,7 @@ n_plots = 16;
 n_x = 4;
 n_y = 4; 
 col = {'-k','-r'};
+col = {ones(3,1)*0.5,'-r'};
 dotcol = {'.k','.r'}; 
 %% create subplot routine
 
@@ -58,10 +59,10 @@ for j = 1:n_y
             meanVec(k2) = mean(  nonzeros(Datamat(Dat_I,k2,:))   );
             stdVec(k2) = std(  nonzeros(Datamat(Dat_I,k2,:))   );
             iters = length(nonzeros(Datamat(Dat_I,k2,:)) );
-            scatter( ones(iters,1)*k2,nonzeros(Datamat(Dat_I,k2,:)) , dotcol{1})
+%             scatter( ones(iters,1)*k2,nonzeros(Datamat(Dat_I,k2,:)) , dotcol{1})
         end
         realNumbers = find(~isnan(meanVec));
-        a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1},0.8);
+        a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1});
         
     % plot sspoc on 
         Dat_I = ind_SSPOCon(sub_nr);
@@ -74,8 +75,9 @@ for j = 1:n_y
     
         end
         realNumbers = find(~isnan(meanVec));
-%         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{2},0.8);
-        
+%         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{2},0.9);
+%          a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{2},0.8);
+        plot(realNumbers, meanVec(realNumbers),col{2})
         axis([0,20,0.4,1])
         if sub_nr <=4
             title(['$\phi$* = ',num2str(par.phi_dist(k)), ' rad/s'] )

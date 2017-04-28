@@ -21,7 +21,7 @@ function  [  sensors  ] = sensorLocSSPOC(  Xtrain,Gtrain , par)
                     [~,Iw]=sort(abs(w_r),'descend');  
                 end
             % -------------------------
-            big_modes = Iw(1:par.w_trunc);
+            big_modes = Iw(1:par.wTrunc);
             w_t = w_r(big_modes);
             Psi = Psi(:,big_modes);
         end
@@ -37,7 +37,7 @@ function  [  sensors  ] = sensorLocSSPOC(  Xtrain,Gtrain , par)
 
     else
         randloc = randperm(n);
-        sensors = randloc(1:par.w_trunc);
+        sensors = randloc(1:par.wTrunc);
     end
     
     

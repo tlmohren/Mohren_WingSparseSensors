@@ -5,18 +5,18 @@ function [ par] = setParameters
 %  TLM 2017
 
 % variable parameters 
-    par.theta_distList = [0];
-    par.phi_distList = [0];
-    par.xIncludeList = [0];
-    par.yIncludeList = [1];
-    par.SSPOConList = [1];
-    par.STAwidthList = [3];
-    par.STAshiftList = [-10];% 
-    par.NLDshiftList = [0.5];
-    par.NLDsharpnessList = [10];
+%     par.theta_distList = [0];
+%     par.phi_distList = [0];
+%     par.xIncludeList = [0];
+%     par.yIncludeList = [1];
+%     par.SSPOConList = [1];
+%     par.STAwidthList = [3];
+%     par.STAshiftList = [-10];% 
+%     par.NLDshiftList = [0.5];
+%     par.NLDsharpnessList = [10];
 
 %  unsorted
-    par.iter = 2;
+%     par.iter = 2;
     par.showFigure = 0;
     par.setBaseZero = 1;
     par.singValsMult = 1;

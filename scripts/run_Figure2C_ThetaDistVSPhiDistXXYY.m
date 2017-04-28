@@ -65,13 +65,14 @@ par.theta_dist = [0,0.1,1,10];
 n_plots = 16; 
 n_x = 4;
 n_y = 4; 
-col = {'-k','-r'};
+% col = {'-k','-r'};
+col = {ones(3,1)*0.5,'-r'};
 dotcol = {'.k','.r'}; 
 
 %% create subplot routine
 
 color_vec = {'-r','-k'};
-fig2=figure();
+fig2=figure('Position', [100, 100, 1000, 800]);
 for j = 1:n_y
     for k = 1:n_x
         sub_nr = (j-1)*n_y + k;
@@ -85,7 +86,7 @@ for j = 1:n_y
             meanVec(k2) = mean(  nonzeros(Datamat(Dat_I,k2,:))   );
             stdVec(k2) = std(  nonzeros(Datamat(Dat_I,k2,:))   );
             iters = length(nonzeros(Datamat(Dat_I,k2,:)) );
-            scatter( ones(iters,1)*k2,nonzeros(Datamat(Dat_I,k2,:)) , dotcol{1})
+%             scatter( ones(iters,1)*k2,nonzeros(Datamat(Dat_I,k2,:)) , dotcol{1})
         end
         realNumbers = find(~isnan(meanVec));
         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1},0.8);
@@ -100,9 +101,18 @@ for j = 1:n_y
             scatter( ones(iters,1)*k2,nonzeros(Datamat(Dat_I,k2,:)) , dotcol{2})
         end
         realNumbers = find(~isnan(meanVec));
+        plot(realNumbers,meanVec(realNumbers),col{2})
 %         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{2},0.8);
         
+%         axis([0,20,0.4,1])
+        
+        
+%         yticks([0.4:0.2:1])
+        ax = gca;
+        ax.YTick = 0.4:0.2:1;
         axis([0,20,0.4,1])
+        
+        
         if sub_nr <=4
             title(['$\phi$* = ',num2str(par.phi_dist(k)), ' rad/s'] )
         end
@@ -119,7 +129,7 @@ saveas(fig2,['figs' filesep 'Figure2C_ThetaDistVSPhiDistXX'], 'png')
 %% create subplot routine
 
 color_vec = {'-r','-k'};
-fig2=figure();
+fig3=figure('Position', [100, 100, 1000, 800]);
 for j = 1:n_y
     for k = 1:n_x
         sub_nr = (j-1)*n_y + k;
@@ -133,7 +143,7 @@ for j = 1:n_y
             meanVec(k2) = mean(  nonzeros(Datamat(Dat_I,k2,:))   );
             stdVec(k2) = std(  nonzeros(Datamat(Dat_I,k2,:))   );
             iters = length(nonzeros(Datamat(Dat_I,k2,:)) );
-            scatter( ones(iters,1)*k2,nonzeros(Datamat(Dat_I,k2,:)) , dotcol{1})
+%             scatter( ones(iters,1)*k2,nonzeros(Datamat(Dat_I,k2,:)) , dotcol{1})
         end
         realNumbers = find(~isnan(meanVec));
         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1},0.8);
@@ -149,8 +159,12 @@ for j = 1:n_y
     
         end
         realNumbers = find(~isnan(meanVec));
+        plot(realNumbers,meanVec(realNumbers),col{2})
 %         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{2},0.8);
         
+%         axis([0,20,0.4,1])
+        ax = gca;
+        ax.YTick = 0.4:0.2:1;
         axis([0,20,0.4,1])
         if sub_nr <=4
             title(['$\phi$* = ',num2str(par.phi_dist(k)), ' rad/s'] )
@@ -162,5 +176,5 @@ for j = 1:n_y
 end
 
 
-saveas(fig2,['figs' filesep 'Figure2C_ThetaDistVSPhiDistYY'], 'png')
+saveas(fig3,['figs' filesep 'Figure2C_ThetaDistVSPhiDistYY'], 'png')
 

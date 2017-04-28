@@ -29,7 +29,6 @@ else
 end
 par.saveName = saveName; 
 par.iter = 5;
-par.wList = 5:1:20;
 %% Run simulation and Sparse sensor placement for combinations of 4 parameters, over a set number of iterations
 % start were the simulation ended last time 
 varPar_start = varPar_end
