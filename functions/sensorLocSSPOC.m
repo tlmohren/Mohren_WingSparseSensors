@@ -9,7 +9,7 @@ function  [  sensors  ] = sensorLocSSPOC(  Xtrain,Gtrain , par)
     % LDA
         [w_r, Psi, centroid] = PCA_LDA(Xtrain, Gtrain, 'nFeatures',par.rmodes);
 
-        if par.w_trunc ~= 0 
+        if par.wTrunc ~= 0 
             [~,Iw ] =sort( abs(w_r) , 'descend');
             %---optionlal-----------------------
                 [~,Sigma, ~] = svd(Xtrain, 'econ' );
