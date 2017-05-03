@@ -5,7 +5,10 @@ scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
 addpath([scriptLocation filesep 'scripts']);
 addpathFolderStructure()
 
-load(['results' filesep 'analysis_FigR1toR4_XXYY_270Par'])
+% load(['results' filesep 'analysis_FigR1toR4_XXYY_270Par'])
+
+load(['results' filesep 'tempDataMatTot'])
+Datamat = dataMatTot;
 
 %% 
 
@@ -18,20 +21,48 @@ figure();plot(test)
 
 
 %% 
-bin_SSPOCon = ( [varParList.phi_dist] == 0) & ...
-            ( [varParList.theta_dist] == 0) & ...
-            ( [varParList.SSPOCon] == 1 ) & ...
-            ( [varParList.xInclude] == 1) & ...%%%%% note error in assignment of yinlude~!!
-            ( [varParList.yInclude] == 1) & ...%%%%% note error in assignment ofyinlude~!!
-            ( [varParList.NLDshift] == 0.5) & ...
-            ( [varParList.NLDsharpness] == 10);
-bin_SSPOCoff = ( [varParList.phi_dist] == 0)  & ...
-            ( [varParList.theta_dist] == 0) & ...
-            ( [varParList.SSPOCon] == 0 ) & ...
-            ( [varParList.xInclude] == 1) & ...    %%%%% note error in assignment of yinlude~!!
-            ( [varParList.yInclude] == 1) & ...%%%%% note error in assignment ofyxinlude~!!
-            ( [varParList.NLDshift] == 0.5) & ...
-            ( [varParList.NLDsharpness] == 10);
+% bin_SSPOCon = ( [varParList.phi_dist] == 0) & ...
+%             ( [varParList.theta_dist] == 0) & ...
+%             ( [varParList.SSPOCon] == 1 ) & ...
+%             ( [varParList.xInclude] == 1) & ...%%%%% note error in assignment of yinlude~!!
+%             ( [varParList.yInclude] == 1) & ...%%%%% note error in assignment ofyinlude~!!
+%             ( [varParList.NLDshift] == 0.5) & ...
+%             ( [varParList.NLDsharpness] == 10);
+% bin_SSPOCoff = ( [varParList.phi_dist] == 0)  & ...
+%             ( [varParList.theta_dist] == 0) & ...
+%             ( [varParList.SSPOCon] == 0 ) & ...
+%             ( [varParList.xInclude] == 1) & ...    %%%%% note error in assignment of yinlude~!!
+%             ( [varParList.yInclude] == 1) & ...%%%%% note error in assignment ofyxinlude~!!
+%             ( [varParList.NLDshift] == 0.5) & ...
+%             ( [varParList.NLDsharpness] == 10);
+%         
+        
+        
+bin_SSPOCon = ( [varParList_short.phi_dist] == 0) & ...
+            ( [varParList_short.theta_dist] == 0) & ...
+            ( [varParList_short.SSPOCon] == 1 ) & ...
+            ( [varParList_short.xInclude] == 0) & ...%%%%% note error in assignment of yinlude~!!
+            ( [varParList_short.yInclude] == 1) & ...%%%%% note error in assignment ofyinlude~!!
+            ( [varParList_short.NLDshift] == 0.5) & ...
+            ( [varParList_short.NLDsharpness] == 10);
+bin_SSPOCoff = ( [varParList_short.phi_dist] == 0)  & ...
+            ( [varParList_short.theta_dist] == 0) & ...
+            ( [varParList_short.SSPOCon] == 0 ) & ...
+            ( [varParList_short.xInclude] == 0) & ...    %%%%% note error in assignment of yinlude~!!
+            ( [varParList_short.yInclude] == 1) & ...%%%%% note error in assignment ofyxinlude~!!
+            ( [varParList_short.NLDshift] == 0.5) & ...
+            ( [varParList_short.NLDsharpness] == 10);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 figure();plot(bin_SSPOCon,'-o')
 hold on;plot(bin_SSPOCoff,'-o')
 
@@ -71,7 +102,8 @@ vec_v = mat_1(2:end,1);
 fig2=figure('Position', [100, 100, 1000, 800]);
 for j = 1:length(vec_3)
     subplot(n_y,n_x, vec_3(j))
-    
+%     j 
+%     vec_3(j)
     % plot sspoc on 
         Dat_I = ind_SSPOCoff(j);
         for k2 = 1:size(Datamat,2)
@@ -108,7 +140,7 @@ for j = 1:length(vec_3)
 %         yticks([0.4:0.2:1])
         ax = gca;
         ax.YTick = 0.4:0.2:1;
-        axis([0,20,0.4,1])
+        axis([0,30,0.4,1])
 %         axis off
 end
 
@@ -172,6 +204,6 @@ for j = 1:length(vec_v)
    axis([-39,0,-0.5,1.2])
 end
 %% 
-
-saveas(fig2,['figs' filesep 'Figure3_variableSTA'], 'png')
-
+if 0 
+    saveas(fig2,['figs' filesep 'Figure3_variableSTA'], 'png')
+end

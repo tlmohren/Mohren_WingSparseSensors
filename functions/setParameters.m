@@ -40,7 +40,7 @@ function [ par] = setParameters
 % neural encoding parameters match filter
 % sparse sensor placement parameters 
 %     par.w_range = 15;
-    par.rmodes = 40;
+    par.rmodes = 30;
     par.iter = 1; 
 %     par.theta_dist = 0;% [0,0.1,1,10];
 %     par.phi_dist = 0;%[0,0.1,1,10];

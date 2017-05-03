@@ -1,10 +1,11 @@
-function [ varParList] = setVariableParameters_saveIntermitted(par)
+function [ varParList,varParList_short] = setVariableParameters_saveIntermitted(par)
 %setParameters Create parameter structure
 %     par = SetParameters() sets which filter, number of iterations, and
 %     other parameters will be used throughout the simulation
 %  TLM 2017
 nFigures = 7;
 count = 0;
+count_short  = 0;
 for j0= 1:nFigures
     if j0 == 1
         % disturbance sweep figure  YY
@@ -117,6 +118,16 @@ for j0= 1:nFigures
                                                     varParList(count).NLDsharpness = par.NLDsharpnessList(j10);
                                                     varParList(count).wTrunc = par.wTruncList(j11);
                                                 end
+                                                count_short = count_short + 1;
+                                                varParList_short(count_short).STAwidth = par.STAwidthList(j1); 
+                                                varParList_short(count_short).STAshift = par.STAshiftList(j2);
+                                                varParList_short(count_short).theta_dist = par.theta_distList(j3);
+                                                varParList_short(count_short).phi_dist = par.phi_distList(j4);
+                                                varParList_short(count_short).SSPOCon = par.SSPOConList(j6);
+                                                varParList_short(count_short).xInclude = par.xIncludeList(j7);
+                                                varParList_short(count_short).yInclude = par.yIncludeList(j8);
+                                                varParList_short(count_short).NLDshift = par.NLDshiftList(j9);
+                                                varParList_short(count_short).NLDsharpness = par.NLDsharpnessList(j10);
                                             end
                                         end
                                     end

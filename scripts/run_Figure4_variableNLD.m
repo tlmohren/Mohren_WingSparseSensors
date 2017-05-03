@@ -6,7 +6,12 @@ addpath([scriptLocation filesep 'scripts']);
 addpathFolderStructure()
 % 
 % load(['results' filesep 'analysis_FigR1toR4_yOnly_87Par.mat'])
-load(['results' filesep 'analysis_FigR1toR4_XXYY_270Par'])
+
+
+% load(['results' filesep 'analysis_FigR1toR4_XXYY_270Par'])
+
+load(['results' filesep 'tempDataMatTot'])
+Datamat = dataMatTot;
 %% 
 
 % Datamat = rand(size(Datamat))*0.2 + 0.6;
@@ -18,20 +23,55 @@ figure();plot(test)
 
 
 %% 
-bin_SSPOCon = ( [varParList.phi_dist] == 0) & ...
-            ( [varParList.theta_dist] == 0) & ...
-            ( [varParList.SSPOCon] == 1 ) & ...
-            ( [varParList.xInclude] == 1) & ...%%%%% note error in assignment of yinlude~!!
-            ( [varParList.yInclude] == 1) & ...%%%%% note error in assignment ofyinlude~!!
-            ( [varParList.STAwidth] == 3) & ...
-            ( [varParList.STAshift] == -10);
-bin_SSPOCoff = ( [varParList.phi_dist] == 0)  & ...
-            ( [varParList.theta_dist] == 0) & ...
-            ( [varParList.SSPOCon] == 0 ) & ...
-            ( [varParList.xInclude] == 1) & ...    %%%%% note error in assignment of yinlude~!!
-            ( [varParList.yInclude] == 1) & ...%%%%% note error in assignment ofyxinlude~!!
-            ( [varParList.STAwidth] == 3) & ...
-            ( [varParList.STAshift] == -10);
+% bin_SSPOCon = ( [varParList.phi_dist] == 0) & ...
+%             ( [varParList.theta_dist] == 0) & ...
+%             ( [varParList.SSPOCon] == 1 ) & ...
+%             ( [varParList.xInclude] == 1) & ...%%%%% note error in assignment of yinlude~!!
+%             ( [varParList.yInclude] == 1) & ...%%%%% note error in assignment ofyinlude~!!
+%             ( [varParList.STAwidth] == 3) & ...
+%             ( [varParList.STAshift] == -10);
+% bin_SSPOCoff = ( [varParList.phi_dist] == 0)  & ...
+%             ( [varParList.theta_dist] == 0) & ...
+%             ( [varParList.SSPOCon] == 0 ) & ...
+%             ( [varParList.xInclude] == 1) & ...    %%%%% note error in assignment of yinlude~!!
+%             ( [varParList.yInclude] == 1) & ...%%%%% note error in assignment ofyxinlude~!!
+%             ( [varParList.STAwidth] == 3) & ...
+%             ( [varParList.STAshift] == -10);
+        
+        
+        
+        
+        %
+bin_SSPOCon = ( [varParList_short.phi_dist] == 0) & ...
+            ( [varParList_short.theta_dist] == 0) & ...
+            ( [varParList_short.SSPOCon] == 1 ) & ...
+            ( [varParList_short.xInclude] == 0) & ...
+            ( [varParList_short.yInclude] == 1) & ...
+            ( [varParList_short.STAwidth] == 3) & ...
+            ( [varParList_short.STAshift] == -10);
+bin_SSPOCoff = ( [varParList_short.phi_dist] == 0)  & ...
+            ( [varParList_short.theta_dist] == 0) & ...
+            ( [varParList_short.SSPOCon] == 0 ) & ...
+            ( [varParList_short.xInclude] == 0) & ... 
+            ( [varParList_short.yInclude] == 1) & ...
+            ( [varParList_short.STAwidth] == 3) & ...
+            ( [varParList_short.STAshift] == -10);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 figure();plot(bin_SSPOCon,'-o')
 hold on;plot(bin_SSPOCoff,'-o')
 
@@ -46,20 +86,23 @@ ind_SSPOCoff = ind_SSPOCoff(2:end);
 % par.NLDsharpnessList = [5:2:15];
 
     % will be the new one
+%         par.NLDshiftList = [-0.1:0.2:0.9];
+%         par.NLDsharpnessList = [4:2:12];
+        
         par.NLDshiftList = [-0.1:0.2:0.9];
         par.NLDsharpnessList = [4:2:12];
-        
         % just for now 
-        par.NLDshiftList = [-0.1:0.2:0.9];
-        par.NLDsharpnessList = [4:2:14];
-n_x = (length(par.NLDshiftList) + 1);
-n_y = (length(par.NLDsharpnessList) +1); 
+%         par.NLDshiftList = [-0.1:0.2:0.9];
+%         par.NLDsharpnessList = [4:2:14];
+n_y = (length(par.NLDshiftList) + 1);
+n_x = (length(par.NLDsharpnessList) +1); 
 n_plots = n_x*n_y; 
 
 col = {ones(3,1)*0.5,'-r'};
 dotcol = {'.k','.r'}; 
 %% create subplot routine
 
+% mat_1 = reshape(1:n_x*n_y,[n_x,n_y])';
 mat_1 = reshape(1:n_x*n_y,[n_x,n_y])';
 mat_2 = mat_1(2:end,2:end);
 vec_3 = sort(mat_2(:));
@@ -151,5 +194,6 @@ end
 
 %% 
 
-saveas(fig2,['figs' filesep 'Figure4_variableNLD'], 'png')
-
+if 0 
+    saveas(fig2,['figs' filesep 'Figure4_variableNLD'], 'png')
+end
