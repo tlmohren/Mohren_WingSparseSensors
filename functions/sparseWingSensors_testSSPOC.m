@@ -14,7 +14,7 @@ function [accuracy, sensors] = sparseWingSensors_testSSPOC(X,G,par)
         
     [Xtrain, Xtest, Gtrain, Gtest] = rand_cross_val(X, G, par.trainFraction);
 %     save('testdata_SensorLocSSPOC_april.mat','Xtrain','Gtrain','par')
-    sensors = sensorLocSSPOC(Xtrain,Gtrain,par);
+    sensors = sensorLocSSPOC_testSSPOC(Xtrain,Gtrain,par);
 
     accuracy = sensorLocClassify(  sensors,Xtrain,Gtrain,Xtest,Gtest );
 
