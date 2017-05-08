@@ -9,9 +9,14 @@ addpathFolderStructure()
 %%  Build struct with parameters to carry throughout simulation
 
 par = setParameters;
-varParList = setVariableParameters_testSSPOC(par);
+% varParList = setVariableParameters_testSSPOC(par);
+
+% [varParList,varParList_short] = setVariableParameters_testSSPOC(par);
+% [varParList,varParList_short] = setVariableParameters_testSSPOC(par);
+% par.varParNames = fieldnames(varParList);
 par.varParNames = fieldnames(varParList);
-par.iter = 10;
+
+par.iter = 2;
 % varPar_start = 1;
 % varPar_end = 2; % length(varParList)
 
@@ -60,7 +65,7 @@ for j = 1:length(varParList)
         fprintf('Run %i failed\n', j); 
     end
     
-    if mod(j, 100)==0,
+    if mod(j, 2)==0,
         system('git pull');
         system('git add data/*.mat');
         system(sprintf('git commit * -m "pushing data from more runs %i"', j));

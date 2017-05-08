@@ -6,17 +6,13 @@ scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
 addpath([scriptLocation filesep 'scripts']);
 addpathFolderStructure()
 %% 
-
 % load(['results' filesep 'analysis_FigR1toR4_yOnly_87Par.mat'])
-
 
 % load(['results' filesep 'analysis_FigR1toR4_XXYY_270Par'])
 
-load(['results' filesep 'tempDataMatTot'])
+% load(['results' filesep 'tempDataMatTot'])
+load(['results' filesep 'tempDataMatTot_testSSPOC'])
 Datamat = dataMatTot;
-
-
-
 
 
 col = {'-k','-r'};
@@ -48,13 +44,13 @@ fig1 = figure('Position', [100, 100, 1000, 800]);
         hold on
     
     end
-    realNumbers = find(~isnan(meanVec)); 
+    realNumbers = find(~isnan(meanVec));
     a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{j},0.8);
 
 % end
 axis([0,30,0.4,1])
 
-saveas(fig1,['figs' filesep 'Figure1_SSPOCvsRandom'], 'png')
+saveas(fig1,['figs' filesep 'Figure1_SSPOCvsRandom_testSSPOC'], 'png')
 
 %% see which simulations belong to this parameter set 
 
