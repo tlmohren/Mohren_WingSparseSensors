@@ -4,8 +4,9 @@ clc;clear all;close all
 load(['data' filesep 'ParameterList_CVXtestscript'])
 par.varParNames = fieldnames(varParList_short);
 par.rmodes = 30;
-par.saveNameTest = 'formulate_original';
-par.saveNameTest = 'formulate_equality';
+% par.saveNameTest = 'formulate_original';
+% par.saveNameTest = 'formulate_equality';
+par.saveNameTest = 'adjust_epsilon';
 
 %% 
 dataMatTot = zeros( length(varParList_short), par.rmodes + 10,par.iter);
