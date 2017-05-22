@@ -1,4 +1,4 @@
-function [s] = SSPOC_test(Psi, w, varargin)
+function [s] = SSPOC_CVXtest(Psi, w, par,varargin)
 % function [s] = SSPOC(Psi, w, varargin)
 %
 % INPUTS:
@@ -58,11 +58,20 @@ c = size(w, 2);
 % solve Psi'*s = w
 % using the l1 norm to promote sparsity
 unit = ones(c,1);
-cvx_begin quiet
-    variable s( n, c );
-%     minimize( norm(s(:),1) + inputs.lambda*norm(s*unit,1) ); %#ok<NODEF>
-    minimize( norm(s,1))
-    subject to
-        Psi'*s == w;
-%         norm(Psi'*s - w, 'fro') <= inputs.epsilon; %#ok<VUNUS>
-cvx_end
+if par.CVXcase == 1
+    cvx_begin quiet
+        variable s( n, c );
+    %     minimize( norm(s(:),1) + inputs.lambda*norm(s*unit,1) ); %#ok<NODEF>
+        minimize( norm(s,1))
+        subject to
+            norm(Psi'*s - w, 'fro') <= inputs.epsilon; %#ok<VUNUS>
+    cvx_end
+elseif par.CVXcase == 2;
+        cvx_begin quiet
+        variable s( n, c );
+    %     minimize( norm(s(:),1) + inputs.lambda*norm(s*unit,1) ); %#ok<NODEF>
+        minimize( norm(s,1))
+        subject to
+            Psi'*s == w;
+    cvx_end
+end

@@ -1,4 +1,4 @@
-function  [  sensors  ] = sensorLocSSPOC_testSSPOC(  Xtrain,Gtrain , par)
+function  [  sensors  ] = sensorLocSSPOC_CVXtest(  Xtrain,Gtrain , par)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 % [  sensors  ] = SensorLocSSPOC_april(   Xtrain,Gtrain,r,SSPOC_on,w_trunc , par)
@@ -25,7 +25,13 @@ function  [  sensors  ] = sensorLocSSPOC_testSSPOC(  Xtrain,Gtrain , par)
             w_t = w_r(big_modes);
             Psi = Psi(:,big_modes);
         end
-        s = SSPOC_test(Psi,w_t);
+        
+        
+        
+        
+        s = SSPOC_CVXtest(Psi,w_t,par);
+        
+        
         s = sum(s, 2);   
 
         [~, I_top] = sort( abs(s));

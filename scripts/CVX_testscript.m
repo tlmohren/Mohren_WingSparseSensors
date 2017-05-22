@@ -11,9 +11,10 @@ addpathFolderStructure()
 par = setParameters;
 [varParList,varParList_short] = setVariableParameters_CVXtestscript(par);
 par.varParNames = fieldnames(varParList);
-par.iter = 5;
-par.saveNameTest = 'formulate_equality';
-
+par.iter = 1;
+% par.saveNameTest = 'formulate_equality';
+par.saveNameTest = 'formulate_original';par.CVXcase = 1; % original formulation
+par.saveNameTest = 'formulate_equality'; par.CVXcase = 2; % equality
 
 %% Run simulation and Sparse sensor placement for combinations of 4 parameters, over a set number of iterations
 
@@ -37,7 +38,7 @@ for j = 1:length(varParList)
 %%%%%%%%%%%%%%%%%%%%%%%%%%TESTSECTION%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
-            sensors = sensorLocSSPOC(Xtrain,Gtrain,par);
+            sensors = sensorLocSSPOC_CVXtest(Xtrain,Gtrain,par);
             
 %             sensors = 
             acc = sensorLocClassify(  sensors,Xtrain,Gtrain,Xtest,Gtest );
