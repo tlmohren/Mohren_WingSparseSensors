@@ -19,7 +19,7 @@ par.saveNameTest = 'formulate_equality'; par.CVXcase = 2; % equality
 %% Run simulation and Sparse sensor placement for combinations of 4 parameters, over a set number of iterations
 
 tic 
-for j =2% 1:length(varParList)
+for j = 10:18%1:length(varParList)
 %     try
         % adjust parameters for this set of iterations----------------------
         DataMat = zeros(par.rmodes,par.iter);
