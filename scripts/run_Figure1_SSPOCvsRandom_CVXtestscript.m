@@ -84,7 +84,7 @@ saveas(fig1,['figs' filesep 'Figure1_SSPOCvsRandom_'par.saveNameTest], 'png')
 
 
 varParCase = 2;
-q_select = 17;
+q_select = 15;
         n_iters= length(nonzeros(Datamat(varParCase,q_select,:)))
         
 %         length(nonzeros(sensorMatTot(varParCase,q_select,:,:)))
