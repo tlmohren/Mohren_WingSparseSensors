@@ -71,7 +71,7 @@ end
 %%
 system('git pull');
 system('git add data/*.mat');
-system(sprintf('git commit * -m "pushing data from more runs %i"', j));
+system(sprintf('git commit * -m "pushing data for CVXtest %s"', par.saveNameTest));
 system('git push');
 
 save( ['data' filesep 'ParameterList_CVXtestscript.mat'], 'varParList','varParList_short', 'par')
