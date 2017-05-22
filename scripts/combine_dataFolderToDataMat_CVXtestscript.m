@@ -4,6 +4,7 @@ clc;clear all;close all
 load(['data' filesep 'ParameterList_CVXtestscript'])
 par.varParNames = fieldnames(varParList_short);
 par.rmodes = 30;
+par.saveNameTest = 'formulate_original';
 par.saveNameTest = 'formulate_equality';
 
 %% 
