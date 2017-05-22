@@ -50,8 +50,8 @@ for j = 1%length(varParList)
             % Print accuracy in command window --------------------
             fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[par.wTrunc,q,acc])
         end
-
-        save data 
+ 
+        % save data  --------------------
         saveName = sprintf('Testfiles_pls_delete',...
                             [par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
                             par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , par.wTrunc ]); 
@@ -65,13 +65,13 @@ for j = 1%length(varParList)
     
     if mod(j, 1)==0,
         system('git pull');
-%         system('git add data/*.mat');
+        system('git add data/*.mat');
         system(sprintf('git commit * -m "pushing data from more runs %i"', j));
         system('git push');
     end;
 end
 %% 
 system('git pull');
-% system('git add data/*.mat');
+system('git add data/*.mat');
 system(sprintf('git commit * -m "pushing data from more runs %i"', j));
 system('git push');
