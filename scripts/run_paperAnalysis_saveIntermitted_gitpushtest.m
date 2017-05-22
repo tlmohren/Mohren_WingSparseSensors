@@ -6,7 +6,7 @@
 clear all, close all, clc
 addpathFolderStructure()
 
-addpath('C:\Users\Thomas\AppData\Local\GitHub\PortableGit_f02737a78695063deace08e96d5042710d3e32db\cmd')
+% addpath('C:\Users\Thomas\AppData\Local\GitHub\PortableGit_f02737a78695063deace08e96d5042710d3e32db\cmd')
 
 % addpath('C:\Users\Thomas\AppData\Local\GitHub\PortableGit_f02737a78695063deace08e96d5042710d3e32db\mingw32\bin\git.exe')
 %%  Build struct with parameters to carry throughout simulation
