@@ -11,7 +11,7 @@ addpathFolderStructure()
 par = setParameters;
 [varParList,varParList_short] = setVariableParameters_CVXtestscript(par);
 par.varParNames = fieldnames(varParList);
-par.iter = 1;
+par.iter = 3;
 
 %% Run simulation and Sparse sensor placement for combinations of 4 parameters, over a set number of iterations
 
@@ -52,9 +52,14 @@ for j = 1:length(varParList)
             fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[par.wTrunc,q,acc])
         end
         % save data 
-        saveName = sprintf('Testfiles_CVX',...
+
+                        
+                        
+        saveName = sprintf('Data_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g_',...
                             [par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
                             par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , par.wTrunc ]); 
+
+                    
         saveName = [saveName,computer,'_',datestr(datetime('now'), 30),'.mat'];
         save(  ['data',filesep, saveName]  ,'DataMat','SensMat','par')
         fprintf('Runtime = %g[s], Saved as: %s \n',[toc,saveName]) 
