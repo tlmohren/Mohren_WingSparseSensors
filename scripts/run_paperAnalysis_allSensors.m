@@ -7,14 +7,13 @@ clear all, close all, clc
 addpathFolderStructure()
 
 addpath('C:\Users\Thomas\AppData\Local\GitHub\PortableGit_f02737a78695063deace08e96d5042710d3e32db\cmd')
-
-% addpath('C:\Users\Thomas\AppData\Local\GitHub\PortableGit_f02737a78695063deace08e96d5042710d3e32db\mingw32\bin\git.exe')
 %%  Build struct with parameters to carry throughout simulation
 
 par = setParameters;
-varParList = setVariableParameters_saveIntermitted(par);
+varParList = setVariableParameters_allSensors(par);
 par.varParNames = fieldnames(varParList);
-par.iter = 1;
+par.iter = 10;
+par.wTrunc = 1326;
 % varPar_start = 1;
 % varPar_end = 2; % length(varParList)
 
@@ -22,13 +21,13 @@ par.iter = 1;
 
 tic 
 for j = 1:length(varParList)
-    try
+%     try
         % adjust parameters for this set of iterations----------------------
-        DataMat = zeros(par.rmodes,par.iter);
-        SensMat = zeros(par.rmodes,par.rmodes,par.iter);
+        DataMat = zeros(1,par.iter);
+%         SensMat = zeros(par.rmodes,par.rmodes,par.iter);
 
         for k = 1:length(par.varParNames)
-            par.(par.varParNames{k}) = varParList(j).(par.varParNames{k});!git 
+            par.(par.varParNames{k}) = varParList(j).(par.varParNames{k});
         end
 
         for k = 1:par.iter
@@ -43,35 +42,36 @@ for j = 1:length(varParList)
 
     %         Store data in 3D matrix ----------------------------
             q = length(sensors);
-            prev = length(find( DataMat(q, :) )  );
-            DataMat(q, prev+1) = acc; 
-            SensMat(q, 1:q,prev+1) = sensors ;    
+            prev = length(find( DataMat(1, :) )  );
+            DataMat(1, prev+1) = acc; 
+%             SensMat(q, 1:q,prev+1) = sensors ;    
 
             % Print accuracy in command window --------------------
-            fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[par.wTrunc,q,acc])
+            fprintf('All sensors, giving accuracy =%4.2f \n',[acc])
         end
 
         % save data 
-        saveName = sprintf('Testfiles_pls_delete',...
-                            [par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
-                            par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , par.wTrunc ]); 
+    saveName = sprintf('Data_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g_',...
+                        [par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
+                        par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , par.wTrunc ]); 
 
         saveName = [saveName,computer,'_',datestr(datetime('now'), 30),'.mat'];
-        save(  ['data',filesep, saveName]  ,'DataMat','SensMat','par')
+        save(  ['data',filesep, saveName]  ,'DataMat','par')
         fprintf('Runtime = %g[s], Saved as: %s \n',[toc,saveName]) 
-    catch
-        fprintf('Run %i failed\n', j); 
-    end
+%     catch
+%         fprintf('Run %i failed\n', j); 
+%     end
     
-    if mod(j, 1)==0,
-        system('git pull');
-        system('git add data/*.mat');
-        system(sprintf('git commit * -m "pushing data from more runs %i"', j));
-        system('git push');
-    end;
+%     if mod(j, 1)==0,
+%         system('git pull');
+%         system('git add data/*.mat');
+%         system(sprintf('git commit * -m "pushing data from more runs %i"', j));
+%         system('git push');
+%     end;
 end
-
-system('git pull');
-system('git add data/*.mat');
-system(sprintf('git commit * -m "pushing data from more runs %i"', j));
-system('git push');
+%%
+        save(  ['data',filesep, 'allSensors_varParList']  ,'par','varParList')
+% system('git pull');
+% system('git add data/*.mat');
+% system(sprintf('git commit * -m "pushing data from more runs %i"', j));
+% system('git push');
