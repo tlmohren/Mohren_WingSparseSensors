@@ -66,7 +66,6 @@ unit = ones(c,1);
 if par.CVXcase == 1
     cvx_begin quiet
         variable s( n, c );
-    %     minimize( norm(s(:),1) + inputs.lambda*norm(s*unit,1) ); %#ok<NODEF>
         minimize( norm(s,1))
         subject to
             norm(Psi'*s - w, 'fro') <= inputs.epsilon; %#ok<VUNUS>
@@ -75,20 +74,25 @@ elseif par.CVXcase == 2;
     display(['Running par.CVXcase ', num2str(par.CVXcase)])
         cvx_begin quiet
         variable s( n, c );
-    %     minimize( norm(s(:),1) + inputs.lambda*norm(s*unit,1) ); %#ok<NODEF>
         minimize( norm(s,1))
         subject to
             Psi'*s == w;
     cvx_end
 elseif par.CVXcase == 3;
-    inp.lambda = 1e-8;
-%     display(['Running par.CVXcase ', num2str(par.CVXcase)])
+    inp.epsilon = 1e-8;
         cvx_begin quiet
         variable s( n, c );
-    %     minimize( norm(s(:),1) + inputs.lambda*norm(s*unit,1) ); %#ok<NODEF>
         minimize( norm(s,1))
         subject to
             norm(Psi'*s - w, 'fro') <= inputs.epsilon; %#ok<VUNUS>
+    cvx_end
+elseif par.CVXcase == 4;
+    inp.lambda = 1e-8;
+        cvx_begin quiet
+        variable s( n, c );
+        minimize( norm(s(:),1) + inputs.lambda*norm(s*unit,1) ); %#ok<NODEF>
+        subject to
+            Psi'*s == w;
     cvx_end
 else
     error('not a valid par.CVXcase')

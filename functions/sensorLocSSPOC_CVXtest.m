@@ -26,12 +26,6 @@ function  [  sensors  ] = sensorLocSSPOC_CVXtest(  Xtrain,Gtrain , par)
             Psi = Psi(:,big_modes);
         end
         
-        
-        
-        
-        s = SSPOC_CVXtest(Psi,w_t,par);
-        
-        
 %%%%%%%%%%%%%%%%%%%%%%%%%%TESTSECTION%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
