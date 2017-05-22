@@ -6,15 +6,12 @@
 clear all, close all, clc
 addpathFolderStructure()
 
-addpath('C:\Users\Thomas\AppData\Local\GitHub\PortableGit_f02737a78695063deace08e96d5042710d3e32db\cmd')
 %%  Build struct with parameters to carry throughout simulation
 
 par = setParameters;
-varParList = setVariableParameters_saveIntermitted(par);
+varParList = setVariableParameters_CVXtestscript(par);
 par.varParNames = fieldnames(varParList);
 par.iter = 1;
-% varPar_start = 1;
-% varPar_end = 2; % length(varParList)
 
 %% Run simulation and Sparse sensor placement for combinations of 4 parameters, over a set number of iterations
 
