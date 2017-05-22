@@ -28,9 +28,9 @@ for j = 1:length(varParList)
         SensMat = zeros(par.rmodes,par.rmodes,par.iter);
 
         for k = 1:length(par.varParNames)
-            par.(par.varParNames{k}) = varParList(j).(par.varParNames{k});!git 
+            par.(par.varParNames{k}) = varParList(j).(par.varParNames{k});
         end
-
+% 
         for k = 1:par.iter
             % Generate strain with Euler-Lagrange simulation ----------
             strainSet = eulerLagrangeConcatenate( varParList(j).theta_dist , varParList(j).phi_dist ,par);
@@ -51,7 +51,7 @@ for j = 1:length(varParList)
             fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[par.wTrunc,q,acc])
         end
 
-        % save data 
+        save data 
         saveName = sprintf('Testfiles_pls_delete',...
                             [par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
                             par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , par.wTrunc ]); 
@@ -70,7 +70,7 @@ for j = 1:length(varParList)
         system('git push');
     end;
 end
-
+%% 
 system('git pull');
 system('git add data/*.mat');
 system(sprintf('git commit * -m "pushing data from more runs %i"', j));
