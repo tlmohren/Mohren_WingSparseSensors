@@ -1,8 +1,7 @@
 % analyze varParList 
 clc;clear all;close all
 %% 
-load(['data' filesep 'Parameter_List_testSSPOC'])
-par.rmodes
+load(['data' filesep 'ParameterList_testSSPOC'])
 par.varParNames = fieldnames(varParList_short);
 par.rmodes = 30;
 

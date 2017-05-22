@@ -6,7 +6,7 @@
 clear all, close all, clc
 addpathFolderStructure()
 
-addpath('C:\Users\Thomas\AppData\Local\GitHub\PortableGit_f02737a78695063deace08e96d5042710d3e32db\cmd')
+% addpath('C:\Users\Thomas\AppData\Local\GitHub\PortableGit_f02737a78695063deace08e96d5042710d3e32db\cmd')
 %%  Build struct with parameters to carry throughout simulation
 
 par = setParameters;
@@ -14,14 +14,12 @@ varParList = setVariableParameters_allSensors(par);
 par.varParNames = fieldnames(varParList);
 par.iter = 10;
 par.wTrunc = 1326;
-% varPar_start = 1;
-% varPar_end = 2; % length(varParList)
 
 %% Run simulation and Sparse sensor placement for combinations of 4 parameters, over a set number of iterations
 
 tic 
 for j = 1:length(varParList)
-%     try
+    try
         % adjust parameters for this set of iterations----------------------
         DataMat = zeros(1,par.iter);
 %         SensMat = zeros(par.rmodes,par.rmodes,par.iter);
@@ -58,20 +56,21 @@ for j = 1:length(varParList)
         saveName = [saveName,computer,'_',datestr(datetime('now'), 30),'.mat'];
         save(  ['data',filesep, saveName]  ,'DataMat','par')
         fprintf('Runtime = %g[s], Saved as: %s \n',[toc,saveName]) 
-%     catch
-%         fprintf('Run %i failed\n', j); 
-%     end
+    catch
+        fprintf('Run %i failed\n', j); 
+    end
     
-%     if mod(j, 1)==0,
-%         system('git pull');
-%         system('git add data/*.mat');
-%         system(sprintf('git commit * -m "pushing data from more runs %i"', j));
-%         system('git push');
-%     end;
+    if mod(j, 1)==10,
+        system('git pull');
+        system('git add data/*.mat');
+        system(sprintf('git commit * -m "pushing data from more runs %i"', j));
+        system('git push');
+    end;
 end
 %%
-        save(  ['data',filesep, 'allSensors_varParList']  ,'par','varParList')
-% system('git pull');
-% system('git add data/*.mat');
-% system(sprintf('git commit * -m "pushing data from more runs %i"', j));
-% system('git push');
+save(  ['data',filesep, 'ParameterList_allSensors']  ,'par','varParList')
+
+system('git pull');
+system('git add data/*.mat');
+system(sprintf('git commit * -m "pushing data from more runs %i"', j));
+system('git push');

@@ -1,15 +1,13 @@
 % analyze varParList 
 clc;clear all;close all
 %% 
-load(['data' filesep 'Parameter_List_7740_combinations'])
-% par.rmodes
+load(['data' filesep 'ParameterList_paperAnalysis'])
 par.varParNames = fieldnames(varParList_short);
 par.rmodes = 30;
 
 %% 
 dataMatTot = zeros( length(varParList_short), par.rmodes + 10,par.iter);
 sensorMatTot = zeros( length(varParList_short), par.rmodes + 10, par.rmodes + 10,par.iter);
-
 
 saveNameCell = {};
 saveNameCount = 0;

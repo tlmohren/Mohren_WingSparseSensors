@@ -9,7 +9,7 @@ addpathFolderStructure()
 %%  Build struct with parameters to carry throughout simulation
 
 par = setParameters;
-varParList = setVariableParameters_CVXtestscript(par);
+[varParList,varParList_short] = setVariableParameters_CVXtestscript(par);
 par.varParNames = fieldnames(varParList);
 par.iter = 1;
 
@@ -62,8 +62,10 @@ for j = 1:length(varParList)
         fprintf('Run %i failed\n', j); 
     end
 end
-
+%%
 system('git pull');
 system('git add data/*.mat');
 system(sprintf('git commit * -m "pushing data from more runs %i"', j));
 system('git push');
+
+save( ['data' filesep 'ParameterList_CVXtestscript.mat'], 'varParList','varParList_short', 'par')

@@ -9,12 +9,9 @@ addpathFolderStructure()
 %%  Build struct with parameters to carry throughout simulation
 
 par = setParameters;
-% varParList = setVariableParameters_saveIntermitted(par);
 [varParList,varParList_short] = setVariableParameters(par);
 par.varParNames = fieldnames(varParList);
 par.iter = 10;
-% varPar_start = 1;
-% varPar_end = 2; % length(varParList)
 
 %% Run simulation and Sparse sensor placement for combinations of 4 parameters, over a set number of iterations
 
@@ -64,11 +61,10 @@ for j = 1:length(varParList)
         system('git push');
     end;
 end
-
+%%
 system('git pull');
 system('git add data/*.mat');
 system(sprintf('git commit * -m "pushing data from more runs %i"', j));
 system('git push');
 
-%% 
-% save( ['data' filesep 'Parameter_List_testSSPOC.mat'], 'varParList','varParList_short', 'par')
+save( ['data' filesep 'ParameterList_paperAnalysis.mat'], 'varParList','varParList_short', 'par')

@@ -1,9 +1,7 @@
 % analyze varParList 
 clc;clear all;close all
 %% 
-% load(['data' filesep 'Parameter_List_7740_combinations'])
-load(  ['data',filesep, 'noSSPOC_varParList']  )
-% par.rmodes
+load(  ['data',filesep, 'ParameterList_allSensors']  )
 par.varParNames = fieldnames(varParList);
 par.rmodes = 30;
 
@@ -72,5 +70,5 @@ end
 
 %% save datamattot
 
-save(['results' filesep  'tempDataMatTot_noSSPOC.mat'],'dataMatTot','varParList','varParList','par')
+save(['results' filesep  'tempDataMatTot_allSensors.mat'],'dataMatTot','varParList','varParList','par')
  
