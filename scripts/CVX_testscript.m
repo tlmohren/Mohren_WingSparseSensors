@@ -13,14 +13,14 @@ par = setParameters;
 par.varParNames = fieldnames(varParList);
 par.iter = 1;
 % par.saveNameTest = 'formulate_equality';
-par.saveNameTest = 'formulate_original';par.CVXcase = 1; % original formulation
+% par.saveNameTest = 'formulate_original';par.CVXcase = 1; % original formulation
 par.saveNameTest = 'formulate_equality'; par.CVXcase = 2; % equality
 
 %% Run simulation and Sparse sensor placement for combinations of 4 parameters, over a set number of iterations
 
 tic 
-for j = 1:length(varParList)
-    try
+for j =2% 1:length(varParList)
+%     try
         % adjust parameters for this set of iterations----------------------
         DataMat = zeros(par.rmodes,par.iter);
         SensMat = zeros(par.rmodes,par.rmodes,par.iter);
@@ -63,9 +63,9 @@ for j = 1:length(varParList)
         saveName = [saveName,computer,'_',datestr(datetime('now'), 30),'.mat'];
         save(  ['data',filesep, saveName]  ,'DataMat','SensMat','par')
         fprintf('Runtime = %g[s], Saved as: %s \n',[toc,saveName]) 
-    catch
-        fprintf('Run %i failed\n', j); 
-    end
+%     catch
+%         fprintf('Run %i failed\n', j); 
+%     end
 end
 %%
 system('git pull');
