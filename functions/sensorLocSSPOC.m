@@ -26,8 +26,9 @@ function  [  sensors  ] = sensorLocSSPOC(  Xtrain,Gtrain , par)
             Psi = Psi(:,big_modes);
         end
         s = SSPOC(Psi,w_t);
+        
+        
         s = sum(s, 2);   
-
         [~, I_top] = sort( abs(s));
         I_top2 = flipud(I_top);
         sensors_sort = I_top2(1:par.rmodes);
@@ -35,6 +36,8 @@ function  [  sensors  ] = sensorLocSSPOC(  Xtrain,Gtrain , par)
         cutoff_lim = norm(s, 'fro')/c/par.rmodes/2;
         sensors = sensors_sort(  abs(s(sensors_sort))>= cutoff_lim );
 
+    elseif par.SSPOCon == 2
+        sensors = 1:size(Xtrain,1);
     else
         randloc = randperm(n);
         sensors = randloc(1:par.wTrunc);

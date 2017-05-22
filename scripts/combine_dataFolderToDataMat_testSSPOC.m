@@ -25,7 +25,7 @@ for j = 1:length(varParList_short)
 %         length(nonzeros(dataMatTot))
     for j2 = 1:par.rmodes
 %      
-        saveName = sprintf('Data__testSSPOC_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g',...
+        saveName = sprintf('Data_testSSPOC_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g',...
                             [par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
                             par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , j2 ]);
 %          if %%
@@ -42,7 +42,7 @@ for j = 1:length(varParList_short)
 %          else
 %              duplicates = duplicates + 1;
 %          end
-          bb = dir(['data' filesep saveName '_*']);
+          bb = dir(['data' filesep saveName '_*'])
           
           if length(bb)>0
               for k2 = 1:length(bb)

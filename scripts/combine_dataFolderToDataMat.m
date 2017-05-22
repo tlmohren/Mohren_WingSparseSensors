@@ -2,12 +2,13 @@
 clc;clear all;close all
 %% 
 load(['data' filesep 'Parameter_List_7740_combinations'])
-par.rmodes
+% par.rmodes
 par.varParNames = fieldnames(varParList_short);
 par.rmodes = 30;
 
 %% 
 dataMatTot = zeros( length(varParList_short), par.rmodes + 10,par.iter);
+sensorMatTot = zeros( length(varParList_short), par.rmodes + 10, par.rmodes + 10,par.iter);
 
 
 saveNameCell = {};
@@ -16,7 +17,7 @@ duplicates = 0;
 %% 
 aa = dir(['data' filesep  'Data*']);
 % for j = 1
-counter= 0
+counter= 0;
 for j = 1:length(varParList_short)
     for k = 1:length(par.varParNames)
         par.(par.varParNames{k}) = varParList_short(j).(par.varParNames{k});
@@ -55,6 +56,7 @@ for j = 1:length(varParList_short)
             %             a3.DataMat(I(j3),J(j3))
                         prev = length(find( dataMatTot(j,q,:) )  );
                         dataMatTot(j,q, prev+1) = a3.DataMat(I(j3),J(j3)); 
+                        sensorMatTot(j,q,1:q, prev+1) = a3.SensMat(I(j3),1:I(j3),J(j3)); 
                   end
               end
           else
@@ -68,5 +70,5 @@ end
 
 %% save datamattot
 
-save(['results' filesep  'tempDataMatTot.mat'],'dataMatTot','varParList','varParList_short','par')
+save(['results' filesep  'DataMatTot_MacPcCombined.mat'],'dataMatTot','sensorMatTot','varParList','varParList_short','par')
  

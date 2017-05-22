@@ -12,7 +12,10 @@ addpathFolderStructure()
 
 % load(['results' filesep 'analysis_FigR1toR4_XXYY_270Par'])
 
-load(['results' filesep 'tempDataMatTot'])
+% load(['results' filesep 'tempDataMatTot'])
+
+load(['results' filesep 'DataMatTot_MacPcCombined'])
+
 Datamat = dataMatTot;
 
 
@@ -53,6 +56,9 @@ fig1 = figure('Position', [100, 100, 1000, 800]);
 
 % end
 axis([0,30,0.4,1])
+xlabel('\# sensors')
+ylabel('Accuracy [-]')
+grid on
 
 saveas(fig1,['figs' filesep 'Figure1_SSPOCvsRandom'], 'png')
 
@@ -105,3 +111,38 @@ figure();plot(j_inlist,'-o')
 %     hold on; plot(  ( [varParList.NLDshift] == 0.5) + 0.07)
 %     hold on; plot(   ( [varParList.NLDsharpness] == 10) + 0.08)
 %     legend('STAwdith','STAshift','theta_dist','phi_dist','SSPOCon','xinclude','ylinclude','NLDShift','NLDsharpness')
+
+%%
+
+
+
+varParCase = 2;
+q_select = 17;
+        n_iters= length(nonzeros(Datamat(varParCase,q_select,:)))
+        
+%         length(nonzeros(sensorMatTot(varParCase,q_select,:,:)))
+        binar = zeros(26*51,1);
+        for j = 1:n_iters
+%             sensorMatTot(varParCase,q_select,:,j)
+            binar(sensorMatTot(varParCase,q_select,1:q_select,j)) = binar(sensorMatTot(varParCase,q_select,1:q_select,j)) +1;
+        end
+        binar = binar/n_iters;
+        figure()
+        plotSensorLocs(binar,par)
+%         meanVec(k) = mean(  nonzeros(Datamat(j,k,:))   );
+%         stdVec(k) = std(  nonzeros(Datamat(j,k,:))   );
+% 
+%         iters = length(nonzeros(Datamat(j,k,:)) );
+% %         scatter( ones(iters,1)*k,nonzeros(Datamat(j,k,:)) , dotcol{j})
+%         hold on
+%     
+%     end
+
+
+
+
+
+
+
+
+

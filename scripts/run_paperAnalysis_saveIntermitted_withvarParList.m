@@ -69,4 +69,4 @@ system(sprintf('git commit * -m "pushing data from more runs %i"', j));
 system('git push');
 
 %% 
-save( ['data' filesep 'Parameter_List_testSSPOC.mat'], 'varParList','varParList_short', 'par')
+% save( ['data' filesep 'Parameter_List_testSSPOC.mat'], 'varParList','varParList_short', 'par')

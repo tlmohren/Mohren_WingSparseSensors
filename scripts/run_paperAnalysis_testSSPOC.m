@@ -11,8 +11,7 @@ addpathFolderStructure()
 par = setParameters;
 % varParList = setVariableParameters_testSSPOC(par);
 
-% [varParList,varParList_short] = setVariableParameters_testSSPOC(par);
-% [varParList,varParList_short] = setVariableParameters_testSSPOC(par);
+[varParList,varParList_short] = setVariableParameters_testSSPOC(par);
 % par.varParNames = fieldnames(varParList);
 par.varParNames = fieldnames(varParList);
 
@@ -73,7 +72,11 @@ for j = 1:length(varParList)
     end;
 end
 
-system('git pull');
-system('git add data/*.mat');
-system(sprintf('git commit * -m "pushing data from more runs %i"', j));
-system('git push');
+% system('git pull');
+% system('git add data/*.mat');
+% system(sprintf('git commit * -m "pushing data from more runs %i"', j));
+% system('git push');
+
+
+save( ['data' filesep 'Parameter_List_testSSPOC.mat'], 'varParList','varParList_short', 'par')
+
