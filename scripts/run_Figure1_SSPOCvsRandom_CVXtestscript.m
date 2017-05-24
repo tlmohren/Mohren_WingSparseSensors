@@ -2,7 +2,7 @@
 
 clc;clear all;close all;
 
-run('CVX_testscript.m')
+% run('CVX_testscript.m')
 run('combine_dataFolderToDataMat_CVXtestscript.m')
 clc;clear all;
 
@@ -52,7 +52,7 @@ xlabel('\# sensors')
 ylabel('Accuracy [-]')
 grid on
 
-saveas(fig1,['figs' filesep 'Figure1_SSPOCvsRandom_'par.saveNameTest], 'png')
+saveas(fig1,['figs' filesep 'Figure1_SSPOCvsRandom_' par.saveNameTest], 'png')
 
 %% see which simulations belong to this parameter set 
 

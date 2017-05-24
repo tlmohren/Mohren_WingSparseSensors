@@ -12,10 +12,12 @@ par = setParameters;
 [varParList,varParList_short] = setVariableParameters_CVXtestscript(par);
 par.varParNames = fieldnames(varParList);
 par.iter = 10;
+par.rmodes = 40;
 % par.saveNameTest = 'formulate_original';par.CVXcase = 1; % original formulation
 % par.saveNameTest = 'formulate_equality'; par.CVXcase = 2; % equality
 % par.saveNameTest = 'adjust_epsilon'; par.CVXcase = 3; % epsilon
-par.saveNameTest = 'adjust_lambda'; par.CVXcase = 4; % equality
+% par.saveNameTest = 'adjust_lambda'; par.CVXcase = 4; % equality
+par.saveNameTest = 'rmodes40'; par.CVXcase = 1; % equality
 
 %% Run simulation and Sparse sensor placement for combinations of 4 parameters, over a set number of iterations
 
