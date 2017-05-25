@@ -135,6 +135,12 @@ end
     delete(['functions' filesep 'PlateODE.m'])
     
 %% Postprocess results 
+
+
+
+% locations are determined with deviation, based on gaussian 
+
+
 %Specify spatial locations where the solution will be evaluated (26x51)
     disp('postprocessing')
     xeval = linspace(-a, a, par.chordElements);        % Previously -a:2*a/10:a

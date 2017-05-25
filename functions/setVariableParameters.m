@@ -3,86 +3,14 @@ function [ varParList,varParList_short] = setVariableParameters_saveIntermitted(
 %     par = SetParameters() sets which filter, number of iterations, and
 %     other parameters will be used throughout the simulation
 %  TLM 2017
-nFigures = 7;
+nFigures = 1;
 count = 0;
 count_short  = 0;
 for j0= 1:nFigures
     if j0 == 1
         % disturbance sweep figure  YY
-        par.theta_distList = [0,0.1,1,10];
-        par.phi_distList = [0,0.1,1,10];
-        par.xIncludeList = [0];
-        par.yIncludeList = [1];
-        par.SSPOConList = [0,1];
-        par.STAwidthList = [3];
-        par.STAshiftList = [-10];% 
-        par.NLDshiftList = [0.5];
-        par.NLDsharpnessList = [10];
-        par.wTruncList = 1:30;
-    elseif j0 == 2
-        % disturbance sweep figure   XX
-        par.theta_distList = [0,0.1,1,10];
-        par.phi_distList = [0,0.1,1,10];
-        par.xIncludeList = [1];
-        par.yIncludeList = [0];
-        par.SSPOConList = [0,1];
-        par.STAwidthList = [3];
-        par.STAshiftList = [-10];% 
-        par.NLDshiftList = [0.5];
-        par.NLDsharpnessList = [10];
-        par.wTruncList = 1:30;
-    elseif j0 == 3
-        % disturbance sweep figure   XXYY 
-        par.theta_distList = [0,0.1,1,10];
-        par.phi_distList = [0,0.1,1,10];
-        par.xIncludeList = [1];
-        par.yIncludeList = [1];
-        par.SSPOConList = [0,1];
-        par.STAwidthList = [3];
-        par.STAshiftList = [-10];% 
-        par.NLDshiftList = [0.5];
-        par.NLDsharpnessList = [10];
-        par.wTruncList = 1:30;
-    elseif j0 == 4
-        % hump phi disturbance plot   check the hump  phi 
-        par.theta_distList = [0];
-        par.phi_distList = spa_sf( 10.^[-3:0.4:2] ,2);
-        par.xIncludeList = [0];
-        par.yIncludeList = [1];
-        par.SSPOConList = [0,1];
-        par.STAwidthList = [3];
-        par.STAshiftList = [-10];% 
-        par.NLDshiftList = [0.5];
-        par.NLDsharpnessList = [10];
-        par.wTruncList = 1:30;
-        
-    elseif j0 == 5
-        % hump theta disturbance plot     check the hump theta
-        par.theta_distList = spa_sf( 10.^[-3:0.4:2] ,2);
-        par.phi_distList = [0];
-        par.xIncludeList = [0];
-        par.yIncludeList = [1];
-        par.SSPOConList = [0,1];
-        par.STAwidthList = [3];
-        par.STAshiftList = [-10];% 
-        par.NLDshiftList = [0.5];
-        par.NLDsharpnessList = [10];
-        
-        
-    elseif j0 == 6
-        % STA sweep  
-        par.theta_distList = [0];
-        par.phi_distList = [0];
-        par.xIncludeList = [0];
-        par.yIncludeList = [1];
-        par.SSPOConList = [0,1];
-        par.STAwidthList = [1:2:10];
-        par.STAshiftList = [-4:-3:-16];% 
-        par.NLDshiftList = [0.5];
-        par.NLDsharpnessList = [10];
-        par.wTruncList = 1:30;
-    elseif j0 == 7
-        % NLD sweep 
+%         par.theta_distList = [0,0.1,1,10];
+%         par.phi_distList = [0,0.1,1,10];
         par.theta_distList = [0];
         par.phi_distList = [0];
         par.xIncludeList = [0];
@@ -90,9 +18,10 @@ for j0= 1:nFigures
         par.SSPOConList = [0,1];
         par.STAwidthList = [3];
         par.STAshiftList = [-10];% 
-        par.NLDshiftList = [-0.1:0.2:0.9];
-        par.NLDsharpnessList = [4:2:12];
+        par.NLDshiftList = [0.5];
+        par.NLDsharpnessList = [10];
         par.wTruncList = 1:30;
+   
     end
     
         for j1 = 1:length(par.STAwidthList)

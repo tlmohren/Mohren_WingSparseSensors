@@ -6,8 +6,8 @@ function [ strainSet ] = eulerLagrangeConcatenate(ph,th,par)
 %   TLM 2017
 
 % define name for simdata with these parameters 
-    simName = sprintf('strainSet_th%gph%gcEl%2.0fsEl%2.0fEx%1.0fEy%1.0fsE%1.0f.mat',...
-        [th,ph,par.chordElements,par.spanElements,par.xInclude,par.yInclude,par.simEnd]);
+    simName = sprintf('strainSet_th%gph%gcEl%2.0fsEl%2.0fEx%1.0fEy%1.0f.mat',...
+        [th,ph,par.chordElements,par.spanElements,par.xInclude,par.yInclude]);
 
 % find location where data is stored 
     [dataDirectory,baseName] = fileparts(pwd);
