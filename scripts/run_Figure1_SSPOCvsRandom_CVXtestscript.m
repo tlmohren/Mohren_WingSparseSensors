@@ -14,8 +14,7 @@ addpathFolderStructure()
 load(['results' filesep 'DataMatTot_CVXtestscript'])
 Datamat = dataMatTot;
 
-
-par.saveNameTest= 'rmodes25';
+;
 col = {'-k','-r'};
 dotcol = {'.k','.r'}; 
 fig1 = figure('Position', [100, 100, 1000, 800]);

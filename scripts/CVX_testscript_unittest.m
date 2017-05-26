@@ -22,7 +22,7 @@ par.saveNameTest = 'formulate_original';par.CVXcase = 1; % original formulation
 % par.saveNameTest = 'adjust_lambda'; par.CVXcase = 4; % equality
 
 %%%%%%%%%%%%%%%%
-par.iter = 5;
+par.iter = 2;
 par.wTrunc = 16;
 %%%%%%%%%%%%%%%%
 
