@@ -18,7 +18,7 @@ for j0= 1:nFigures
         par.STAshiftList = [-10];% 
         par.NLDshiftList = [0.5];
         par.NLDsharpnessList = [10];
-        par.wTruncList = 5:19;
+        par.wTruncList = 5:25;
     end
     
         for j1 = 1:length(par.STAwidthList)
