@@ -20,7 +20,8 @@ for j = 1:classes
     classData = X(:, G==j);
     classLength = size(classData,2);
     
-    randIndices = randperm(classLength);
+%     randIndices = randperm(classLength);
+    randIndices = 1:classLength;
     
     trainLength = floor(classLength * trainRatio);
     testLength = classLength - trainLength;

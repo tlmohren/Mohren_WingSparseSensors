@@ -13,7 +13,7 @@ for k = 1:length(par.varParNames)
     par.(par.varParNames{k}) = varParList(1).(par.varParNames{k});
 end
 par.SSPOCon = 1;
-par.rmodes = 25;
+par.rmodes = 30;
 par.simEnd = 4;
 par.trainFraction = 0.9;
 par.saveNameTest = 'formulate_original';par.CVXcase = 1; % original formulation
