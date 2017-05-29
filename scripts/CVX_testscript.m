@@ -12,7 +12,7 @@ par = setParameters;
 [varParList,varParList_short] = setVariableParameters_CVXtestscript(par);
 par.varParNames = fieldnames(varParList);
 par.iter = 1;
-par.rmodes = 25;
+par.rmodes = 20;
 
 % par.saveNameTest= 'rmodes30'
 

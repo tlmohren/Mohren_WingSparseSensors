@@ -4,7 +4,7 @@ clc;clear all;close all;
 
 % run('CVX_testscript.m')
 run('combine_dataFolderToDataMat_CVXtestscript.m')
-clc;clear all;
+close all;clear all;
 
 scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
 addpath([scriptLocation filesep 'scripts']);

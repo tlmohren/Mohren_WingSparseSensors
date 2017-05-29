@@ -22,7 +22,7 @@ for j = 1:classes
     
     randIndices = randperm(classLength);
 %     randIndices(1:15)
-    randIndices = 1:classLength;
+%     randIndices = 1:classLength;
 %     randIndices(1:15)
     
     trainLength = floor(classLength * trainRatio);
