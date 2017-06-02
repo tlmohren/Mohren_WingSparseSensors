@@ -12,7 +12,9 @@ clc;clear all;close all
 %% Run testcases
 % Specify testcase 
 par = setParameters();
-testCase =3;
+par.xInclude = 0;
+par.yInclude = 1;
+testCase =4;
 
 if testCase == 1
     % regular testcase
@@ -37,8 +39,8 @@ elseif testCase == 3
 elseif testCase == 4
     % introduce disturbance level 
     frot = 10;
-    th = 0;
-    ph = 0;
+    th = 1;
+    ph = 0.1;
 else
     error('Invalid testcase entry    TLM 2017')
 end
@@ -49,5 +51,5 @@ par
 
 %% check output here, size, content 
 display('Output diagnostics')
-[m,n] = size(strain)
+[m,n] = size(strain);
 figure(); plot(strain(50,:))

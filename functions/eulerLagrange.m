@@ -43,6 +43,10 @@ function [strain] = eulerLagrange(frot, th,ph ,par )
 %Simulation parameters 
     dampingfactor = 63;    %multiplier for velocity-proportional damping via mass matrix 
     flapamp = 15; 
+    
+    par.freq0 = 1;
+    par.freqEnd = 10;
+    par.nFreq = 15;
 
 %% Kinematics of input angles for flapping and rotation 
 %     syms x y t omega %create symbolic variables 
@@ -56,39 +60,31 @@ function [strain] = eulerLagrange(frot, th,ph ,par )
     sigmoid = (sigd.*(2*pi*par.flapFrequency*t).^sign) ./ (sigc+sigd.*(2*pi*par.flapFrequency*t).^sign);
 %     sigmoid = 1;
 % Generate flapping disturbance 
-    freqs = rand(10,1)*10 +1;
-    phase = rand(10,1)*2*pi;
-    ph_d = 0;
-    for j = 1:length(freqs)
-        ph_d = ph_d + sin( 2*pi*t*freqs(j) + phase(j) );
-    end
-    ph_d = ph_d*ph/2;        % 2 is correction factor to achieve right std 
-    phi_d = int(ph_d);
+    phi_dot_disturbance = ph*whiteNoiseDisturbance(par);
+%     disturbance_diagnostics(phi_dot_disturbance)
+    phi_disturbance = int(phi_dot_disturbance);
         
 % Specify local flapping function
     phi = deg2rad(flapamp) ...
         .*(  sin(2*pi*par.flapFrequency*t) ...
         + par.harmonic*sin(2*pi*2*par.flapFrequency*t) ) .* sigmoid ...
-        + phi_d;
+        + phi_disturbance;
     theta   = 0;
     gamma   = 0;
 
-% Generate rotating disturbance 
     rot_vec = [0, 0, 1];
-    freqs = rand(10,1)*9 +1;
-    phase = rand(10,1)*2*pi;
-    th_d = 0;
-    for j = 1:length(freqs)
-        th_d = th_d + sin(2*pi*t* freqs(j) + phase(j));
-    end
-    th_d = th_d*th/2;        % 2 is correction factor to achieve right std 
-    thet_d = int(th_d);
+    
+% Generate rotating disturbance 
+    theta_dot_disturbance = th*whiteNoiseDisturbance(par);
+%     disturbance_diagnostics(theta_dot_disturbance) 
+    theta_disturbance = int(theta_dot_disturbance);
 
 % Specify global rotation function
     globalangle(1) = 0*t;
     globalangle(2) = 0*t;
-    globalangle(3) = rot_vec(3)*frot*t.*sigmoid + thet_d;
+    globalangle(3) = rot_vec(3)*frot*t.*sigmoid + theta_disturbance;
    
+    disturbance_diagnostics(globalangle(3)) 
 %Velocity and acceleration of the body (i.e. center base of plate)
     v0  = [0 0 0];
     dv0 = [0 0 0];
