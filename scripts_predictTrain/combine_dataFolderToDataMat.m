@@ -1,16 +1,9 @@
 % analyze varParList 
 clc;clear all;close all
 %% 
-load(['data' filesep 'ParameterList_CVXtestscript'])
+load(['data' filesep 'ParameterList_paperAnalysis'])
 par.varParNames = fieldnames(varParList_short);
-
-% par.saveNameTest 
-par.rmodes = 20;
-par.saveNameTest = ['rmode' num2str(par.rmodes)]; par.CVXcase = 1; % equality
-% par.rmodes = 40;
-% par.saveNameTest = 'formulate_original';
-% par.saveNameTest = 'formulate_equality';
-% par.saveNameTest = 'rmodes40';
+par.rmodes = 30;
 
 %% 
 dataMatTot = zeros( length(varParList_short), par.rmodes + 10,par.iter);
@@ -31,11 +24,9 @@ for j = 1:length(varParList_short)
 %         length(nonzeros(dataMatTot))
     for j2 = 1:par.rmodes
 %      
-
-        saveName = sprintf(['TestfilesCVX_' par.saveNameTest '_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g'],...
-                            [ par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
-                            par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , j2]); 
-
+        saveName = sprintf('Data_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g',...
+                            [par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
+                            par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , j2 ]);
 %          if %%
              duplic_check = 0;
              for j4 = 1:length(saveNameCell)
@@ -77,5 +68,5 @@ end
 
 %% save datamattot
 
-save(['results' filesep  'DataMatTot_CVXtestscript.mat'],'dataMatTot','sensorMatTot','varParList','varParList_short','par')
+save(['results' filesep  'DataMatTot_MacPcCombined.mat'],'dataMatTot','sensorMatTot','varParList','varParList_short','par')
  

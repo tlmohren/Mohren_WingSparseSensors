@@ -11,8 +11,11 @@ function [accuracy, sensors] = sparseWingSensors(X,G,par)
     % sensors = index of optimal sensors
     % accuracy = average fraction of correct prediction by LDA for the set of
     % optimal sensors 
-        
-    [Xtrain, Xtest, Gtrain, Gtest] = rand_cross_val(X, G, par.trainFraction);
+    if par.predictTrain == 1
+        [Xtrain, Xtest, Gtrain, Gtest] = predictTrain(X, G, par.trainFraction);
+    else
+        [Xtrain, Xtest, Gtrain, Gtest] = randCrossVal(X, G, par.trainFraction);
+    end
 %     save('testdata_SensorLocSSPOC_april.mat','Xtrain','Gtrain','par')
     sensors = sensorLocSSPOC(Xtrain,Gtrain,par);
 

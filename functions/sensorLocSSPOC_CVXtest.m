@@ -13,6 +13,7 @@ function  [  sensors  ] = sensorLocSSPOC_CVXtest(  Xtrain,Gtrain , par)
         [~,Iw ] =sort( abs(w_r) , 'descend');
         %---optionlal-----------------------
             [~,Sigma, ~] = svd(Xtrain, 'econ' );
+%             size(Sigma)
             sing_vals = diag(Sigma(1:length(w_r),1:length(w_r)));
 
             if par.singValsMult == 1

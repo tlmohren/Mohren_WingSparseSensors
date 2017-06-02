@@ -29,21 +29,18 @@ function [ par] = setParameters
     par.flapFrequency = 25;
     par.harmonic = 0.2;
     par.sampFreq = 1e3;
-    par.chordElements = 26;
-    par.spanElements = 51;
     par.baseZero = 0;   % doesn't do anything 
 %     par.xInclude = 0;
 %     par.yInclude =1; 
+
 %eulerLagrangeConcatenate parameters
     par.runSim = 0;
     par.saveSim = 1;
 % neural encoding parameters match filter
+
 % sparse sensor placement parameters 
-%     par.w_range = 15;
     par.rmodes = 30;
     par.iter = 1; 
-%     par.theta_dist = 0;% [0,0.1,1,10];
-%     par.phi_dist = 0;%[0,0.1,1,10];
     par.trainFraction = 0.9;
 
     %% Detailed explanation of parameters 
