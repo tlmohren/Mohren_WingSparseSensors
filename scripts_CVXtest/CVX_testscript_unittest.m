@@ -49,30 +49,7 @@ for j = 1:par.iter
     end
 %     save('testdata_SensorLocSSPOC_april.mat','Xtrain','Gtrain','par')
 	%-----------2 sec train, 1 sec test 
-    
-        par.trainFraction = 0.7;
-        for j = 1:length(unique(G)) % 2 classes 
-            classData = X(:, G==j);
-            classLength = size(classData,2);
-            trainLength = floor(classLength * par.trainFraction);
-            testLength = classLength - trainLength;
-	%-----------wing cycle
-            
-            trainIndices = 1:floor(classLength * par.trainFraction);
-            testIndices =  (classLength-length(trainIndices)):classLength ;
-            
-            addTrainG = G( trainIndices + (j-1)*classLength);
-            addTestG = G(testIndices+ (j-1)*classLength);
-            Gtrain = [Gtrain addTrainG];
-            Gtest = [Gtest addTestG];
-            
-            addTrainData = classData(:, trainIndices  );
-            addTestData = classData(:,testIndices);
-            Xtrain = [Xtrain addTrainData];
-            Xtest = [Xtest addTestData];
-%         end
-    end
-    
+
     
     sensors = sensorLocSSPOC_CVXtest( Xtrain, Gtrain,par);
 %     sensors = [859,1319,1274,988,1301,1067,547,1318,261,286,27,442,52];           % 13 sensors 
