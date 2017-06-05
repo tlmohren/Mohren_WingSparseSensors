@@ -22,8 +22,9 @@ par.saveNameTest = 'formulate_original';par.CVXcase = 1; % original formulation
 % par.saveNameTest = 'adjust_lambda'; par.CVXcase = 4; % equality
 
 %%%%%%%%%%%%%%%%
-par.iter = 2;
+par.iter = 1;
 par.wTrunc = 19;
+par.predictTrain = 1;
 %%%%%%%%%%%%%%%%
 
 % load(['data' filesep 'testX_Xtrain_notClassifying.mat'])        % 
@@ -40,58 +41,15 @@ for j = 1:par.iter
     end
 	% Do new crossval --------------------------
     
-    Xtrain = []; 
-    Xtest = [];
-    Gtrain = []; 
-    Gtest = [];
         
-    if 0
-        [ Xtrain,  Xtest, Gtrain,  Gtest] = randCrossVal(X, G, par.trainFraction);
-    elseif 0
-        for j = 1:length(unique(G)) % 2 classes 
-            classData = X(:, G==j);
-            classLength = size(classData,2);
-            trainLength = floor(classLength * par.trainFraction);
-            testLength = classLength - trainLength;
-	%-----------wing cycle
-            randIndices = randperm(classLength);
-            
-%             trainIndices = randIndices( 1:trainLength);
-%             testIndices =  randIndices( trainLength+1:end) ;
-            
-%             phase_ind = [1:30,36:40]';
-%             phase_ind = [1:40]';
-            phase_ind = [1:10,21:30]';
-            phase_indTest = [11:20,31:40]';
-            
-%             phase_ind = [11:20,31:40]';
-            % 35 important 
-            trainIndices = phase_ind*ones(1,75)+ones(length(phase_ind),1)*(0:40:2960);
-            trainIndices = trainIndices(:);
-            
-            testIndices = phase_indTest*ones(1,75)+ones(length(phase_indTest),1)*(0:40:2960);
-            testIndices = testIndices(:);
-%             
-%             
-%             testIndices =  randIndices( 1:(classLength-length(trainIndices)) ) ;
-%             testIndices = randIndices(1:1000);
-            
-%             ind_vec = 1:3000;
-%             ind_vec(trainIndices(:)) 
-%             testIndices = ind_vec(trainIndices(:)~=ind_vec);
-
-            addTrainG = G( trainIndices + (j-1)*classLength);
-            addTestG = G(testIndices+ (j-1)*classLength);
-            Gtrain = [Gtrain addTrainG];
-            Gtest = [Gtest addTestG];
-            
-            addTrainData = classData(:, trainIndices  );
-            addTestData = classData(:,testIndices);
-            Xtrain = [Xtrain addTrainData];
-            Xtest = [Xtest addTestData];
-        end
+    if par.predictTrain == 1
+        [Xtrain, Xtest, Gtrain, Gtest] = predictTrain(X, G, par.trainFraction);
+    else
+        [Xtrain, Xtest, Gtrain, Gtest] = randCrossVal(X, G, par.trainFraction);
+    end
+%     save('testdata_SensorLocSSPOC_april.mat','Xtrain','Gtrain','par')
 	%-----------2 sec train, 1 sec test 
-    elseif 1
+    
         par.trainFraction = 0.7;
         for j = 1:length(unique(G)) % 2 classes 
             classData = X(:, G==j);
@@ -112,7 +70,7 @@ for j = 1:par.iter
             addTestData = classData(:,testIndices);
             Xtrain = [Xtrain addTrainData];
             Xtest = [Xtest addTestData];
-        end
+%         end
     end
     
     

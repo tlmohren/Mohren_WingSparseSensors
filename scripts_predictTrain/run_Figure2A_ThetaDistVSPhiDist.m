@@ -127,8 +127,8 @@ for j = 1:n_y
         
         
         % for heatmap 
-        limit = (meanval - meanVec(1))*0.5 + meanVec(1);
-        plot([1,30],[limit,limit])
+        limit = 0.75
+        plot([1,30],[limit,limit]);
         
         if isempty(find(meanVec>limit,1))
             q_first(j,k) = 31;
@@ -140,11 +140,11 @@ for j = 1:n_y
 end
 
 
-saveas(fig2,['figs' filesep 'Figure2A_ThetaDistVSPhiDist_SSPOCdotsOnly'], 'png')
+saveas(fig2,['figs' filesep 'Figure2A_ThetaDistVSPhiDist_SSPOCdotsOnly_predictTrain'], 'png')
 
 %% 
 
-[x,y]=meshgrid(1:4,1:4)
+[x,y]=meshgrid(1:4,1:4);
 
 figure();
 pcolor(x,y,q_first)
