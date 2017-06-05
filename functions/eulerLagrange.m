@@ -84,7 +84,7 @@ function [strain] = eulerLagrange(frot, th,ph ,par )
     globalangle(2) = 0*t;
     globalangle(3) = rot_vec(3)*frot*t.*sigmoid + theta_disturbance;
    
-    disturbance_diagnostics(globalangle(3)) 
+%     disturbance_diagnostics(globalangle(3)) 
 %Velocity and acceleration of the body (i.e. center base of plate)
     v0  = [0 0 0];
     dv0 = [0 0 0];

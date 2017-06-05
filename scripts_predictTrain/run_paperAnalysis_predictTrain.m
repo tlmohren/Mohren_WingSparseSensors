@@ -11,7 +11,7 @@ addpathFolderStructure()
 par = setParameters;
 [varParList,varParList_short] = setVariableParameters_noise(par);
 par.varParNames = fieldnames(varParList);
-par.iter = 2;
+par.iter = 10;
 par.predictTrain = 1;
 
 %% Run simulation and Sparse sensor placement for combinations of 4 parameters, over a set number of iterations
@@ -25,7 +25,7 @@ for j = 1:length(varParList)
     for k = 1:length(par.varParNames)
         par.(par.varParNames{k}) = varParList(j).(par.varParNames{k});
     end
-     
+     l
     for k = 1:par.iter
         % Generate strain with Euler-Lagrange simulation ----------
         par.curIter = k;
