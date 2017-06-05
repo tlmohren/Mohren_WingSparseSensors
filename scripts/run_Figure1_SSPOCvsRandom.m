@@ -16,6 +16,10 @@ addpathFolderStructure()
 
 load(['results' filesep 'DataMatTot_MacPcCombined'])
 
+
+allSensors = load(['results' filesep 'tempDataMatTot_allSensors']);
+
+
 Datamat = dataMatTot;
 
 
@@ -24,10 +28,14 @@ Datamat = dataMatTot;
 
 col = {'-k','-r'};
 dotcol = {'.k','.r'}; 
-fig1 = figure('Position', [100, 100, 1000, 800]);
+fig1 = figure('Position', [100, 100, 1200, 800]);
+
+subplot(3,3,[1,2,4,5,7,8])
 % for j = 1:2
 %% random 
-    j = 1
+
+legendlist = [];
+    j = 1;
     for k = 1:size(Datamat,2)
         meanVec(k) = mean(  nonzeros(Datamat(j,k,:))   );
         stdVec(k) = std(  nonzeros(Datamat(j,k,:))   );
@@ -39,9 +47,9 @@ fig1 = figure('Position', [100, 100, 1000, 800]);
     end
     realNumbers = find(~isnan(meanVec));
     a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{j},0.8);
-    
+    legendlist = [legendlist,a.mainLine];
 %% SSPOC
-    j = 2
+    j = 2;
     for k = 1:size(Datamat,2)
         meanVec(k) = mean(  nonzeros(Datamat(j,k,:))   );
         stdVec(k) = std(  nonzeros(Datamat(j,k,:))   );
@@ -52,13 +60,31 @@ fig1 = figure('Position', [100, 100, 1000, 800]);
     
     end
     realNumbers = find(~isnan(meanVec)); 
-    a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{j},0.8);
+%     a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{j},0.8);
+%     legendlist = [legendlist,a.mainLine];
+    
+    b = plot(realNumbers, meanVec(realNumbers),col{j});
+    legendlist = [legendlist,b];
 
+    
+        meanval = mean( allSensors.dataMatTot(1,:) );
+        stdval = std( allSensors.dataMatTot(1,:) );
+        errorbar(35,meanval,stdval,'k','LineWidth',1)
+        plot([34,36],[meanval,meanval],'k','LineWidth',1)
+        
+%        fig_gca=  get(gca);
+%        label_index = find(fig_gca.XTick == 35);
+%        xlabel_vector = fig_gca.XTickLabel; 
+%        xlabel_vector{label_index} = '1326';
+% %        fig_gca.XTickLabel{label_index} = '1326'; 
+%        set(fig_gca, 'XTickLabel','xlabel_vector')
 % end
-axis([0,30,0.4,1])
+axis([0,36,0.4,1])
 xlabel('\# sensors')
 ylabel('Accuracy [-]')
 grid on
+
+legend(legendlist,{'Random placement','Optimal placement'},'Location','Best')
 
 saveas(fig1,['figs' filesep 'Figure1_SSPOCvsRandom'], 'png')
 
@@ -88,16 +114,16 @@ saveas(fig1,['figs' filesep 'Figure1_SSPOCvsRandom'], 'png')
 % figure();plot(j_inlist,'-o')
 
 
-j_inlist = ( [varParList_short.STAwidth] == 3) & ...
-            ( [varParList_short.STAshift] == -10) & ...
-            ( [varParList_short.theta_dist] == 0) & ...
-            ( [varParList_short.phi_dist] == 0) & ...
-            ( [varParList_short.SSPOCon] == 0 |  [varParList_short.SSPOCon] == 1 ) & ...
-            ( [varParList_short.xInclude] == 0) & ...
-            ( [varParList_short.yInclude] == 1) & ...
-            ( [varParList_short.NLDshift] == 0.5) & ...
-            ( [varParList_short.NLDsharpness] == 10);
-figure();plot(j_inlist,'-o')
+% j_inlist = ( [varParList_short.STAwidth] == 3) & ...
+%             ( [varParList_short.STAshift] == -10) & ...
+%             ( [varParList_short.theta_dist] == 0) & ...
+%             ( [varParList_short.phi_dist] == 0) & ...
+%             ( [varParList_short.SSPOCon] == 0 |  [varParList_short.SSPOCon] == 1 ) & ...
+%             ( [varParList_short.xInclude] == 0) & ...
+%             ( [varParList_short.yInclude] == 1) & ...
+%             ( [varParList_short.NLDshift] == 0.5) & ...
+%             ( [varParList_short.NLDsharpness] == 10);
+% figure();plot(j_inlist,'-o')
 
 
 
@@ -117,7 +143,7 @@ figure();plot(j_inlist,'-o')
 
 
 varParCase = 2;
-q_select = 17;
+q_select = 13;
         n_iters= length(nonzeros(Datamat(varParCase,q_select,:)))
         
 %         length(nonzeros(sensorMatTot(varParCase,q_select,:,:)))
@@ -127,18 +153,14 @@ q_select = 17;
             binar(sensorMatTot(varParCase,q_select,1:q_select,j)) = binar(sensorMatTot(varParCase,q_select,1:q_select,j)) +1;
         end
         binar = binar/n_iters;
-        figure()
+%         figure()
+
+subplot(3,3,6)
         plotSensorLocs(binar,par)
-%         meanVec(k) = mean(  nonzeros(Datamat(j,k,:))   );
-%         stdVec(k) = std(  nonzeros(Datamat(j,k,:))   );
-% 
-%         iters = length(nonzeros(Datamat(j,k,:)) );
-% %         scatter( ones(iters,1)*k,nonzeros(Datamat(j,k,:)) , dotcol{j})
-%         hold on
-%     
-%     end
-
-
+        
+        
+subplot(3,3,9)
+        plotSensorLocs(binar,par)
 
 
 

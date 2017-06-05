@@ -8,8 +8,8 @@ addpathFolderStructure()
 % load(['results' filesep 'analysis_FigR1toR4_yOnly_87Par.mat'])
 
 % load(['results' filesep 'analysis_FigR1toR4_XXYY_270Par'])
-
-load(['results' filesep 'tempDataMatTot'])
+run('combine_dataFolderToDataMat_predictTrain')
+load(['results' filesep 'DataMatTot_predictTrain'])
 allSensors = load(['results' filesep 'tempDataMatTot_allSensors']);
 
 
