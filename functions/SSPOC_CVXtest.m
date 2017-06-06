@@ -112,7 +112,7 @@ elseif par.CVXcase == 6;
 %     inp.lambda = 1e-8;
         cvx_begin quiet
         variable s( n, c );
-        minimize( norm(abs(s)+1,1));
+        minimize( norm(s+10,1));
         subject to
             Psi'*s == w;
     cvx_end
