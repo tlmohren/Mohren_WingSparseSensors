@@ -1,11 +1,14 @@
 % analyze varParList 
 clc;clear all;close all
 %% 
+% pwd
+
+addpathFolderStructure()
 load(['data' filesep 'ParameterList_CVXtestscript'])
 par.varParNames = fieldnames(varParList_short);
 
 % par.saveNameTest 
-par.rmodes = 25;
+% par.rmodes = 30;
 par.saveNameTest = ['rmode' num2str(par.rmodes)]; par.CVXcase = 1; % equality
 % par.rmodes = 40;
 % par.saveNameTest = 'formulate_original';
