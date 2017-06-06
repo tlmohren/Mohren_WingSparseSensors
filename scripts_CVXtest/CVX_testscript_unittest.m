@@ -22,25 +22,25 @@ par.saveNameTest = 'formulate_original';par.CVXcase = 1; % original formulation
 % par.saveNameTest = 'adjust_lambda'; par.CVXcase = 4; % equality
 
 %%%%%%%%%%%%%%%%
-par.iter = 2;
+par.iter = 3;
 par.wTrunc = 16;
 par.predictTrain = 1;
-par.CVXcase = 5;
-par.theta_dist = 0;
-par.phi_dist = 0;
+par.CVXcase = 3;
+par.theta_dist = 0.1;
+par.phi_dist = 0.1;
 %%%%%%%%%%%%%%%%
 
 % load(['data' filesep 'testX_Xtrain_notClassifying.mat'])        % 
 load(['data' filesep 'testX_Xtrain_Classifying.mat'])
 
 %% 
-figure('position',[100,100,400,1000])
+% figure('position',[100,100,400,1000])
 for j = 1:par.iter
     par.curIter = j;
     
 	% Generate new data --------------------------
     if 1
-        strainSet = eulerLagrangeConcatenate_predictTrain( par.theta_dist , par.phi_dist ,par);
+        strainSet = eulerLagrangeConcatenate_predictTrain( par.theta_dist , par.phi_dist , par);
         [ X,G ] = neuralEncoding(strainSet, par );
     end
 	% Do new crossval --------------------------

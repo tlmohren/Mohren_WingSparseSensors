@@ -11,8 +11,10 @@ addpathFolderStructure()
 par = setParameters;
 [varParList,varParList_short] = setVariableParameters_CVXtestscript(par);
 par.varParNames = fieldnames(varParList);
-par.iter = 1;
-par.rmodes = 20;
+par.iter = 3;
+par.rmodes = 30;
+par.predictTrain = 1;
+par.CVXcase = 3;
 
 % par.saveNameTest= 'rmodes30'
 
@@ -40,8 +42,12 @@ for j = (length(varParList)/2+1):length(varParList)
             % Apply neural filters to strain --------------------------
             [X,G] = neuralEncoding(strainSet, par );
             % Find accuracy and optimal sensor locations  ---------
-            [Xtrain, Xtest, Gtrain, Gtest] = rand_cross_val(X, G, par.trainFraction);
-            
+        
+        if par.predictTrain == 1
+            [Xtrain, Xtest, Gtrain, Gtest] = predictTrain(X, G, par.trainFraction);
+        else
+            [Xtrain, Xtest, Gtrain, Gtest] = randCrossVal(X, G, par.trainFraction);
+        end
 %%%%%%%%%%%%%%%%%%%%%%%%%%TESTSECTION%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
@@ -63,7 +69,7 @@ for j = (length(varParList)/2+1):length(varParList)
         end
         % save data 
 
-        saveName = sprintf(['TestfilesCVX_' par.saveNameTest '_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g_'],...
+        saveName = sprintf(['TestfilesCVX_splus1' par.saveNameTest '_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g_'],...
                             [ par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
                             par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , par.wTrunc ]); 
 

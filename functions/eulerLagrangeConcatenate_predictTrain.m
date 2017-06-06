@@ -1,4 +1,4 @@
-function [ strainSet ] = eulerLagrangeConcatenate_predictTrain(ph,th,par)
+function [ strainSet ] = eulerLagrangeConcatenate_predictTrain(th,ph,par)
 %eulerLagrangeConcatenate Simulates and concatenates strain data
 %   strain = eulerLagrangeConcatenate() runs simulation eulerLagrange for
 %   two different conditions, 1) flapping, 2) flapping & rotating. The
