@@ -9,7 +9,7 @@ addpathFolderStructure()
 
 % load(['results' filesep 'analysis_FigR1toR4_XXYY_270Par'])
 
-load(['results' filesep 'tempDataMatTot'])
+load(['results' filesep 'DataMatTot_CVXtestscript'])
 allSensors = load(['results' filesep 'tempDataMatTot_allSensors']);
 
 
@@ -60,18 +60,18 @@ hold on;plot(bin_SSPOCoff,'-o')
 ind_SSPOCon = find(bin_SSPOCon);
 ind_SSPOCoff = find(bin_SSPOCoff);
 
-par.phi_dist = [0,0.1,1,10];
-par.theta_dist = [0,0.1,1,10];
-n_plots = 16; 
-n_x = 4;
-n_y = 4; 
+% par.phi_dist = [0,0.1,1,10];
+% par.theta_dist = [0,0.1,1,10];
+% n_plots = 16; 
+% n_x = 4;
+% n_y = 4; 
 
-% par.phi_dist = [0,1];
-% par.theta_dist = [0,1];
-% n_plots =4; 
-% n_x = 2;
-% n_y = 2; 
 
+par.phi_dist = [0,1];
+par.theta_dist = [0,1];
+n_plots =4; 
+n_x = 2;
+n_y = 2; 
 
 
 col = {'-k','-r'};
@@ -87,13 +87,8 @@ for j = 1:n_y
         subplot(n_y,n_x, sub_nr)
         hold on
         
-   % if want to do only selection of plots
-%         dat_num =  [1,3,9,11];
-%         Dat_I = ind_SSPOCoff( dat_num(sub_nr));
-%         
-        
-        
-        Dat_I = ind_SSPOCoff( sub_nr);
+   % plot sspoc off
+        Dat_I = ind_SSPOCoff(sub_nr);
         for k2 = 1:size(Datamat,2)
             meanVec_random(k2) = mean(  nonzeros(Datamat(Dat_I,k2,:))   );
             stdVec_random(k2) = std(  nonzeros(Datamat(Dat_I,k2,:))   );
