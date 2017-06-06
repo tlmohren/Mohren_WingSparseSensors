@@ -81,9 +81,12 @@ for j = (length(varParList)/2+1):length(varParList)
 %     end
 end
 %%
+
+
+save( ['data' filesep 'ParameterList_CVXtestscript.mat'], 'varParList','varParList_short', 'par')
+
+
 system('git pull');
 system('git add data/*.mat');
 system(sprintf('git commit * -m "pushing data for CVXtest %s"', par.saveNameTest));
 system('git push');
-
-save( ['data' filesep 'ParameterList_CVXtestscript.mat'], 'varParList','varParList_short', 'par')
