@@ -11,7 +11,7 @@ addpathFolderStructure()
 par = setParameters;
 [varParList,varParList_short] = setVariableParameters_CVXtestscript(par);
 par.varParNames = fieldnames(varParList);
-par.iter = 3;
+par.iter = 6;
 par.rmodes = 30;
 par.predictTrain = 1;
 par.CVXcase = 3;
@@ -37,8 +37,9 @@ for j = (length(varParList)/2+1):length(varParList)
             par.(par.varParNames{k}) = varParList(j).(par.varParNames{k});
         end
         for k = 1:par.iter
+            par.curIter = k; 
             % Generate strain with Euler-Lagrange simulation ----------
-            strainSet = eulerLagrangeConcatenate( varParList(j).theta_dist , varParList(j).phi_dist ,par);
+            strainSet = eulerLagrangeConcatenate_predictTrain( varParList(j).theta_dist , varParList(j).phi_dist ,par);
             % Apply neural filters to strain --------------------------
             [X,G] = neuralEncoding(strainSet, par );
             % Find accuracy and optimal sensor locations  ---------

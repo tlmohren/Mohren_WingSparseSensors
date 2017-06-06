@@ -9,8 +9,8 @@ count_short  = 0;
 for j0= 1:nFigures
     if j0 == 1
         % disturbance sweep figure  YY
-        par.theta_distList = [0];
-        par.phi_distList = [0];
+        par.theta_distList = [0,1];
+        par.phi_distList = [0,1];
         par.xIncludeList = [0];
         par.yIncludeList = [1];
         par.SSPOConList = [0,1];
@@ -18,7 +18,7 @@ for j0= 1:nFigures
         par.STAshiftList = [-10];% 
         par.NLDshiftList = [0.5];
         par.NLDsharpnessList = [10];
-        par.wTruncList = 5:25;
+        par.wTruncList = 1:30;
     end
     
         for j1 = 1:length(par.STAwidthList)
