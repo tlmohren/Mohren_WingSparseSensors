@@ -44,7 +44,8 @@ p.addRequired('w', @isnumeric);
 
 % parameter value iputs
 p.addParameter('lambda', 0, @(x)isnumeric(x) && x>=0);
-p.addParameter('epsilon', 1e-10, @(x)isnumeric(x) && x>=0);
+% p.addParameter('epsilon', 1e-10, @(x)isnumeric(x) && x>=0);
+p.addParameter('epsilon',2.22e-16, @(x)isnumeric(x) && x>=0);
 
 % now parse the inputs
 p.parse(Psi, w, varargin{:});
@@ -91,6 +92,15 @@ elseif par.CVXcase == 4;
         cvx_begin quiet
         variable s( n, c );
         minimize( norm(s(:),1) + inputs.lambda*norm(s*unit,1) ); %#ok<NODEF>
+        subject to
+            Psi'*s == w;
+    cvx_end
+elseif par.CVXcase == 5;
+    display('case 5')
+%     inp.lambda = 1e-8;
+        cvx_begin quiet
+        variable s( n, c );
+        minimize( norm(s+1,1));
         subject to
             Psi'*s == w;
     cvx_end
