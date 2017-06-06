@@ -9,7 +9,7 @@ par.varParNames = fieldnames(varParList_short);
 
 % par.saveNameTest 
 % par.rmodes = 30;
-par.saveNameTest = ['rmode' num2str(par.rmodes)]; par.CVXcase = 1; % equality
+par.saveNameTest = ['rmode' num2str(par.rmodes)]; par.CVXcase = 3; % equality
 % par.rmodes = 40;
 % par.saveNameTest = 'formulate_original';
 % par.saveNameTest = 'formulate_equality';

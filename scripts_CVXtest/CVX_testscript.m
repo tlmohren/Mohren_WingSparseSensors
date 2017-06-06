@@ -28,7 +28,7 @@ par.saveNameTest = ['rmode' num2str(par.rmodes)]; % equality
 
 tic 
 % for j = 1:length(varParList)
-for j = (length(varParList)/2+1):length(varParList)
+for j = 1:length(varParList)
 %     try
         % adjust parameters for this set of iterations----------------------
         DataMat = zeros(par.rmodes,par.iter);
