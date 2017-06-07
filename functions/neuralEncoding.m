@@ -49,6 +49,7 @@ function [ X,G] = neuralEncoding( strainSet,par)
             strainConv(jj,:) = conv(  strainSet.(fn{j})(jj,n_conv) , (par.STAfilt),'valid');
             
         end
+%         jj
         % Part2) The calibrated filtered signal is padded through the Non-linear function
         calib = max( strainConv(:) );
         X = [X  par.NLD( strainConv/calib ) ];

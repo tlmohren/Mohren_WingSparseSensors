@@ -60,6 +60,7 @@ c = size(w, 2);
 % using the l1 norm to promote sparsity
 unit = ones(c,1);
 
+% save('Psiwsave','Psi','w');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%TESTSECTION%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -134,6 +135,44 @@ elseif par.CVXcase == 8;
         subject to
             Psi'*s == w;
     cvx_end
+elseif par.CVXcase == 9;
+    display('forward slash')
+    
+    s = Psi'\w;
+elseif par.CVXcase == 10;
+    display('iterative threshold LS')
+    n_orig = size(Psi,1);
+    lambda  =  0.001;
+    s = ones( size(Psi,1),1);
+    original = find(s>lambda);
+    for j = 1:par.CVXiter
+        
+%       bin_on = s>lambda;
+%       Psi = Psi(bin_on,:);
+%       original = original(bin_on);
+%       n = size(Psi,1);
+      if n<= length(w)
+          break
+      end
+      size(Psi)
+     cvx_begin quiet
+        variable s( n, c );
+        minimize( norm(s,2));
+        subject to
+            Psi'*s == w;
+     cvx_end
+    end
+    
+      bin_on = s>lambda;
+      Psi = Psi(bin_on,:);
+      original = original(bin_on);
+    
+    vals = s;
+    s = zeros(n_orig,1);
+    size(vals)
+    size(original)
+    s(original) = vals;
+%     s = Psi'\w;
 else
     error('not a valid par.CVXcase')
 end
