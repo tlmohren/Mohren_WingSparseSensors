@@ -35,6 +35,7 @@ function addpathFolderStructure()
     addpath([scriptLocation filesep 'functions'])
     addpath([scriptLocation filesep 'results'])
     addpath([scriptLocation filesep 'scripts'])
+    addpath([scriptLocation filesep 'scripts_CVXtest_norms11'])
 
 %% Check if CVX is downloaded/installed
     if size(strfind(path, 'cvx')) < 1
