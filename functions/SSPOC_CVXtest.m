@@ -116,6 +116,15 @@ elseif par.CVXcase == 6;
         subject to
             Psi'*s == w;
     cvx_end
+elseif par.CVXcase == 7;
+    display('CVX norm(s,1.001)')
+%     inp.lambda = 1e-8;
+        cvx_begin quiet
+        variable s( n, c );
+        minimize( norm(s,1.001));
+        subject to
+            Psi'*s == w;
+    cvx_end
 else
     error('not a valid par.CVXcase')
 end
