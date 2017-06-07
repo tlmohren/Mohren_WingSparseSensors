@@ -108,11 +108,11 @@ elseif par.CVXcase == 5;
             Psi'*s == w;
     cvx_end
 elseif par.CVXcase == 6;
-    display('CVX abs(s)+1')
+    display('CVX norm(s,1.1)')
 %     inp.lambda = 1e-8;
         cvx_begin quiet
         variable s( n, c );
-        minimize( norm(abs(s)+1,1));
+        minimize( norm(s,1.1));
         subject to
             Psi'*s == w;
     cvx_end
