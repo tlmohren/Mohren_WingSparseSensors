@@ -29,7 +29,6 @@ function [ X,G] = neuralEncoding( strainSet,par)
             exp( -(s-par.NLDshift) * par.NLDsharpness)  );
 %         figure(101);plot(par.NLD(-1:0.01:1));hold on;drawnow; grid on
     
-
 % apply neural encoding to strain, one rotation rate at a time 
     for j = 1:numel(fn)
         % Remove startup phase from strain, but leave a piece the lenght of the
@@ -44,7 +43,7 @@ function [ X,G] = neuralEncoding( strainSet,par)
         
         % Part1) For each individual sensor, convolve strain with match filter over time
         
-        
+%         n_conv
         for jj = 1:m
             strainConv(jj,:) = conv(  strainSet.(fn{j})(jj,n_conv) , (par.STAfilt),'valid');
             

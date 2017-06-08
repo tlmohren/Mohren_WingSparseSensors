@@ -7,13 +7,16 @@ function  [  sensors  ] = sensorLocSSPOC_CVXtest(  Xtrain,Gtrain , par)
     c = numel(classes); 
     if par.SSPOCon == 1 && par.wTrunc~= 0
     % LDA
-        [w_r, Psi, centroid] = PCA_LDA(Xtrain, Gtrain, 'nFeatures',par.rmodes);
+        [w_r, Psi, singVals,centroid] = PCA_LDA_CVXtest(Xtrain, Gtrain, 'nFeatures',par.rmodes);
 
-        [~,Sigma, ~] = svd(Xtrain, 'econ' ); % remove for more speed? 
-        sing_vals = diag(Sigma(1:length(w_r),1:length(w_r)));
-
+        singValsR = singVals(1:length(w_r));
+        
+%         [~,Sigma, ~] = svd(Xtrain, 'econ' ); % remove for more speed? 
+%         sing_vals = diag(Sigma(1:length(w_r),1:length(w_r)));
+%         singValsR = sing_vals
+        
         if par.singValsMult == 1
-            [~,Iw]=sort(abs(w_r).*sing_vals,'descend');  
+            [~,Iw]=sort(abs(w_r).*singValsR,'descend');  
         else
             [~,Iw]=sort(abs(w_r),'descend');  
         end
@@ -26,7 +29,7 @@ function  [  sensors  ] = sensorLocSSPOC_CVXtest(  Xtrain,Gtrain , par)
 %%%%%%%%%%%%%%%%%%%%%%%%%%TESTSECTION%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
-        s = SSPOC_CVXtest(Psi,w_t,par);
+        s = SSPOC_CVXtest(Psi,w_t,singValsR,par);
         
 %         figure();plot
             
@@ -58,7 +61,7 @@ function  [  sensors  ] = sensorLocSSPOC_CVXtest(  Xtrain,Gtrain , par)
             subplot(211)
             plot(w_r)
             subplot(212)
-            plot(w_r.*sing_vals)
+            plot(w_r.*singValsR)
         %---------------------------------------------------------------------
     end
 end

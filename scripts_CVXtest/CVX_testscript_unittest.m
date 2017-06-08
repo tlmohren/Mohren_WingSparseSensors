@@ -22,12 +22,16 @@ par.saveNameTest = 'formulate_original';par.CVXcase = 1; % original formulation
 % par.saveNameTest = 'adjust_lambda'; par.CVXcase = 4; % equality
 
 %%%%%%%%%%%%%%%%
-par.iter = 1;
-par.wTrunc = 16;
+par.iter = 3;
+par.wTrunc = 10;
 par.predictTrain = 1;
-par.CVXcase = 4;
-par.theta_dist = 0.1;
-par.phi_dist = 0.1;
+
+par.CVXcase = 1;
+par.singValsMult = 1;
+
+par.theta_dist = 0;
+par.phi_dist = 0;
+
 %%%%%%%%%%%%%%%%
 
 % load(['data' filesep 'testX_Xtrain_notClassifying.mat'])        % 

@@ -1,4 +1,4 @@
-function [s] = SSPOC_CVXtest(Psi, w, par,varargin)
+function [s] = SSPOC_CVXtest(Psi, w, singValsR,par,varargin)
 % function [s] = SSPOC(Psi, w, varargin)
 %
 % INPUTS:
@@ -183,6 +183,19 @@ elseif par.CVXcase == 11;
         variable s( n, c );
         minimize( norm(s,0.99));
         subject to
+            Psi'*s == w;
+    cvx_end
+elseif par.CVXcase == 12;
+    display('CVX with singVals')
+%     inp.lambda = 1e-8;
+        cvx_begin quiet
+        variable s( n, c );
+        minimize( norm(s,1));
+        subject to
+%             diag(singValsR)^-1*Psi'*s == diag(singValsR)^-1*w;
+%             diag(singValsR)*Psi'*s == diag(singValsR)*w;
+%             diag(singValsR)*Psi'*s == w;
+%             Psi'*s == diag(singValsR)*w;
             Psi'*s == w;
     cvx_end
 else
