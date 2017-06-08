@@ -37,7 +37,7 @@ par.CVXiter = 10;
 % % size(s((abs(s9)>0.001)))
 size(s10((abs(s10)>0.001)))
 
-
+sensors = find((abs(s10)>0.001))'
 
 %     figure();
 %     plot(s); 

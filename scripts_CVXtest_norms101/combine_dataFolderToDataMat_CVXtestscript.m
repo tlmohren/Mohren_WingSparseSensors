@@ -35,7 +35,7 @@ for j = 1:length(varParList_short)
     for j2 = 1:par.rmodes
 %      
 
-        saveName = sprintf(['TestfilesCVX_splus1' par.saveNameTest '_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g'],...
+        saveName = sprintf(['TestfilesCVX_norm101' par.saveNameTest '_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g'],...
                             [ par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
                             par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , j2]); 
 
@@ -80,5 +80,5 @@ end
 
 %% save datamattot
 
-save(['results' filesep  'DataMatTot_CVXtestscript.mat'],'dataMatTot','sensorMatTot','varParList','varParList_short','par')
+save(['results' filesep  'DataMatTot_norm101.mat'],'dataMatTot','sensorMatTot','varParList','varParList_short','par')
  

@@ -9,18 +9,14 @@ function  [  sensors  ] = sensorLocSSPOC_CVXtest(  Xtrain,Gtrain , par)
     % LDA
         [w_r, Psi, centroid] = PCA_LDA(Xtrain, Gtrain, 'nFeatures',par.rmodes);
 
-%         if par.wTrunc ~= 0 
-        [~,Iw ] =sort( abs(w_r) , 'descend');
-        %---optionlal-----------------------
-            [~,Sigma, ~] = svd(Xtrain, 'econ' );
-%             size(Sigma)
-            sing_vals = diag(Sigma(1:length(w_r),1:length(w_r)));
+        [~,Sigma, ~] = svd(Xtrain, 'econ' ); % remove for more speed? 
+        sing_vals = diag(Sigma(1:length(w_r),1:length(w_r)));
 
-            if par.singValsMult == 1
-                [~,Iw]=sort(abs(w_r).*sing_vals,'descend');  
-            else
-                [~,Iw]=sort(abs(w_r),'descend');  
-            end
+        if par.singValsMult == 1
+            [~,Iw]=sort(abs(w_r).*sing_vals,'descend');  
+        else
+            [~,Iw]=sort(abs(w_r),'descend');  
+        end
         % -------------------------
         big_modes = Iw(1:par.wTrunc);
         w_t = w_r(big_modes);
@@ -42,6 +38,11 @@ function  [  sensors  ] = sensorLocSSPOC_CVXtest(  Xtrain,Gtrain , par)
         I_top2 = flipud(I_top);
         sensors_sort = I_top2(1:par.rmodes);
 
+        cutoff_lim = norm(s, 'fro')/c/par.rmodes/2;
+        sensors = sensors_sort(  abs(s(sensors_sort))>= cutoff_lim );
+        
+        given_q = length(sensors); 
+        
         cutoff_lim = norm(s, 'fro')/c/par.rmodes/2;
         sensors = sensors_sort(  abs(s(sensors_sort))>= cutoff_lim );
 

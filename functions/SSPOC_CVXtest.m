@@ -142,37 +142,49 @@ elseif par.CVXcase == 9;
 elseif par.CVXcase == 10;
     display('iterative threshold LS')
     n_orig = size(Psi,1);
-    lambda  =  0.001;
+    lambda  =  0.2;
     s = ones( size(Psi,1),1);
-    original = find(s>lambda);
-    for j = 1:par.CVXiter
-        
-%       bin_on = s>lambda;
-%       Psi = Psi(bin_on,:);
-%       original = original(bin_on);
-%       n = size(Psi,1);
-      if n<= length(w)
-          break
-      end
-      size(Psi)
-     cvx_begin quiet
-        variable s( n, c );
-        minimize( norm(s,2));
-        subject to
-            Psi'*s == w;
-     cvx_end
+    original = find(abs(s)>max(abs(s))*lambda);
+    
+    
+    figure()
+    for j = 1:par.CVXiter      
+%         bin_on = abs(s)>lambda;
+        bin_on = abs(s)> max(abs(s))*lambda;
+
+          if sum(bin_on) < length(w)
+              original = original(bin_on);
+              break
+          end
+          Psi = Psi(bin_on,:);
+          original = original(bin_on);
+          n = size(Psi,1);
+          if n<= length(w)
+              break
+          end
+          size(Psi)
+          cvx_begin quiet
+             variable s( n, c );
+             minimize( norm(s,2));
+             subject to
+             Psi'*s == w;
+          cvx_end
+        figure();plot(s)
     end
     
-      bin_on = s>lambda;
-      Psi = Psi(bin_on,:);
-      original = original(bin_on);
-    
-    vals = s;
+%     
+    vals = s(bin_on);
     s = zeros(n_orig,1);
-    size(vals)
-    size(original)
-    s(original) = vals;
-%     s = Psi'\w;
+      s(original) = vals;
+elseif par.CVXcase == 11;
+    display('CVX norm(s,1.01)')
+%     inp.lambda = 1e-8;
+        cvx_begin quiet
+        variable s( n, c );
+        minimize( norm(s,0.99));
+        subject to
+            Psi'*s == w;
+    cvx_end
 else
     error('not a valid par.CVXcase')
 end

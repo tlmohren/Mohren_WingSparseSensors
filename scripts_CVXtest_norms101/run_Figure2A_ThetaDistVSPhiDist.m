@@ -9,7 +9,7 @@ addpathFolderStructure()
 
 % load(['results' filesep 'analysis_FigR1toR4_XXYY_270Par'])
 
-load(['results' filesep 'DataMatTot_CVXtestscript'])
+load(['results' filesep 'DataMatTot_norm101'])
 allSensors = load(['results' filesep 'tempDataMatTot_allSensors']);
 
 
@@ -99,6 +99,12 @@ for j = 1:n_y
         a = shadedErrorBar(realNumbers, meanVec_random(realNumbers),stdVec_random(realNumbers),col{1});
         
         
+        for k2 = 1:size(Datamat,2)
+            meanVec_random(k2) = mean(  nonzeros(Datamat(Dat_I,k2,:))   );
+            stdVec_random(k2) = std(  nonzeros(Datamat(Dat_I,k2,:))   );
+            iters = length(nonzeros(Datamat(Dat_I,k2,:)) );
+            scatter( ones(iters,1)*k2,nonzeros(Datamat(Dat_I,k2,:)) , dotcol{1})
+        end
         
         
         
