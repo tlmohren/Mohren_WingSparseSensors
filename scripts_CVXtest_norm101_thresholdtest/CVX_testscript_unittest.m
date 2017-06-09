@@ -27,8 +27,8 @@ par.iter = 1;
 par.predictTrain = 1;
 
 
-par.wTrunc = 16;
-par.CVXcase = 1;
+par.wTrunc = 6;
+par.CVXcase = 8;
 par.singValsMult = 1;
 
 par.theta_dist = 0;

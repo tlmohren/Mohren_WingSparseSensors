@@ -9,7 +9,7 @@ addpathFolderStructure()
 
 % load(['results' filesep 'analysis_FigR1toR4_XXYY_270Par'])
 
-load(['results' filesep 'DataMatTot_CVXtestscript'])
+load(['results' filesep 'DataMatTot_tresholdtest'])
 allSensors = load(['results' filesep 'tempDataMatTot_allSensors']);
 
 

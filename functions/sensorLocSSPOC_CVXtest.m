@@ -36,9 +36,9 @@ function  [  sensors  ] = sensorLocSSPOC_CVXtest(  Xtrain,Gtrain , par)
 %             size(singValsR)
         s = SSPOC_CVXtest(Psi,w_t,singValsSort,par);
         
-%         figure();
-%         subplot(211); plot( s); xlabel('j');ylabel('s(j)') 
-%         subplot(212); histogram( abs(s) , 100) ; axis([0,2.5,0,6]); xlabel('|s|');ylabel('count')
+        figure();
+        subplot(211); plot( s); xlabel('j');ylabel('s(j)') 
+        subplot(212); histogram( abs(s) , 100) ; axis([0,2.5,0,6]); xlabel('|s|');ylabel('count')
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%TESTSECTION%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -51,7 +51,11 @@ function  [  sensors  ] = sensorLocSSPOC_CVXtest(  Xtrain,Gtrain , par)
         
 %         cutoff_lim = norm(s, 'fro')/c/par.rmodes/2
         cutoff_lim = norm(s, 'fro')/20;
+        cutoff_lim = norm(s, 'fro')/10;
+        cutoff_lim = norm(s, 'fro')/5;
 %         cutoff_test = max(abs(s))/8;
+        hold on
+        plot(ones(2,1)*cutoff_lim,[0,100]) ; axis([0,2.5,0,6])
         
         sensors = sensors_sort(  abs(s(sensors_sort))>= cutoff_lim );
         given_q = length(sensors); 

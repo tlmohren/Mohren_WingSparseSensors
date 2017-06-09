@@ -46,7 +46,7 @@ else
 end
 
 par
-[strain] = eulerLagrange(frot, th,ph ,par );
+[strain] = eulerLagrange_forfigures(frot, th,ph ,par );
 
 
 %% check output here, size, content 
