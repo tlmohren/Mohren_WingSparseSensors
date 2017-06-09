@@ -14,7 +14,7 @@ par.varParNames = fieldnames(varParList);
 par.iter = 1;
 par.rmodes = 30;
 par.predictTrain = 1;
-par.CVXcase = 8;
+par.CVXcase = 1;
 
 % par.saveNameTest= 'rmodes30'
 
