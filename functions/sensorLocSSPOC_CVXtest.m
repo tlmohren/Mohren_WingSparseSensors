@@ -39,7 +39,7 @@ function  [  sensors  ] = sensorLocSSPOC_CVXtest(  Xtrain,Gtrain , par)
         s = SSPOC_CVXtest(Psi,w_t,singValsSort,par);
         
         saveName = sprintf('s_wt%g_dT%g_dP%g', par.wTrunc,  par.theta_dist , par.phi_dist ); 
-        save(  ['s_files',filesep, saveName]  ,'s')
+        save(  ['s_files',filesep, saveName '_',datestr(datetime('now'), 30),'.mat']  ,'s')
         
         
         
