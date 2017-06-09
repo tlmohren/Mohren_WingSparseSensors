@@ -131,10 +131,11 @@ elseif par.CVXcase == 8;
 %     inp.lambda = 1e-8;
         cvx_begin quiet
         variable s( n, c );
-        minimize( norm(s,1.01));
+        minimize( norm(s,1.01) );
         subject to
             Psi'*s == w;
     cvx_end
+    
 elseif par.CVXcase == 9;
     display('forward slash')
     
@@ -193,10 +194,10 @@ elseif par.CVXcase == 12;
         minimize( norm(s,1));
         subject to
 %             diag(singValsR)^-1*Psi'*s == diag(singValsR)^-1*w;
-%             diag(singValsR)*Psi'*s == diag(singValsR)*w;
+            diag(singValsR)*Psi'*s == diag(singValsR)*w;
 %             diag(singValsR)*Psi'*s == w;
 %             Psi'*s == diag(singValsR)*w;
-            Psi'*s == w;
+%             Psi'*s == w;
     cvx_end
 else
     error('not a valid par.CVXcase')

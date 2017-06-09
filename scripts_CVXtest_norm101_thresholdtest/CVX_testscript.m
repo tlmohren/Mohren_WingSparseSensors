@@ -71,7 +71,7 @@ for j = 1:length(varParList)
         end
         % save data 
 
-        saveName = sprintf(['TestfilesCVX_splus1' par.saveNameTest '_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g_'],...
+        saveName = sprintf(['TestfilesCVX_tresholdtest' par.saveNameTest '_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g_'],...
                             [ par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
                             par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , par.wTrunc ]); 
 
@@ -85,7 +85,7 @@ end
 %%
 
 
-save( ['data' filesep 'ParameterList_CVXtestscript.mat'], 'varParList','varParList_short', 'par')
+save( ['data' filesep 'ParameterList_thresholdtest.mat'], 'varParList','varParList_short', 'par')
 
 
 system('git pull');

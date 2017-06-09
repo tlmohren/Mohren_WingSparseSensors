@@ -17,37 +17,44 @@ function  [  sensors  ] = sensorLocSSPOC_CVXtest(  Xtrain,Gtrain , par)
         
         if par.singValsMult == 1
             [~,Iw]=sort(abs(w_r).*singValsR,'descend');  
+            
         else
             [~,Iw]=sort(abs(w_r),'descend');  
         end
         % -------------------------
         big_modes = Iw(1:par.wTrunc);
+        
+        singValsSort = singValsR(big_modes);
         w_t = w_r(big_modes);
         Psi = Psi(:,big_modes);
 %         end
         
 %%%%%%%%%%%%%%%%%%%%%%%%%%TESTSECTION%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            
-        s = SSPOC_CVXtest(Psi,w_t,singValsR,par);
+%             size(Psi)
+%             size(w_t)
+%             size(singValsR)
+        s = SSPOC_CVXtest(Psi,w_t,singValsSort,par);
         
-%         figure();plot
-            
+%         figure();
+%         subplot(211); plot( s); xlabel('j');ylabel('s(j)') 
+%         subplot(212); histogram( abs(s) , 100) ; axis([0,2.5,0,6]); xlabel('|s|');ylabel('count')
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%TESTSECTION%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         s = sum(s, 2);   
-
+        
         [~, I_top] = sort( abs(s));
         I_top2 = flipud(I_top);
         sensors_sort = I_top2(1:par.rmodes);
-
-        cutoff_lim = norm(s, 'fro')/c/par.rmodes/2;
-        sensors = sensors_sort(  abs(s(sensors_sort))>= cutoff_lim );
         
+%         cutoff_lim = norm(s, 'fro')/c/par.rmodes/2
+        cutoff_lim = norm(s, 'fro')/20;
+%         cutoff_test = max(abs(s))/8;
+        
+        sensors = sensors_sort(  abs(s(sensors_sort))>= cutoff_lim );
         given_q = length(sensors); 
-        
-        cutoff_lim = norm(s, 'fro')/c/par.rmodes/2;
-        sensors = sensors_sort(  abs(s(sensors_sort))>= cutoff_lim );
 
     else
         randloc = randperm(n);
