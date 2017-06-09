@@ -60,7 +60,7 @@ function  [  sensors  ] = sensorLocSSPOC_CVXtest(  Xtrain,Gtrain , par)
 %         cutoff_lim = norm(s, 'fro')/c/par.rmodes/2
         cutoff_lim = norm(s, 'fro')/20;
         cutoff_lim = norm(s, 'fro')/10;
-        cutoff_lim = norm(s, 'fro')/5;
+%         cutoff_lim = norm(s, 'fro')/5;
 %         cutoff_test = max(abs(s))/8;
         hold on
         plot(ones(2,1)*cutoff_lim,[0,100]) ; axis([0,2.5,0,6])
