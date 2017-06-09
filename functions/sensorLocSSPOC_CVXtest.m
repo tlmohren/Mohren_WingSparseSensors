@@ -31,10 +31,18 @@ function  [  sensors  ] = sensorLocSSPOC_CVXtest(  Xtrain,Gtrain , par)
         
 %%%%%%%%%%%%%%%%%%%%%%%%%%TESTSECTION%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             size(Psi)
-%             size(w_t)
-%             size(singValsR)
+%         saveName = sprintf(['TestfilesCVX_tresholdtest_highthresh' par.saveNameTest '_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g_'],...
+%                             [ par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
+%                             par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , par.wTrunc ]);
+%                         
+                        
         s = SSPOC_CVXtest(Psi,w_t,singValsSort,par);
+        
+        saveName = sprintf('s_wt%g_dT%g_dP%g', par.wTrunc,  par.theta_dist , par.phi_dist ]); 
+        save(  ['s_files',filesep, saveName]  ,'s')
+        
+        
+        
         
         figure();
         subplot(211); plot( s); xlabel('j');ylabel('s(j)') 
