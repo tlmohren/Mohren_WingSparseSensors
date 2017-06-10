@@ -11,7 +11,7 @@ addpathFolderStructure()
 par = setParameters;
 [varParList,varParList_short] = setVariableParameters_CVXtestscript(par);
 par.varParNames = fieldnames(varParList);
-par.iter = 1;
+par.iter = 20;
 par.rmodes = 30;
 par.predictTrain = 1;
 par.CVXcase = 1;
