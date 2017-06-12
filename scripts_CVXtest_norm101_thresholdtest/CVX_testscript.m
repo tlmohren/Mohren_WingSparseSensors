@@ -11,7 +11,7 @@ addpathFolderStructure()
 par = setParameters;
 [varParList,varParList_short] = setVariableParameters_CVXtestscript(par);
 par.varParNames = fieldnames(varParList);
-par.iter = 20;
+par.iter = 6;
 par.rmodes = 30;
 par.predictTrain = 1;
 par.CVXcase = 1;
@@ -79,7 +79,7 @@ for j = 1:length(varParList)
         save(  ['data',filesep, saveName]  ,'DataMat','SensMat','par')
         fprintf('Runtime = %g[s], Saved as: %s \n',[toc,saveName]) 
 
-    if mod(j, 20)==0,
+    if mod(j, 10)==0,
         system('git pull');
         system('git add data/*.mat');
         system(sprintf('git commit * -m "pushing data from more runs %i"', j));

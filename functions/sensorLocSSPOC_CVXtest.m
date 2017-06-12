@@ -44,9 +44,9 @@ function  [  sensors  ] = sensorLocSSPOC_CVXtest(  Xtrain,Gtrain , par)
         
         
         
-        figure();
-        subplot(211); plot( s); xlabel('j');ylabel('s(j)') 
-        subplot(212); histogram( abs(s) , 100) ; axis([0,2.5,0,6]); xlabel('|s|');ylabel('count')
+%         figure();
+%         subplot(211); plot( s); xlabel('j');ylabel('s(j)') 
+%         subplot(212); histogram( abs(s) , 100) ; axis([0,2.5,0,6]); xlabel('|s|');ylabel('count')
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%TESTSECTION%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
