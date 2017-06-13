@@ -38,16 +38,16 @@ function  [  sensors  ] = sensorLocSSPOC_CVXtest(  Xtrain,Gtrain , par)
 %                         
         tic        
         s = SSPOC_CVXtest(Psi,w_t,singValsSort,par);
-        SSPOC_runtime = toc
+        SSPOC_runtime = toc;
         
         
         saveName = sprintf('s_wt%g_dT%g_dP%g_CVX%g', par.wTrunc,  par.theta_dist , par.phi_dist,par.CVXcase ); 
         save(  ['s_files',filesep, saveName '_',datestr(datetime('now'), 30),'.mat']  ,'s')
         
-        size(s)
-        figure();
-        subplot(211); plot( s); xlabel('j');ylabel('s(j)') 
-        subplot(212); histogram( abs(s) , 100) ; axis([0,2.5,0,6]); xlabel('|s|');ylabel('count')
+%         size(s)
+%         figure();
+%         subplot(211); plot( s); xlabel('j');ylabel('s(j)') 
+%         subplot(212); histogram( abs(s) , 100) ; axis([0,2.5,0,6]); xlabel('|s|');ylabel('count')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%TESTSECTION%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -59,7 +59,7 @@ function  [  sensors  ] = sensorLocSSPOC_CVXtest(  Xtrain,Gtrain , par)
         I_top2 = flipud(I_top);
         sensors_sort = I_top2(1:par.rmodes);
         
-        cutoff_lim = norm(s, 'fro')/par.rmodes
+        cutoff_lim = norm(s, 'fro')/par.rmodes;
 %         cutoff_lim = norm(s, 'fro')/1e8
 %         cutoff_lim = norm(s, 'fro')/20; % worked 
 %         cutoff_lim = norm(s, 'fro')/10;

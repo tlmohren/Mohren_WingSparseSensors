@@ -22,7 +22,7 @@ par.CVXcase = 14;
 % par.saveNameTest = 'formulate_equality'; par.CVXcase = 2; % equality
 % par.saveNameTest = 'adjust_epsilon'; par.CVXcase = 3; % epsilon
 % par.saveNameTest = 'adjust_lambda'; par.CVXcase = 4; % equality
-par.saveNameTest = 'CVXelasticNet'; % equality
+par.saveNameTest = 'CVXelasticNet_alpha09'; % equality
 
 %% Run simulation and Sparse sensor placement for combinations of 4 parameters, over a set number of iterations
 
