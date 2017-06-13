@@ -9,7 +9,7 @@ par.varParNames = fieldnames(varParList_short);
 
 % par.saveNameTest 
 % par.rmodes = 30;
-par.saveNameTest = ['rmode' num2str(par.rmodes)]; par.CVXcase = 3; % equality
+par.saveNameTest = ['rmode' num2str(par.rmodes)]; par.CVXcase = 8; % equality
 % par.rmodes = 40;
 % par.saveNameTest = 'formulate_original';
 % par.saveNameTest = 'formulate_equality';
@@ -35,7 +35,7 @@ for j = 1:length(varParList_short)
     for j2 = 1:par.rmodes
 %      
 
-        saveName = sprintf(['TestfilesCVX_tresholdtest' par.saveNameTest '_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g'],...
+        saveName = sprintf(['TestfilesCVX_tresholdtest_highthresh' par.saveNameTest '_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g'],...
                             [ par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
                             par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , j2]); 
 
