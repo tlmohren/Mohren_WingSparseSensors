@@ -51,6 +51,11 @@ p.parse(Psi, w, varargin{:});
 inputs = p.Results;
 
 
+
+alpha = 0.9;
+
+
+
 % define some dimensions
 [n, r] = size(Psi); %#ok<ASGLU>
 c = size(w, 2);
@@ -58,9 +63,16 @@ c = size(w, 2);
 % solve Psi'*s = w
 % using the l1 norm to promote sparsity
 unit = ones(c,1);
+% cvx_begin quiet
+%     variable s( n, c );
+%     minimize( norm(s(:),1) + inputs.lambda*norm(s*unit,1) ); %#ok<NODEF>
+%     subject to
+%         norm(Psi'*s - w, 'fro') <= inputs.epsilon; %#ok<VUNUS>
+% cvx_end
 cvx_begin quiet
     variable s( n, c );
-    minimize( norm(s(:),1) + inputs.lambda*norm(s*unit,1) ); %#ok<NODEF>
+    minimize(   alpha*norm(s,1) + (1-alpha)*norm(s,2) );
     subject to
-        norm(Psi'*s - w, 'fro') <= inputs.epsilon; %#ok<VUNUS>
+        Psi'*s == w;
 cvx_end
+

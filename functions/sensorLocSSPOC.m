@@ -7,33 +7,69 @@ function  [  sensors  ] = sensorLocSSPOC(  Xtrain,Gtrain , par)
     c = numel(classes); 
     if par.SSPOCon == 1
     % LDA
-        [w_r, Psi, centroid] = PCA_LDA(Xtrain, Gtrain, 'nFeatures',par.rmodes);
-
-        if par.wTrunc ~= 0 
-            [~,Iw ] =sort( abs(w_r) , 'descend');
-            %---optionlal-----------------------
-                [~,Sigma, ~] = svd(Xtrain, 'econ' );
-                sing_vals = diag(Sigma(1:length(w_r),1:length(w_r)));
-                
-                if par.singValsMult == 1
-                    [~,Iw]=sort(abs(w_r).*sing_vals,'descend');  
-                else
-                    [~,Iw]=sort(abs(w_r),'descend');  
-                end
-            % -------------------------
-            big_modes = Iw(1:par.wTrunc);
-            w_t = w_r(big_modes);
-            Psi = Psi(:,big_modes);
-        end
-        s = SSPOC(Psi,w_t);
+    
+    
+    
+%         [w_r, Psi, centroid] = PCA_LDA(Xtrain, Gtrain, 'nFeatures',par.rmodes);
+% 
+%         if par.wTrunc ~= 0 
+%             [~,Iw ] =sort( abs(w_r) , 'descend');
+%             %---optionlal-----------------------
+%             [~,Sigma, ~] = svd(Xtrain, 'econ' );
+%             sing_vals = diag(Sigma(1:length(w_r),1:length(w_r)));
+% 
+% %                 if par.singValsMult == 1
+%             [~,Iw]=sort(abs(w_r).*sing_vals,'descend');  
+% %                 else
+% %                     [~,Iw]=sort(abs(w_r),'descend');  
+% %                 end
+%             % -------------------------
+%             big_modes = Iw(1:par.wTrunc);
+%             w_t = w_r(big_modes);
+%             Psi = Psi(:,big_modes);
+%         end
         
+        
+        
+        
+        [w_r, Psi, singVals,centroid] = PCA_LDA_singVals(Xtrain, Gtrain, 'nFeatures',par.rmodes);
+
+        singValsR = singVals(1:length(w_r));
+        
+        [~,Iw]=sort(abs(w_r).*singValsR,'descend');  
+
+        % -------------------------
+        big_modes = Iw(1:par.wTrunc);
+       
+        w_t = w_r(big_modes);
+        Psi = Psi(:,big_modes);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        s = SSPOC(Psi,w_t);
         
         s = sum(s, 2);   
         [~, I_top] = sort( abs(s));
         I_top2 = flipud(I_top);
         sensors_sort = I_top2(1:par.rmodes);
 
-        cutoff_lim = norm(s, 'fro')/c/par.rmodes/2;
+%         cutoff_lim = norm(s, 'fro')/c/par.rmodes/2;
+        cutoff_lim = norm(s, 'fro')/par.rmodes;
         sensors = sensors_sort(  abs(s(sensors_sort))>= cutoff_lim );
 
     elseif par.SSPOCon == 2
@@ -42,7 +78,6 @@ function  [  sensors  ] = sensorLocSSPOC(  Xtrain,Gtrain , par)
         randloc = randperm(n);
         sensors = randloc(1:par.wTrunc);
     end
-    
     
      % ------------------------------------------------------------------
     if par.showFigure == 1 && par.SSPOC_on == 1

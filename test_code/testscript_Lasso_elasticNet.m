@@ -18,26 +18,44 @@
 % x
 % 
 % figure();plot(x)
-
+clc;clear all;close all
 
 rng default % For reproducibility
-Psi = randn(100,5);
+n = 100;
+m = 5;
+Psi = randn(n,m);
 % r = [0;2;0;-3;0]; % Only two nonzero coefficients
 % r = [0.2;0.12;0.512;0.121;
-r = rand(5,1);
+ w= rand(m,1);
 
 %%%% Psi *x = r 
 
 % Y =  randn(100,1)*.1; % Small added noise
 
-[s,param] = lasso(Psi',r);
+[s,param] = lasso(Psi',w);
 % s = lasso(Psi',r,'alpha',0.01);
-s = lasso(Psi',r,'alpha',0.99,'lambda',0.01);
+
+    alpha = 0.9;
+sl = lasso(Psi',w,'alpha',alpha,'lambda',0.001);
+% sl = lasso(Psi',w,'alpha',alpha,'lambda',0.001);
 % B1 = lasso(X,Y);
 % B2 = lasso(X,Y,'alpha', 0.01);
 
+cvx_begin quiet
+    variable s( n );
+        minimize(   alpha*norm(s,1) + (1-alpha)*norm(s,2) );
+%         minimize(   (1-alpha)*norm(s,1) + alpha*norm(s,2) );
+    subject to
+    Psi'*s == w;
+cvx_end
+
+
+
 figure()
-subplot(211)
-plot(s)
-subplot(212)
-plot(s(:,1))
+%     subplot(211)
+    plot(sl/norm(sl))
+    hold on
+    plot(s/norm(s))
+    legend('lasso','CVX')
+% subplot(212)
+% plot(s)
