@@ -11,7 +11,7 @@ addpathFolderStructure()
 par = setParameters;
 [varParList,varParList_short] = setVariableParameters_MultipleSets(par);
 par.varParNames = fieldnames(varParList);
-par.iter = 1;
+par.iter = 10;
 par.predictTrain = 1;
 par.saveNameParameters = 'elasticNet09';
 
