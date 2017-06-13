@@ -30,7 +30,7 @@ tic
 % for j = 1:length(varParList)
 for j = 1:length(varParList)
 % for j = ceil(length(varParList)/2):length(varParList)
-%     try
+    try
         % adjust parameters for this set of iterations----------------------
         DataMat = zeros(par.rmodes,par.iter);
         SensMat = zeros(par.rmodes,par.rmodes,par.iter);
@@ -82,6 +82,7 @@ for j = 1:length(varParList)
     if mod(j, 10)==0,
         system('git pull');
         system('git add data/*.mat');
+        system('git add s_files/*.mat');
         system(sprintf('git commit * -m "pushing data from more runs %i"', j));
         system('git push');
     end;
@@ -89,7 +90,7 @@ for j = 1:length(varParList)
         
         %     catch
 %         fprintf('Run %i failed\n', j); 
-%     end
+    end
 end
 %%
 
