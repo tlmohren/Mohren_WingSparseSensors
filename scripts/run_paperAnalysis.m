@@ -65,7 +65,7 @@ for j = 1:length(varParList)
         system(sprintf('git commit * -m "pushing data from more runs %i"', j));
         system('git push');
     end;
-    if j == 6 
+    if j == 60
         break
     end
 end
