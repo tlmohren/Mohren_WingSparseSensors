@@ -199,6 +199,35 @@ elseif par.CVXcase == 12;
 %             Psi'*s == diag(singValsR)*w;
 %             Psi'*s == w;
     cvx_end
+elseif par.CVXcase == 13;
+    display('elastic net')
+% %     inp.lambda = 1e-8;
+%         cvx_begin quiet
+%         variable s( n, c );
+%         minimize( norm(s,0.99));
+%         subject to
+%             Psi'*s == w;
+%     cvx_end
+    
+    
+%     [s,param] = lasso(Psi',w,'lambda',0.001);
+%     [s,param] = lasso(Psi',w,'alpha', 0.01,'lambda',0.001);
+%     [s,param] = lasso(Psi',w,'alpha', 0.99,'lambda',0.25);
+    [s,param] = lasso(Psi',w,'alpha', 1,'lambda',0.001);
+%     param.Lambda
+    
+elseif par.CVXcase == 14;
+        display('CVX elastic net')
+%     inp.lambda = 1e-8;
+        cvx_begin quiet
+        variable s( n, c );
+        alpha = 0.9;
+        minimize(   alpha*norm(s,1) + (1-alpha)*norm(s,2) );
+        subject to
+            Psi'*s == w;
+        cvx_end
+    
+    
 else
     error('not a valid par.CVXcase')
 end
