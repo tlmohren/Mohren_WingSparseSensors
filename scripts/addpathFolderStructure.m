@@ -1,19 +1,14 @@
 function addpathFolderStructure()
-%addpathFolderStructure() Summary of this function goes here
-%   Detailed explanation goes here
-% link_folder_SSPOC.m
-% Last updated: 2017/4/06  (edit by Thomas Mohren)
-% Author: Sam Kinn
-% Script finds it's own location and adds necessary folders to workpath.
-% Also checks if CVX is installed
+%addpathFolderStructure() Creates folder to store simulation data, adds
+%folders to workspace, and checks if CVX is installed 
+%   Last updated: 2017/07/03  (TLM)
 
 %% Find location of this script 
-%     scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
-%     cd(scriptLocation );
     
     scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
     [folderLocation,baseName] = fileparts(scriptLocation);
-    dataFolderLocation = [folderLocation filesep baseName,'Data'];
+    dataFolderLocation = [folderLocation, filesep, baseName,'Data'];
+    
     if ~exist(dataFolderLocation)
         display('Data folder does not exist yet')
         display(dataFolderLocation)
@@ -29,7 +24,6 @@ function addpathFolderStructure()
     end
     
     cd(scriptLocation );
-    
 
 %% Add paths required for main script
     addpath([scriptLocation filesep 'functions'])

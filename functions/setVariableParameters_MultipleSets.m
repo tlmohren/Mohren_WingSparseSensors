@@ -1,9 +1,11 @@
 function [ varParList,varParList_short] = setVariableParameters_MultipleSets(par)
-%setParameters Create parameter structure
-%     par = SetParameters() sets which filter, number of iterations, and
-%     other parameters will be used throughout the simulation
-%  TLM 2017
-%  unsorted
+%[ varParList,varParList_short] = setVariableParameters_MultipleSets(par)
+%   Creates a struct for different combinations of parameters (par). 
+%   Input: General simulation parameters (not used)
+%   Output: varParList, defines the parameter combinations to simulate
+%   Output: varParList_short, reduced varParList, useful for figures
+%   Last updated: 2017/07/03  (TLM)
+
 nFigures = 5;
 count = 0;
 count_short  = 0;
@@ -74,11 +76,6 @@ for j0= 1:nFigures
         
     end
     
-    
-    
-        count
-    
-    
         for j1 = 1:length(par.STAwidthList)
             for j2 = 1:length(par.STAshiftList)
                 for j3 = 1:length(par.theta_distList)
@@ -123,8 +120,4 @@ for j0= 1:nFigures
             end
         end
 end
-fprintf('varPar has %g parameter sets \n',count)
-
-
-    %% Detailed explanation of parameters 
-    % par.c
+fprintf('varPar has %g combinations of parameter \n',count)
