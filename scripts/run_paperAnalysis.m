@@ -28,36 +28,36 @@ for j = 1:length(varParList)
     end
     
     
-%     for k = 1:par.iter
-%         try 
-%             par.curIter = k; 
-%             % Generate strain with Euler-Lagrange simulation ----------
-%     %         strainSet = eulerLagrangeConcatenate( varParList(j).theta_dist , varParList(j).phi_dist ,par);
-%             strainSet = eulerLagrangeConcatenate_predictTrain( varParList(j).theta_dist , varParList(j).phi_dist ,par);
-% 
-%             % Apply neural filters to strain --------------------------
-%             [X,G] = neuralEncoding(strainSet, par );
-% 
-%             % Find accuracy and optimal sensor locations  ---------
-%             [acc,sensors ] = sparseWingSensors( X,G, par);
-% 
-%     %         Store data in 3D matrix ----------------------------
-%             q = length(sensors);
-%             prev = length(find( DataMat(q, :) )  );
-%             DataMat(q, prev+1) = acc; 
-%             SensMat(q, 1:q,prev+1) = sensors ;    
-% 
-%             % Print accuracy in command window --------------------
-%             fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[par.wTrunc,q,acc])
-%         end
-%     end
+    for k = 1:par.iter
+        try 
+            par.curIter = k; 
+            % Generate strain with Euler-Lagrange simulation ----------
+    %         strainSet = eulerLagrangeConcatenate( varParList(j).theta_dist , varParList(j).phi_dist ,par);
+            strainSet = eulerLagrangeConcatenate_predictTrain( varParList(j).theta_dist , varParList(j).phi_dist ,par);
+
+            % Apply neural filters to strain --------------------------
+            [X,G] = neuralEncoding(strainSet, par );
+
+            % Find accuracy and optimal sensor locations  ---------
+            [acc,sensors ] = sparseWingSensors( X,G, par);
+
+    %         Store data in 3D matrix ----------------------------
+            q = length(sensors);
+            prev = length(find( DataMat(q, :) )  );
+            DataMat(q, prev+1) = acc; 
+            SensMat(q, 1:q,prev+1) = sensors ;    
+
+            % Print accuracy in command window --------------------
+            fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[par.wTrunc,q,acc])
+        end
+    end
 
     % save data 
     saveNameBase = sprintf(['Data_',par.saveNameParameters, '_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g'],...
                         [par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
-                        par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , par.wTrunc ])
+                        par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , par.wTrunc ]);
                     
-    saveName = [saveNameBase,computer,'_',datestr(datetime('now'), 30),'.mat']
+    saveName = [saveNameBase,computer,'_',datestr(datetime('now'), 30),'.mat'];
     save(  ['data',filesep, saveName]  ,'DataMat','SensMat','par')
     fprintf('Runtime = %g[s], Saved as: %s \n',[toc,saveName]) 
     
