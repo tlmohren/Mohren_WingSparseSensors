@@ -49,6 +49,8 @@ for j = 1:length(varParList)
 
             % Print accuracy in command window --------------------
             fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[par.wTrunc,q,acc])
+        catch
+            fprintf(['W_trunc = %1.0f, gave error, length q = ',num2str(length(q)),' \n'],[par.wTrunc])
         end
     end
 
