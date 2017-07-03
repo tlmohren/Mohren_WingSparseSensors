@@ -65,7 +65,7 @@ for j = 1:length(varParList)
                         [par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
                         par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , par.wTrunc ]);      
     saveName = [saveNameBase,computer,'_',datestr(datetime('now'), 30),'.mat'];
-    save(  ['data',filesep, saveName]  ,'DataMat','SensMat','par')
+%     save(  ['data',filesep, saveName]  ,'DataMat','SensMat','par')
     fprintf('Runtime = %g[s], Saved as: %s \n',[toc,saveName]) 
     
     % Sync to github(git required) once every 100 parameter combinations or if last combination is reached 

@@ -1,8 +1,7 @@
 function [s] = SSPOC(Psi, w, varargin)
 % function [s] = SSPOC(Psi, w, varargin)
-%
+% the elastic net version
 % INPUTS:
-%
 % Psi
 %           feature space
 %           for example, from SVD of the original data
@@ -13,48 +12,16 @@ function [s] = SSPOC(Psi, w, varargin)
 %           subspace in Psi that we want to reconstruct
 %           r by c matrix, r must match Psi, c is the number of clusters
 %           minus 1 (the dimensionality of the decision space)
-%
-% VARARGIN:
-%
-% lambda
-%           the coupling term between w vectors
-%           if lambda = 0 (default), there is no coupling 
-%           if lambda > 0, then there is increasing overlap between the
-%           sparse solutions s that recover w 
-%           (lambda can be tuned between 0.1 and 100 on log scale)
-%
-% epsilon
-%           error tolerance for reconstruction
-%           epsilon 
-%
 % OUTPUTS:
-%
 % s
 %           sparse vector in space of the data;
 %           non-zero entries in s correspond to sparse sensor locations
 %
 % BWB, June 2015
+%   Last updated: 2017/07/03  (TLM)
 
-% input parsing
-p = inputParser; 
-
-% required inputs
-p.addRequired('Psi', @isnumeric);
-p.addRequired('w', @isnumeric);
-
-% parameter value iputs
-p.addParameter('lambda', 0, @(x)isnumeric(x) && x>=0);
-p.addParameter('epsilon', 1e-10, @(x)isnumeric(x) && x>=0);
-
-% now parse the inputs
-p.parse(Psi, w, varargin{:});
-inputs = p.Results;
-
-
-
+% value set for elastic net 
 alpha = 0.9;
-
-
 
 % define some dimensions
 [n, r] = size(Psi); %#ok<ASGLU>
@@ -62,17 +29,11 @@ c = size(w, 2);
 
 % solve Psi'*s = w
 % using the l1 norm to promote sparsity
-unit = ones(c,1);
-% cvx_begin quiet
-%     variable s( n, c );
-%     minimize( norm(s(:),1) + inputs.lambda*norm(s*unit,1) ); %#ok<NODEF>
-%     subject to
-%         norm(Psi'*s - w, 'fro') <= inputs.epsilon; %#ok<VUNUS>
-% cvx_end
+% elastic net (combination of L1 and L2 norm) to deal with uniqueness % issues
+% unit = ones(c,1);
 cvx_begin quiet
     variable s( n, c );
     minimize(   alpha*norm(s,1) + (1-alpha)*norm(s,2) );
     subject to
         Psi'*s == w;
 cvx_end
-

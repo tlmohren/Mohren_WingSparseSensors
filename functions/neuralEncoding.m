@@ -1,12 +1,12 @@
-function [ X,G] = neuralEncoding( strainSet,par)
-%neuralEncoding Convert strain to Pfire
-%   [X,G] = neuralEncoding(strain,par) takes strain data and uses specified
+function [ X,G ] = neuralEncoding( strainSet,par )
+%[ X,G ] = neuralEncoding( strainSet,par ) 
+%   Takes strain data and uses specified
 %   parameters [par] to generate [Pfire], here called [X], and specifies
 %   the class belonging to the first half and second half of X, called [G].
-%   TLM 2017 
+%   Created: 2017/??/??  (TLM)
+%   Last updated: 2017/07/03  (TLM)
     
-% Obtain fieldnames in the structure strainSet (expected to be
-% strain_0,strain_10
+% Obtain fieldnames in the structure strainSet (expected to be  strain_0,strain_10
     fn = fieldnames(strainSet); 
     
 % create empty matrices to fill later 
@@ -22,9 +22,7 @@ function [ X,G] = neuralEncoding( strainSet,par)
             .* ( 1-(t-par.STAshift).^2/par.STAwidth^2);
         par.STAfilt = par.STAFunc(par.STAt);   
 %         figure(100);plot(par.STAfilt);hold on;drawnow
-        
-        
-        
+
         par.NLD = @(s) 1./(  1 +...
             exp( -(s-par.NLDshift) * par.NLDsharpness)  );
 %         figure(101);plot(par.NLD(-1:0.01:1));hold on;drawnow; grid on
@@ -63,8 +61,3 @@ function [ X,G] = neuralEncoding( strainSet,par)
         X(1:par.chordElements,:) = 0;
     end
 end
-
-%% notes
-        % not sure yet if I need to convolve 
-        % also, is flip necessary
-%         Xtemp(jj,:) = conv(strain(jj,:), fliplr(STA_filt),'valid');
