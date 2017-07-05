@@ -15,6 +15,7 @@ par = setParameters;
 [varParList,varParList_short] = setVariableParameters_MultipleSets(par);
 par.varParNames = fieldnames(varParList);
 par.iter = 10;
+par.SSPOCon = 2;
 par.predictTrain = 1;
 par.saveNameParameters = 'elasticNet09_phiCorrect';
 
