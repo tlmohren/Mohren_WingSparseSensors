@@ -3,6 +3,7 @@
 % TLM 2017
 % -----------------------------
 % initialize path and clear memory 
+
 scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
 addpath([scriptLocation filesep 'scripts']);
 addpathFolderStructure()
@@ -40,13 +41,13 @@ elseif testCase == 4
     % introduce disturbance level 
     frot = 10;
     th = 1;
-    ph = 0.1;
+    ph = 10;
 else
     error('Invalid testcase entry    TLM 2017')
 end
 
 par
-[strain] = eulerLagrange_forfigures(frot, th,ph ,par );
+[strain] = eulerLagrange(frot, th,ph ,par );
 
 
 %% check output here, size, content 

@@ -53,9 +53,20 @@ function [strain] = eulerLagrange(frot, th,ph ,par )
         .*(  sin(2*pi*par.flapFrequency*t) ...
         + par.harmonic*sin(2*pi*2*par.flapFrequency*t) ) .* sigmoid ...
         + phi_disturbance;
+    
+    
+%     disturbance_diagnostics(  diff( ...
+%         deg2rad(flapamp) ...
+%         .*(  sin(2*pi*par.flapFrequency*t) ...
+%         + par.harmonic*sin(2*pi*2*par.flapFrequency*t) ) .* sigmoid ))
+    disturbance_diagnostics( diff( phi)) 
+    
     theta   = 0;
     gamma   = 0;
     rot_vec = [0, 0, 1];
+    
+%     disturbance_diagnostics(diff(phi))
+    
     
 % Generate rotating disturbance 
     theta_dot_disturbance = th*whiteNoiseDisturbance(par);

@@ -1,72 +1,55 @@
 % analyze varParList 
 clc;clear all;close all
 %% 
-load(['data' filesep 'ParameterList_paperAnalysis'])
+par.saveNameParameters = 'elasticNet09';
+load(['data', filesep, 'ParameterList_' par.saveNameParameters])
 par.varParNames = fieldnames(varParList_short);
-par.rmodes = 30;
 
+exp_duplicates = 3;
+dataMatTot = zeros( length(varParList_short), par.rmodes , par.iter*exp_duplicates);
+sensorMatTot = zeros( length(varParList_short), par.rmodes , par.rmodes ,par.iter*exp_duplicates);
 %% 
-dataMatTot = zeros( length(varParList_short), par.rmodes + 10,par.iter);
-sensorMatTot = zeros( length(varParList_short), par.rmodes + 10, par.rmodes + 10,par.iter);
-
-saveNameCell = {};
-saveNameCount = 0;
-duplicates = 0;
-%% 
-aa = dir(['data' filesep  'Data*']);
-% for j = 1
-counter= 0;
+display('loading in datafiles to combine results')
+tic 
 for j = 1:length(varParList_short)
+%     j
     for k = 1:length(par.varParNames)
         par.(par.varParNames{k}) = varParList_short(j).(par.varParNames{k});
     end
     
-%         length(nonzeros(dataMatTot))
-    for j2 = 1:par.rmodes
-%      
-        saveName = sprintf('Data_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g',...
-                            [par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
-                            par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , j2 ]);
-%          if %%
-             duplic_check = 0;
-             for j4 = 1:length(saveNameCell)
-                 if length(saveNameCell{j4}) == length(saveName) 
-                     if   saveNameCell{j4} == saveName; 
-                         duplic_check = duplic_check + 1;
-                     end
-                 end
-             end
-             saveNameCell{saveNameCount + 1} = saveName;
-             saveNameCount = saveNameCount+1;
-%          else
-%              duplicates = duplicates + 1;
-%          end
-          bb = dir(['data' filesep saveName '_*']);
-          
-          if length(bb)>0
-              for k2 = 1:length(bb)
-                 
-                a3 = load( ['data' filesep bb(k2).name] ); 
-                [I,J] = ind2sub(size(a3.DataMat),find(a3.DataMat));
-                  
-                  for j3 = 1:length(I)
-                        q = I(j3);
-            %             a3.DataMat(I(j3),J(j3))
-                        prev = length(find( dataMatTot(j,q,:) )  );
-                        dataMatTot(j,q, prev+1) = a3.DataMat(I(j3),J(j3)); 
-                        sensorMatTot(j,q,1:q, prev+1) = a3.SensMat(I(j3),1:I(j3),J(j3)); 
-                  end
-              end
-          else
-                counter= counter+1;
-          end
-      
+    for j2 = 1:par.rmodes            
+        saveNameBase = sprintf(['Data_',par.saveNameParameters, '_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g_'],...
+        [par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
+        par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , j2 ]);      
+
+        nameMatches = dir(['data' filesep saveNameBase '*']);
+        if ~isempty(nameMatches)
+            for k2 = 1:length(nameMatches)
+
+                tempDat = load( ['data' filesep nameMatches(k2).name] ); 
+                [q_vec,it] = ind2sub(size(tempDat.DataMat),find(tempDat.DataMat));
+                
+                for j3 = 1:length(q_vec)
+                    q = q_vec(j3);
+                    prev = length(find( dataMatTot(j,q,:) )  );
+                    dataMatTot(j,q, prev+1) = tempDat.DataMat(q_vec(j3),it(j3)); 
+                    sensorMatTot(j,q,1:q, prev+1) = tempDat.SensMat(q_vec(j3),1:q_vec(j3),it(j3)); 
+                    
+                    % check, often 30 sensors found now 
+%                     if prev > 100
+%                         varParList_short(j)
+% %                         q
+%                     end 
+                    
+                end
+                
+            end
+        end
     end
-      
-      
 end
 
 %% save datamattot
-
-save(['results' filesep  'DataMatTot_MacPcCombined.mat'],'dataMatTot','sensorMatTot','varParList','varParList_short','par')
+display(['Saving results as: results' filesep  'dataMatTot_',par.saveNameParameters])
+toc
+save(['results' filesep 'dataMatTot_' par.saveNameParameters],'dataMatTot','sensorMatTot','varParList','varParList_short','par')
  

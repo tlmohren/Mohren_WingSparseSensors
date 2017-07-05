@@ -24,8 +24,13 @@ function [ strainSet ] = eulerLagrangeConcatenate_predictTrain(th,ph,par)
     else
         % Run simulations for the given parameters 
         fprintf(['Running simulations for: ' simName '\n']); 
-        strain_0 = eulerLagrange(0,ph,th ,par);
-        strain_10 = eulerLagrange(10,ph,th ,par);
+%         strain_0 = eulerLagrange(0,ph,th ,par);
+%         strain_10 = eulerLagrange(10,ph,th ,par);
+        
+        strain_0 = eulerLagrange(0,th,ph ,par);
+        strain_10 = eulerLagrange(10,th,ph ,par);
+        
+        
         strainSet.strain_0 = strain_0;
         strainSet.strain_10 = strain_10;
         fprintf(['Completed simulations for: ' simName '\n']); 
