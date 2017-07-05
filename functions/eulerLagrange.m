@@ -59,7 +59,7 @@ function [strain] = eulerLagrange(frot, th,ph ,par )
 %         deg2rad(flapamp) ...
 %         .*(  sin(2*pi*par.flapFrequency*t) ...
 %         + par.harmonic*sin(2*pi*2*par.flapFrequency*t) ) .* sigmoid ))
-    disturbance_diagnostics( diff( phi)) 
+%     disturbance_diagnostics( diff( phi)) 
     
     theta   = 0;
     gamma   = 0;
