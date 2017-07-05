@@ -9,7 +9,7 @@ function [ varParList] = setVariableParameters_allSensors(par)
 nFigures = 5;
 count = 0;
 
-for j0= 1:nFigures
+for j0= 2:4
     if j0 == 1
         % disturbance sweep figure   2A
         par.theta_distList = [0,0.1,1,10];
@@ -22,9 +22,11 @@ for j0= 1:nFigures
         par.NLDshiftList = [0.5];
         par.NLDsharpnessList = [10];
     elseif j0 == 2
-        % hump phi disturbance plot 2B
-        par.theta_distList = [0];
-        par.phi_distList = spa_sf( 10.^[-3:0.2:2] ,2);
+        % disturbance sweep figure   2A
+%         par.theta_distList = [0,0.1,1,10];
+%         par.phi_distList = [0,0.1,1,10] ;
+        par.theta_distList = 10*[0,0.01,0.1,1];
+        par.phi_distList = 31.2*[0,0.01,0.1,1] ;
         par.xIncludeList = [0];
         par.yIncludeList = [1];
         par.SSPOConList = [0,1];
@@ -33,6 +35,17 @@ for j0= 1:nFigures
         par.NLDshiftList = [0.5];
         par.NLDsharpnessList = [10];
     elseif j0 == 3
+        % hump phi disturbance plot 2B
+        par.theta_distList = [0];
+        par.phi_distList = spa_sf( 10.^[-3:0.2:2] ,2)* 31.2;
+        par.xIncludeList = [0];
+        par.yIncludeList = [1];
+        par.SSPOConList = [0,1];
+        par.STAwidthList = [3];
+        par.STAshiftList = [-10];% 
+        par.NLDshiftList = [0.5];
+        par.NLDsharpnessList = [10];
+    elseif j0 == 4
         % hump theta disturbance plot   2B
         par.theta_distList = spa_sf( 10.^[-3:0.2:2] ,2);
         par.phi_distList = [0];
@@ -44,7 +57,7 @@ for j0= 1:nFigures
         par.NLDshiftList = [0.5];
         par.NLDsharpnessList = [10];
         
-    elseif j0 == 4
+    elseif j0 == 5
         % STA sweep 
         par.theta_distList = [0];
         par.phi_distList = [0];
@@ -56,7 +69,7 @@ for j0= 1:nFigures
         par.NLDshiftList = [0.5];
         par.NLDsharpnessList = [10];
         
-    elseif j0 == 5
+    elseif j0 == 6
         % NLD sweep 
         par.theta_distList = [0];
         par.phi_distList = [0];
