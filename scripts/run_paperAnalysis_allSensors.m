@@ -15,7 +15,7 @@ par.varParNames = fieldnames(varParList);
 par.iter = 10;
 par.wTrunc = 1326;
 par.predictTrain = 1;
-par.saveNameParameters = 'elasticNet09';
+par.saveNameParameters = 'elasticNet09_phiCorrect';
 
 save(  ['data',filesep, 'ParameterList_allSensors']  ,'par','varParList')
 %% Run simulation and Sparse sensor placement for combinations of 4 parameters, over a set number of iterations
@@ -24,6 +24,7 @@ tic
 for j = 1:length(varParList)
         % adjust parameters for this set of iterations----------------------
         DataMat = zeros(1,par.iter);
+%         SensMat = zeros(par.rmodes,par.rmodes,par.iter);
 
         for k = 1:length(par.varParNames)
             par.(par.varParNames{k}) = varParList(j).(par.varParNames{k});
@@ -46,7 +47,7 @@ for j = 1:length(varParList)
                 q = length(sensors);
                 prev = length(find( DataMat(1, :) )  );
                 DataMat(1, prev+1) = acc; 
-    %             SensMat(q, 1:q,prev+1) = sensors ;    
+%                 SensMat(q, 1:q,prev+1) = sensors ;    
 
                 % Print accuracy in command window --------------------
                 fprintf('All sensors, giving accuracy =%4.2f \n',[acc])        
@@ -60,10 +61,10 @@ for j = 1:length(varParList)
                         [par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
                         par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , par.wTrunc ]);      
     saveName = [saveNameBase,computer,'_',datestr(datetime('now'), 30),'.mat'];
-    save(  ['data',filesep, saveName]  ,'DataMat','SensMat','par')
+    save(  ['data',filesep, saveName]  ,'DataMat','par')
     fprintf('Runtime = %g[s], Saved as: %s \n',[toc,saveName]) 
     
-    if ~(mod(j, 100)~= 0 && j ~= length(varParList))
+    if ~(mod(j, 10)~= 0 && j ~= length(varParList))
         system('git pull');
         system('git add data/*.mat');
         system(sprintf('git commit * -m "pushing data from more runs %i"', j));
