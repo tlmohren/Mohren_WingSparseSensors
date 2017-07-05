@@ -15,52 +15,52 @@ par.varParNames = fieldnames(varParList);
 par.iter = 10;
 par.wTrunc = 1326;
 
+save(  ['data',filesep, 'ParameterList_allSensors']  ,'par','varParList')
 %% Run simulation and Sparse sensor placement for combinations of 4 parameters, over a set number of iterations
 
 tic 
 for j = 1:length(varParList)
-    try
         % adjust parameters for this set of iterations----------------------
         DataMat = zeros(1,par.iter);
-%         SensMat = zeros(par.rmodes,par.rmodes,par.iter);
 
         for k = 1:length(par.varParNames)
             par.(par.varParNames{k}) = varParList(j).(par.varParNames{k});
         end
 
         for k = 1:par.iter
-            % Generate strain with Euler-Lagrange simulation ----------
-            strainSet = eulerLagrangeConcatenate( varParList(j).theta_dist , varParList(j).phi_dist ,par);
+             try
+                % Generate strain with Euler-Lagrange simulation ----------
+    %             strainSet = eulerLagrangeConcatenate( varParList(j).theta_dist , varParList(j).phi_dist ,par);
+                strainSet = eulerLagrangeConcatenate_predictTrain( varParList(j).theta_dist , varParList(j).phi_dist ,par);
 
-            % Apply neural filters to strain --------------------------
-            [X,G] = neuralEncoding(strainSet, par );
+                % Apply neural filters to strain --------------------------
+                [X,G] = neuralEncoding(strainSet, par );
 
-            % Find accuracy and optimal sensor locations  ---------
-            [acc,sensors ] = sparseWingSensors( X,G, par);
+                % Find accuracy and optimal sensor locations  ---------
+                [acc,sensors ] = sparseWingSensors( X,G, par);
 
-    %         Store data in 3D matrix ----------------------------
-            q = length(sensors);
-            prev = length(find( DataMat(1, :) )  );
-            DataMat(1, prev+1) = acc; 
-%             SensMat(q, 1:q,prev+1) = sensors ;    
+        %         Store data in 3D matrix ----------------------------
+                q = length(sensors);
+                prev = length(find( DataMat(1, :) )  );
+                DataMat(1, prev+1) = acc; 
+    %             SensMat(q, 1:q,prev+1) = sensors ;    
 
-            % Print accuracy in command window --------------------
-            fprintf('All sensors, giving accuracy =%4.2f \n',[acc])
+                % Print accuracy in command window --------------------
+                fprintf('All sensors, giving accuracy =%4.2f \n',[acc])        
+            catch
+                fprintf(['W_trunc = %1.0f, gave error, length q = ',num2str(length(q)),' \n'],[par.wTrunc])
+            end
         end
 
         % save data 
-    saveName = sprintf('Data_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g_',...
+    saveNameBase = sprintf(['Data_',par.saveNameParameters, '_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g_'],...
                         [par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
-                        par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , par.wTrunc ]); 
-
-        saveName = [saveName,computer,'_',datestr(datetime('now'), 30),'.mat'];
-        save(  ['data',filesep, saveName]  ,'DataMat','par')
-        fprintf('Runtime = %g[s], Saved as: %s \n',[toc,saveName]) 
-    catch
-        fprintf('Run %i failed\n', j); 
-    end
+                        par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , par.wTrunc ]);      
+    saveName = [saveNameBase,computer,'_',datestr(datetime('now'), 30),'.mat'];
+    save(  ['data',filesep, saveName]  ,'DataMat','SensMat','par')
+    fprintf('Runtime = %g[s], Saved as: %s \n',[toc,saveName]) 
     
-    if mod(j, 1)==10,
+    if ~(mod(j, 100)~= 0 && j ~= length(varParList))
         system('git pull');
         system('git add data/*.mat');
         system(sprintf('git commit * -m "pushing data from more runs %i"', j));
@@ -68,9 +68,4 @@ for j = 1:length(varParList)
     end;
 end
 %%
-save(  ['data',filesep, 'ParameterList_allSensors']  ,'par','varParList')
 
-system('git pull');
-system('git add data/*.mat');
-system(sprintf('git commit * -m "pushing data from more runs %i"', j));
-system('git push');
