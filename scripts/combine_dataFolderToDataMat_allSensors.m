@@ -7,7 +7,9 @@ load(['data', filesep, 'ParameterList_' par.saveNameParameters])
 par.varParNames = fieldnames(varParList);
 
 exp_duplicates = 3;
-dataMatTot = zeros( length(varParList), par.rmodes , par.iter*exp_duplicates);
+
+% dataMatTot = zeros( length(varParList), par.rmodes , par.iter*exp_duplicates);
+dataMatTot = zeros( length(varParList) ,par.iter);
 % sensorMatTot = zeros( length(varParList), par.rmodes , par.rmodes ,par.iter*exp_duplicates);
 %% 
 display('loading in datafiles to combine results')
@@ -28,12 +30,14 @@ for j = 1:length(varParList)
             for k2 = 1:length(nameMatches)
 
                 tempDat = load( ['data' filesep nameMatches(k2).name] ); 
-                [q_vec,it] = ind2sub(size(tempDat.DataMat),find(tempDat.DataMat));
-                
-                for j3 = 1:length(q_vec)
-                    q = q_vec(j3);
-                    prev = length(find( dataMatTot(j,q,:) )  );
-                    dataMatTot(j,q, prev+1) = tempDat.DataMat(q_vec(j3),it(j3)); 
+%                 [q_vec,it] = ind2sub(size(tempDat.DataMat),find(tempDat.DataMat));
+                it_success = find(tempDat.DataMat);
+%                 n_iters = size(tempDat.DataMat);
+                for j3 = it_success
+%                     q = q_vec(j3);
+                    prev = length(find( dataMatTot(j,:) )  );
+%                     dataMatTot(j,q, prev+1) = tempDat.DataMat(q_vec(j3),it(j3)); 
+                    dataMatTot(j, prev+1) = tempDat.DataMat(it_success(j3)); 
 %                     sensorMatTot(j,q,1:q, prev+1) = tempDat.SensMat(q_vec(j3),1:q_vec(j3),it(j3)); 
                     
                     % check, often 30 sensors found now 

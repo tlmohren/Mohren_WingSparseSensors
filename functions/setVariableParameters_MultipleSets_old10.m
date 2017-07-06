@@ -9,7 +9,7 @@ function [ varParList,varParList_short] = setVariableParameters_MultipleSets(par
 nFigures = 6;
 count = 0;
 count_short  = 0;
-for j0= 1:6%1:nFigures
+for j0= 2:4%1:nFigures
     if j0 == 1
         % disturbance sweep figure   2A
         par.theta_distList = [0,0.1,1,10];

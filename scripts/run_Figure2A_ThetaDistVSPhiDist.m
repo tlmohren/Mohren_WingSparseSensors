@@ -6,9 +6,16 @@ scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
 addpath([scriptLocation filesep 'scripts']);
 addpathFolderStructure()
 
+% load data
 par.saveNameParameters = 'elasticNet09';
 load(['results' filesep 'dataMatTot_' par.saveNameParameters])
+
+% load allsensors 
 allSensors = load(['results' filesep 'tempDataMatTot_allSensors']);
+
+% load no Neural filter
+% STANLD0 = load('');
+
 % allSensors = load(['results' filesep   par.saveNameParameters '_allSensors']);
 
 %% see which simulations belong to this parameter set 
@@ -30,10 +37,10 @@ bin_SSPOCoff = ( [varParList_short.STAwidth] == 3) & ...
         
 ind_SSPOCon = find(bin_SSPOCon);
 ind_SSPOCoff = find(bin_SSPOCoff);
-%     figure();
-%         plot(bin_SSPOCon,'-o')
-%         hold on;
-%         plot(bin_SSPOCoff,'-o')
+    figure();
+        plot(bin_SSPOCon,'-o')
+        hold on;
+        plot(bin_SSPOCoff,'-o')
 
 %% create subplot routine
 

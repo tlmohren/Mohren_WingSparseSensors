@@ -6,10 +6,10 @@ function [ varParList] = setVariableParameters_allSensors(par)
 %  unsorted
 
 
-nFigures = 5;
+nFigures = 8;
 count = 0;
 
-for j0= 2:4
+for j0= 1:4
     if j0 == 1
         % disturbance sweep figure   2A
         par.theta_distList = [0,0.1,1,10];
@@ -35,6 +35,28 @@ for j0= 2:4
         par.NLDshiftList = [0.5];
         par.NLDsharpnessList = [10];
     elseif j0 == 3
+        %  No neural filter  2A
+        par.theta_distList = 10*[0,0.01,0.1,1];
+        par.phi_distList = 31.2*[0,0.01,0.1,1] ;
+        par.xIncludeList = [0];
+        par.yIncludeList = [1];
+        par.SSPOConList = [2];
+        par.STAwidthList = [0];
+        par.STAshiftList = [-10];% 
+        par.NLDshiftList = [0.5];
+        par.NLDsharpnessList = [0];
+    elseif j0 == 4
+        % no neural filter 
+        par.theta_distList = 10*[0,0.01,0.1,1];
+        par.phi_distList = 31.2*[0,0.01,0.1,1] ;
+        par.xIncludeList = [0];
+        par.yIncludeList = [1];
+        par.SSPOConList = [2];
+        par.STAwidthList = [0];
+        par.STAshiftList = [0];% 
+        par.NLDshiftList = [0.5];
+        par.NLDsharpnessList = [0];
+    elseif j0 == 5
         % hump phi disturbance plot 2B
         par.theta_distList = [0];
         par.phi_distList = spa_sf( 10.^[-3:0.2:2] ,2)* 3.12;
@@ -45,7 +67,7 @@ for j0= 2:4
         par.STAshiftList = [-10];% 
         par.NLDshiftList = [0.5];
         par.NLDsharpnessList = [10];
-    elseif j0 == 4
+    elseif j0 == 6
         % hump theta disturbance plot   2B
         par.theta_distList = spa_sf( 10.^[-3:0.2:2] ,2);
         par.phi_distList = [0];
@@ -57,7 +79,7 @@ for j0= 2:4
         par.NLDshiftList = [0.5];
         par.NLDsharpnessList = [10];
         
-    elseif j0 == 5
+    elseif j0 == 7
         % STA sweep 
         par.theta_distList = [0];
         par.phi_distList = [0];
@@ -69,7 +91,7 @@ for j0= 2:4
         par.NLDshiftList = [0.5];
         par.NLDsharpnessList = [10];
         
-    elseif j0 == 6
+    elseif j0 == 8
         % NLD sweep 
         par.theta_distList = [0];
         par.phi_distList = [0];

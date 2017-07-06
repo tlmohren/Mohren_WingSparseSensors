@@ -11,9 +11,9 @@ par.saveNameParameters = 'elasticNet09';
 % par.saveNameParameters = 'elasticNet09_phiCorrect';
 load(['results' filesep 'dataMatTot_' par.saveNameParameters],'dataMatTot','sensorMatTot','par')
 
-allSensors = load(['results' filesep 'tempDataMatTot_allSensors']);
+% allSensors = load(['results' filesep 'tempDataMatTot_allSensors']);
 par.saveNameAllSensors = 'elasticNet09_phiCorrect_allSensors';
-allSensors2 = load(['results' filesep , 'dataMatTot_' par.saveNameAllSensors,'.mat']);
+allSensors = load(['results' filesep , 'dataMatTot_' par.saveNameAllSensors,'.mat']);
 % _phiCorrect_allSensors
 % datamatTot = dataMatTot;
 col = {'-k','-r'};
