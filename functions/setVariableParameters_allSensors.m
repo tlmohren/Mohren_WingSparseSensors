@@ -37,7 +37,7 @@ for j0= 2:4
     elseif j0 == 3
         % hump phi disturbance plot 2B
         par.theta_distList = [0];
-        par.phi_distList = spa_sf( 10.^[-3:0.2:2] ,2)* 31.2;
+        par.phi_distList = spa_sf( 10.^[-3:0.2:2] ,2)* 31.2;/
         par.xIncludeList = [0];
         par.yIncludeList = [1];
         par.SSPOConList = [2];
