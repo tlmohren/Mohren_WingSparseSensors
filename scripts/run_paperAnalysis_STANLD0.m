@@ -17,10 +17,11 @@ par = setParameters;
 par.varParNames = fieldnames(varParList);
 par.iter = 10;
 par.predictTrain = 1;
-par.saveNameParameters = 'elasticNet09_phiCorrect_STANLD0';
+par.elasticNet = 1;
+par.saveNameParameters = 'elasticNet1_phiCorrect_STANLD0';
 
 % Save parameter list, necessary for assembling .mat files in figure making
-save( ['data' filesep 'ParameterList_', par.saveNameParameters '_STANLD0.mat'], 'varParList','varParList_short', 'par')
+save( ['data' filesep 'ParameterList_', par.saveNameParameters '.mat'], 'varParList','varParList_short', 'par')
 
 %% Run eulerLagrangeSimulation (optional) and sparse sensor placement algorithm
 

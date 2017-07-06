@@ -1,8 +1,8 @@
 % analyze varParList 
 clc;clear all;close all
 %% 
-par.saveNameParameters = 'elasticNet09'; %phiCorrect still to run 
-% par.saveNameParameters = 'elasticNet09_phiCorrect';
+% par.saveNameParameters = 'elasticNet09';
+par.saveNameParameters = 'elasticNet09_phiCorrect_STANLD0';
 load(['data', filesep, 'ParameterList_' par.saveNameParameters])
 par.varParNames = fieldnames(varParList_short);
 

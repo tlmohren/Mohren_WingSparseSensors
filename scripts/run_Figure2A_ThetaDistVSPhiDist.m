@@ -7,7 +7,6 @@ addpath([scriptLocation filesep 'scripts']);
 addpathFolderStructure()
 
 par.saveNameParameters = 'elasticNet09';
-
 load(['results' filesep 'dataMatTot_' par.saveNameParameters])
 allSensors = load(['results' filesep 'tempDataMatTot_allSensors']);
 % allSensors = load(['results' filesep   par.saveNameParameters '_allSensors']);
@@ -27,7 +26,7 @@ bin_SSPOCoff = ( [varParList_short.STAwidth] == 3) & ...
             ( [varParList_short.xInclude] == 0) & ...
             ( [varParList_short.yInclude] == 1) & ...
             ( [varParList_short.NLDshift] == 0.5) & ...
-            ( [varParList_short.NLDsharpness] == 10);3
+            ( [varParList_short.NLDsharpness] == 10);
         
 ind_SSPOCon = find(bin_SSPOCon);
 ind_SSPOCoff = find(bin_SSPOCoff);
@@ -50,10 +49,11 @@ dotcol = {'.k','.r'};
 color_vec = {'-r','-k'};
 
 %% 
-fig2=figure('Position', [100, 100, 1000, 800]);
+fig2=figure('Position', [100, 100, 950, 750]);
 for j = 1:n_y
     for k = 1:n_x
         sub_nr = (j-1)*n_y + k;
+        sub_nr_all = (k-1)*n_y + j;
         subplot(n_y,n_x, sub_nr)
         hold on
         
@@ -82,25 +82,39 @@ for j = 1:n_y
             plot(realNumbers, meanVec(realNumbers),col{2})
         
         
-        meanval = mean( allSensors.dataMatTot(sub_nr,:) );
-        stdval = std( allSensors.dataMatTot(sub_nr,:) );
+        meanval = mean( allSensors.dataMatTot(sub_nr_all,:) );
+        stdval = std( allSensors.dataMatTot(sub_nr_all,:) );
         % plot allsensors
-            errorbar(32,meanval,stdval,'k','LineWidth',1)
-            plot([31,33],[meanval,meanval],'k','LineWidth',1)   
-            title( varParList_short(Dat_I).phi_dist)
-            axis([0,33,0.4,1])
+            errorbar(38,meanval,stdval,'k','LineWidth',1)
+            plot([37,39],[meanval,meanval],'k','LineWidth',1)   
+%             title( varParList_short(Dat_I).phi_dist)
+            axis([0,39,0.4,1])
             
         if sub_nr <=4
-            title(['$\phi$* = ',num2str(par.phi_dist(k)), ' rad/s'] )
+%             title(['$\phi$* = ',num2str(par.phi_dist(k)), ' rad/s'] )
+            title(['$\theta$* = ',num2str(par.theta_dist(k)), ' rad/s'])
         end
         if  rem(sub_nr-1,4) == 0
-            ylabel(['\theta* = ',num2str(par.theta_dist(j)), ' rad/s'])
+%             ylabel(['\theta* = ',num2str(par.theta_dist(j)), ' rad/s'])
+            ylabel(['\phi* = ',num2str(par.phi_dist(j)), ' rad/s'] )
         end
         
         % heatmap preparation
         limit = 0.75;
-        plot([1,30],[limit,limit])
+%         plot([1,30],[limit,limit])
         
+
+    
+xlhand = get(gca,'xlabel');
+set(xlhand,'string','X','fontsize',5)
+
+        A{1} = 0:10:30;
+        A{2} = 1326;
+        set(gca,'xtick',[0:10:30,39]);
+        set(gca,'xticklabel',A);
+
+
+
         if isempty(find(meanVec>limit,1))
             q_first(j,k) = 31;
         else

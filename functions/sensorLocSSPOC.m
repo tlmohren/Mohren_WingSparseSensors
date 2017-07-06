@@ -17,7 +17,7 @@ function  [  sensors  ] = sensorLocSSPOC(  Xtrain,Gtrain , par)
         w_t = w_r(big_modes);
         Psi = Psi(:,big_modes);
         
-        s = SSPOC(Psi,w_t);
+        s = SSPOC(Psi,w_t,par);
         s = sum(s, 2);   
         
         [~, I_top] = sort( abs(s));
