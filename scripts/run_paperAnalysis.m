@@ -19,7 +19,7 @@ par.iter = 10;
 % par.SSPOCon = 2;
 par.predictTrain = 1;
 par.elasticNet = 0.9;
-par.saveNameParameters = 'elasticNet09_phiAll';
+par.saveNameParameters = 'elasticNet09_phiAll_Fri';
 % par.saveNameParameters = 'elasticNet09';
 
 % Save parameter list, necessary for assembling .mat files in figure making

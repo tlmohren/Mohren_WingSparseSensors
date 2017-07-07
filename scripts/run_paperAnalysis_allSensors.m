@@ -16,7 +16,7 @@ par.iter = 10;
 par.wTrunc = 1326;
 par.predictTrain = 1;
 par.elasticNet = 0.9;
-par.saveNameParameters = 'elasticNet09_phiAllNFAll_NO_allSensors';
+par.saveNameParameters = 'elasticNet09_phiAllNFAll_Fri_allSensors';
 
 save(  ['data',filesep, 'ParameterList_', par.saveNameParameters '.mat']  ,'par','varParList')
 %% Run simulation and Sparse sensor placement for combinations of 4 parameters, over a set number of iterations
