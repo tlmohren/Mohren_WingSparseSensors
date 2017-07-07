@@ -2,7 +2,8 @@
 clc;clear all;close all
 %% 
 % par.saveNameParameters = 'elasticNet09';
-par.saveNameParameters = 'elasticNet09_phiCorrect_allSensors';
+% par.saveNameParameters = 'elasticNet09_phiCorrect_allSensors';
+par.saveNameParameters = 'elasticNet09_phiAllNFAll_allSensors';
 load(['data', filesep, 'ParameterList_' par.saveNameParameters])
 par.varParNames = fieldnames(varParList);
 

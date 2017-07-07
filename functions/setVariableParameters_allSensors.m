@@ -12,8 +12,8 @@ count = 0;
 for j0= 1:4
     if j0 == 1
         % disturbance sweep figure   2A
-        par.theta_distList = [0,0.1,1,10];
-        par.phi_distList = [0,0.1,1,10];
+        par.theta_distList =[0.001,0.01,0.1,1] * 10;
+        par.phi_distList = [0.001,0.01,0.1,1] * 10;
         par.xIncludeList = [0];
         par.yIncludeList = [1];
         par.SSPOConList = [2];
@@ -22,22 +22,9 @@ for j0= 1:4
         par.NLDshiftList = [0.5];
         par.NLDsharpnessList = [10];
     elseif j0 == 2
-        % disturbance sweep figure   2A
-%         par.theta_distList = [0,0.1,1,10];
-%         par.phi_distList = [0,0.1,1,10] ;
-        par.theta_distList = 10*[0,0.01,0.1,1];
-        par.phi_distList = 31.2*[0,0.01,0.1,1] ;
-        par.xIncludeList = [0];
-        par.yIncludeList = [1];
-        par.SSPOConList = [2];
-        par.STAwidthList = [3];
-        par.STAshiftList = [-10];% 
-        par.NLDshiftList = [0.5];
-        par.NLDsharpnessList = [10];
-    elseif j0 == 3
         %  No neural filter  2A
-        par.theta_distList = 10*[0,0.01,0.1,1];
-        par.phi_distList = 31.2*[0,0.01,0.1,1] ;
+        par.theta_distList = [0.001,0.01,0.1,1] * 10;
+        par.phi_distList = [0.001,0.01,0.1,1] * 10 ;
         par.xIncludeList = [0];
         par.yIncludeList = [1];
         par.SSPOConList = [2];
@@ -45,10 +32,21 @@ for j0= 1:4
         par.STAshiftList = [-10];% 
         par.NLDshiftList = [0.5];
         par.NLDsharpnessList = [0];
+    elseif j0 == 3
+        % disturbance sweep figure   2A
+        par.theta_distList = [0.001,0.01,0.1,1] * 10;
+        par.phi_distList =[0.001,0.01,0.1,1] * 31.2 ;
+        par.xIncludeList = [0];
+        par.yIncludeList = [1];
+        par.SSPOConList = [2];
+        par.STAwidthList = [3];
+        par.STAshiftList = [-10];% 
+        par.NLDshiftList = [0.5];
+        par.NLDsharpnessList = [10];
     elseif j0 == 4
         % no neural filter 
-        par.theta_distList = 10*[0,0.01,0.1,1];
-        par.phi_distList = 31.2*[0,0.01,0.1,1] ;
+        par.theta_distList = [0.001,0.01,0.1,1] * 10;
+        par.phi_distList =[0.001,0.01,0.1,1] * 31.2 ;
         par.xIncludeList = [0];
         par.yIncludeList = [1];
         par.SSPOConList = [2];
