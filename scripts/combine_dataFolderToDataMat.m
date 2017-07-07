@@ -2,10 +2,12 @@
 clc;clear all;close all
 %% 
 % par.saveNameParameters = 'elasticNet09'; %phiCorrect still to run 
-par.saveNameParameters = 'elasticNet09_phiAll';
+% par.saveNameParameters = 'elasticNet09_phiAll';
+par.saveNameParameters =  'elasticNet09_phiAll_Fri';
 % par.saveNameParameters = 'elasticNet09_phiCorrect';
 load(['data', filesep, 'ParameterList_' par.saveNameParameters])
 par.varParNames = fieldnames(varParList_short);
+par.saveNameParameters =  'elasticNet09_phiAll_Fri';
 
 exp_duplicates = 3;
 dataMatTot = zeros( length(varParList_short), par.rmodes , par.iter*exp_duplicates);

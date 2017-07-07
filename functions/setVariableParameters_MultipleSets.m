@@ -12,8 +12,10 @@ count_short  = 0;
 for j0= 1:2%6%1:nFigures
     if j0 == 1
         % disturbance sweep figure   2A
-        par.theta_distList = [0,0.1,1,10];
-        par.phi_distList = [0,0.1,1,10];
+%         par.theta_distList = [0,0.1,1,10];
+%         par.phi_distList = [0,0.1,1,10];
+        par.theta_distList = [0.001,0.01,0.1,1] * 10;
+        par.phi_distList = [0.001,0.01,0.1,1] * 10;
         par.xIncludeList = [0];
         par.yIncludeList = [1];
         par.SSPOConList = [0,1];
@@ -26,8 +28,10 @@ for j0= 1:2%6%1:nFigures
         % disturbance sweep figure   2A
 %         par.theta_distList = [0,0.1,1,10];
 %         par.phi_distList = [0,0.1,1,10] ;
-        par.theta_distList = 10*[0,0.01,0.1,1];
-        par.phi_distList = 31.2*[0,0.01,0.1,1] ;
+%         par.theta_distList = 10*[0,0.01,0.1,1];
+%         par.phi_distList = 31.2*[0,0.01,0.1,1] ;
+        par.theta_distList = [0.001,0.01,0.1,1] * 10;
+        par.phi_distList =[0.001,0.01,0.1,1] * 31.2 ;
         par.xIncludeList = [0];
         par.yIncludeList = [1];
         par.SSPOConList = [0,1];

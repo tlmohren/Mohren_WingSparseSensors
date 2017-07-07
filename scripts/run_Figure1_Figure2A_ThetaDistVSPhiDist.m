@@ -9,13 +9,20 @@ addpathFolderStructure()
 % load data
 % par.saveNameParameters = 'elasticNet09_phiAll';
 % par.saveNameParameters = 'elasticNet09';
-par.saveNameParameters = 'elasticNet09_phiAll';
+par.saveNameParameters = 'elasticNet09_phiAll_Fri';
 dataStruct = load(['results' filesep 'dataMatTot_' par.saveNameParameters])
+par.saveNameParameters = 'elasticNet09_phiAll_Fri'
+
+
 
 % load allsensors 
 % allSensors = load(['results' filesep 'tempDataMatTot_allSensors']);
-par.saveNameAllSensors = 'elasticNet09_phiAllNFAll_allSensors';
+par.saveNameAllSensors = 'elasticNet09_phiAllNFAll_Fri_allSensors';
 dataStructAll = load(['results' filesep 'dataMatTot_', par.saveNameAllSensors '.mat'])
+par.saveNameAllSensors = 'elasticNet09_phiAllNFAll_Fri_allSensors';
+
+
+
 
 ind_SSPOCoff = 1:2:64;
 ind_SSPOCon = 2:2:64;
@@ -26,8 +33,8 @@ ind_see = [ dataStruct.varParList_short.theta_dist ; dataStruct.varParList_short
 ind_see(1:64,:);
 
 %% see which simulations belong to this parameter set 
-par.phi_dist = [0,0.1,1,10];
-par.theta_dist = [0,0.1,1,10];
+par.phi_dist = [0.01,0.1,1,10];
+par.theta_dist = [0.01,0.1,1,10];
 n_plots = 16; 
 n_x = 4;
 n_y = 4; 
@@ -42,21 +49,17 @@ for j = 1:n_y
         subplot(n_y,n_x, sub_nr)
         hold on
         %---------------------------------SSPOCoff-------------------------
+   
         Dat_I = ind_SSPOCoff( sub_nr);
-        for k2 = 1:size(dataStruct.dataMatTot,2)
-            meanVec_random(k2) = mean(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
-            stdVec_random(k2) = std(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
-            iters = length(nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) );
-%             scatter( ones(iters,1)*k2,nonzeros(dataMatTot(Dat_I,k2,:)) , dotcol{1})
-        end
-        realNumbers = find(~isnan(meanVec_random));
-        a = shadedErrorBar(realNumbers, meanVec_random(realNumbers),stdVec_random(realNumbers),col{1});
+        [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
+        
+        realNumbers = find(~isnan(meanVec));
+        a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1});
         
         %---------------------------------SSPOCon-------------------------
         Dat_I = ind_SSPOCon(sub_nr);
+        [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
         for k2 = 1:size(dataStruct.dataMatTot,2)
-            meanVec(k2) = mean(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
-            stdVec(k2) = std(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
             iters = length(nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) );
             scatter( ones(iters,1)*k2,nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) , dotcol{2})
         end
@@ -73,8 +76,8 @@ for j = 1:n_y
         plot([37,39],[meanval,meanval],'k','LineWidth',1)   
 
         %--------------------------------Allsensors no NF-------------------------    
-        meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr+32,:)  ) );
-        stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr+32,:)  ) );
+        meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr+16,:)  ) );
+        stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr+16,:)  ) );
 
         errorbar(38,meanval,stdval,'b','LineWidth',1)
         plot([37,39],[meanval,meanval],'b','LineWidth',1)   
@@ -136,8 +139,8 @@ saveas(fig2,['figs' filesep 'Figure2A_ThetaDistVSPhiDist_0_10_' par.saveNamePara
 
 
 %% see which simulations belong to this parameter set 
-par.phi_dist = [0,0.1,1,10]*3.12;
-par.theta_dist = [0,0.1,1,10];
+par.phi_dist = [0.01,0.1,1,10]*3.12;
+par.theta_dist = [0.01,0.1,1,10];
 
 fig3=figure('Position', [100, 100, 950, 750]);
 for j = 1:n_y
@@ -147,21 +150,24 @@ for j = 1:n_y
         hold on
         
         %---------------------------------SSPOCoff-------------------------
-        Dat_I = ind_SSPOCoff( sub_nr+16);
-        for k2 = 1:size(dataStruct.dataMatTot,2)
-            meanVec_random(k2) = mean(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
-            stdVec_random(k2) = std(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
-            iters = length(nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) );
-%             scatter( ones(iters,1)*k2,nonzeros(dataMatTot(Dat_I,k2,:)) , dotcol{1})
-        end
-        realNumbers = find(~isnan(meanVec_random));
-        a = shadedErrorBar(realNumbers, meanVec_random(realNumbers),stdVec_random(realNumbers),col{1});
+        Dat_I = ind_SSPOCoff( sub_nr+16)
+%         Dat_I = ind_SSPOCoff( sub_nr+16)
+        [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
+%         for k2 = 1:size(dataStruct.dataMatTot,2)
+%             meanVec_random(k2) = mean(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
+%             stdVec_random(k2) = std(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
+%             iters = length(nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) );
+% %             scatter( ones(iters,1)*k2,nonzeros(dataMatTot(Dat_I,k2,:)) , dotcol{1})
+%         end
+        realNumbers = find(~isnan(meanVec));
+        a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1});
         
         %---------------------------------SSPOCon-------------------------
         Dat_I = ind_SSPOCon(sub_nr+16);
+        [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
         for k2 = 1:size(dataStruct.dataMatTot,2)
-            meanVec(k2) = mean(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
-            stdVec(k2) = std(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
+%             meanVec(k2) = mean(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
+%             stdVec(k2) = std(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
             iters = length(nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) );
             scatter( ones(iters,1)*k2,nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) , dotcol{2})
         end
@@ -170,16 +176,23 @@ for j = 1:n_y
 %         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{2},0.9);
         plot(realNumbers, meanVec(realNumbers),col{2})
         
+        
         %--------------------------------Allsensors Neural filt-------------------------    
-        meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr+16,:)  ) );
-        stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr+16,:)  ) );
+        meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr+32,:)  ) );
+        stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr+32,:)  ) );
+%         meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr,:)  ) );
+%         stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr,:)  ) );
 
         errorbar(38,meanval,stdval,'k','LineWidth',1)
         plot([37,39],[meanval,meanval],'k','LineWidth',1)   
 
+        
         %--------------------------------Allsensors no NF-------------------------    
         meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr+48,:)  ) );
         stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr+48,:)  ) );
+%         meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr + 16,:)  ) );
+%         stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr+ 16,:)  ) );
+
 
         errorbar(38,meanval,stdval,'b','LineWidth',1)
         plot([37,39],[meanval,meanval],'b','LineWidth',1)   
