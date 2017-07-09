@@ -9,20 +9,22 @@ addpathFolderStructure()
 % load data
 % par.saveNameParameters = 'elasticNet09_phiAll';
 % par.saveNameParameters = 'elasticNet09';
-par.saveNameParameters = 'elasticNet09_phiAll_Fri';
+par.saveNameParameters = 'elasticNet09_Fri';
 dataStruct = load(['results' filesep 'dataMatTot_' par.saveNameParameters])
-par.saveNameParameters = 'elasticNet09_phiAll_Fri'
+% par.saveNameParameters = 'elasticNet09_phiAll_Fri'
 
 
 
 % load allsensors 
 % allSensors = load(['results' filesep 'tempDataMatTot_allSensors']);
-par.saveNameAllSensors = 'elasticNet09_phiAllNFAll_Fri_allSensors';
+par.saveNameAllSensors = 'elasticNet09_Fri_allSensors';
 dataStructAll = load(['results' filesep 'dataMatTot_', par.saveNameAllSensors '.mat'])
-par.saveNameAllSensors = 'elasticNet09_phiAllNFAll_Fri_allSensors';
+% par.saveNameAllSensors = 'elasticNet09_phiAllNFAll_Fri_allSensors';
 
 
-
+fig2_0_10_on = 0;
+fig2_0_32_on = 1;
+fig1_on = 1;
 
 ind_SSPOCoff = 1:2:64;
 ind_SSPOCon = 2:2:64;
@@ -42,77 +44,80 @@ n_y = 4;
 col = {ones(3,1)*0.5,'-r'};
 dotcol = {'.k','.r'}; 
 
-fig2=figure('Position', [100, 100, 950, 750]);
-for j = 1:n_y
-    for k = 1:n_x
-        sub_nr = (j-1)*n_y + k
-        subplot(n_y,n_x, sub_nr)
-        hold on
-        %---------------------------------SSPOCoff-------------------------
-   
-        Dat_I = ind_SSPOCoff( sub_nr);
-        [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
-        
-        realNumbers = find(~isnan(meanVec));
-        a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1});
-        
-        %---------------------------------SSPOCon-------------------------
-        Dat_I = ind_SSPOCon(sub_nr);
-        [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
-        for k2 = 1:size(dataStruct.dataMatTot,2)
-            iters = length(nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) );
-            scatter( ones(iters,1)*k2,nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) , dotcol{2})
-        end
-        
-        realNumbers = find(~isnan(meanVec));
-%         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{2},0.9);
-        plot(realNumbers, meanVec(realNumbers),col{2})
-        
-        %--------------------------------Allsensors Neural filt-------------------------    
-        meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr,:)  ) );
-        stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr,:)  ) );
 
-        errorbar(38,meanval,stdval,'k','LineWidth',1)
-        plot([37,39],[meanval,meanval],'k','LineWidth',1)   
+if fig2_0_10_on == 1;
+    fig2=figure('Position', [100, 100, 950, 750]);
+    for j = 1:n_y
+        for k = 1:n_x
+            sub_nr = (j-1)*n_y + k;
+            subplot(n_y,n_x, sub_nr)
+            hold on
+            %---------------------------------SSPOCoff-------------------------
 
-        %--------------------------------Allsensors no NF-------------------------    
-        meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr+16,:)  ) );
-        stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr+16,:)  ) );
+            Dat_I = ind_SSPOCoff( sub_nr);
+            [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
 
-        errorbar(38,meanval,stdval,'b','LineWidth',1)
-        plot([37,39],[meanval,meanval],'b','LineWidth',1)   
+            realNumbers = find(~isnan(meanVec));
+            a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1});
 
-        %--------------------------------Figure cosmetics-------------------------    
-        axis([0,39,0.4,1])
-        if sub_nr <=4
-%             title(['$\phi$* = ',num2str(par.phi_dist(k)), ' rad/s'] )
-            title(['$\theta$* = ',num2str(par.theta_dist(k)), ' rad/s'])
-        end
-        if  rem(sub_nr-1,4) == 0
-%             ylabel(['\theta* = ',num2str(par.theta_dist(j)), ' rad/s'])
-            ylabel(['\phi* = ',num2str(par.phi_dist(j)), ' rad/s'] )
-        end
-        
-        xlhand = get(gca,'xlabel');
-        set(xlhand,'string','X','fontsize',5)
+            %---------------------------------SSPOCon-------------------------
+            Dat_I = ind_SSPOCon(sub_nr);
+            [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
+            for k2 = 1:size(dataStruct.dataMatTot,2)
+                iters = length(nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) );
+                scatter( ones(iters,1)*k2,nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) , dotcol{2})
+            end
 
-        A{1} = 0:10:30;
-        A{2} = 1326;
-        set(gca,'xtick',[0:10:30,39]);
-        set(gca,'xticklabel',A);
-        
-        %--------------------------------Heatmap prep-------------------------    
-        limit = 0.75;
-        if isempty(find(meanVec>limit,1))
-            q_first(j,k) = 31;
-        else
-            q_first(j,k) = find(meanVec>limit,1);
+            realNumbers = find(~isnan(meanVec));
+    %         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{2},0.9);
+            plot(realNumbers, meanVec(realNumbers),col{2})
+
+            %--------------------------------Allsensors Neural filt-------------------------    
+            meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr,:)  ) );
+            stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr,:)  ) );
+
+            errorbar(38,meanval,stdval,'k','LineWidth',1)
+            plot([37,39],[meanval,meanval],'k','LineWidth',1)   
+
+            %--------------------------------Allsensors no NF-------------------------    
+            meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr+16,:)  ) );
+            stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr+16,:)  ) );
+
+            errorbar(38,meanval,stdval,'b','LineWidth',1)
+            plot([37,39],[meanval,meanval],'b','LineWidth',1)   
+
+            %--------------------------------Figure cosmetics-------------------------    
+            axis([0,39,0.4,1])
+            if sub_nr <=4
+                title(['$\phi$* = ',num2str(par.phi_dist(k)), ' rad/s'] )
+    %             title(['$\theta$* = ',num2str(par.theta_dist(k)), ' rad/s'])
+            end
+            if  rem(sub_nr-1,4) == 0
+                ylabel(['\theta* = ',num2str(par.theta_dist(j)), ' rad/s'])
+    %             ylabel(['\phi* = ',num2str(par.phi_dist(j)), ' rad/s'] )
+            end
+
+    %         title( [ dataStruct.varParList_short(Dat_I).theta_dist , dataStruct.varParList_short(Dat_I).phi_dist ] )
+            xlhand = get(gca,'xlabel');
+            set(xlhand,'string','X','fontsize',5)
+
+            A{1} = 0:10:30;
+            A{2} = 1326;
+            set(gca,'xtick',[0:10:30,39]);
+            set(gca,'xticklabel',A);
+
+            %--------------------------------Heatmap prep-------------------------    
+            limit = 0.75;
+            if isempty(find(meanVec>limit,1))
+                q_first(j,k) = 31;
+            else
+                q_first(j,k) = find(meanVec>limit,1);
+            end
         end
     end
+    saveas(fig2,['figs' filesep 'Figure2A_ThetaDistVSPhiDist_0_10_' par.saveNameParameters], 'png')
+
 end
-saveas(fig2,['figs' filesep 'Figure2A_ThetaDistVSPhiDist_0_10_' par.saveNameParameters], 'png')
-
-
 
 
 
@@ -139,95 +144,111 @@ saveas(fig2,['figs' filesep 'Figure2A_ThetaDistVSPhiDist_0_10_' par.saveNamePara
 
 
 %% see which simulations belong to this parameter set 
-par.phi_dist = [0.01,0.1,1,10]*3.12;
+par.phi_dist = [0.01,0.1,1,10]*3.1;
 par.theta_dist = [0.01,0.1,1,10];
 
-fig3=figure('Position', [100, 100, 950, 750]);
-for j = 1:n_y
-    for k = 1:n_x
-        sub_nr = (j-1)*n_y + k
-        subplot(n_y,n_x, sub_nr)
-        hold on
-        
-        %---------------------------------SSPOCoff-------------------------
-        Dat_I = ind_SSPOCoff( sub_nr+16)
-%         Dat_I = ind_SSPOCoff( sub_nr+16)
-        [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
-%         for k2 = 1:size(dataStruct.dataMatTot,2)
-%             meanVec_random(k2) = mean(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
-%             stdVec_random(k2) = std(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
-%             iters = length(nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) );
-% %             scatter( ones(iters,1)*k2,nonzeros(dataMatTot(Dat_I,k2,:)) , dotcol{1})
-%         end
-        realNumbers = find(~isnan(meanVec));
-        a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1});
-        
-        %---------------------------------SSPOCon-------------------------
-        Dat_I = ind_SSPOCon(sub_nr+16);
-        [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
-        for k2 = 1:size(dataStruct.dataMatTot,2)
-%             meanVec(k2) = mean(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
-%             stdVec(k2) = std(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
-            iters = length(nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) );
-            scatter( ones(iters,1)*k2,nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) , dotcol{2})
-        end
-        
-        realNumbers = find(~isnan(meanVec));
-%         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{2},0.9);
-        plot(realNumbers, meanVec(realNumbers),col{2})
-        
-        
-        %--------------------------------Allsensors Neural filt-------------------------    
-        meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr+32,:)  ) );
-        stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr+32,:)  ) );
-%         meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr,:)  ) );
-%         stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr,:)  ) );
+if fig2_0_32_on == 1
+    fig3=figure('Position', [100, 100, 950, 750]);
+    for j = 1:n_y
+        for k = 1:n_x
+            sub_nr = (j-1)*n_y + k;
+            subplot(n_y,n_x, sub_nr)
+            hold on
 
-        errorbar(38,meanval,stdval,'k','LineWidth',1)
-        plot([37,39],[meanval,meanval],'k','LineWidth',1)   
+            %---------------------------------SSPOCoff-------------------------
+            Dat_I = ind_SSPOCoff( sub_nr+16);
+    %         Dat_I = ind_SSPOCoff( sub_nr+16)
+            [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
+    %         for k2 = 1:size(dataStruct.dataMatTot,2)
+    %             meanVec_random(k2) = mean(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
+    %             stdVec_random(k2) = std(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
+    %             iters = length(nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) );
+    % %             scatter( ones(iters,1)*k2,nonzeros(dataMatTot(Dat_I,k2,:)) , dotcol{1})
+    %         end
+            realNumbers = find(~isnan(meanVec));
+            a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1});
 
-        
-        %--------------------------------Allsensors no NF-------------------------    
-        meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr+48,:)  ) );
-        stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr+48,:)  ) );
-%         meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr + 16,:)  ) );
-%         stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr+ 16,:)  ) );
+            %---------------------------------SSPOCon-------------------------
+            Dat_I = ind_SSPOCon(sub_nr+16);
+            [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
+            for k2 = 1:size(dataStruct.dataMatTot,2)
+    %             meanVec(k2) = mean(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
+    %             stdVec(k2) = std(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
+                iters = length(nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) );
+                scatter( ones(iters,1)*k2,nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) , dotcol{2})
+            end
+
+            realNumbers = find(~isnan(meanVec));
+    %         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{2},0.9);
+            plot(realNumbers, meanVec(realNumbers),col{2})
 
 
-        errorbar(38,meanval,stdval,'b','LineWidth',1)
-        plot([37,39],[meanval,meanval],'b','LineWidth',1)   
+            %--------------------------------Allsensors Neural filt-------------------------    
+            meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr+32,:)  ) );
+            stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr+32,:)  ) );
 
-        %--------------------------------Figure cosmetics-------------------------    
-        axis([0,39,0.4,1])
-        if sub_nr <=4
-%             title(['$\phi$* = ',num2str(par.phi_dist(k)), ' rad/s'] )
-            title(['$\theta$* = ',num2str(par.theta_dist(k)), ' rad/s'])
-        end
-        if  rem(sub_nr-1,4) == 0
-%             ylabel(['\theta* = ',num2str(par.theta_dist(j)), ' rad/s'])
-            ylabel(['\phi* = ',num2str(par.phi_dist(j)), ' rad/s'] )
-        end
-        
-        xlhand = get(gca,'xlabel');
-        set(xlhand,'string','X','fontsize',5)
+            err_loc = 38;
+            errorbar(err_loc,meanval,stdval,'k','LineWidth',1)
+            plot([-1,1]+err_loc,[meanval,meanval],'k','LineWidth',1)   
 
-        A{1} = 0:10:30;
-        A{2} = 1326;
-        set(gca,'xtick',[0:10:30,39]);
-        set(gca,'xticklabel',A);
-        
-        %--------------------------------Heatmap prep-------------------------    
-        limit = 0.75;
-        if isempty(find(meanVec>limit,1))
-            q_first(j,k) = 31;
-        else
-            q_first(j,k) = find(meanVec>limit,1);
+            %--------------------------------Allsensors no NF-------------------------    
+            meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr+48,:)  ) );
+            stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr+48,:)  ) );
+
+
+%             err_loc = 37;
+            errorbar(err_loc,meanval,stdval,'b','LineWidth',1)
+            plot([-1,1]+err_loc,[meanval,meanval],'b','LineWidth',1)   
+
+            %--------------------------------Figure cosmetics-------------------------    
+            axis([0,err_loc+2,0.4,1])
+            if sub_nr <=4
+                title(['$\phi$* = ',num2str(par.phi_dist(k)), ' rad/s'] )
+    %             title(['$\theta$* = ',num2str(par.theta_dist(k)), ' rad/s'])
+            end
+            if rem(sub_nr-1,4) == 0
+                  ylabel(['\theta* = ',num2str(par.theta_dist(j)), ' rad/s'])
+    %             ylabel(['\phi* = ',num2str(par.phi_dist(j)), ' rad/s'] )
+            end
+           
+            ylh = get(gca,'ylabel');
+            gyl = get(ylh);                                                         % Object Information
+            ylp = get(ylh, 'Position');
+            set(ylh, 'Rotation',0, 'Position',ylp, 'VerticalAlignment','middle', 'HorizontalAlignment','right')
+
+            grid on 
+            A{1} = 0:10:30;
+            A{2} = 1326;
+            A = {'0','10','20','30','\bf \it 1326'};
+            set(gca,'xtick',[0:10:30,err_loc]);
+            set(gca,'xticklabel',A);
+            B = 0.4:0.2:1;
+            set(gca,'ytick',B);
+            set(gca,'yticklabel',B);
+            
+            if  sub_nr <13
+                set(gca, 'XTicklabel', []);
+            end
+            if ~rem(sub_nr-1,4)== 0
+                set(gca, 'YTicklabel', []);
+            end
+                
+            
+            
+            %--------------------------------Heatmap prep-------------------------    
+            limit = 0.75;
+            if isempty(find(meanVec>limit,1))
+                q_first(j,k) = 31;
+            else
+                q_first(j,k) = find(meanVec>limit,1);
+            end
         end
     end
+%     tightfig;
+    saveas(fig3,['figs' filesep 'Figure2A_ThetaDistVSPhiDist_0_36_' par.saveNameParameters], 'png')
+    
+     plot2svg(['figs' filesep 'Figure2A_ThetaDistVSPhiDist_0_36_' par.saveNameParameters] , fig3 ) 
 end
-saveas(fig3,['figs' filesep 'Figure2A_ThetaDistVSPhiDist_0_36_' par.saveNameParameters], 'png')
-
-
 
 
 
@@ -241,75 +262,106 @@ saveas(fig3,['figs' filesep 'Figure2A_ThetaDistVSPhiDist_0_36_' par.saveNamePara
 
 
 %%    plot figure 1 as one of figure 2
-fig1A = figure();
-sub_nr = 7;
-%         subplot(n_y,n_x, sub_nr)
-hold on
 
-%---------------------------------SSPOCoff-------------------------
-Dat_I = ind_SSPOCoff( sub_nr);
-for k2 = 1:size(dataStruct.dataMatTot,2)
-    meanVec_random(k2) = mean(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
-    stdVec_random(k2) = std(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
-    iters = length(nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) );
-%             scatter( ones(iters,1)*k2,nonzeros(dataMatTot(Dat_I,k2,:)) , dotcol{1})
+
+legendlist = [];
+if fig1_on == 1;
+%     fig1A = figure();
+    
+    fig1A=figure('Position', [500, 100, 500, 400]);
+    sub_nr = 10;
+    %         subplot(n_y,n_x, sub_nr)
+    hold on
+
+    %---------------------------------SSPOCoff-------------------------
+    Dat_I = ind_SSPOCoff( sub_nr);
+    for k2 = 1:size(dataStruct.dataMatTot,2)
+        meanVec_random(k2) = mean(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
+        stdVec_random(k2) = std(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
+        iters = length(nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) );
+    %             scatter( ones(iters,1)*k2,nonzeros(dataMatTot(Dat_I,k2,:)) , dotcol{1})
+    end
+    realNumbers = find(~isnan(meanVec_random));
+    a = shadedErrorBar(realNumbers, meanVec_random(realNumbers),stdVec_random(realNumbers),col{1});
+
+    legendlist = [legendlist,a.mainLine];
+
+
+    %---------------------------------SSPOCon-------------------------
+    Dat_I = ind_SSPOCon(sub_nr);
+    for k2 = 1:size(dataStruct.dataMatTot,2)
+        meanVec(k2) = mean(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
+        stdVec(k2) = std(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
+        iters = length(nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) );
+        scatter( ones(iters,1)*k2,nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) , dotcol{2})
+    end
+
+    realNumbers = find(~isnan(meanVec));
+    %         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{2},0.9);
+    b = plot(realNumbers, meanVec(realNumbers),col{2});
+    legendlist = [legendlist,b];
+
+    %--------------------------------Allsensors Neural filt-------------------------    
+    meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr,:)  ) );
+    stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr,:)  ) );
+
+%     errorbar(38,meanval,stdval,'k','LineWidth',1)
+%     plot([37,39],[meanval,meanval],'k','LineWidth',1)   
+
+    err_loc = 35;
+    c = errorbar(err_loc,meanval,stdval,'k','LineWidth',1);
+    plot([-1,1]+err_loc,[meanval,meanval],'k','LineWidth',1)   
+    
+    legendlist = [legendlist,c];
+    %--------------------------------Allsensors no NF-------------------------    
+    meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr+16,:)  ) );
+    stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr+16,:)  ) );
+
+
+
+
+%             err_loc = 37;
+    d = errorbar(err_loc,meanval,stdval,'b','LineWidth',1);
+    legendlist = [legendlist,d];
+    
+    
+    plot([-1,1]+err_loc,[meanval,meanval],'b','LineWidth',1)   
+    %--------------------------------Figure cosmetics-------------------------    
+     axis([0,err_loc+2,0.4,1])
+            
+%     title(['$\theta$* = ',num2str(par.theta_dist(k)), ' rad/s'])
+%     ylabel(['\phi* = ',num2str(par.phi_dist(j)), ' rad/s'] )
+%     xlabel('
+    ylabel('Cross validated accuracy [-]')
+    xlabel('number of sensors [-]')
+    
+    ylh = get(gca,'ylabel');
+    gyl = get(ylh);                                                         % Object Information
+    ylp = get(ylh, 'Position');
+    set(ylh, 'Rotation',0, 'Position',ylp, 'VerticalAlignment','middle', 'HorizontalAlignment','right')
+
+
+    grid on 
+    A{1} = 0:10:30;
+    A{2} = 1326;
+    A = {'0','10','20','30','\bf \it 1326'};
+    set(gca,'xtick',[0:10:30,err_loc]);
+    set(gca,'xticklabel',A);
+    B = 0.4:0.2:1;
+    set(gca,'ytick',B);
+    set(gca,'yticklabel',B);
+
+    
+%     title(['\phi* = ',num2str(par.phi_dist(k)), ' rad/s, \theta* = ',num2str(par.theta_dist(j)), ' rad/s'],interpreter,'latex')
+%     ylabel(['])
+
+%     legend(legendlist,{'Random placement','Optimal placement', 'all sensors'},'Location','Best')
+
+    plot2svg(['figs' filesep 'Figure1_SSPOCvsRandom_312_' par.saveNameParameters,'.svg'] , fig1A ) 
+    saveas(fig1A,['figs' filesep 'Figure1_SSPOCvsRandom_01_312_' par.saveNameParameters], 'png')
 end
-realNumbers = find(~isnan(meanVec_random));
-a = shadedErrorBar(realNumbers, meanVec_random(realNumbers),stdVec_random(realNumbers),col{1});
 
-%---------------------------------SSPOCon-------------------------
-Dat_I = ind_SSPOCon(sub_nr);
-for k2 = 1:size(dataStruct.dataMatTot,2)
-    meanVec(k2) = mean(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
-    stdVec(k2) = std(  nonzeros(dataStruct.dataMatTot(Dat_I,k2,:))   );
-    iters = length(nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) );
-    scatter( ones(iters,1)*k2,nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) , dotcol{2})
-end
-
-realNumbers = find(~isnan(meanVec));
-%         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{2},0.9);
-plot(realNumbers, meanVec(realNumbers),col{2})
-
-%--------------------------------Allsensors Neural filt-------------------------    
-meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr,:)  ) );
-stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr,:)  ) );
-
-errorbar(38,meanval,stdval,'k','LineWidth',1)
-plot([37,39],[meanval,meanval],'k','LineWidth',1)   
-
-%--------------------------------Allsensors no NF-------------------------    
-meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr+32,:)  ) );
-stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr+32,:)  ) );
-
-errorbar(38,meanval,stdval,'b','LineWidth',1)
-plot([37,39],[meanval,meanval],'b','LineWidth',1)   
-
-%--------------------------------Figure cosmetics-------------------------    
-axis([0,39,0.4,1])
-if sub_nr <=4
-%             title(['$\phi$* = ',num2str(par.phi_dist(k)), ' rad/s'] )
-    title(['$\theta$* = ',num2str(par.theta_dist(k)), ' rad/s'])
-end
-if  rem(sub_nr-1,4) == 0
-%             ylabel(['\theta* = ',num2str(par.theta_dist(j)), ' rad/s'])
-    ylabel(['\phi* = ',num2str(par.phi_dist(j)), ' rad/s'] )
-end
-
-xlhand = get(gca,'xlabel');
-set(xlhand,'string','X','fontsize',5)
-
-A{1} = 0:10:30;
-A{2} = 1326;
-set(gca,'xtick',[0:10:30,39]);
-set(gca,'xticklabel',A);
-
-
-
-
-saveas(fig1A,['figs' filesep 'Figure1_Figure1_SSPOCvsRandom_0.1_3.12_' par.saveNameParameters], 'png')
-
-
-
+%      plot2svg(['figs' filesep 'Figure2A_ThetaDistVSPhiDist_0_36_' par.saveNameParameters] , fig3 ) 
 
 
 

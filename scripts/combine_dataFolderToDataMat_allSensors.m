@@ -1,19 +1,20 @@
 % analyze varParList 
 clc;clear all;close all
 %% 
-% par.saveNameParameters = 'elasticNet09';
+% par.saveNameParameters = 'elasticNet09_Fri';
 % par.saveNameParameters = 'elasticNet09_phiCorrect_allSensors';
 % par.saveNameParameters = 'elasticNet09_phiAllNFAll_allSensors';
 % par.saveNameParameters = 'elasticNet09_phiAllNFAll_Fri_allSensors';
-% load(['data', filesep, 'ParameterList_' par.saveNameParameters])
+par.saveNameParameters = 'elasticNet09_Fri';
+load(['data', filesep, 'ParameterList_' par.saveNameParameters])
 
 
-par.saveNameParameters = 'elasticNet09_phiAllNFAll_Fri_allSensors';
+par.saveNameParameters = 'elasticNet09_Fri_allSensors';
 load(['data', filesep, 'ParameterList_' par.saveNameParameters])
 par.varParNames = fieldnames(varParList);
 par.varParNames = fieldnames(varParList);
 par.saveNameParameters
-par.saveNameParameters = 'elasticNet09_phiAllNFAll_Fri_allSensors'
+% par.saveNameParameters = 'elasticNet09_phiAllNFAll_Fri_allSensors'
 
 exp_duplicates = 3;
 
