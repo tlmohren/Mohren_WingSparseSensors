@@ -363,10 +363,27 @@ end
 
 %      plot2svg(['figs' filesep 'Figure2A_ThetaDistVSPhiDist_0_36_' par.saveNameParameters] , fig3 ) 
 
+%% 
+% dataStruct.dataMatTot(Dat_I,:,:,:)
 
 
+% varParCase = 1;
+q_select = 17;
+n_iters= length(nonzeros(dataStruct.dataMatTot(Dat_I,q_select,:)))
 
+binar = zeros(26*51,1);
+for j = 1:n_iters
+%             sensorMatTot(varParCase,q_select,:,j)
+    binar(dataStruct.sensorMatTot(Dat_I,q_select,1:q_select,j)) = binar(dataStruct.sensorMatTot(Dat_I,q_select,1:q_select,j)) +1;
+end
+binar = binar/n_iters;
+%         figure()
+% subplot(3,3,3)
+figure()
+        plotSensorLocs(binar,dataStruct.par)
+        
 
+    ylabel('base')
 
 
 
