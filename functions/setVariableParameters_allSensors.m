@@ -58,7 +58,7 @@ for j0= 5:6
         par.NLDsharpnessList = [0];
     elseif j0 == 5
         % hump phi disturbance plot 2B
-        par.theta_distList = [0];
+        par.theta_distList = [0.001];
         par.phi_distList = spa_sf( 10.^[-3:0.2:2] ,2)* 3.12;
         par.xIncludeList = [0];
         par.yIncludeList = [1];
@@ -70,7 +70,7 @@ for j0= 5:6
     elseif j0 == 6
         % hump theta disturbance plot   2B
         par.theta_distList = spa_sf( 10.^[-3:0.2:2] ,2);
-        par.phi_distList = [0];
+        par.phi_distList = [0.0031];
         par.xIncludeList = [0];
         par.yIncludeList = [1];
         par.SSPOConList = [2];
