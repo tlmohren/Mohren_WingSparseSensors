@@ -12,7 +12,7 @@ addpathFolderStructure()
 par = setParameters;
 varParList = setVariableParameters_allSensors(par);
 par.varParNames = fieldnames(varParList);
-par.iter = 10;
+par.iter = 3;
 par.wTrunc = 1326;
 par.predictTrain = 1;
 par.elasticNet = 0.9;
@@ -32,7 +32,7 @@ for j = 1:length(varParList)
         end
 
         for k = 1:par.iter
-%              try
+             try
                 par.curIter = k; 
                 % Generate strain with Euler-Lagrange simulation ----------
     %             strainSet = eulerLagrangeConcatenate( varParList(j).theta_dist , varParList(j).phi_dist ,par);
@@ -52,9 +52,9 @@ for j = 1:length(varParList)
 
                 % Print accuracy in command window --------------------
                 fprintf('All sensors, giving accuracy =%4.2f \n',[acc])        
-%             catch
-%                 fprintf(['W_trunc = %1.0f, gave error \n'],[par.wTrunc])
-%             end
+            catch
+                fprintf(['W_trunc = %1.0f, gave error \n'],[par.wTrunc])
+            end
         end
 
         % save data 
