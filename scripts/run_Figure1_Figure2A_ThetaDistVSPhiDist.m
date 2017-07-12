@@ -1,5 +1,13 @@
-
-%% Find nonzero elements in matrix 
+%------------------------------
+% run_Figure1_Figure2A_ThetaDistVSPhiDist.m
+%
+% Plots figures 1 and 2A
+%
+% Sparse wing sensors for optimal classification using neural filters(...)
+% Mohren T.L., Daniel T.L., Brunton B.W.
+% Submitted to (...)
+%   Last updated: 2017/07/03  (TLM)
+%------------------------------
 clc;clear all; close all 
 
 scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
@@ -7,8 +15,6 @@ addpath([scriptLocation filesep 'scripts']);
 addpathFolderStructure()
 
 % load data
-% par.saveNameParameters = 'elasticNet09_phiAll';
-% par.saveNameParameters = 'elasticNet09';
 par.saveNameParameters = 'elasticNet09_Fri';
 dataStruct = load(['results' filesep 'dataMatTot_' par.saveNameParameters])
 % par.saveNameParameters = 'elasticNet09_phiAll_Fri'

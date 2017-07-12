@@ -1,13 +1,19 @@
-% analyze varParList 
-clc;clear all;close all
+%------------------------------
+% combine_DataFolderToDataMat
 %
-% par.saveNameParameters = 'elasticNet09'; %phiCorrect still to run 
-% par.saveNameParameters = 'elasticNet09_phiAll';
-% par.saveNameParameters = 'elasticNet09_phiCorrect';
-% par.saveNameParameters =  'elasticNet09_phiAll_Fri';
+% creates .mat file with a matrix of accuracies for different parameters
+% and a matrix for different sensor locations. It extracts this from the
+% numerous files stored in ['data' filesep 'Data_' par.saveNameParameters];
+%
+% Sparse wing sensors for optimal classification using neural filters(...)
+% Mohren T.L., Daniel T.L., Brunton B.W.
+% Submitted to (...)
+%   Last updated: 2017/07/03  (TLM)
+%------------------------------
 
 
 
+clc;clear all;close all
 
 par.saveNameParameters =  'elasticNet09_Fri';
 load(['data', filesep, 'ParameterList_' par.saveNameParameters])

@@ -1,15 +1,15 @@
 function [ varParList] = setVariableParameters_allSensors(par)
-%setParameters Create parameter structure
-%     par = SetParameters() sets which filter, number of iterations, and
-%     other parameters will be used throughout the simulation
-%  TLM 2017
-%  unsorted
+%[ varParList] = setVariableParameters_allSensors(par)
+%   Creates a struct for different combinations of parameters (par). 
+%   Input: General simulation parameters (not used)
+%   Output: varParList, defines the parameter combinations to simulate
+%   Last updated: 2017/07/03  (TLM)
 
 
 nFigures = 8;
 count = 0;
 
-for j0= 5:6
+for j0= 7%1:6
     if j0 == 1
         % disturbance sweep figure   2A
         par.theta_distList =[0.001,0.01,0.1,1] * 10;

@@ -9,7 +9,7 @@ function [ varParList,varParList_short] = setVariableParameters_MultipleSets(par
 nFigures = 6;
 count = 0;
 count_short  = 0;
-for j0= 3:4%6%1:nFigures
+for j0= 5%6%1:nFigures
     if j0 == 1
         % disturbance sweep figure   2A
 %         par.theta_distList = [0,0.1,1,10];
@@ -55,7 +55,7 @@ for j0= 3:4%6%1:nFigures
         
     elseif j0 == 4
         % hump theta disturbance plot   2B
-        par.theta_distList = spa_sf( 10.^[-3:0.2:2] ,2);
+        par.theta_distList = spa_sf( 10.^[-2:0.2:2] ,2);
         par.phi_distList = [0.0312];
         par.xIncludeList = [0];
         par.yIncludeList = [1];
