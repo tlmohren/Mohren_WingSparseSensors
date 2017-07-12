@@ -81,8 +81,8 @@ for j0= 7%1:6
         
     elseif j0 == 7
         % STA sweep 
-        par.theta_distList = [0];
-        par.phi_distList = [0];
+        par.theta_distList = [0.01];
+        par.phi_distList = [0.031];
         par.xIncludeList = [0];
         par.yIncludeList = [1];
         par.SSPOConList = [2];
@@ -93,8 +93,8 @@ for j0= 7%1:6
         
     elseif j0 == 8
         % NLD sweep 
-        par.theta_distList = [0];
-        par.phi_distList = [0];
+        par.theta_distList = [0.01];
+        par.phi_distList = [0.031];
         par.xIncludeList = [0];
         par.yIncludeList = [1];
         par.SSPOConList = [2];
