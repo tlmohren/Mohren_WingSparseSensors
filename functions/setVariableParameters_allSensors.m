@@ -9,7 +9,7 @@ function [ varParList] = setVariableParameters_allSensors(par)
 nFigures = 8;
 count = 0;
 
-for j0= 7%1:6
+for j0= 8%3:7%1:6
     if j0 == 1
         % disturbance sweep figure   2A
         par.theta_distList =[0.001,0.01,0.1,1] * 10;
