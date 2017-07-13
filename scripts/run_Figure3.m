@@ -51,6 +51,25 @@ dotcol = {'.k','.r'};
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+thresholdMat= zeros(n_y,n_x,2);
+
+
+
+
+fig3_on = 1;
 if fig3_on == 1;
     fig3=figure('Position', [100, 100, 1200, 1000]);
     for j = 1:n_y
@@ -66,6 +85,7 @@ if fig3_on == 1;
             realNumbers = find(~isnan(meanVec));
             a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1});
 
+            thresholdMat(j,k,1) = sigmFitParam(realNumbers,meanVec(realNumbers));
             %---------------------------------SSPOCon-------------------------
             Dat_I = ind_SSPOCon(sub_nr);
             [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
@@ -78,6 +98,9 @@ if fig3_on == 1;
     %         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{2},0.9);
             plot(realNumbers, meanVec(realNumbers),col{2})
 
+            thresholdMat(j,k,2) = sigmFitParam(realNumbers,meanVec(realNumbers));
+            
+            
             %--------------------------------Allsensors Neural filt-------------------------    
             meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr+74,:)  ) );
             stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr+74,:)  ) );
@@ -132,11 +155,56 @@ end
 
 
 
+%%
+figure()
+sub_nr = 30
+            hold on
+            %---------------------------------SSPOCoff-------------------------
+
+            Dat_I = ind_SSPOCoff( sub_nr);
+            [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
+
+            realNumbers = find(~isnan(meanVec));
+            a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1});
+
+            %---------------------------------SSPOCon-------------------------
+            Dat_I = ind_SSPOCon(sub_nr);
+            [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
+            for k2 = 1:size(dataStruct.dataMatTot,2)
+                iters = length(nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) );
+                scatter( ones(iters,1)*k2,nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) , dotcol{2})
+            end
+
+            realNumbers = find(~isnan(meanVec));
+    %         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{2},0.9);
+            plot(realNumbers, meanVec(realNumbers),col{2})
+            
+            xa = sigmFitParam(realNumbers,meanVec(realNumbers))
+
+            %--------------------------------Allsensors Neural filt-------------------------    
+            meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr+74,:)  ) );
+            stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr+74,:)  ) );
+
+            errorbar(38,meanval,stdval,'k','LineWidth',1)
+            plot([37,39],[meanval,meanval],'k','LineWidth',1)   
+
+%             %--------------------------------Allsensors no NF-------------------------    
+%             meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr+16,:)  ) );
+%             stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr+16,:)  ) );
+% 
+%             errorbar(38,meanval,stdval,'b','LineWidth',1)
+%             plot([37,39],[meanval,meanval],'b','LineWidth',1)   
+
+            %--------------------------------Figure cosmetics-------------------------    
+            axis([0,39,0.4,1])
+            drawnow
 
 
-
-
-
+%% 
+figure()
+surf(thresholdMat(:,:,1))
+hold on
+surf( real( thresholdMat(:,:,2)   ))
 
 
 

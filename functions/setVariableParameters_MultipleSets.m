@@ -9,21 +9,24 @@ function [ varParList,varParList_short] = setVariableParameters_MultipleSets(par
 nFigures = 6;
 count = 0;
 count_short  = 0;
-for j0= 6%2:5%6%1:nFigures
+for j0= 6%2:nFigures%6%2:5%6%1:nFigures
     if j0 == 1
         % disturbance sweep figure   2A
 %         par.theta_distList = [0,0.1,1,10];
 %         par.phi_distList = [0,0.1,1,10];
-        par.theta_distList = [0.001,0.01,0.1,1] * 10;
-        par.phi_distList = [0.001,0.01,0.1,1] * 10;
-        par.xIncludeList = [0];
-        par.yIncludeList = [1];
-        par.SSPOConList = [0,1];
-        par.STAwidthList = [3];
-        par.STAshiftList = [-10];% 
-        par.NLDshiftList = [0.5];
-        par.NLDsharpnessList = [10];
-        par.wTruncList = 1:30;
+
+
+% % %         par.theta_distList = [0.001,0.01,0.1,1] * 10;
+% % %         par.phi_distList = [0.001,0.01,0.1,1] * 10;
+% % %         par.xIncludeList = [0];
+% % %         par.yIncludeList = [1];
+% % %         par.SSPOConList = [0,1];
+% % %         par.STAwidthList = [3];
+% % %         par.STAshiftList = [-10];% 
+% % %         par.NLDshiftList = [0.5];
+% % %         par.NLDsharpnessList = [10];
+% % %         par.wTruncList = 1:30;
+%         varParList_short.count(j0) = count_short;
     elseif j0 == 2
         % disturbance sweep figure   2A
 %         par.theta_distList = [0,0.1,1,10];
@@ -40,6 +43,7 @@ for j0= 6%2:5%6%1:nFigures
         par.NLDshiftList = [0.5];
         par.NLDsharpnessList = [10];
         par.wTruncList = 1:30;
+%         varParList_short.count(j0) = count_short;
     elseif j0 == 3
         % hump phi disturbance plot 2B
         par.theta_distList = [0.01];
@@ -52,6 +56,7 @@ for j0= 6%2:5%6%1:nFigures
         par.NLDshiftList = [0.5];
         par.NLDsharpnessList = [10];
         par.wTruncList = 1:30;
+%         varParList_short.count(j0) = count_short;
         
     elseif j0 == 4
         % hump theta disturbance plot   2B
@@ -66,6 +71,7 @@ for j0= 6%2:5%6%1:nFigures
         par.NLDsharpnessList = [10];
         par.wTruncList = 1:30;
         
+%         varParList_short.count(j0) = count_short;
     elseif j0 == 5
         % STA sweep 
         par.theta_distList = [0.01];
@@ -78,6 +84,7 @@ for j0= 6%2:5%6%1:nFigures
         par.NLDshiftList = [0.5];
         par.NLDsharpnessList = [10];
         par.wTruncList = 1:30;
+%         varParList_short.count(j0) = count_short;
         
     elseif j0 == 6
         % NLD sweep 
@@ -88,9 +95,10 @@ for j0= 6%2:5%6%1:nFigures
         par.SSPOConList = [0,1];
         par.STAwidthList = [3];
         par.STAshiftList = [-10];% 
-        par.NLDshiftList = [-0.2:0.1:0.8];
-        par.NLDsharpnessList = [5:1:15];
+        par.NLDshiftList = [-0.2:0.1:0.7];
+        par.NLDsharpnessList = [5:1:14];
         par.wTruncList = 1:30;
+%         varParList_short.count(j0) = count_short;
         
     end
     
@@ -99,12 +107,12 @@ for j0= 6%2:5%6%1:nFigures
                 for j3 = 1:length(par.theta_distList)
                     for j4 = 1:length(par.phi_distList)
         %                 for j5 = 1:length(par.wList)
-                            for j6 = 1:length(par.SSPOConList)
-                                for j7 = 1:length(par.xIncludeList)
-                                    for j8 = 1:length(par.yIncludeList)
-                                        for j9 = 1:length(par.NLDshiftList)
-                                            for j10 = 1:length(par.NLDsharpnessList)
-                                                for j11 = 1:length(par.wTruncList)
+                        for j9 = 1:length(par.NLDshiftList)
+                            for j10 = 1:length(par.NLDsharpnessList)
+                                for j6 = 1:length(par.SSPOConList)
+                                    for j7 = 1:length(par.xIncludeList)
+                                        for j8 = 1:length(par.yIncludeList)
+                                               for j11 = 1:length(par.wTruncList)
                                                     count = count + 1;
                                                     varParList(count).STAwidth = par.STAwidthList(j1); 
                                                     varParList(count).STAshift = par.STAshiftList(j2);
