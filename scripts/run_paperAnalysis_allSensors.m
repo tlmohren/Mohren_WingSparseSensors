@@ -10,7 +10,8 @@ addpathFolderStructure()
 %%  Build struct with parameters to carry throughout simulation
 
 par = setParameters;
-varParList = setVariableParameters_allSensors(par);
+varParList = setVariableParameters_allSensors(par)
+% varParList.counter
 par.varParNames = fieldnames(varParList);
 par.iter = 3;
 par.wTrunc = 1326;
