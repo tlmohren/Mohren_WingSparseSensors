@@ -110,8 +110,8 @@ for j0= 8%3:nFigures% 8%3:7%1:6
         par.SSPOConList = [2];
         par.STAwidthList = [3];
         par.STAshiftList = [-10];% 
-        par.NLDshiftList = [-0.2:0.1:0.8];
-        par.NLDsharpnessList = [5:1:15];
+        par.NLDshiftList = [-0.2:0.1:0.7];
+        par.NLDsharpnessList = [5:1:14];
 %         varParList.count(j0) = count;
         
     end
