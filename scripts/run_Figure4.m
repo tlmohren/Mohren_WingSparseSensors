@@ -31,7 +31,7 @@ dataStructAll = load(['results' filesep 'dataMatTot_', par.saveNameAllSensors '.
 fig3_on = 1;
 
 % ind_SSPOCoff = 117:2:315;
-ind_SSPOCoff = 316:2:557;
+ind_SSPOCoff = 316:2:515;
 ind_SSPOCon = ind_SSPOCoff + 1;
 % ind_SSPOCon = 2:2:64;
 % % run('findSSPOCon');
@@ -43,8 +43,8 @@ ind_see(1:64,:);
 %% see which simulations belong to this parameter set 
 % par.phi_dist = [0.01,0.1,1,10];
 % par.theta_dist = [0.01,0.1,1,10];
-n_x = 11;
-n_y = 11; 
+n_x = 10;
+n_y = 10; 
 n_plots = n_x*n_y; 
 % col = {'-k','-r'};
 col = {ones(3,1)*0.5,'-r'};

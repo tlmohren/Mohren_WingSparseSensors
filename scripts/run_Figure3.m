@@ -36,7 +36,7 @@ ind_SSPOCon = ind_SSPOCoff + 1;
 % % run('findSSPOCon');
 
 [ dataStructAll.varParList.theta_dist ; dataStructAll.varParList.phi_dist ]';
-ind_see = [1:316; dataStruct.varParList_short.theta_dist ; dataStruct.varParList_short.phi_dist ]';
+ind_see = [1:length(dataStruct.varParList_short); dataStruct.varParList_short.theta_dist ; dataStruct.varParList_short.phi_dist ]';
 ind_see(1:64,:);
 
 %% see which simulations belong to this parameter set 
@@ -201,13 +201,28 @@ sub_nr = 30
 
 
 %% 
+% figure()
+% surf(thresholdMat(:,:,1))
+% hold on
+% surf( real( thresholdMat(:,:,2)   ))
+
+
+
 figure()
-surf(thresholdMat(:,:,1))
-hold on
-surf( real( thresholdMat(:,:,2)   ))
-
-
-
-
+ax1 = subplot(2,1,1);
+    contourf(thresholdMat(:,:,1))
+    colormap(ax1,flipud(hot(8)))
+%     colormap(flipud(colormap))
+    caxis([5,20])
+    colorbar
+    title('randomly placed sensors')
+ax1 = subplot(2,1,2);
+    contourf( real( thresholdMat(:,:,2)))
+    colormap(ax1,flipud(hot(8)))
+    caxis([5,20])
+    h = colorbar;
+ylabel(h, '# of sensors required for 75\% accuracy')
+%     clabel()
+    title('Optimally placed sensors')
 
 
