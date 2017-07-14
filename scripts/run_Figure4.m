@@ -31,7 +31,7 @@ dataStructAll = load(['results' filesep 'dataMatTot_', par.saveNameAllSensors '.
 fig3_on = 1;
 
 % ind_SSPOCoff = 117:2:315;
-ind_SSPOCoff = 316:2:515;
+ind_SSPOCoff = 317:2:515;
 ind_SSPOCon = ind_SSPOCoff + 1;
 % ind_SSPOCon = 2:2:64;
 % % run('findSSPOCon');
@@ -206,9 +206,30 @@ sub_nr = 30
 
 %% 
 figure()
-surf(thresholdMat(:,:,1))
+surf(real( thresholdMat(:,:,1)   ))
 hold on
 surf( real( thresholdMat(:,:,2)   ))
+
+
+
+
+
+figure()
+ax1 = subplot(2,1,1);
+    contourf(real( thresholdMat(:,:,1)   ))
+    colormap(ax1,flipud(hot(8)))
+%     colormap(flipud(colormap))
+    caxis([4,20])
+    colorbar
+    title('randomly placed sensors')
+ax1 = subplot(2,1,2);
+    contourf( real( thresholdMat(:,:,2)))
+    colormap(ax1,flipud(hot(8)))
+    caxis([4,20])
+    h = colorbar;
+ylabel(h, '# of sensors required for 75\% accuracy')
+%     clabel()
+    title('Optimally placed sensors')
 
 
 

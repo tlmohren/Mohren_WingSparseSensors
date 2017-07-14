@@ -23,13 +23,13 @@ catch
    xa= 30
 end
 
-figure();
-    plot(x,y)
+% figure();
+%     plot(x,y,'k--','LineWidth',1)
     hold on 
-    plot(x,modelfun(beta,x))
-    plot([1,30],[0.75,0.75],'--k')
-    plot([xa,xa],[0.4,1])
-    legend('noisy sigmoid','recovered sigmoid','75% line','threshold met','Location','Best')
+    plot(x,modelfun(beta,x),'k--','LineWidth',1)
+    plot([1,30],[0.75,0.75],':k','LineWidth',1)
+    plot([xa,xa],[0.4,1],':k','LineWidth',1)
+%     legend('noisy sigmoid','recovered sigmoid','75% line','threshold met','Location','Best')
 
 end
 
