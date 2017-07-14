@@ -11,7 +11,6 @@ count = 0;
 count_short  = 0;
 for j0= 1:nFigures
     if j0 == 1
-    elseif j0 == 1
         par.theta_distList = [0.001,0.01,0.1,1] * 10;
         par.phi_distList =[0.001,0.01,0.1,1] * 31.2 ;
         par.xIncludeList = [0];
