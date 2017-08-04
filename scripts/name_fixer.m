@@ -1,13 +1,15 @@
 
 % name fixer 
 clc;clear all;close all
-% par.oldname =  'elasticNet09_Week';
-par.oldname = 'elasticNet09_10iters';
-load(['data', filesep, 'ParameterList_' par.oldname])
+parameterName =  'elasticNet09_Week';
+% par.oldname = 'elasticNet09_10iters';
+load(['data', filesep, 'ParameterList_' parameterName])
 
+% par.oldname =  'elasticNet09_Week';
 % 
-% oldname =  'elasticNet09_Week';
-oldname = '10iters';
+
+oldname =  'elasticNet09_Week_allSensors';
+% oldname = '10iters';
 %  newNameFri = '3iters';
 
 
@@ -17,24 +19,29 @@ nameMatches = dir(['data' filesep saveNameBase '*']);
 %% 
 counter = 0;
 for j = 1:length(nameMatches);
-    clear temp
+%     clear temp
     temp = load(['data', filesep, nameMatches(j).name]);
     load(['data', filesep, nameMatches(j).name]);
     [token,remain] = strtok(nameMatches(j).name,'x');
-     token(end-1)
-    if token(end-1)== '2'
+%      token(end-1)
+    if token(end-7:end) == 'dP0.031_'
+        counter = counter + 1
+        token
+        token_new = [token(1:end-1),'2_']
+        newTotalName = [token_new,remain]
         
 %        display('yes')
-    else token(end-1)== '1'
-        counter = counter + 1
-        oldTotalName = nameMatches(j).name;
-        newTotalName = [token(1:end-1), '2_', remain];
-        
+%     elseif token(end-1)== '1'
+%         counter = counter + 1
+%         oldTotalName = nameMatches(j).name;
+%         newTotalName = [token(1:end-1), '2_', remain];
+%         
         save_string = fieldnames(temp);
         save(['data', filesep,newTotalName], save_string{:})
+%         
+%         delete(['data', filesep,oldTotalName ] )
+%     else
         
-        delete(['data', filesep,oldTotalName ] )
-    
     end
     
     
