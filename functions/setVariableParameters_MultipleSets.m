@@ -70,17 +70,17 @@ for j0= [4,5]%  1:nFigures
         par.NLDshiftList = [-0.2:0.1:0.7];
         par.NLDsharpnessList = [5:1:14];
         par.wTruncList = 1:30;
-    elseif j0 == 6
-        par.theta_distList = [0:5:100] ;
-        par.phi_distList = [0:5:100]  ;
-        par.xIncludeList = [0];
-        par.yIncludeList = [1];
-        par.SSPOConList = [0,1];
-        par.STAwidthList = [3];
-        par.STAshiftList = [-10];% 
-        par.NLDshiftList = [0.5];
-        par.NLDsharpnessList = [10];
-        par.wTruncList = 1:30;
+% % %     elseif j0 == 6
+% % %         par.theta_distList = [0:5:100] ;
+% % %         par.phi_distList = [0:5:100]  ;
+% % %         par.xIncludeList = [0];
+% % %         par.yIncludeList = [1];
+% % %         par.SSPOConList = [0,1];
+% % %         par.STAwidthList = [3];
+% % %         par.STAshiftList = [-10];% 
+% % %         par.NLDshiftList = [0.5];
+% % %         par.NLDsharpnessList = [10];
+% % %         par.wTruncList = 1:30;
     end
     for j1 = 1:length(par.STAwidthList)
         for j2 = 1:length(par.STAshiftList)

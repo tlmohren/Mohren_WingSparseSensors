@@ -16,9 +16,6 @@ addpath([scriptLocation filesep 'scripts']);
 addpathFolderStructure()
 w = warning ('off','all');
 
-
-
-
 par.NF_on = 1;
 par.theta_distList = spa_sf( 10.^[-2:0.1:2] ,2); 
 par.phi_distList =[0.001] * 31.2 ;
@@ -37,8 +34,6 @@ par.allSensors = 0;
 par.chordElements = 26;
 par.spanElements = 51;
 
-
-
 %% Figure settings
 
 % Figure 1 settings 
@@ -51,14 +46,6 @@ xh = get(gca, 'Xlabel');
 yh = get(gca, 'Ylabel');
 col = {ones(3,1)*0.5,'-r'};
 dotcol = {'.k','.r'}; 
-
-
-
-
-
-
-
-
 
 
 
@@ -82,8 +69,6 @@ ind_SSPOCon = ind_SSPOCoff + 1;
 n_x = 7;
 n_y =  6; 
 n_plots = n_x*n_y;
-par.phi_dist = [0.01,0.1,1,10]*3.1;
-par.theta_dist = [0.01,0.1,1,10];
 fig2A=figure('Position', [100, 100, 950, 750]);
 
 for j = 1:n_y
@@ -123,27 +108,18 @@ for j = 1:n_y
         set(ylh, 'Rotation',0, 'Position',ylp, 'VerticalAlignment','middle', 'HorizontalAlignment','right')
         grid on 
         set(gca, axisOptsFig2A{:})
+        title( par.theta_distList(sub_nr))
         
         axis off 
         drawnow
     end
 end
 
-
-
-
-
-
-
-
-
-
-
 %% Parameters for phi disturbance
 par.SSPOConList = [0,1];
 par.allSensors = 0; 
 par.theta_distList = 0.01 ; 
-par.phi_distList =spa_sf( 10.^[-2:0.1:2] ,2)* 31.2 ;
+par.phi_distList =spa_sf( 10.^[-2:0.1:2] ,2)* 3.12 ;
 dataStruct = combineDataMat(par);
 
 par.allSensors = 1; 
@@ -201,33 +177,11 @@ for j = 1:n_y
         grid on 
         set(gca, axisOptsFig2A{:})
         
+        title( par.phi_distList(sub_nr))
         axis off 
         drawnow
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -242,101 +196,5 @@ subplot(211)
 plot(thresholdMat( 2 ,~isnan(thresholdMat( 2,:))))
 hold on
 plot(thresholdMat( 4 ,~isnan(thresholdMat( 4,:))))
-% plot(thresholdMat( [1,3] +1 ,~isnan(thresholdMat([1,3]+1,:))))
 
-% 
-% axisOptsFig2C = {'xtick', [0.01,0.1,1,10]*3.1,'ytick',[0.01,0.1,1,10], ...
-%      'XLabel', xh, 'YLabel', yh, 'xscale','log','yscale','log','clim',[5,30]};
-%  
-%  
-% if 0 
-%     set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
-%     [X,Y] = meshgrid(par.phi_dist,par.theta_dist);
-%     fig2C = figure('Position', [100, 100, 800, 1000]);
-%     subplot(211);
-%         contourf(X,Y,real(thresholdMat(:,:,2)),30)
-%         colormap(flipud(bone(500)))
-%         set(gca, axisOptsFig2C{:})
-%         h = colorbar;
-%         set( h, 'YDir', 'reverse' );
-%         ylabel(h, '# of sensors required for 75% accuracy')
-%         title('Optimally placed sensors')
-%       set(gca,'YDir','Reverse')
-%     subplot(212)
-%         contourf(X,Y,real( thresholdMat(:,:,1)) ,30)
-%         set(gca, axisOptsFig2C{:})
-%     %     colormap(flipud(hot(500)))
-%         colormap(flipud(bone(500)))
-%         h = colorbar;
-%         set( h, 'YDir', 'reverse' );
-%         ylabel(h, '# of sensors required for 75% accuracy')
-%         title('randomly placed sensors')
-%         set(gca, axisOptsFig2C{:})
-%       set(gca,'YDir','Reverse')
-% 
-% %     saveas(fig2C,['figs' filesep 'Figure2C_disturbanceHeatmap' par.saveNameParameters], 'png')
-%     set(groot,'defaultAxesTickLabelInterpreter','factory')
-% end
-% 
-% 
-% 
-% %%
-% 
-% axisOptsFig2C = {'xtick', 1:4,'ytick',1:4, ...
-%     'xticklabel', [0.01,0.1,1,10]*3.1,'yticklabel',[0.01,0.1,1,10], ...
-%     'xaxislocation','top',...
-%      'XLabel', xh, 'YLabel', yh,'clim',[5,20]};
-%  
-%  
-%  
-% set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
-% [X,Y] = meshgrid(par.phi_dist,par.theta_dist);
-% fig2C_V2 = figure('Position', [1000, 100, 400, 600]);
-% subplot(211);
-%     Im(3) = imagesc(thresholdMat(:,:,2));
-%     colormap(flipud(summer(500)))
-%     set(gca, axisOptsFig2C{:})
-%     h = colorbar;
-%     set( h, 'YDir', 'reverse' );
-%     ylabel(h, '# of sensors required for 75% accuracy')
-% 
-% subplot(212)
-%     imagesc(thresholdMat(:,:,1))
-%     colormap(flipud(summer(500)))
-%     set(gca, axisOptsFig2C{:})
-%     h = colorbar;
-%     set( h, 'YDir', 'reverse' );
-%     ylabel(h, '# of sensors required for 75% accuracy')
-% 
-%     
-% 
-%     
-%     
-% fig2C_mark = figure('Position', [1000, 100, 400, 600]);
-% subplot(211);
-% 
-%     mask1 = isnan(thresholdMat(:,:,2));
-%     Im(1) = imagesc( ones(size(mask1))*20 );
-%     
-%     set(gca, axisOptsFig2C{:})
-%     h = colorbar;
-%     set( h, 'YDir', 'reverse' );
-%     ylabel(h, '# of sensors required for 75% accuracy')
-% 
-%    set(Im(1),'alphadata',mask1);
-% subplot(212)    
-%     mask2 = isnan(thresholdMat(:,:,1));
-%     Im(2) = imagesc(ones(size(mask2))*20);
-%     
-%     colormap(flipud(bone(3)))
-%     set(gca, axisOptsFig2C{:})
-%     h = colorbar;
-%     set( h, 'YDir', 'reverse' );
-%     ylabel(h, '# of sensors required for 75% accuracy')
-%     
-%    set(Im(2),'alphadata',mask2);
-% %    set(Im(3),'alphadata',mask2);
-%    
-% %% 
-% 
-% close(1)
+ 

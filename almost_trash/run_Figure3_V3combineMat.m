@@ -17,8 +17,8 @@ addpathFolderStructure()
 w = warning ('off','all');
 
 par.NF_on = 1;
-par.theta_distList = [0.001,0.01,0.1,1] * 10;
-par.phi_distList =[0.001,0.01,0.1,1] * 31.2 ;
+par.theta_distList = [0.001] * 10;
+par.phi_distList =[0.001] * 31.2 ;
 par.xIncludeList = [0];
 par.yIncludeList = [1];
 par.SSPOConList = [0,1];
@@ -30,9 +30,12 @@ par.wTruncList = 1:30;
 % par.naming = {'10iters'};
 par.naming = {'elasticNet09_Week'};
 par.allSensors = 0; 
+
 par.sensorMatOn = 1;
+        
 par.chordElements = 26;
 par.spanElements = 51;
+
 dataStruct = combineDataMat(par);
 par.allSensors = 1; 
 par.SSPOConList = 2;
@@ -70,11 +73,6 @@ col = {ones(3,1)*0.5,'-r'};
 dotcol = {'.k','.r'}; 
 
 
-axisOptsFig2C = {'xtick', 1:4,'ytick',1:4, ...
-    'xticklabel', [0.01,0.1,1,10]*3.1,'yticklabel',[0.01,0.1,1,10], ...
-    'xaxislocation','top',...
-     'XLabel', xh, 'YLabel', yh,'clim',[5,20]};
-
 %% Figure 2A
 n_plots = 16; 
 n_x = 4;
@@ -94,6 +92,7 @@ for j = 1:n_y
         [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
         realNumbers = find(~isnan(meanVec));
         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1});
+
         thresholdMat(j,k,1) = sigmFitParam(realNumbers,meanVec(realNumbers));
 
         %---------------------------------SSPOCon-------------------------
@@ -105,6 +104,7 @@ for j = 1:n_y
             scatter( ones(iters,1)*k2,nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) , dotcol{2})
         end
         plot(realNumbers, meanVec(realNumbers),col{2})
+%         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{2});
         thresholdMat(j,k,2) = sigmFitParam(realNumbers,meanVec(realNumbers));
 
         %--------------------------------Allsensors Neural filt-------------------------    
@@ -122,6 +122,14 @@ for j = 1:n_y
         plot([-1,1]+errLocFig2A,[meanval,meanval],'b','LineWidth',1)   
 
         %--------------------------------Figure cosmetics-------------------------    
+%         axis([0,errLocFig2A+2,0.4,1])
+%         if sub_nr <=4
+%             title(['$\phi$* = ',num2str(par.phi_dist(k)), ' rad/s'] )
+%         end
+%         if rem(sub_nr-1,4) == 0
+%               ylabel(['\theta* = ',num2str(par.theta_dist(j)), ' rad/s'])
+%         end
+
         ylh = get(gca,'ylabel');                                            % Object Information
         ylp = get(ylh, 'Position');
         set(ylh, 'Rotation',0, 'Position',ylp, 'VerticalAlignment','middle', 'HorizontalAlignment','right')
@@ -137,6 +145,11 @@ for j = 1:n_y
         drawnow
     end
 end
+% saveas(fig2A,['figs' filesep 'Figure2A_' par.saveNameParameters], 'png')
+%      plot2svg(['figs' filesep 'Figure2A_ThetaDistVSPhiDist_0_36_' par.saveNameParameters] , fig3 ) 
+
+
+
 
 
 %%  Figure 1A   plot figure 1 as one of figure 2
@@ -192,14 +205,67 @@ ylh = get(gca,'ylabel');
 gyl = get(ylh);                                                         % Object Information
 ylp = get(ylh, 'Position');
 set(ylh, 'Rotation',0, 'Position',ylp, 'VerticalAlignment','middle', 'HorizontalAlignment','right')
+
 grid on 
 set(gca, axisOptsFig1A{:}) 
+% saveas(fig1A,['figs' filesep 'Figure1A_' par.saveNameParameters], 'png')
 
 
 
-%% Heatmap  & Mask 
 
 
+
+
+
+
+
+%% Figure 2C, heatmap 
+
+
+axisOptsFig2C = {'xtick', [0.01,0.1,1,10]*3.1,'ytick',[0.01,0.1,1,10], ...
+     'XLabel', xh, 'YLabel', yh, 'xscale','log','yscale','log','clim',[5,30]};
+ 
+ 
+if 0 
+    set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
+    [X,Y] = meshgrid(par.phi_dist,par.theta_dist);
+    fig2C = figure('Position', [100, 100, 800, 1000]);
+    subplot(211);
+        contourf(X,Y,real(thresholdMat(:,:,2)),30)
+        colormap(flipud(bone(500)))
+        set(gca, axisOptsFig2C{:})
+        h = colorbar;
+        set( h, 'YDir', 'reverse' );
+        ylabel(h, '# of sensors required for 75% accuracy')
+        title('Optimally placed sensors')
+      set(gca,'YDir','Reverse')
+    subplot(212)
+        contourf(X,Y,real( thresholdMat(:,:,1)) ,30)
+        set(gca, axisOptsFig2C{:})
+    %     colormap(flipud(hot(500)))
+        colormap(flipud(bone(500)))
+        h = colorbar;
+        set( h, 'YDir', 'reverse' );
+        ylabel(h, '# of sensors required for 75% accuracy')
+        title('randomly placed sensors')
+        set(gca, axisOptsFig2C{:})
+      set(gca,'YDir','Reverse')
+
+%     saveas(fig2C,['figs' filesep 'Figure2C_disturbanceHeatmap' par.saveNameParameters], 'png')
+    set(groot,'defaultAxesTickLabelInterpreter','factory')
+end
+
+
+
+%%
+
+axisOptsFig2C = {'xtick', 1:4,'ytick',1:4, ...
+    'xticklabel', [0.01,0.1,1,10]*3.1,'yticklabel',[0.01,0.1,1,10], ...
+    'xaxislocation','top',...
+     'XLabel', xh, 'YLabel', yh,'clim',[5,20]};
+ 
+ 
+ 
 set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
 [X,Y] = meshgrid(par.phi_dist,par.theta_dist);
 fig2C_V2 = figure('Position', [1000, 100, 400, 600]);
@@ -219,6 +285,9 @@ subplot(212)
     set( h, 'YDir', 'reverse' );
     ylabel(h, '# of sensors required for 75% accuracy')
 
+    
+
+    
     
 fig2C_mark = figure('Position', [1000, 100, 400, 600]);
 subplot(211);
@@ -246,6 +315,11 @@ subplot(212)
 %    set(Im(3),'alphadata',mask2);
    
 
+
+
+
+
+
 %% Figure 1B Plot sensor locations 
 
 q_select = 17;
@@ -259,6 +333,8 @@ binar = binar/n_iters;
 fig1B = figure();
 plotSensorLocs(binar,par)
 ylabel('base')
+% saveas(fig1B,['figs' filesep 'Figure1B_sensorLocations' par.saveNameParameters], 'png')
+
 
 
 %% 
