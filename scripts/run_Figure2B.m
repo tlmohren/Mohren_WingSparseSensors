@@ -16,26 +16,36 @@ addpathFolderStructure()
 w = warning ('off','all');
 
 % load data--------------------------------------------------------
-par.saveNameParameters = 'elasticNet09_Fri';
+% par.saveNameParameters = 'elasticNet09_Fri';
+par.saveNameParameters = 'elasticNet09_Week';
 dataStruct = load(['results' filesep 'dataMatTot_' par.saveNameParameters]);
 % load allsensors ------------------------------------------------
-par.saveNameAllSensors = 'elasticNet09_Fri_allSensors';
+par.saveNameAllSensors = [par.saveNameParameters '_allSensors'];
 dataStructAll = load(['results' filesep 'dataMatTot_', par.saveNameAllSensors '.mat']);
-% Set which indices you want --------------------------------------------------------
-ind_SSPOCoff = [ 33:2:115];
-ind_SSPOCon = ind_SSPOCoff +1;
 
+% Set which indices you want --------------------------------------------------------
+%Fri
+% ind_SSPOCoff = [ 33:2:115];
+%Week 
+ind_SSPOCoff = [ 33:2:199];
+ind_SSPOCon = ind_SSPOCoff +1;
+n_sweep = 41;
 %% see which simulations belong to this parameter set 
 
-n_x = 21;
+n_x = 5%n_sweep;
 n_y = 2; 
 col = {ones(3,1)*0.5,'-r'};
 dotcol = {'.k','.r'}; 
 
 %% see which simulations belong to this parameter set 
 
-par.theta_distList = spa_sf( 10.^[-2:0.2:2] ,2);
-par.phi_distList = spa_sf( 10.^[-2:0.2:2] ,2)*3.12;
+% %Fri
+% par.theta_distList = spa_sf( 10.^[-2:0.2:2] ,2);
+% par.phi_distList = spa_sf( 10.^[-2:0.2:2] ,2)*3.12;
+
+% Week 
+par.theta_distList = spa_sf( 10.^[-2:0.1:2] ,2);
+par.phi_distList = spa_sf( 10.^[-2:0.1:2] ,2)*3.12;
 
 fig2B=figure('Position', [100, 100, 1900, 250]);
 for j = 1:n_y
@@ -74,10 +84,10 @@ for j = 1:n_y
         errorbar(err_loc,meanval,stdval,'k','LineWidth',1)
         plot([-1,1]+err_loc,[meanval,meanval],'k','LineWidth',1)
 
-        if sub_nr <= 21
+        if sub_nr <= n_sweep
            title( round( par.phi_distList(sub_nr) ,2 ) )
         else
-           title( round( par.theta_distList(sub_nr-21),2) )
+           title( round( par.theta_distList(sub_nr-n_sweep),2) )
         end
 
         %--------------------------------Figure cosmetics-------------------------    
@@ -86,14 +96,14 @@ for j = 1:n_y
         drawnow
     end
 end
-subplot(2,21,1)
+subplot(2,n_sweep,1)
     axis on
     ylabel('\phi^*-sweep, \theta^* = 0.01')
         ylh = get(gca,'ylabel');                                         % Object Information
         ylp = get(ylh, 'Position');
         set(ylh, 'Rotation',0, 'Position',ylp, 'VerticalAlignment','middle', 'HorizontalAlignment','right')
 
-subplot(2,21,22)
+subplot(2,n_sweep,n_sweep+1)
     axis on
     ylabel('\theta^*-sweep, \phi^* = 0.031')        
         ylh = get(gca,'ylabel');                                         % Object Information

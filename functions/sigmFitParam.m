@@ -19,20 +19,23 @@ try
     xa = eval(solve(modelfun(beta,xs) == 0.75));
         % modelfun(beta,xa)
 % real( modelfun(beta,xa)  ) 
-    if isreal( modelfun(beta,xa)  ) == 1;
+    if isreal( modelfun(beta,xa)  ) == 1 && xa <=30 ;
         q = xa;
+%          modelfun(beta,xa)
     %     display('real !')
     else
-        q = 30;
+        q = nan;
     %     display('imag!')
     end
     
     hold on 
     plot(x,modelfun(beta,x),'k--','LineWidth',1)
-    plot([1,30],[0.75,0.75],':k','LineWidth',1)
-    plot([q,q],[0.4,1],':k','LineWidth',1)
+    plot([0,50],[0.75,0.75],':k','LineWidth',1)
+    if ~isnan(q)
+        plot([q,q],[0.4,1],':k','LineWidth',1)
+    end
 catch
-   q = 30;
+   q = nan;
 end
 
         

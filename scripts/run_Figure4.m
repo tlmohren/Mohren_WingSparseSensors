@@ -89,7 +89,7 @@ for j = 1:n_y
     end
 end
 
-saveas(fig4Z,['figs' filesep 'Figure4Z_' par.saveNameParameters], 'png')
+% saveas(fig4Z,['figs' filesep 'Figure4Z_' par.saveNameParameters], 'png')
 
 %%
 
@@ -110,28 +110,79 @@ figure()
 % %     clabel()
 %     title('Optimally placed sensors')
 
-    %% 
+    %
     
 
-par.NLDshiftList = [-0.2:0.05:0.7];
-par.NLDsharpnessList = [5:0.5:14];
-fig4=figure('Position', [300, 100, 800, 1000]);
+% par.NLDshiftList = [-0.2:0.05:0.7];
+% par.NLDsharpnessList = [5:0.5:14];
+% fig4=figure('Position', [300, 100, 800, 1000]);
+% [X,Y] = meshgrid( 1:par.NLDsharpnessList ,1:length(par.NLDsharpnessList) );
+% 
+% subplot(211);
+%     colormap(flipud(hot(30)))
+%     contourf(thresholdMat(:,:,1),30)
+%     title('randomly placed sensors')
+%     set(gca, axisOptsFig4{:})
+%     h = colorbar;
+%     
+% subplot(212);
+%     contourf( real( thresholdMat(:,:,2)),30)
+%     colormap(flipud(hot(30)))
+%     set(gca, axisOptsFig4{:})
+%     h = colorbar;
+%     ylabel(h, '# of sensors required for 75\% accuracy')
+%     title('Optimally placed sensors')
+% 
+%     
+% saveas(fig4,['figs' filesep 'Figure4_' par.saveNameParameters], 'png')
+
+
+
+
+par.NLDshiftList = [-0.2:0.1:0.7];
+par.NLDsharpnessList = [5:1:14];
+% fig4=figure('Position', [300, 100, 800, 1000]);
 [X,Y] = meshgrid( 1:par.NLDsharpnessList ,1:length(par.NLDsharpnessList) );
+% 
 
+
+
+par.NLDshiftList = [-0.2:0.1:0.7];
+par.NLDsharpnessList = [5:1:14];
+
+axisOptsFig3H = {'xtick', 1:10,'ytick',1:10, ...
+    'xticklabel', par.NLDshiftList,'yticklabel',par.NLDsharpnessList, ...
+     'XLabel', xh, 'YLabel', yh,'clim',[5,20]};
+% axisOptsFig3H = {      'XLabel', xh, 'YLabel', yh,'clim',[5,20]};
+ 
+ 
+
+par.NLDshiftList = [-0.2:0.1:0.7];
+par.NLDsharpnessList = [5:1:14];
+set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
+[X,Y] = meshgrid( 1:10,1:10 );
+fig2C_V2 = figure('Position', [1000, 100, 400, 600]);
 subplot(211);
-    colormap(flipud(hot(30)))
-    contourf(thresholdMat(:,:,1),30)
-    title('randomly placed sensors')
-    set(gca, axisOptsFig4{:})
+    imagesc(thresholdMat(:,:,2))
+%     colormap(flipud(hot(100)))
+%     colormap(flipud(bone(500)))
+    colormap(flipud(summer(500)))
+    set(gca, axisOptsFig3H{:})
     h = colorbar;
-    
-subplot(212);
-    contourf( real( thresholdMat(:,:,2)),30)
-    colormap(flipud(hot(30)))
-    set(gca, axisOptsFig4{:})
+%     set( h, 'YDir', 'reverse' );
+    ylabel(h, '# of sensors required for 75% accuracy')
+    title('optimal placement')
+
+subplot(212)
+    imagesc(thresholdMat(:,:,1))
+    colormap(flipud(summer(500)))
+    set(gca, axisOptsFig3H{:})
     h = colorbar;
-    ylabel(h, '# of sensors required for 75\% accuracy')
-    title('Optimally placed sensors')
+%     set( h, 'YDir', 'reverse' );
+    ylabel(h, '# of sensors required for 75% accuracy')
+    title('Random placement')
 
     
-saveas(fig4,['figs' filesep 'Figure4_' par.saveNameParameters], 'png')
+    
+    
+    

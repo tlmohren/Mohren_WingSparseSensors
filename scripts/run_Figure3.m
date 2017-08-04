@@ -17,16 +17,31 @@ w = warning ('off','all');
 
 % load data--------------------------------------------------------
 par.saveNameParameters = 'elasticNet09_Fri';
+% par.saveNameParameters = 'elasticNet09_Week';
 dataStruct = load(['results' filesep 'dataMatTot_' par.saveNameParameters]);
 % load allsensors ------------------------------------------------
-par.saveNameAllSensors = 'elasticNet09_Fri_allSensors';
+par.saveNameAllSensors = [par.saveNameParameters '_allSensors'];
 dataStructAll = load(['results' filesep 'dataMatTot_', par.saveNameAllSensors '.mat']);
+
 % Set which indices you want --------------------------------------------------------
+% 199
+% Fri
 ind_SSPOCoff = 117:2:315;
 ind_SSPOCon = ind_SSPOCoff + 1;
-%% see which simulations belong to this parameter set 
+allSensStart = 73; 
 n_x = 10;
 n_y = 10; 
+
+
+% Week 
+% allSensStart = 114; 
+% ind_SSPOCoff = 197:2:918;
+% ind_SSPOCon = ind_SSPOCoff + 1;
+% n_x = 21;
+% n_y = 21; 
+
+%% see which simulations belong to this parameter set 
+
 n_plots = n_x*n_y; 
 col = {ones(3,1)*0.5,'-r'};
 dotcol = {'.k','.r'}; 
@@ -71,8 +86,8 @@ for j = 1:n_y
 
         thresholdMat(j,k,2) = sigmFitParam(realNumbers,meanVec(realNumbers));
         %--------------------------------Allsensors Neural filt-------------------------    
-        meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr+74,:)  ) );
-        stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr+74,:)  ) );
+        meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr+ allSensStart,:)  ) );
+        stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr+ allSensStart ,:)  ) );
         errorbar(38,meanval,stdval,'k','LineWidth',1)
         plot([37,39],[meanval,meanval],'k','LineWidth',1)   
         axis([0,39,0.4,1])
@@ -85,8 +100,10 @@ saveas(fig3Z,['figs' filesep 'Figure3Z_' par.saveNameParameters], 'png')
 %% 
 
 fig3= figure('Position', [300, 100, 800, 1000]);
-par.STAwidthList = [1:1:10];
-par.STAshiftList = [1:1:10];% 
+% par.STAwidthList = [1:1:10];
+% par.STAshiftList = [1:1:10];% 
+par.STAwidthList = [1:0.5:10];
+par.STAshiftList = [1:0.5:10];% 
 figure()
 [X,Y] = meshgrid( length(par.STAwidthList) ,length(par.STAwidthList));
 ax1 = subplot(2,1,1);
@@ -103,4 +120,39 @@ ax1 = subplot(2,1,2);
     ylabel(h, '# of sensors required for 75\% accuracy')
     title('Optimally placed sensors')
 
-saveas(fig3,['figs' filesep 'Figure3_' par.saveNameParameters], 'png')
+% saveas(fig3,['figs' filesep 'Figure3_' par.saveNameParameters], 'png')
+
+%% 
+axisOptsFig3H = {'xtick', 1:10,'ytick',1:10, ...
+    'xticklabel', -1:-1:-10,'yticklabel',1:10, ...
+     'XLabel', xh, 'YLabel', yh,'clim',[5,20]};
+ 
+ 
+par.STAwidthList = [1:1:10];
+par.STAshiftList = [1:1:10];% 
+set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
+[X,Y] = meshgrid( par.STAwidthList , par.STAshiftList );
+fig2C_V2 = figure('Position', [1000, 100, 400, 600]);
+subplot(211);
+    imagesc(thresholdMat(:,:,2))
+%     colormap(flipud(hot(100)))
+%     colormap(flipud(bone(500)))
+    colormap(flipud(summer(500)))
+    set(gca, axisOptsFig3H{:})
+    h = colorbar;
+%     set( h, 'YDir', 'reverse' );
+    ylabel(h, '# of sensors required for 75% accuracy')
+    title('optimal placement')
+
+subplot(212)
+    imagesc(thresholdMat(:,:,1))
+    colormap(flipud(summer(500)))
+    set(gca, axisOptsFig3H{:})
+    h = colorbar;
+%     set( h, 'YDir', 'reverse' );
+    ylabel(h, '# of sensors required for 75% accuracy')
+    title('Random placement')
+
+    
+    
+    

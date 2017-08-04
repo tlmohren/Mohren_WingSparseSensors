@@ -10,6 +10,7 @@ nFigures = 6;
 count = 0;
 count_short  = 0;
 for j0= 1:nFigures
+    count_short 
     if j0 == 1
         par.theta_distList = [0.001,0.01,0.1,1] * 10;
         par.phi_distList =[0.001,0.01,0.1,1] * 31.2 ;
@@ -124,3 +125,5 @@ for j0= 1:nFigures
     end
 end
 fprintf('varPar has %g combinations of parameter \n',count)
+fprintf('varPar_short has %g combinations of parameter \n',count_short)
+

@@ -16,11 +16,12 @@
 
 clc;clear all;close all
 %% 
-par.saveNameParameters = 'elasticNet09_Fri';
+% par.saveNameParameters = 'elasticNet09_Fri';
+par.saveNameParameters = 'elasticNet09_Week';
 load(['data', filesep, 'ParameterList_' par.saveNameParameters])
 
-
-par.saveNameParameters = 'elasticNet09_Fri_allSensors';
+% par.saveNameParameters = 'elasticNet09_Fri_allSensors';
+par.saveNameParameters = 'elasticNet09_Week_allSensors';
 load(['data', filesep, 'ParameterList_' par.saveNameParameters])
 par.varParNames = fieldnames(varParList);
 par.varParNames = fieldnames(varParList);
