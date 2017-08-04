@@ -7,7 +7,7 @@ function [ varParList] = setVariableParameters_allSensors(par)
 
 nFigures = 8;
 count = 0;
-for j0= 1:nFigures
+for j0= [5,6]% 1:nFigures
         count
     if j0 == 1
         % disturbance sweep figure   2A
@@ -61,8 +61,8 @@ for j0= 1:nFigures
         par.xIncludeList = [0];
         par.yIncludeList = [1];
         par.SSPOConList = [2];
-        par.STAwidthList = [1:0.5:10];
-        par.STAshiftList = [-1:-0.5:-10];% 
+        par.STAwidthList = [1:1:10];
+        par.STAshiftList = [-1:-1:-10];% 
         par.NLDshiftList = [0.5];
         par.NLDsharpnessList = [10];
         
@@ -75,8 +75,8 @@ for j0= 1:nFigures
         par.SSPOConList = [2];
         par.STAwidthList = [3];
         par.STAshiftList = [-10];% 
-        par.NLDshiftList = [-0.2:0.05:0.7];
-        par.NLDsharpnessList = [5:0.5:14];
+        par.NLDshiftList = [-0.2:1:0.7];
+        par.NLDsharpnessList = [5:1:14];
         
     elseif j0 == 7
         % detailed list 

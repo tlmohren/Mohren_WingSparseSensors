@@ -30,6 +30,8 @@ par.wTruncList = 1:30;
 % par.naming = {'10iters'};
 par.naming = {'elasticNet09_Week'};
 par.allSensors = 0; 
+
+par.sensorMatOn = 1;
         
 par.chordElements = 26;
 par.spanElements = 51;

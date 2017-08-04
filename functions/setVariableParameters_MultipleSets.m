@@ -9,7 +9,7 @@ function [ varParList,varParList_short] = setVariableParameters_MultipleSets(par
 nFigures = 6;
 count = 0;
 count_short  = 0;
-for j0= 1:nFigures
+for j0= [4,5]%  1:nFigures
     count_short 
     if j0 == 1
         par.theta_distList = [0.001,0.01,0.1,1] * 10;
@@ -53,8 +53,8 @@ for j0= 1:nFigures
         par.xIncludeList = [0];
         par.yIncludeList = [1];
         par.SSPOConList = [0,1];
-        par.STAwidthList = [1:0.5:10];
-        par.STAshiftList = [-1:-0.5:-10];% 
+        par.STAwidthList = [1:1:10];
+        par.STAshiftList = [-1:-1:-10];% 
         par.NLDshiftList = [0.5];
         par.NLDsharpnessList = [10];
         par.wTruncList = 1:30;
@@ -67,8 +67,8 @@ for j0= 1:nFigures
         par.SSPOConList = [0,1];
         par.STAwidthList = [3];
         par.STAshiftList = [-10];% 
-        par.NLDshiftList = [-0.2:0.05:0.7];
-        par.NLDsharpnessList = [5:0.5:14];
+        par.NLDshiftList = [-0.2:0.1:0.7];
+        par.NLDsharpnessList = [5:1:14];
         par.wTruncList = 1:30;
     elseif j0 == 6
         par.theta_distList = [0:5:100] ;

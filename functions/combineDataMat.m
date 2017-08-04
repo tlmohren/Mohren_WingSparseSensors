@@ -8,7 +8,11 @@ function [ dataStruct ] = combineDataMat( par)
     par.iter = 10;
     if par.allSensors == 0
         dataMatTot = zeros( n , m , par.iter);
-        sensorMatTot = zeros( n , m , m ,par.iter);
+        if par.sensorMatOn == 1
+            sensorMatTot = zeros( n , m , m ,par.iter);
+        else
+            sensorMatTot = [];
+        end
     elseif par.allSensors == 1
         dataMatTot = zeros( n , par.iter);
         sensorMatTot = [];
@@ -37,8 +41,12 @@ function [ dataStruct ] = combineDataMat( par)
                             q = q_vec(k3);
                             prev = length(find( dataMatTot(j1,q,:) )  );
                             dataMatTot(j1,q, prev+1) = tempDat.DataMat(q_vec(k3),it(k3)); 
-                            sensorMatTot(j1,q,1:q, prev+1) = tempDat.SensMat(q_vec(k3),1:q_vec(k3),it(k3)); 
-                        end 
+                            
+                            if par.sensorMatOn == 1
+                                sensorMatTot(j1,q,1:q, prev+1) = tempDat.SensMat(q_vec(k3),1:q_vec(k3),it(k3)); 
+                       
+                            end
+                        end
                     end
                 end
            end

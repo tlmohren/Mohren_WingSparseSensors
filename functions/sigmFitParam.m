@@ -19,7 +19,7 @@ try
     xa = eval(solve(modelfun(beta,xs) == 0.75));
         % modelfun(beta,xa)
 % real( modelfun(beta,xa)  ) 
-    if isreal( modelfun(beta,xa)  ) == 1 && xa <=30 ;
+    if isreal( modelfun(beta,xa)  ) == 1 && xa <=30 && xa> 0 ;
         q = xa;
 %          modelfun(beta,xa)
     %     display('real !')
