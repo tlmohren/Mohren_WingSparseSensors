@@ -67,7 +67,7 @@ yh.String = '$\dot{\theta}^*$';
 axisOptsFig3_heatMap = {
     'xtick', 1:length(par.STAshiftList),'xticklabel',par.STAshiftList, ...
     'ytick', 1:length(par.STAwidthList),'yticklabel',par.STAwidthList,...
-     'XLabel', xh, 'YLabel', yh, 'clim',[5,20]};
+     'XLabel', xh, 'YLabel', yh, 'clim',[0,20]};
  
 col = {ones(3,1)*0.5,'-r'};
 dotcol = {'.k','.r'}; 
@@ -123,11 +123,13 @@ for j = 1:n_y
         drawnow
     end
 end
-% saveas(fig2A,['figs' filesep 'Figure2A_' par.saveNameParameters], 'png')
-%      plot2svg(['figs' filesep 'Figure2A_ThetaDistVSPhiDist_0_36_' par.saveNameParameters] , fig3 ) 
 
 
+%%
 
+% save( ['results' filesep 'Figure3_thresholdMat'],'thresholdMat')
+
+load( ['results' filesep 'Figure4_thresholdMat'])
 %% Heatmap & Mask 
  
 set(groot, 'defaultAxesTickLabelInterpreter', 'latex');

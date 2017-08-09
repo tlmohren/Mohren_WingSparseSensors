@@ -12,7 +12,7 @@ addpathFolderStructure()
 
 par.STAwidthList = 1:10;
 % par.STAshiftList = [-1:-1:-10];
-par.STAshiftList = -20:2:0;
+par.STAshiftList = -10:1:1;
 
 
 NF1 =figure('Position', [100, 100, 1400, 150]);
@@ -28,9 +28,9 @@ for j = 1:length(par.STAshiftList)
         par.STAfilt = par.STAFunc(t_sta);   
         
         
-            hh = area(t_sta,par.STAfilt);
-            hold on
-            hh.FaceColor = ones(3,1)*0.6;
+% %             hh = area(t_sta,par.STAfilt);
+% %             hold on
+% %             hh.FaceColor = ones(3,1)*0.6;
             
 
             if par.STAshift == -10
@@ -38,8 +38,8 @@ for j = 1:length(par.STAshiftList)
             else
                 plot(t_sta,par.STAfilt); hold on;
             end
-%             plot( [1,1]*par.STAshift,[-0.5,max(par.STAfilt)*1.1],':k')
-%             plot([-39,0],[1,1]*-0.5,'k','LineWidth',1)
+            plot( [1,1]*par.STAshift,[-0.5,max(par.STAfilt)*1.1],':k')
+            plot([-39,0],[1,1]*-0.5,'k','LineWidth',1)
             
    axis off
 end
@@ -73,9 +73,9 @@ for j = 1:length(par.STAwidthList)
             end
             
             
-            hh = area(t_sta,par.STAfilt);
-            hold on
-            hh.FaceColor = ones(3,1)*0.6;
+%             hh = area(t_sta,par.STAfilt);
+%             hold on
+%             hh.FaceColor = ones(3,1)*0.6;
             
             
             
@@ -106,10 +106,46 @@ par.NLDsharpnessList = 5:1:15;
 
 
 
-NF3 =figure('Position', [100, 100, 1400, 150]);
+NF3 =figure('Position', [100, 100, 1400, 100]);
 for j = 1:length(par.NLDsharpnessList)
    subplot(1,length(par.NLDsharpnessList),j )
-   par.NLDshift = par.NLDshiftList(5);
+   
+   
+   
+   
+   
+   par.NLDshift = par.NLDshiftList(j);
+   par.NLDsharpness = par.NLDsharpnessList(5);
+        par.NLD = @(s) 1./(  1 +...
+            exp( -(s-par.NLDshift) * par.NLDsharpness)  );
+        x = -1:0.02:1;
+    if abs(par.NLDshift - 0.5)<1e-10
+        plot(  x,par.NLD(x),'k','LineWidth',4);hold on
+    else
+         plot(  x,par.NLD(x))
+%             par.NLDshift 
+    end
+    hold on
+            plot( [1,1]*par.NLDshift,[min(par.NLD(x)),max(par.NLD(x))],':k')
+    axis([-1,1,0,1])
+   axis off
+end
+
+% 
+set(NF3,'PaperPositionMode','auto')
+saveas(NF3,['figs' filesep 'Figure_NF3'], 'png')
+saveas(NF3,['figs' filesep 'Figure_NF3'], 'svg')
+
+
+par.NLDshiftList = [0:0.1:1];
+par.NLDsharpnessList = [5:1:14];
+%% 
+NF4 =figure('Position', [100, 100, 100, 1000]);
+for j = 1:length(par.NLDsharpnessList)
+   subplot(length(par.NLDshiftList),1,j )
+   
+   
+      par.NLDshift = par.NLDshiftList(5);
    par.NLDsharpness = par.NLDsharpnessList(j);
         par.NLD = @(s) 1./(  1 +...
             exp( -(s-par.NLDshift) * par.NLDsharpness)  );
@@ -125,36 +161,11 @@ for j = 1:length(par.NLDsharpnessList)
         5*par.NLD( [-0.5,0.5]/par.NLDsharpness +par.NLDshift   ) + 0.5 - 5*par.NLD(par.NLDshift),...
         'k:')
 %             plot( [1,1]*par.NLDshift,[min(par.STAfilt),max(par.STAfilt)*1.1],'--k')
+    axis([-1,1,0,1])
    axis off
-end
+   
+   
 
-% 
-set(NF3,'PaperPositionMode','auto')
-saveas(NF3,['figs' filesep 'Figure_NF3'], 'png')
-saveas(NF3,['figs' filesep 'Figure_NF3'], 'svg')
-
-
-par.NLDshiftList = [0:0.1:1];
-par.NLDsharpnessList = [5:1:14];
-%% 
-NF4 =figure('Position', [100, 100, 150, 1000]);
-for j = 1:length(par.NLDsharpnessList)
-   subplot(length(par.NLDshiftList),1,j )
-   par.NLDshift = par.NLDshiftList(j);
-
-   par.NLDsharpness = par.NLDsharpnessList(5);
-        par.NLD = @(s) 1./(  1 +...
-            exp( -(s-par.NLDshift) * par.NLDsharpness)  );
-        x = -1:0.02:1;
-    if abs(par.NLDshift - 0.5)<1e-10
-        plot(  x,par.NLD(x),'k','LineWidth',4);hold on
-    else
-         plot(  x,par.NLD(x))
-%             par.NLDshift 
-    end
-    hold on
-            plot( [1,1]*par.NLDshift,[min(par.NLD(x)),max(par.NLD(x))],':k')
-   axis off
 end
 set(NF4,'PaperPositionMode','auto')
 saveas(NF4,['figs' filesep 'Figure_NF4'], 'png')

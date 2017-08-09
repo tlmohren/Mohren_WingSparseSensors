@@ -43,7 +43,7 @@ xh.String = 'NLD sharpness ';
 yh.String = 'NLD shift';
 axisOptsFig4 = {'xtick', [1:1:length(par.NLDsharpnessList)],'xticklabel', par.NLDsharpnessList,...
     'ytick', [1:1:length(par.NLDshiftList)],'yticklabel',par.NLDshiftList, ...
-     'XLabel', xh, 'YLabel', yh,'clim',[4,30]};
+     'XLabel', xh, 'YLabel', yh,'clim',[0,30]};
  
  %% 
 
@@ -91,7 +91,12 @@ end
 
 % saveas(fig4Z,['figs' filesep 'Figure4Z_' par.saveNameParameters], 'png')
 
+save( ['results' filesep 'Figure4_thresholdMat'],'thresholdMat')
+
 %%
+
+% load( ['results' filesep 'Figure4_thresholdMat'])
+
 
 figure()
 % ax1 = subplot(2,1,1);

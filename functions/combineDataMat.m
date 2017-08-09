@@ -69,6 +69,7 @@ function [ dataStruct ] = combineDataMat( par)
     end
     dataStruct.dataMatTot = dataMatTot;
     dataStruct.sensorMatTot = sensorMatTot;
+    dataStruct.paramStruct = paramStruct;
 
 end
 

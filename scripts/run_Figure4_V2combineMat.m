@@ -71,19 +71,9 @@ yh = get(gca, 'Ylabel');
 xh.String = '$\dot{\phi}^*$';
 yh.String = '$\dot{\theta}^*$';
 
-
 axisOptsFig2C = {'xtick', 1:length(par.NLDshiftList),'xticklabel',par.NLDshiftList,...
     'ytick', 1:length(par.NLDsharpnessList),'yticklabel',par.NLDsharpnessList ...
-     'XLabel', xh, 'YLabel', yh, 'clim',[5,20]};
- 
- 
- 
-% axisOptsFig2C = {'xtick', [0.01,0.1,1,10]*3.1,'ytick',[0.01,0.1,1,10], ...
-%      'XLabel', xh, 'YLabel', yh, 'xscale','log','yscale','log','clim',[4,30]};
-%  axisOptsFig2C = {};
-col = {ones(3,1)*0.5,'-r'};
-dotcol = {'.k','.r'}; 
-
+     'XLabel', xh, 'YLabel', yh, 'clim',[0,20]};
 
 %% Figure 2A
 n_x = length( par.NLDshiftList);
@@ -134,63 +124,20 @@ for j = 1:n_y
         set(gca, axisOptsFig2A{:})
         
         axis off 
-%         if  sub_nr <13
-%             set(gca, 'XTicklabel', []);
-%         end
-%         if ~rem(sub_nr-1,4)== 0
-%             set(gca, 'YTicklabel', []);
-%         end
         drawnow
     end
-end
-% saveas(fig2A,['figs' filesep 'Figure2A_' par.saveNameParameters], 'png')
-%      plot2svg(['figs' filesep 'Figure2A_ThetaDistVSPhiDist_0_36_' par.saveNameParameters] , fig3 ) 
-
-
-
-%% Figure 2C, heatmap 
-
-
- 
-if 0 
-    set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
-    [X,Y] = meshgrid(par.phi_dist,par.theta_dist);
-    fig2C = figure('Position', [100, 100, 800, 1000]);
-    subplot(211);
-        contourf(X,Y,real(thresholdMat(:,:,2)),30)
-        colormap(flipud(bone(500)))
-        set(gca, axisOptsFig2C{:})
-        h = colorbar;
-        set( h, 'YDir', 'reverse' );
-        ylabel(h, '# of sensors required for 75% accuracy')
-        title('Optimally placed sensors')
-      set(gca,'YDir','Reverse')
-    subplot(212)
-        contourf(X,Y,real( thresholdMat(:,:,1)) ,30)
-        set(gca, axisOptsFig2C{:})
-    %     colormap(flipud(hot(500)))
-        colormap(flipud(bone(500)))
-        h = colorbar;
-        set( h, 'YDir', 'reverse' );
-        ylabel(h, '# of sensors required for 75% accuracy')
-        title('randomly placed sensors')
-        set(gca, axisOptsFig2C{:})
-      set(gca,'YDir','Reverse')
-
-%     saveas(fig2C,['figs' filesep 'Figure2C_disturbanceHeatmap' par.saveNameParameters], 'png')
-    set(groot,'defaultAxesTickLabelInterpreter','factory')
 end
 
 
 
 %%
-% 
-% axisOptsFig2C = {'xtick', 1:4,'ytick',1:4, ...
-%     'xticklabel', [0.01,0.1,1,10]*3.1,'yticklabel',[0.01,0.1,1,10], ...
-%     'xaxislocation','top',...
-%      'XLabel', xh, 'YLabel', yh,'clim',[5,20]};
-%  
- 
+
+save( ['results' filesep 'Figure3_thresholdMat'],'thresholdMat')
+
+% load( ['results' filesep 'Figure4_thresholdMat'])
+
+
+%% 
  
 set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
 [X,Y] = meshgrid(par.phi_dist,par.theta_dist);
@@ -212,9 +159,6 @@ subplot(212)
     ylabel(h, '# of sensors required for 75% accuracy')
 
     
-
-    
-    
 fig2C_mark = figure('Position', [1000, 100, 400, 600]);
 subplot(211);
 
@@ -225,10 +169,13 @@ subplot(211);
     h = colorbar;
     set( h, 'YDir', 'reverse' );
     ylabel(h, '# of sensors required for 75% accuracy')
+    set( h, 'YDir', 'reverse' );
 
    set(Im(1),'alphadata',mask1);
 subplot(212)    
     mask2 = isnan(thresholdMat(:,:,1));
+    
+    
     Im(2) = imagesc(ones(size(mask2))*20);
     
     colormap(flipud(bone(3)))
@@ -236,9 +183,30 @@ subplot(212)
     h = colorbar;
     set( h, 'YDir', 'reverse' );
     ylabel(h, '# of sensors required for 75% accuracy')
+    set( h, 'YDir', 'reverse' );
     
    set(Im(2),'alphadata',mask2);
 %    set(Im(3),'alphadata',mask2);
+
+%% 
+axisOptsFig2C = {
+     'XLabel', xh, 'YLabel', yh, 'clim',[0,20]};
+figure()
+    mask = zeros(4)
+    mask(1,1:4) = ones(1,4);
+      
+    Im(2) = imagesc(mask*20);
+    
+    colormap(flipud(bone(3)))
+    set(gca, axisOptsFig2C{:})
+    h = colorbar;
+    set( h, 'YDir', 'reverse' );
+    ylabel(h, '# of sensors required for 75% accuracy')
+    
+%    set(Im(2),'alphadata',mask2);
+   
+   
+   
    
 %% 
 

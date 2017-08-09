@@ -47,8 +47,6 @@ yh = get(gca, 'Ylabel');
 col = {ones(3,1)*0.5,'-r'};
 dotcol = {'.k','.r'}; 
 
-
-
 %% Parameters for theta disturbance
 par.SSPOConList = [0,1];
 par.allSensors = 0; 
@@ -187,14 +185,20 @@ end
 
 %% Figure 2C, heatmap 
 
+x_axis = spa_sf( 10.^[-2:0.1:2] ,2)/10;
+
+
 figure();
 subplot(211)
-plot(thresholdMat( 1 ,~isnan(thresholdMat( 1,:))))
+semilogx(  x_axis(1:sum(~isnan(thresholdMat( 1,:))) ),thresholdMat( 1 ,~isnan(thresholdMat( 1,:))),'-ro','LineWidth',0.1)
 hold on
-plot(thresholdMat( 3 ,~isnan(thresholdMat( 3,:))))
+plot(  x_axis(1:sum(~isnan(thresholdMat( 3,:)))),thresholdMat( 3 ,~isnan(thresholdMat( 3,:))),'-bd','LineWidth',0.1)
 subplot(211)
-plot(thresholdMat( 2 ,~isnan(thresholdMat( 2,:))))
+plot(  x_axis(1:sum(~isnan(thresholdMat( 2,:)))),thresholdMat( 2 ,~isnan(thresholdMat( 2,:))),'-gs','LineWidth',0.1)
 hold on
-plot(thresholdMat( 4 ,~isnan(thresholdMat( 4,:))))
+plot(  x_axis(1:sum(~isnan(thresholdMat( 4,:)))),thresholdMat( 4 ,~isnan(thresholdMat( 4,:))),'-m.','LineWidth',0.1)
 
- 
+grid on
+xlabel('disturbance fraction')
+ylabel('sensors for 75 %')
+legend('\theta Random','\phi Random','\theta optimal','\phi optimal','Location','NorthEastOutside')

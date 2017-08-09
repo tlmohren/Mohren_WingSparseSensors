@@ -63,8 +63,8 @@ xh = get(gca, 'Xlabel');
 yh = get(gca, 'Ylabel');
 xh.String = '$\dot{\phi}^*$';
 yh.String = '$\dot{\theta}^*$';
-axisOptsFig2C = {'xtick', [0.01,0.1,1,10]*3.1,'ytick',[0.01,0.1,1,10], ...
-     'XLabel', xh, 'YLabel', yh, 'xscale','log','yscale','log','clim',[4,30]};
+% axisOptsFig2C = {'xtick', [0.01,0.1,1,10]*3.1,'ytick',[0.01,0.1,1,10], ...
+%      'XLabel', xh, 'YLabel', yh, 'xscale','log','yscale','log','clim',[0,30]};
  
 col = {ones(3,1)*0.5,'-r'};
 dotcol = {'.k','.r'}; 
@@ -73,7 +73,7 @@ dotcol = {'.k','.r'};
 axisOptsFig2C = {'xtick', 1:4,'ytick',1:4, ...
     'xticklabel', [0.01,0.1,1,10]*3.1,'yticklabel',[0.01,0.1,1,10], ...
     'xaxislocation','top',...
-     'XLabel', xh, 'YLabel', yh,'clim',[5,20]};
+     'XLabel', xh, 'YLabel', yh,'clim',[0,20]};
 
 %% Figure 2A
 n_plots = 16; 
@@ -138,6 +138,11 @@ for j = 1:n_y
     end
 end
 
+%%
+
+save( ['results' filesep 'Figure2_thresholdMat'],'thresholdMat')
+
+% load( ['results' filesep 'Figure4_thresholdMat'])
 
 %%  Figure 1A   plot figure 1 as one of figure 2
 legendlist = [];
@@ -194,6 +199,7 @@ ylp = get(ylh, 'Position');
 set(ylh, 'Rotation',0, 'Position',ylp, 'VerticalAlignment','middle', 'HorizontalAlignment','right')
 grid on 
 set(gca, axisOptsFig1A{:}) 
+
 
 
 

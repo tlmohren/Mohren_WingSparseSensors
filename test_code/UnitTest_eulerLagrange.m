@@ -15,13 +15,13 @@ clc;clear all;close all
 par = setParameters();
 par.xInclude = 0;
 par.yInclude = 1;
-testCase =4;
+testCase =1;
 
 if testCase == 1
     % regular testcase
     frot = 0;
-    th = 0;
-    ph = 0;
+    th = 1;
+    ph = 31.2;
 elseif testCase == 2
     % reduce size for speed increase 
     frot = 0;
@@ -47,8 +47,9 @@ else
 end
 
 par
-[strain] = eulerLagrange(frot, th,ph ,par );
-
+[strain,figdata] =  eulerLagrange_forfigures(frot, th,ph ,par );
+%% 
+save('flapDisturbance_31_2.mat','figdata')
 
 %% check output here, size, content 
 display('Output diagnostics')
