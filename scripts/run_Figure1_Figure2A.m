@@ -263,8 +263,23 @@ end
 binar = binar/n_iters;
 
 fig1B = figure();
-plotSensorLocs(binar,par)
+
+% plotSensorLocs(binar,par)
+%     Im(2) = imagesc(ones(size(mask2))*20);
+    sensorloc_tot = reshape(binar,par.chordElements,par.spanElements); 
+
+imshow((sensorloc_tot), 'InitialMagnification', 'fit')
+set(gca,'YDir','normal')
+hold on 
+
+rectangle('Position',[0.5,0.5,par.spanElements,par.chordElements])
+% rectangle('Position',[0.5,par.chordElements+0.5,par.spanElements,par.chordElements])
+h = gca;  % Handle to currently active axes
+set(h, 'YDir', 'reverse');
+ colormap(flipud(colormap))
 ylabel('base')
+g = colorbar;
+    ylabel(g, 'Sensor placement probability')
 
 
 %% 

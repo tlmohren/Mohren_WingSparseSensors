@@ -72,12 +72,9 @@ for j = 1:length(par.STAwidthList)
                 plot(t_sta,par.STAfilt); hold on;
             end
             
-            
 %             hh = area(t_sta,par.STAfilt);
 %             hold on
-%             hh.FaceColor = ones(3,1)*0.6;
-            
-            
+%             hh.FaceColor = ones(3,1)*0.6;          
             
 %             if par.STAwidth + par.STAshift < 0 
 %                 plot( [-1,1]*par.STAwidth+par.STAshift,[0,0],':k')
@@ -95,14 +92,8 @@ saveas(NF2,['figs' filesep 'Figure_NF2'], 'svg')
 
 
 
-% par.NLDshiftList = [-0.2:0.1:0.7];
-% par.NLDsharpnessList = [5:1:14];
-
-
-par.NLDshiftList = [0:0.1:1];
-par.NLDsharpnessList = 5:1:15;
-% par.NLDsharpnessList = 3:2:23;
-% par.NLDsharpnessList  = exp(1:1:11)
+par.NLDshiftList = [-0.2:0.1:0.7];
+par.NLDsharpnessList = [5:1:14];
 
 
 
@@ -110,12 +101,8 @@ NF3 =figure('Position', [100, 100, 1400, 100]);
 for j = 1:length(par.NLDsharpnessList)
    subplot(1,length(par.NLDsharpnessList),j )
    
-   
-   
-   
-   
    par.NLDshift = par.NLDshiftList(j);
-   par.NLDsharpness = par.NLDsharpnessList(5);
+   par.NLDsharpness = 10;%par.NLDsharpnessList(5);
         par.NLD = @(s) 1./(  1 +...
             exp( -(s-par.NLDshift) * par.NLDsharpness)  );
         x = -1:0.02:1;
@@ -123,7 +110,6 @@ for j = 1:length(par.NLDsharpnessList)
         plot(  x,par.NLD(x),'k','LineWidth',4);hold on
     else
          plot(  x,par.NLD(x))
-%             par.NLDshift 
     end
     hold on
             plot( [1,1]*par.NLDshift,[min(par.NLD(x)),max(par.NLD(x))],':k')
@@ -131,21 +117,17 @@ for j = 1:length(par.NLDsharpnessList)
    axis off
 end
 
-% 
 set(NF3,'PaperPositionMode','auto')
 saveas(NF3,['figs' filesep 'Figure_NF3'], 'png')
 saveas(NF3,['figs' filesep 'Figure_NF3'], 'svg')
 
-
-par.NLDshiftList = [0:0.1:1];
-par.NLDsharpnessList = [5:1:14];
 %% 
 NF4 =figure('Position', [100, 100, 100, 1000]);
 for j = 1:length(par.NLDsharpnessList)
    subplot(length(par.NLDshiftList),1,j )
    
-   
-      par.NLDshift = par.NLDshiftList(5);
+   par.NLDshift = 0.5;
+%       par.NLDshift = par.NLDshiftList(5);
    par.NLDsharpness = par.NLDsharpnessList(j);
         par.NLD = @(s) 1./(  1 +...
             exp( -(s-par.NLDshift) * par.NLDsharpness)  );
@@ -156,16 +138,12 @@ for j = 1:length(par.NLDsharpnessList)
          plot(  x,par.NLD(x))
     end
     hold on 
-%     par.NLDsharpness = 3
     plot( 5* [-0.5,0.5]/par.NLDsharpness+par.NLDshift ,...
         5*par.NLD( [-0.5,0.5]/par.NLDsharpness +par.NLDshift   ) + 0.5 - 5*par.NLD(par.NLDshift),...
         'k:')
 %             plot( [1,1]*par.NLDshift,[min(par.STAfilt),max(par.STAfilt)*1.1],'--k')
     axis([-1,1,0,1])
    axis off
-   
-   
-
 end
 set(NF4,'PaperPositionMode','auto')
 saveas(NF4,['figs' filesep 'Figure_NF4'], 'png')
