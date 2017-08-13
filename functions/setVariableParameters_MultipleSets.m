@@ -48,8 +48,8 @@ for j0= [4,5]%  1:nFigures
 % %         par.wTruncList = 1:30;
     elseif j0 == 4
         % STA sweep 
-        par.STAfreqList = linspace(0,2,5);
-        par.STAwidthList = linspace(1,8,5);
+        par.STAfreqList = linspace(0,2,7);
+        par.STAwidthList = linspace(1,8,7);
         
         par.theta_distList = [0.01];
         par.phi_distList = [0.0312];
