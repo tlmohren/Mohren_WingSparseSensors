@@ -8,17 +8,17 @@ addpathFolderStructure()
 % load(['results' filesep 'tempDataMatTot'])
 % Datamat = dataMatTot;
 
+plot_list = [1:11:100,112:121];
+
+
 
 
 par.STAwidthList = 1:10;
-% par.STAshiftList = [-1:-1:-10];
 par.STAshiftList = -10:1:1;
-
-
-NF1 =figure('Position', [100, 100, 1400, 150]);
-for j = 1:length(par.STAshiftList)
-   subplot(1, length(par.STAshiftList),j )
-   par.STAwidth = par.STAwidthList(5);
+NF1 =figure('Position', [100, 100, 1000, 1000]);
+for j = 1:10
+   subplot(11,11,plot_list(j+10) )
+   par.STAwidth = 3;
    par.STAshift = par.STAshiftList(j);
    t_sta = -39:0.1:0;
       par.STAFunc = @(t)  2 * exp( -(t-par.STAshift) .^2 ...
@@ -27,12 +27,7 @@ for j = 1:length(par.STAshiftList)
             .* ( 1-(t-par.STAshift).^2/par.STAwidth^2);
         par.STAfilt = par.STAFunc(t_sta);   
         
-        
-% %             hh = area(t_sta,par.STAfilt);
-% %             hold on
-% %             hh.FaceColor = ones(3,1)*0.6;
-            
-
+      
             if par.STAshift == -10
                 plot(t_sta,par.STAfilt,'k','LineWidth',4); hold on;
             else
@@ -44,18 +39,14 @@ for j = 1:length(par.STAshiftList)
    axis off
 end
 
-set(NF1,'PaperPositionMode','auto')
-saveas(NF1,['figs' filesep 'Figure_NF1'], 'png')
-saveas(NF1,['figs' filesep 'Figure_NF1'], 'svg')
+% set(NF1,'PaperPositionMode','auto')
 
-
-%%
-
-NF2 =figure('Position', [100, 100, 200, 1000]);
+par.STAwidthList = 1:10;
+% NF2 =figure('Position', [100, 100, 200, 1000]);
 for j = 1:length(par.STAwidthList)
-   subplot(length(par.STAwidthList),1,j )
+   subplot(11,11,plot_list(j)  )
    par.STAwidth = par.STAwidthList(j);
-   par.STAshift = par.STAshiftList(6);
+   par.STAshift = -10;
    t_sta = -39:0.1:0;
       par.STAFunc = @(t)  2 * exp( -(t-par.STAshift) .^2 ...
             ./ (2*par.STAwidth ^2) ) ...
@@ -72,21 +63,14 @@ for j = 1:length(par.STAwidthList)
                 plot(t_sta,par.STAfilt); hold on;
             end
             
-%             hh = area(t_sta,par.STAfilt);
-%             hold on
-%             hh.FaceColor = ones(3,1)*0.6;          
-            
-%             if par.STAwidth + par.STAshift < 0 
-%                 plot( [-1,1]*par.STAwidth+par.STAshift,[0,0],':k')
-%             else
-%                 plot( [-par.STAwidth+par.STAshift,0],[0,0],':k')
-%             end
+            if par.STAwidth + par.STAshift < 0 
+                plot( [-1,1]*par.STAwidth+par.STAshift,[0,0],':k')
+            else
+                plot( [-par.STAwidth+par.STAshift,0],[0,0],':k')
+            end
             
    axis off
 end
-set(NF2,'PaperPositionMode','auto')
-saveas(NF2,['figs' filesep 'Figure_NF2'], 'png')
-saveas(NF2,['figs' filesep 'Figure_NF2'], 'svg')
 
 %% 
 
@@ -95,11 +79,10 @@ saveas(NF2,['figs' filesep 'Figure_NF2'], 'svg')
 par.NLDshiftList = [-0.2:0.1:0.7];
 par.NLDsharpnessList = [5:1:14];
 
-
-
-NF3 =figure('Position', [100, 100, 1400, 100]);
+NF3 =figure('Position', [100, 100, 1000, 1000]);
 for j = 1:length(par.NLDsharpnessList)
-   subplot(1,length(par.NLDsharpnessList),j )
+%    subplot(1,length(par.NLDsharpnessList),j )
+   subplot(11,11,plot_list(j) )
    
    par.NLDshift = par.NLDshiftList(j);
    par.NLDsharpness = 10;%par.NLDsharpnessList(5);
@@ -117,15 +100,16 @@ for j = 1:length(par.NLDsharpnessList)
    axis off
 end
 
-set(NF3,'PaperPositionMode','auto')
-saveas(NF3,['figs' filesep 'Figure_NF3'], 'png')
-saveas(NF3,['figs' filesep 'Figure_NF3'], 'svg')
+% set(NF3,'PaperPositionMode','auto')
+% saveas(NF3,['figs' filesep 'Figure_NF3'], 'png')
+% saveas(NF3,['figs' filesep 'Figure_NF3'], 'svg')
 
-%% 
-NF4 =figure('Position', [100, 100, 100, 1000]);
+%
+% NF4 =figure('Position', [100, 100, 100, 1000]);
 for j = 1:length(par.NLDsharpnessList)
-   subplot(length(par.NLDshiftList),1,j )
+%    subplot(length(par.NLDshiftList),1,j )
    
+   subplot(11,11,plot_list(j+10) )
    par.NLDshift = 0.5;
 %       par.NLDshift = par.NLDshiftList(5);
    par.NLDsharpness = par.NLDsharpnessList(j);
@@ -145,7 +129,7 @@ for j = 1:length(par.NLDsharpnessList)
     axis([-1,1,0,1])
    axis off
 end
-set(NF4,'PaperPositionMode','auto')
-saveas(NF4,['figs' filesep 'Figure_NF4'], 'png')
-saveas(NF4,['figs' filesep 'Figure_NF4'], 'svg')
+% set(NF4,'PaperPositionMode','auto')
+% saveas(NF4,['figs' filesep 'Figure_NF4'], 'png')
+% saveas(NF4,['figs' filesep 'Figure_NF4'], 'svg')
 

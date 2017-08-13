@@ -14,10 +14,10 @@ addpathFolderStructure()
 par = setParameters;
 [varParList,varParList_short] = setVariableParameters_MultipleSets(par);
 par.varParNames = fieldnames(varParList);
-par.iter = 10;
+par.iter = 8;
 par.predictTrain = 1;
 par.elasticNet = 0.9;
-par.saveNameParameters = 'elasticNet09_Week';
+par.saveNameParameters = 'STA_NLD_parameterTestIter8';
 
 % Save parameter list, necessary for assembling .mat files in figure making
 save( ['data' filesep 'ParameterList_', par.saveNameParameters '.mat'], 'varParList','varParList_short', 'par')
@@ -43,7 +43,7 @@ for j = 1:length(varParList)
             strainSet = eulerLagrangeConcatenate_predictTrain( varParList(j).theta_dist , varParList(j).phi_dist ,par);
 
             % Apply neural filters to strain --------------------------
-            [X,G] = neuralEncoding(strainSet, par );
+            [X,G] = neuralEncodingNewFilters(strainSet, par );
 
             % Find accuracy and optimal sensor locations  ---------
             [acc,sensors ] = sparseWingSensors( X,G, par);
@@ -57,14 +57,14 @@ for j = 1:length(varParList)
             % Print accuracy in command window --------------------
             fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[par.wTrunc,q,acc])
         catch
-            fprintf(['W_trunc = %1.0f, gave error, length q = ',num2str(length(q)),' \n'],[par.wTrunc])
+            fprintf(['W_trunc = %1.0f, gave error \n'],[par.wTrunc])
         end
     end
 
     % save classification accuracy and sensor location in small .mat file
     saveNameBase = sprintf(['Data_',par.saveNameParameters, '_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g_'],...
                         [par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
-                        par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , par.wTrunc ]);      
+                        par.STAwidth , par.STAfreq , par.NLDshift , par.NLDgrad , par.wTrunc ]);      
     saveName = [saveNameBase,computer,'_',datestr(datetime('now'), 30),'.mat'];
     save(  ['data',filesep, saveName]  ,'DataMat','SensMat','par')
     fprintf('Runtime = %g[s], Saved as: %s \n',[toc,saveName]) 
