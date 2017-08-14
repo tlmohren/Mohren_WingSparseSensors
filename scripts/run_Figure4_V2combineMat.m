@@ -23,18 +23,30 @@ par.xIncludeList = [0];
 par.yIncludeList = [1];
 par.SSPOConList = [0,1];
 par.sensorMatOn =0;
-par.STAwidthList = [3];
-par.STAshiftList = [-10];% 
+% par.STAwidthList = [3];
+% par.STAshiftList = [-10];% 
+
+
+        par.STAwidthList = [4.5];
+        par.STAfreqList = 1;% 
+        par.STAshiftList = par.STAfreqList
 %     par.STAwidthList = [1:1:10];
 %     par.STAshiftList = [-1:-1:-10];% 
 % par.NLDsharpnessList = [10];
 % par.NLDshiftList = [0.5];
-        par.NLDshiftList = [-0.2:0.1:0.7];
-        par.NLDsharpnessList = [5:1:14];
+%         par.NLDshiftList = [-0.2:0.1:0.7];
+%         par.NLDsharpnessList = [5:1:14];
         
 par.wTruncList = 1:30;
 % par.naming = {'10iters'};
-par.naming = {'elasticNet09_Week'};
+% par.naming = {'elasticNet09_Week'};
+
+par.NLDshiftList = linspace(-1 ,1,7);
+par.NLDgradList = linspace(1,5,7).^2;% [1:1:14];
+par.NLDsharpnessList = par.NLDgradList;
+par.naming = {'STA_NLD_parameterTestIter8'};
+
+
 par.allSensors = 0; 
         
 par.chordElements = 26;
@@ -132,7 +144,7 @@ end
 
 %%
 
-save( ['results' filesep 'Figure3_thresholdMat'],'thresholdMat')
+save( ['results' filesep 'Figure3_thresholdMat',par.naming{1}],'thresholdMat')
 
 % load( ['results' filesep 'Figure4_thresholdMat'])
 

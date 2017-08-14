@@ -26,12 +26,20 @@ par.sensorMatOn =0;
 % par.STAwidthList = [3];
 % par.STAshiftList = [-10];% 
 par.STAwidthList = [1:1:10];
-par.STAshiftList = [-1:-1:-10];% 
+par.STAshiftList = [-1:-1:-10];% .
+
+
+par.STAwidthList = linspace(1,8,7);
+par.STAfreqList = linspace(0,2,7);
+par.STAshiftList = par.STAfreqList;
+        
+        
 par.NLDsharpnessList = [10];
 par.NLDshiftList = [0.5];
 par.wTruncList = 1:30;
 % par.naming = {'10iters'};
-par.naming = {'elasticNet09_Week'};
+% par.naming = {'elasticNet09_Week'};
+par.naming = {'STA_NLD_parameterTestIter8'};
 par.allSensors = 0; 
         
 par.chordElements = 26;
@@ -79,19 +87,19 @@ n_plots = n_x*n_y;
 par.phi_dist = [0.01,0.1,1,10]*3.1;
 par.theta_dist = [0.01,0.1,1,10];
 fig2A=figure('Position', [100, 100, 950, 750]);
-
+thresholdMat = zeros(n_y,n_x,2);
 for j = 1:n_y
     for k = 1:n_x
         sub_nr = (j-1)*n_y + k;
         subplot(n_y,n_x, sub_nr)
         hold on
-
+        [j,k,size(thresholdMat)]
         %---------------------------------SSPOCoff-------------------------
         Dat_I = ind_SSPOCoff( sub_nr);
         [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
         realNumbers = find(~isnan(meanVec));
         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1});
-
+        sigmFitParam(realNumbers,meanVec(realNumbers));
         thresholdMat(j,k,1) = sigmFitParam(realNumbers,meanVec(realNumbers));
 
         %---------------------------------SSPOCon-------------------------
@@ -103,6 +111,7 @@ for j = 1:n_y
             scatter( ones(iters,1)*k2,nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) , dotcol{2})
         end
         plot(realNumbers, meanVec(realNumbers),col{2})
+        sigmFitParam(realNumbers,meanVec(realNumbers))
         thresholdMat(j,k,2) = sigmFitParam(realNumbers,meanVec(realNumbers));
 
         %--------------------------------Allsensors Neural filt-------------------------    
@@ -127,13 +136,13 @@ end
 
 %%
 
-% save( ['results' filesep 'Figure3_thresholdMat'],'thresholdMat')
+save( ['results' filesep 'Figure3_thresholdMat' par.naming],'thresholdMat')
 
-load( ['results' filesep 'Figure4_thresholdMat'])
+% load( ['results' filesep 'Figure4_thresholdMat'])
 %% Heatmap & Mask 
  
 set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
-[X,Y] = meshgrid(par.phi_dist,par.theta_dist);
+% [X,Y] = meshgrid(par.phi_dist,par.theta_dist);
 fig2C_V2 = figure('Position', [1000, 100, 400, 600]);
 subplot(211);
     Im(3) = imagesc(thresholdMat(:,:,2));

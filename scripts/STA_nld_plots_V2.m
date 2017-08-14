@@ -148,7 +148,7 @@ end
 % saveas(NF4,['figs' filesep 'Figure_NF4'], 'png')
 % saveas(NF4,['figs' filesep 'Figure_NF4'], 'svg')
 %% 
-close all
+% close all
         s = - 1:0.01:1;
 figure()
    par.NLDshift = 0;
@@ -225,17 +225,17 @@ for j = 1: length(freqList)
         width = widthList(k);
     % 
         func = @(t) cos( freq*(t+20)  ).*exp(-(t+20).^2 / width^2);
-        plot(x,func(x)/sum(func(x)))
+        plot(x,func(x))
 %         plot(x,func(x),'-','LineWidth',)
 %         hold on
 %         plot(x,func(x),'k.')
-%         axis([-40,0,-1.5,1.5])
+        axis([-40,0,-1.2,1.2])
     end
 end
 
 
 %%  NLD
-close all
+% close all
 s = -1:0.01:1;
 % par.NLDshiftList = [-0.2:0.1:0.7];
 NLDshiftList = linspace(-1 ,1,7);

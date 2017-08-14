@@ -14,10 +14,10 @@ addpathFolderStructure()
 par = setParameters;
 [varParList,varParList_short] = setVariableParameters_MultipleSets(par);
 par.varParNames = fieldnames(varParList);
-par.iter = 8;
+par.iter = 20;
 par.predictTrain = 1;
 par.elasticNet = 0.9;
-par.saveNameParameters = 'STA_NLD_parameterTestIter8';
+par.saveNameParameters = 'STANLD11_Iter20';
 
 % Save parameter list, necessary for assembling .mat files in figure making
 save( ['data' filesep 'ParameterList_', par.saveNameParameters '.mat'], 'varParList','varParList_short', 'par')

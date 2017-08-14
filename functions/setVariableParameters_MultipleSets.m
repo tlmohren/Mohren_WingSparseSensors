@@ -6,46 +6,52 @@ function [ varParList,varParList_short] = setVariableParameters_MultipleSets(par
 %   Output: varParList_short, reduced varParList, useful for figures
 %   Last updated: 2017/07/03  (TLM)
 
-nFigures = 6;
+nFigures = 5;
 count = 0;
 count_short  = 0;
-for j0= [4,5]%  1:nFigures
+for j0= 1:nFigures
     count_short 
     if j0 == 1
-% %         par.theta_distList = [0.001,0.01,0.1,1] * 10;
-% %         par.phi_distList =[0.001,0.01,0.1,1] * 31.2 ;
-% %         par.xIncludeList = [0];
-% %         par.yIncludeList = [1];
-% %         par.SSPOConList = [0,1];
-% %         par.STAwidthList = [3];
-% %         par.STAshiftList = [-10];% 
-% %         par.NLDshiftList = [0.5];
-% %         par.NLDsharpnessList = [10];
-% %         par.wTruncList = 1:30;
+        par.theta_distList = [0.001,0.01,0.1,1] * 10;
+        par.phi_distList =[0.001,0.01,0.1,1] * 31.2 ;
+        par.xIncludeList = [0];
+        par.yIncludeList = [1];
+        par.SSPOConList = [0,1];
+%         par.STAwidthList = [3];
+%         par.STAshiftList = [-10];% 
+        par.STAwidthList = [4.5];
+        par.STAfreqList = 1;% 
+        par.NLDshiftList = [0.5];
+        par.NLDgradList = [10];
+        par.wTruncList = 1:30;
     elseif j0 == 2
         % hump phi disturbance plot 2B
-% %         par.theta_distList = [0.01];
-% %         par.phi_distList = spa_sf( 10.^[-2:0.1:2] ,2) * 3.12;
-% %         par.xIncludeList = [0];
-% %         par.yIncludeList = [1];
-% %         par.SSPOConList = [0,1];
-% %         par.STAwidthList = [3];
-% %         par.STAshiftList = [-10];% 
-% %         par.NLDshiftList = [0.5];
-% %         par.NLDsharpnessList = [10];
-% %         par.wTruncList = 1:30;
+        par.theta_distList = [0.01];
+        par.phi_distList = spa_sf( 10.^[-2:0.1:2] ,2) * 3.12;
+        par.xIncludeList = [0];
+        par.yIncludeList = [1];
+        par.SSPOConList = [0,1];
+%         par.STAwidthList = [3];
+%         par.STAshiftList = [-10];% 
+        par.STAwidthList = [4.5];
+        par.STAfreqList = 1;% 
+        par.NLDshiftList = [0.5];
+        par.NLDgradList = [10];
+        par.wTruncList = 1:30;
     elseif j0 == 3
         % hump theta disturbance plot   2B
-% %         par.theta_distList = spa_sf( 10.^[-2:0.1:2] ,2);
-% %         par.phi_distList = [0.0312];
-% %         par.xIncludeList = [0];
-% %         par.yIncludeList = [1];
-% %         par.SSPOConList = [0,1];
-% %         par.STAwidthList = [3];
-% %         par.STAshiftList = [-10];% 
-% %         par.NLDshiftList = [0.5];
-% %         par.NLDsharpnessList = [10];
-% %         par.wTruncList = 1:30;
+        par.theta_distList = spa_sf( 10.^[-2:0.1:2] ,2);
+        par.phi_distList = [0.0312];
+        par.xIncludeList = [0];
+        par.yIncludeList = [1];
+        par.SSPOConList = [0,1];
+%         par.STAwidthList = [3];
+%         par.STAshiftList = [-10];% 
+        par.STAwidthList = [4.5];
+        par.STAfreqList = 1;% 
+        par.NLDshiftList = [0.5];
+        par.NLDgradList = [10];
+        par.wTruncList = 1:30;
     elseif j0 == 4
         % STA sweep 
         par.STAfreqList = linspace(0,2,7);
@@ -63,8 +69,8 @@ for j0= [4,5]%  1:nFigures
         par.wTruncList = 1:30;
     elseif j0 == 5
         % NLD sweep 
-        par.NLDshiftList = linspace(-1 ,1,7);
-        par.NLDgradList = linspace(1,5,7).^2;% [1:1:14];
+        par.NLDshiftList = linspace(-1 ,1,11);
+        par.NLDgradList = linspace(1,5,11).^2;% [1:1:14];
         par.theta_distList = [0.01];
         par.phi_distList = [0.0312];
         par.xIncludeList = [0];
