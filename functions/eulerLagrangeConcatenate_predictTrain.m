@@ -17,6 +17,7 @@ function [ strainSet ] = eulerLagrangeConcatenate_predictTrain(th,ph,par)
     simLocation = [dataDirectory filesep baseName,'Data'];
     simLocationName = [simLocation filesep simName];
 
+%      (exist(simLocationName,'file')==2)
     if (par.runSim == 0) && (exist(simLocationName,'file')==2) 
         % if exists and par.runSim says to load instead of run simulation
         strainSet = load(simLocationName);

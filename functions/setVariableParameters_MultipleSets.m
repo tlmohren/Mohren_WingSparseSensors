@@ -9,7 +9,7 @@ function [ varParList,varParList_short] = setVariableParameters_MultipleSets(par
 nFigures = 5;
 count = 0;
 count_short  = 0;
-for j0= 1:nFigures
+for j0= 4:nFigures
     count_short 
     if j0 == 1
         par.theta_distList = [0.001,0.01,0.1,1] * 10;
@@ -55,8 +55,8 @@ for j0= 1:nFigures
     elseif j0 == 4
         % STA sweep 
         par.STAfreqList = linspace(0,2,11);
-        par.STAwidthList = linspace(1,8,11);
-        
+%         par.STAwidthList = linspace(1,8,11);
+        par.STAwidthList = linspace(3.1,8,8);
         par.theta_distList = [0.01];
         par.phi_distList = [0.0312];
         par.xIncludeList = [0];
