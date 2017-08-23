@@ -27,8 +27,18 @@ par.STAshiftList = [-10];%
 par.NLDshiftList = [0.5];
 par.NLDsharpnessList = [10];
 par.wTruncList = 1:30;
+% ------------------------
 % par.naming = {'10iters'};
-par.naming = {'elasticNet09_Week'};
+% par.naming = {'elasticNet09_Week'};
+% par.STAwidthList = [3];
+% par.STAshiftList = [-10];% 
+% -----------------------------------
+
+par.naming = {'STANLD11_Iter20'}
+par.STAwidthList = [4.5];
+par.STAshiftList = [1];% 
+
+%---------------------------------
 par.allSensors = 0; 
 par.sensorMatOn = 1;
 par.chordElements = 26;

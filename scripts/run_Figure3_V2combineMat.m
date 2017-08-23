@@ -39,7 +39,24 @@ par.NLDshiftList = [0.5];
 par.wTruncList = 1:30;
 % par.naming = {'10iters'};
 % par.naming = {'elasticNet09_Week'};
-par.naming = {'STA_NLD_parameterTestIter8'};
+% 
+
+
+
+% par.naming = {'STA_NLD_parameterTestIter8'};
+% par.STAwidthList = linspace(1,8,7);
+% par.STAfreqList = linspace(0,2,7);
+% par.STAshiftList = par.STAfreqList;
+
+
+par.naming = {'STANLD11_Iter20'};
+par.STAwidthList = linspace(1,8,11);
+par.STAfreqList = linspace(0,2,11);
+par.STAshiftList = par.STAfreqList;
+
+
+
+
 par.allSensors = 0; 
         
 par.chordElements = 26;
@@ -52,7 +69,7 @@ par.NF_on = 1;
 dataStructAll = combineDataMat(par);
 
 % Set which indices you want --------------------------------------------------------
-ind_SSPOCoff = 1:2:199;
+ind_SSPOCoff = 1:2:( length(par.STAwidthList)* length(par.STAfreqList)*2 -1);
 ind_SSPOCon = ind_SSPOCoff + 1;
 
 %% Figure settings
@@ -93,7 +110,7 @@ for j = 1:n_y
         sub_nr = (j-1)*n_y + k;
         subplot(n_y,n_x, sub_nr)
         hold on
-        [j,k,size(thresholdMat)]
+%         [j,k,size(thresholdMat)]
         %---------------------------------SSPOCoff-------------------------
         Dat_I = ind_SSPOCoff( sub_nr);
         [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
@@ -136,7 +153,7 @@ end
 
 %%
 
-save( ['results' filesep 'Figure3_thresholdMat' par.naming],'thresholdMat')
+save( ['results' filesep 'Figure3_thresholdMat' par.naming{:}],'thresholdMat')
 
 % load( ['results' filesep 'Figure4_thresholdMat'])
 %% Heatmap & Mask 
