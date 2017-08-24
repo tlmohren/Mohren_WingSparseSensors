@@ -209,9 +209,9 @@ end
 
 
 x = -39:1:0;
-freqList = linspace(0,2,7);
+freqList = linspace(0,2,11);
 % dList = [5,10,20,40];
-widthList = linspace(1,8,7);
+widthList = linspace(1,8,11);
 widthList(1) = 0.1;
 
 
@@ -230,6 +230,7 @@ for j = 1: length(freqList)
 %         hold on
 %         plot(x,func(x),'k.')
         axis([-40,0,-1.2,1.2])
+        axis off
     end
 end
 
@@ -238,8 +239,8 @@ end
 % close all
 s = -1:0.01:1;
 % par.NLDshiftList = [-0.2:0.1:0.7];
-NLDshiftList = linspace(-1 ,1,7);
-NLDsharpnessList = linspace(1,5,7).^2;% [1:1:14];
+NLDshiftList = linspace(-1 ,1,11);
+NLDsharpnessList = linspace(1,5,11).^2;% [1:1:14];
 % NLDsharpnessList(8:10) = [11,15,20];
 
 figure('Position',[100,100,1000,1000])
@@ -276,6 +277,7 @@ for j = 1:length(NLDshiftList)
         plot(s,funNLD(s))
         axis([-1,1,-0.6,1.2])
         grid on
+        axis off 
     end
 end
 

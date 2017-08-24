@@ -264,7 +264,7 @@ subplot(212)
 
 %% Figure 1B Plot sensor locations 
 
-q_select = 17;
+q_select = 10;
 n_iters= length(nonzeros(dataStruct.dataMatTot(Dat_I,q_select,:)));
 binar = zeros(26*51,1);
 for j = 1:n_iters
