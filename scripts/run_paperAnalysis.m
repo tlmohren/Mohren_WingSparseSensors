@@ -15,9 +15,10 @@ par = setParameters;
 par.elasticNetList = [0.9];
 [varParList,~] = setVariableParameters_MultipleSets(par);
 par.varParNames = fieldnames(varParList);
-par.iter = 10;
+par.iter = 8;
 % par.elasticNet = 0.9;
-par.saveNameParameters = 'STANLD_expDerived_Iter10';
+% par.saveNameParameters = 'STANLD_expDerived_Iter10';
+par.saveNameParameters = 'elasticNetTest_Iter10';
 
 % Save parameter list, necessary for assembling .mat files in figure making
 save( ['data' filesep 'ParameterList_', par.saveNameParameters '.mat'], 'varParList', 'par')
@@ -34,7 +35,7 @@ for j = 1:length(varParList)
     for k = 1:length(par.varParNames)
         par.(par.varParNames{k}) = varParList(j).(par.varParNames{k});
     end
-    
+    par.elasticNet
     % Run parameter combination for a set number of iterations ---------
     for k = 1:par.iter
         try 
@@ -62,9 +63,9 @@ for j = 1:length(varParList)
     end
 
     % save classification accuracy and sensor location in small .mat file
-    saveNameBase = sprintf(['Data_',par.saveNameParameters, '_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g_'],...
+    saveNameBase = sprintf(['Data_',par.saveNameParameters, '_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g_wT%g_'],...
                         [par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
-                        par.STAwidth , par.STAfreq , par.NLDshift , par.NLDgrad , par.wTrunc ]);      
+                        par.STAwidth , par.STAfreq , par.NLDshift , par.NLDgrad , par.wTrunc,par.elasticNet ]);      
     saveName = [saveNameBase,computer,'_',datestr(datetime('now'), 30),'.mat'];
     save(  ['data',filesep, saveName]  ,'DataMat','SensMat','par')
     fprintf('Runtime = %g[s], Saved as: %s \n',[toc,saveName]) 
