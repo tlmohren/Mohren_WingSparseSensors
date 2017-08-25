@@ -47,7 +47,8 @@ else
 end
 
 par
-[strain,figdata] =  eulerLagrange_forfigures(frot, th,ph ,par );
+% [strain,figdata] =  eulerLagrange_forfigures(frot, th,ph ,par );
+strain =  eulerLagrange(frot, th,ph ,par );
 %% 
 save('flapDisturbance_31_2.mat','figdata')
 

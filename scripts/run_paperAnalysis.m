@@ -12,15 +12,15 @@ addpathFolderStructure()
 %%  Build struct with parameters to carry throughout simulation
 
 par = setParameters;
-[varParList,varParList_short] = setVariableParameters_MultipleSets(par);
+par.elasticNetList = [0.9];
+[varParList,~] = setVariableParameters_MultipleSets(par);
 par.varParNames = fieldnames(varParList);
-par.iter = 20;
-par.predictTrain = 1;
-par.elasticNet = 0.9;
-par.saveNameParameters = 'STANLD11_Iter20';
+par.iter = 10;
+% par.elasticNet = 0.9;
+par.saveNameParameters = 'STANLD_expDerived_Iter10';
 
 % Save parameter list, necessary for assembling .mat files in figure making
-save( ['data' filesep 'ParameterList_', par.saveNameParameters '.mat'], 'varParList','varParList_short', 'par')
+save( ['data' filesep 'ParameterList_', par.saveNameParameters '.mat'], 'varParList', 'par')
 
 %% Run eulerLagrangeSimulation (optional) and sparse sensor placement algorithm
 

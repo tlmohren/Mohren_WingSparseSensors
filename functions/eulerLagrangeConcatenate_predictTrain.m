@@ -17,7 +17,6 @@ function [ strainSet ] = eulerLagrangeConcatenate_predictTrain(th,ph,par)
     simLocation = [dataDirectory filesep baseName,'Data'];
     simLocationName = [simLocation filesep simName];
 
-%      (exist(simLocationName,'file')==2)
     if (par.runSim == 0) && (exist(simLocationName,'file')==2) 
         % if exists and par.runSim says to load instead of run simulation
         strainSet = load(simLocationName);
@@ -25,15 +24,15 @@ function [ strainSet ] = eulerLagrangeConcatenate_predictTrain(th,ph,par)
     else
         % Run simulations for the given parameters 
         fprintf(['Running simulations for: ' simName '\n']); 
-%         strain_0 = eulerLagrange(0,ph,th ,par);
-%         strain_10 = eulerLagrange(10,ph,th ,par);
+%         
+%         strain_0 = eulerLagrange(0,th,ph ,par);
+%         strain_10 = eulerLagrange(10,th,ph ,par);
+%         strainSet.strain_0 = strain_0;
+%         strainSet.strain_10 = strain_10;
         
-        strain_0 = eulerLagrange(0,th,ph ,par);
-        strain_10 = eulerLagrange(10,th,ph ,par);
+        strainSet.strain_0 = eulerLagrange(0,th,ph ,par);
+        strainSet.strain_10 = eulerLagrange(10,th,ph ,par);
         
-        
-        strainSet.strain_0 = strain_0;
-        strainSet.strain_10 = strain_10;
         fprintf(['Completed simulations for: ' simName '\n']); 
         
         if (par.saveSim == 1)

@@ -77,7 +77,7 @@ end
 
 
 % par.NLDshiftList = [-0.2:0.1:0.7];
-par.NLDshiftList = linspace(-1 ,1,10)
+par.NLDshiftList = linspace(-1 ,1,10);
 par.NLDsharpnessList = linspace(1,11,10);% [1:1:14];
 par.NLDsharpnessList(8:10) = [11,15,20];
 % par.NLDsharp
@@ -177,6 +177,7 @@ x = -39:0.1:0;
 
 freqList = [0.1,1,5];
 widthList = [5,10,20,40];
+STAdelay = 5;
 figure();
 subplot(211)
 hold on
@@ -189,7 +190,7 @@ for j = 1:length(freqList)
 %     func = @(t) cos(A1*(t+10) )./(exp(-A2*abs(t+10))); 
 %     func = @(t) cos(A1*(t+10) ) .*exp(-(t+10)); 
 %     func = @(t) exp(-t.^2)
-    func = @(t) cos( freq*(t+10)  ).*exp(-(t+10).^2 / width)
+    func = @(t) cos( freq*(t+STAdelay )  ).*exp(-(t+STAdelay ).^2 / width);
     plot(x,func(x))
 end
 subplot(212)
@@ -200,18 +201,33 @@ for j = 1:length(widthList)
 %     A1 = A1List(1);
 %     A2 = A2List(j);
 %     func = @(t) cos(A1*t)./(1*t.^A2); 
-    func = @(t) cos( freq*(t+10)  ).*exp(-(t+10).^2 / width)
+    func = @(t) cos( freq*(t+STAdelay )  ).*exp(-(t+STAdelay ).^2 / width);
     plot(x,func(x))
 end
-
-
+%% 
+STAdelay = 3;
+freq = 1;
+width = 8;
+eta = 12;
+shift = 0.5;
+s = - 1:0.01:1;
+figure('Position',[100,100,1200,300]);
+subplot(121)
+    func = @(t) cos( freq*(t+STAdelay )  ).*exp(-(t+STAdelay ).^2 / width);
+    plot(x,func(x))
+subplot(122)
+    funNLD = @(s) ( 1./ (1+ exp(-eta.*(s-shift)) ) - 0.5) + 0.5; 
+    plot(s,funNLD(s))
+    
 %% STA
 
 
 x = -39:1:0;
 freqList = linspace(0,2,11);
 % dList = [5,10,20,40];
-widthList = linspace(1,8,11);
+% widthList = linspace(1,11,11);
+% widthList = 0:2:20;
+widthList = linspace(0,20,11);
 widthList(1) = 0.1;
 
 
@@ -224,13 +240,15 @@ for j = 1: length(freqList)
         freq = freqList(j);
         width = widthList(k);
     % 
-        func = @(t) cos( freq*(t+20)  ).*exp(-(t+20).^2 / width^2);
+        func = @(t) cos( freq*(t+STAdelay)  ).*exp(-(t+STAdelay).^2 / width^2);
         plot(x,func(x))
 %         plot(x,func(x),'-','LineWidth',)
 %         hold on
 %         plot(x,func(x),'k.')
         axis([-40,0,-1.2,1.2])
-        axis off
+        grid on 
+%         axis off
+        xaxis off
     end
 end
 

@@ -5,18 +5,7 @@ function [ par] = setParameters
 %  TLM 2017
 
 % variable parameters 
-%     par.theta_distList = [0];
-%     par.phi_distList = [0];
-%     par.xIncludeList = [0];
-%     par.yIncludeList = [1];
-%     par.SSPOConList = [1];
-%     par.STAwidthList = [3];
-%     par.STAshiftList = [-10];% 
-%     par.NLDshiftList = [0.5];
-%     par.NLDsharpnessList = [10];
-
-%  unsorted
-%     par.iter = 2;
+    par.predictTrain = 1;
     par.showFigure = 0;
     par.setBaseZero = 1;
     par.singValsMult = 1;
@@ -43,4 +32,10 @@ function [ par] = setParameters
     par.iter = 1; 
     par.trainFraction = 0.9;
 
+    % experimental neural encoding parameters 
+    par.STAdelay = 3;
+    par.STAfreq = 1;
+    par.STAwidth = 8;
+    par.NLDgrad = 12;
+    par.NLDshift = 5;
     %% Detailed explanation of parameters 
