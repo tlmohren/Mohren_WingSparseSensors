@@ -15,10 +15,10 @@ par = setParameters;
 par.elasticNetList = [0.9];
 [varParList,~] = setVariableParameters_MultipleSets(par);
 par.varParNames = fieldnames(varParList);
-par.iter = 8;
+par.iter = 5;
 % par.elasticNet = 0.9;
 % par.saveNameParameters = 'STANLD_expDerived_Iter10';
-par.saveNameParameters = 'elasticNetTest_Iter10';
+par.saveNameParameters = 'elasticNetTest_Iter5';
 
 % Save parameter list, necessary for assembling .mat files in figure making
 save( ['data' filesep 'ParameterList_', par.saveNameParameters '.mat'], 'varParList', 'par')

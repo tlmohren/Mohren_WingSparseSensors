@@ -88,11 +88,26 @@ for j0= [6]%:nFigures
         par.phi_distList = 0.312;%[0:5:100]  ;
         par.xIncludeList = [0];
         par.yIncludeList = [1];
-        par.SSPOConList = [1];
+        par.SSPOConList = [0,1];
+        
         par.STAwidthList = [8];
         par.STAfreqList = 1;% 
         par.NLDshiftList = [0.5];
         par.NLDgradList = [12];
+        
+        
+        par.STAwidthList = [12];
+        par.STAfreqList = 1;% 
+        par.NLDshiftList = [0.5];
+        par.NLDgradList = [20];
+        
+% %         STAdelay = 3.6;
+%         freq = 1;
+%         width = 12;
+%         eta = 20;
+%         shift = 0.5;
+        
+        
         par.wTruncList = 1:30;
         par.elasticNetList = [0.99,0.9,0.8];
     end
