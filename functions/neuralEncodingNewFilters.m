@@ -18,7 +18,7 @@ function [ X,G ] = neuralEncodingNewFilters( strainSet,par )
     par.STAFunc = @(t) cos( par.STAfreq*(t+ par.STAdelay)  ).*exp(-(t+par.STAdelay).^2 / par.STAwidth^2);
     par.STAfilt = par.STAFunc(par.STAt) / sum(par.STAFunc(par.STAt));   
     
-    figure(100);plot(par.STAt,par.STAfilt);hold on;drawnow
+%     figure(100);plot(par.STAt,par.STAfilt);hold on;drawnow
 
     if par.NLDgrad <=1
             par.NLD = @(s)  heaviside(0.5*s-par.NLDshift+0.5).*(0.5*s-par.NLDshift+0.5) ...
@@ -28,7 +28,7 @@ function [ X,G ] = neuralEncodingNewFilters( strainSet,par )
     else
         par.NLD = @(s) ( 1./ (1+ exp(-par.NLDgrad.*(s-par.NLDshift)) ) - 0.5) + 0.5; 
     end
-    figure(101);plot(-1:0.01:1,par.NLD(-1:0.01:1));hold on;drawnow; grid on
+%     figure(101);plot(-1:0.01:1,par.NLD(-1:0.01:1));hold on;drawnow; grid on
 
     % calibrate strain 
     calib = max([strainSet.(fn{1})(:) ;strainSet.(fn{2})(:) ] );
