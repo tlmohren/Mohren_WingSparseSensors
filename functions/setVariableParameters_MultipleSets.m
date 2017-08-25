@@ -101,7 +101,7 @@ for j0= [6]%:nFigures
 %         par.NLDshiftList = [0.5];
 %         par.NLDgradList = [20];
         
-        par.STAdelay = 20;
+        par.STAdelayList = [3,10,20];
         par.STAwidthList = [3];
         par.STAfreqList = 1;% 
         par.NLDshiftList = [0.5];
@@ -115,43 +115,47 @@ for j0= [6]%:nFigures
         
         
         par.wTruncList = 1:30;
-        par.elasticNetList = [0.99,0.9,0.8];
+        par.elasticNetList = [0.95];
     end
     for j0 = 1:length(par.elasticNetList);
-        for j1 = 1:length(par.STAwidthList)
-            for j2 = 1:length(par.STAfreqList)
-                for j3 = 1:length(par.theta_distList)
-                    for j4 = 1:length(par.phi_distList)
-                        for j9 = 1:length(par.NLDshiftList)
-                            for j10 = 1:length(par.NLDgradList)
-                                for j6 = 1:length(par.SSPOConList)
-                                    for j7 = 1:length(par.xIncludeList)
-                                        for j8 = 1:length(par.yIncludeList)
-                                           for j11 = 1:length(par.wTruncList)
-                                                count = count + 1;
-                                                varParList(count).elasticNet = par.elasticNetList(j0); 
-                                                varParList(count).STAwidth = par.STAwidthList(j1); 
-                                                varParList(count).STAfreq = par.STAfreqList(j2);
-                                                varParList(count).theta_dist = par.theta_distList(j3);
-                                                varParList(count).phi_dist = par.phi_distList(j4);
-                                                varParList(count).SSPOCon = par.SSPOConList(j6);
-                                                varParList(count).xInclude = par.xIncludeList(j7);
-                                                varParList(count).yInclude = par.yIncludeList(j8);
-                                                varParList(count).NLDshift = par.NLDshiftList(j9);
-                                                varParList(count).NLDgrad = par.NLDgradList(j10);
-                                                varParList(count).wTrunc = par.wTruncList(j11);
+        for j02 = 1:length(par.STAdelayList);
+            for j1 = 1:length(par.STAwidthList)
+                for j2 = 1:length(par.STAfreqList)
+                    for j3 = 1:length(par.theta_distList)
+                        for j4 = 1:length(par.phi_distList)
+                            for j9 = 1:length(par.NLDshiftList)
+                                for j10 = 1:length(par.NLDgradList)
+                                    for j6 = 1:length(par.SSPOConList)
+                                        for j7 = 1:length(par.xIncludeList)
+                                            for j8 = 1:length(par.yIncludeList)
+                                               for j11 = 1:length(par.wTruncList)
+                                                    count = count + 1;
+                                                    varParList(count).elasticNet = par.elasticNetList(j0); 
+                                                    varParList(count).STAdelay = par.STAdelayList(j02);
+                                                    varParList(count).STAwidth = par.STAwidthList(j1); 
+                                                    varParList(count).STAfreq = par.STAfreqList(j2);
+                                                    varParList(count).theta_dist = par.theta_distList(j3);
+                                                    varParList(count).phi_dist = par.phi_distList(j4);
+                                                    varParList(count).SSPOCon = par.SSPOConList(j6);
+                                                    varParList(count).xInclude = par.xIncludeList(j7);
+                                                    varParList(count).yInclude = par.yIncludeList(j8);
+                                                    varParList(count).NLDshift = par.NLDshiftList(j9);
+                                                    varParList(count).NLDgrad = par.NLDgradList(j10);
+                                                    varParList(count).wTrunc = par.wTruncList(j11);
+                                                end
+                                                count_short = count_short + 1;
+                                                varParList_short(count_short).elasticNet = par.elasticNetList(j0); 
+                                                varParList_short(count_short).STAdelay = par.STAdelayList(j02); 
+                                                varParList_short(count_short).STAwidth = par.STAwidthList(j1); 
+                                                varParList_short(count_short).STAfreq = par.STAfreqList(j2);
+                                                varParList_short(count_short).theta_dist = par.theta_distList(j3);
+                                                varParList_short(count_short).phi_dist = par.phi_distList(j4);
+                                                varParList_short(count_short).SSPOCon = par.SSPOConList(j6);
+                                                varParList_short(count_short).xInclude = par.xIncludeList(j7);
+                                                varParList_short(count_short).yInclude = par.yIncludeList(j8);
+                                                varParList_short(count_short).NLDshift = par.NLDshiftList(j9);
+                                                varParList_short(count_short).NLDgrad = par.NLDgradList(j10);
                                             end
-                                            count_short = count_short + 1;
-                                            varParList_short(count_short).elasticNet = par.elasticNetList(j0); 
-                                            varParList_short(count_short).STAwidth = par.STAwidthList(j1); 
-                                            varParList_short(count_short).STAfreq = par.STAfreqList(j2);
-                                            varParList_short(count_short).theta_dist = par.theta_distList(j3);
-                                            varParList_short(count_short).phi_dist = par.phi_distList(j4);
-                                            varParList_short(count_short).SSPOCon = par.SSPOConList(j6);
-                                            varParList_short(count_short).xInclude = par.xIncludeList(j7);
-                                            varParList_short(count_short).yInclude = par.yIncludeList(j8);
-                                            varParList_short(count_short).NLDshift = par.NLDshiftList(j9);
-                                            varParList_short(count_short).NLDgrad = par.NLDgradList(j10);
                                         end
                                     end
                                 end
