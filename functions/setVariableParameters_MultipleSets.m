@@ -88,18 +88,24 @@ for j0= [6]%:nFigures
         par.phi_distList = 0.312;%[0:5:100]  ;
         par.xIncludeList = [0];
         par.yIncludeList = [1];
-        par.SSPOConList = [0,1];
+        par.SSPOConList = [1];
+%         
+%         par.STAwidthList = [8];
+%         par.STAfreqList = 1;% 
+%         par.NLDshiftList = [0.5];
+%         par.NLDgradList = [12];
         
-        par.STAwidthList = [8];
+        
+%         par.STAwidthList = [12];
+%         par.STAfreqList = 1;% 
+%         par.NLDshiftList = [0.5];
+%         par.NLDgradList = [20];
+        
+        par.STAdelay = 20;
+        par.STAwidthList = [3];
         par.STAfreqList = 1;% 
         par.NLDshiftList = [0.5];
-        par.NLDgradList = [12];
-        
-        
-        par.STAwidthList = [12];
-        par.STAfreqList = 1;% 
-        par.NLDshiftList = [0.5];
-        par.NLDgradList = [20];
+        par.NLDgradList = [10];
         
 % %         STAdelay = 3.6;
 %         freq = 1;
@@ -136,7 +142,7 @@ for j0= [6]%:nFigures
                                                 varParList(count).wTrunc = par.wTruncList(j11);
                                             end
                                             count_short = count_short + 1;
-                                            varParList(count_short).elasticNet = par.elasticNetList(j0); 
+                                            varParList_short(count_short).elasticNet = par.elasticNetList(j0); 
                                             varParList_short(count_short).STAwidth = par.STAwidthList(j1); 
                                             varParList_short(count_short).STAfreq = par.STAfreqList(j2);
                                             varParList_short(count_short).theta_dist = par.theta_distList(j3);

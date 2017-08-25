@@ -32,10 +32,9 @@ function [ par] = setParameters
     par.iter = 1; 
     par.trainFraction = 0.9;
 
-    % experimental neural encoding parameters 
-    par.STAdelay = 3.6;
-    par.STAfreq = 1;
-    par.STAwidth = 12;
-    par.NLDgrad = 20;
-    par.NLDshift = 0.5;
+    % experimental neural encoding parameters F
+%     par.STAfreq = 1;
+%     par.STAwidth = 12;
+%     par.NLDgrad = 20;
+%     par.NLDshift = 0.5;
     %% Detailed explanation of parameters 
