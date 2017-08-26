@@ -248,7 +248,7 @@ for j = 1: length(freqList)
         axis([-40,0,-1.2,1.2])
         grid on 
 %         axis off
-        xaxis off
+%         xaxis off
     end
 end
 

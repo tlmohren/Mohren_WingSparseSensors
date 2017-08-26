@@ -57,7 +57,9 @@ for j0= [4]%:nFigures
 %         par.STAfreqList = linspace(0,2,11);
 %         par.STAwidthList = linspace(3.1,8,8);
         par.STAfreqList = linspace(0,2,11);
+        
         par.STAwidthList = linspace(0,20,11);
+        par.STAwidthList(1) = 0.1;
         par.STAshiftList = par.STAfreqList;
         
         par.theta_distList = [0.1];
