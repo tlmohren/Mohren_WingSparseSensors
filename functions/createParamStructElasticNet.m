@@ -1,8 +1,9 @@
-function [ paramStruct ] = createParamStruct( par )
+function [ paramStruct ] = createParamStructElasticNet( par )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
     count = 0;
     for j0 = 1:length(par.NF_on)
+        for j01 = 1:length( par.elasticNetList)
             for j1 = 1:length(par.STAwidthList)
                 for j2 = 1:length(par.STAshiftList)
                     for j10 = 1:length(par.NLDsharpnessList)
@@ -15,6 +16,7 @@ function [ paramStruct ] = createParamStruct( par )
 
                                                 count = count + 1;
                                                 if par.NF_on(j0) == 1
+                                                    paramStruct(count).elasticNet = par.elasticNetList(j01); 
                                                     paramStruct(count).STAwidth = par.STAwidthList(j1); 
                                                     paramStruct(count).STAshift = par.STAshiftList(j2);
                                                     paramStruct(count).NLDsharpness = par.NLDsharpnessList(j10);
@@ -23,6 +25,7 @@ function [ paramStruct ] = createParamStruct( par )
                                                     paramStruct(count).STAshift = 0;
                                                     paramStruct(count).NLDsharpness = 0;
                                                 end
+                                                paramStruct(count).elasticNet = par.elasticNetList(j01); 
                                                 paramStruct(count).theta_dist = par.theta_distList(j3);
                                                 paramStruct(count).phi_dist = par.phi_distList(j4);
                                                 paramStruct(count).SSPOCon = par.SSPOConList(j6);
@@ -38,6 +41,7 @@ function [ paramStruct ] = createParamStruct( par )
                     end
                 end
             end
+        end
     end
 end
 

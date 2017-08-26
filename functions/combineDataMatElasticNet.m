@@ -1,4 +1,4 @@
-function [ dataStruct ] = combineDataMat( par)
+function [ dataStruct ] = combineDataMatElasticNet( par)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -17,7 +17,7 @@ function [ dataStruct ] = combineDataMat( par)
         dataMatTot = zeros( n , par.iter);
         sensorMatTot = [];
     end
-    paramStruct  = createParamStruct( par );
+    paramStruct  = createParamStructElasticNet( par );
                                             
     par.varParNames = fieldnames(paramStruct);
    for j1 = 1:length(paramStruct);         
@@ -28,9 +28,9 @@ function [ dataStruct ] = combineDataMat( par)
            for j2 = 1:length(par.wTruncList)
                 wTrunc = par.wTruncList(j2);
 
-                saveNameBase = sprintf(['Data_',par.naming{1}, '_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g_'],...
+                saveNameBase = sprintf(['Data_',par.naming{1}, '_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g_wT%g_'],...
                 [par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
-                par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , wTrunc]);
+                par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , wTrunc, par.elasticNet]);
 
                 nameMatches = dir(['data' filesep saveNameBase '*']);
                 if ~isempty(nameMatches)

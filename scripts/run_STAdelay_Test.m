@@ -29,10 +29,10 @@ par.STAshiftList = par.STAfreqList;
 par.NLDshiftList = [0.5];
 par.NLDgradList = [10];
 par.NLDsharpnessList = par.NLDgradList;
-par.elasticNetList = [0.99,0.95,0.9,0.8];
-        
+par.elasticNetList = [0.95];
+par.STAdelayList = [3,10,20];
 par.wTruncList = 1:30;
-par.naming = {'elasticNetTestSTAtry_Iter3'};
+par.naming = {'elasticNetTestSTAshiftTest_Iter3'};
 
 
 
@@ -42,14 +42,14 @@ par.allSensors = 0;
 par.chordElements = 26;
 par.spanElements = 51;
 par
-dataStruct = combineDataMatElasticNet(par);
+dataStruct = combineDataMatSTAtest(par);
 par.allSensors = 1; 
 par.SSPOConList = 2;
 par.NF_on = 1;
 dataStructAll = combineDataMat(par);
 
 % Set which indices you want --------------------------------------------------------
-ind_SSPOCoff = 1:2:( length(par.elasticNetList)*2 );
+ind_SSPOCoff = 1:2:(  length(par.STAdelayList)*2 );
 ind_SSPOCon = ind_SSPOCoff + 1;
 
 %% Figure settings
@@ -80,7 +80,7 @@ dotcol = {'.k','.r'};
 %% Figure 2A
 % n_x = length(par.STAwidthList);
 n_x = 1;
-n_y =  length(par.elasticNetList); 
+n_y =  length(par.STAdelayList); 
 n_plots = n_x*n_y;
 % par.phi_dist = [0.01,0.1,1,10]*3.1;
 % par.theta_dist = [0.01,0.1,1,10];

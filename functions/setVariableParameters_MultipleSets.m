@@ -9,7 +9,7 @@ function [ varParList,varParList_short] = setVariableParameters_MultipleSets(par
 nFigures = 5;
 count = 0;
 count_short  = 0;
-for j0= [6]%:nFigures
+for j0= [4]%:nFigures
     count_short 
     if j0 == 1
         par.theta_distList = [0.001,0.01,0.1,1] * 10;
@@ -56,19 +56,24 @@ for j0= [6]%:nFigures
         % STA sweep 
 %         par.STAfreqList = linspace(0,2,11);
 %         par.STAwidthList = linspace(3.1,8,8);
-        freqList = linspace(0,2,11);
-        widthList = linspace(0,20,11);
+        par.STAfreqList = linspace(0,2,11);
+        par.STAwidthList = linspace(0,20,11);
+        par.STAshiftList = par.STAfreqList;
+        
         par.theta_distList = [0.1];
         par.phi_distList = [0.312];
-        
         par.xIncludeList = [0];
         par.yIncludeList = [1];
         par.SSPOConList = [0,1];
 %         par.STAwidthList = [1:1:10];
 %         par.STAshiftList = [-1:-1:-10];% 
         par.NLDshiftList = [0.5];
-        par.NLDgradList = [12];
+        par.NLDgradList = [10];
         par.wTruncList = 1:30;
+        
+        par.elasticNetList = 0.95;
+        par.STAdelayList = 10;
+        
     elseif j0 == 5
         % NLD sweep 
         par.NLDshiftList = linspace(-1 ,1,11);
@@ -83,7 +88,7 @@ for j0= [6]%:nFigures
 %         par.NLDshiftList = [-0.2:0.1:0.7];
 %         par.NLDsharpnessList = [5:1:14];
         par.wTruncList = 1:30;
-    elseif j0 == 6   % just to test neural Net 
+    elseif j0 == 6   % just to test neural Net . STA-variability
         par.theta_distList = 0.1; %[0:5:100] ;
         par.phi_distList = 0.312;%[0:5:100]  ;
         par.xIncludeList = [0];
