@@ -1,4 +1,4 @@
-function [ X,G ] = neuralEncodingNewFilters( strainSet,fixPar ,varyPar)
+function [ X,G ] = neuralEncodingNewFilters( strainSet,par )
 %[ X,G ] = neuralEncoding( strainSet,par ) 
 %   Takes strain data and uses specified
 %   parameters [par] to generate [Pfire], here called [X], and specifies
@@ -14,26 +14,25 @@ function [ X,G ] = neuralEncodingNewFilters( strainSet,fixPar ,varyPar)
     G = [];
 
 % define neural filters 
-    STAt = -39:0;   
-    STAFunc = @(t) cos( varyPar.STAfreq*(t+ fixPar.STAdelay)  ).*exp(-(t+fixPar.STAdelay).^2 / varyPar.STAwidth);
-
-    STAfilt = STAFunc(STAt) / sum(STAFunc(STAt));   
+    par.STAt = -39:0;   
+    par.STAFunc = @(t) cos( par.STAfreq*(t+ par.STAdelay)  ).*exp(-(t+par.STAdelay).^2 / par.STAwidth^2);
+    par.STAfilt = par.STAFunc(par.STAt) / sum(par.STAFunc(par.STAt));   
     
+%     figure(100);plot(par.STAt,par.STAfilt);hold on;drawnow
 
-    if varyPar.NLDgrad <=1
-        NLD = @(s)  heaviside(0.5*s-varyPar.NLDshift+0.5).*(0.5*s-varyPar.NLDshift+0.5) ...
-           -heaviside(0.5*s-varyPar.NLDshift-1+0.5).*(0.5*s-varyPar.NLDshift-1+0.5);
-    elseif varyPar.NLDgrad >= 25
-        NLD = @(s) heaviside( 0.5*s - 0.5*varyPar.NLDshift) ;
+    if par.NLDgrad <=1
+            par.NLD = @(s)  heaviside(0.5*s-par.NLDshift+0.5).*(0.5*s-par.NLDshift+0.5) ...
+           -heaviside(0.5*s-par.NLDshift-1+0.5).*(0.5*s-par.NLDshift-1+0.5);
+    elseif par.NLDgrad >= 25
+        par.NLD = @(s) heaviside( 0.5*s - 0.5*par.NLDshift) ;
     else
-        NLD = @(s) ( 1./ (1+ exp(-varyPar.NLDgrad.*(s-varyPar.NLDshift)) ) - 0.5) + 0.5; 
+        par.NLD = @(s) ( 1./ (1+ exp(-par.NLDgrad.*(s-par.NLDshift)) ) - 0.5) + 0.5; 
     end
-    
 %     figure(101);
 %         subplot(121)
-%         plot(STAt,STAfilt);hold on;drawnow
+%         plot(par.STAt,par.STAfilt);hold on;drawnow
 %         subplot(122)
-%         plot(-1:0.01:1,NLD(-1:0.01:1));hold on;drawnow; grid on
+%         plot(-1:0.01:1,par.NLD(-1:0.01:1));hold on;drawnow; grid on
 
     % calibrate strain 
     calib = max([strainSet.(fn{1})(:) ;strainSet.(fn{2})(:) ] );
@@ -43,17 +42,17 @@ function [ X,G ] = neuralEncodingNewFilters( strainSet,fixPar ,varyPar)
         % Remove startup phase from strain, but leave a piece the lenght of the
         % match filter to obtain correct output length
         [m,~] = size( strainSet.(fn{j}) ); 
-        n_conv = ( fixPar.simStartup*fixPar.sampFreq +2 -length(STAt) )...
-            : fixPar.simEnd*fixPar.sampFreq;
+        n_conv = ( par.simStartup*par.sampFreq +2 -length(par.STAt) )...
+            : par.simEnd*par.sampFreq;
         
         % initialize output
-        n_out = (fixPar.simEnd-fixPar.simStartup) * fixPar.sampFreq ;
+        n_out = (par.simEnd-par.simStartup) * par.sampFreq ;
         strainConv = zeros(m,n_out);
         for jj = 1:m
-            strainConv(jj,:) = conv(  strainSet.(fn{j})(jj,n_conv) / calib , (STAfilt),'valid');
+            strainConv(jj,:) = conv(  strainSet.(fn{j})(jj,n_conv) / calib , (par.STAfilt),'valid');
         end
         
-        X = [X  NLD( strainConv) ];
+        X = [X  par.NLD( strainConv) ];
         Gtemp = ones(1, n_out);
         G = [G Gtemp*j];
     end

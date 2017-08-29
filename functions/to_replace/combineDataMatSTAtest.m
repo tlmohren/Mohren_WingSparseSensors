@@ -19,7 +19,7 @@ function [ dataStruct ] = combineDataMatSTAtest( par)
     end
     paramStruct  = createParamStructSTAtest( par );
                                             
-    par.varParNames = fieldnames(paramStruct)
+    par.varParNames = fieldnames(paramStruct);
    for j1 = 1:length(paramStruct);         
         for k = 1:length(par.varParNames)
             par.(par.varParNames{k}) =paramStruct(j1).(par.varParNames{k});
@@ -30,7 +30,7 @@ function [ dataStruct ] = combineDataMatSTAtest( par)
 
                 saveNameBase = sprintf(['Data_',par.naming{1}, '_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g_wT%g_del%g_'],...
                 [par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
-                par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , wTrunc, par.elasticNet,par.STAdelay])
+                par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , wTrunc, par.elasticNet,par.STAdelay]);
 
                 nameMatches = dir(['data' filesep saveNameBase '*'])
                 if ~isempty(nameMatches)

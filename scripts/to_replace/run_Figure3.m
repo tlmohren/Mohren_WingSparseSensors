@@ -48,21 +48,29 @@ par.wTruncList = 1:30;
 % par.STAfreqList = linspace(0,2,7);
 % par.STAshiftList = par.STAfreqList;
 
+% 
+% par.naming = {'STANLD11_Iter20'};
+% par.STAwidthList = linspace(1,8,11);
+% par.STAfreqList = linspace(0,2,11);
+% par.STAshiftList = par.STAfreqList;
 
-par.naming = {'STANLD11_Iter20'};
-par.STAwidthList = linspace(1,8,11);
-par.STAfreqList = linspace(0,2,11);
-par.STAshiftList = par.STAfreqList;
 
-
+par.naming = {'STA_shift10_ElasticN095'};
+        par.STAfreqList = linspace(0,2,11);        
+        par.STAwidthList = linspace(0,20,11);
+        par.STAwidthList(1) = 0.1;
+        par.STAshiftList = par.STAfreqList;
 
 
 par.allSensors = 0; 
         
 par.chordElements = 26;
 par.spanElements = 51;
-
-dataStruct = combineDataMat(par);
+par.elasticNetList = 0.95;
+par.STAdelayList = 10;
+par.theta_distList = 0.1;
+par.phi_distList = 0.312;
+dataStruct = combineDataMatSTAtest(par);
 par.allSensors = 1; 
 par.SSPOConList = 2;
 par.NF_on = 1;

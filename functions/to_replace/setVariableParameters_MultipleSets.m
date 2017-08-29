@@ -1,17 +1,18 @@
-function [ varParList,varParList_short] = setVariableParameters_MultipleSets(par)
+function [ varParList,varParList_short,parStruct] = setVariableParameters_MultipleSets(par)
 %[ varParList,varParList_short] = setVariableParameters_MultipleSets(par)
 %   Creates a struct for different combinations of parameters (par). 
 %   Input: General simulation parameters (not used)
 %   Output: varParList, defines the parameter combinations to simulate
 %   Output: varParList_short, reduced varParList, useful for figures
 %   Last updated: 2017/07/03  (TLM)
-
+par.STAdelayList = 3;
 nFigures = 5;
 count = 0;
 count_short  = 0;
-for j0= [4]%:nFigures
+for j0= 1:2%nFigures
     count_short 
     if j0 == 1
+        par.resultName = 'R2A_disturbance';
         par.theta_distList = [0.001,0.01,0.1,1] * 10;
         par.phi_distList =[0.001,0.01,0.1,1] * 31.2 ;
         par.xIncludeList = [0];
@@ -24,8 +25,11 @@ for j0= [4]%:nFigures
         par.NLDshiftList = [0.5];
         par.NLDgradList = [12];
         par.wTruncList = 1:30;
+        
+        parStruct(j0) = par;
     elseif j0 == 2
-        % hump phi disturbance plot 2B
+        par.resultName = 'R2B1_disturbance';
+        % hump phi disturbance plot 2B1
         par.theta_distList = [0.01];
         par.phi_distList = spa_sf( 10.^[-2:0.1:2] ,2) * 3.12;
         par.xIncludeList = [0];
@@ -38,8 +42,10 @@ for j0= [4]%:nFigures
         par.NLDshiftList = [0.5];
         par.NLDgradList = [12];
         par.wTruncList = 1:30;
+        parStruct(j0).par = par;
     elseif j0 == 3
-        % hump theta disturbance plot   2B
+        par.resultName = 'R2B2_disturbance';
+        % hump theta disturbance plot   2B2
         par.theta_distList = spa_sf( 10.^[-2:0.1:2] ,2);
         par.phi_distList = [0.0312];
         par.xIncludeList = [0];
@@ -52,12 +58,13 @@ for j0= [4]%:nFigures
         par.NLDshiftList = [0.5];
         par.NLDgradList = [12];
         par.wTruncList = 1:30;
+        parStruct(j0) = par;
     elseif j0 == 4
+        par.resultName = 'R3_STA';
         % STA sweep 
 %         par.STAfreqList = linspace(0,2,11);
 %         par.STAwidthList = linspace(3.1,8,8);
-        par.STAfreqList = linspace(0,2,11);
-        
+        par.STAfreqList = linspace(0,2,11);        
         par.STAwidthList = linspace(0,20,11);
         par.STAwidthList(1) = 0.1;
         par.STAshiftList = par.STAfreqList;
@@ -76,7 +83,9 @@ for j0= [4]%:nFigures
         par.elasticNetList = 0.95;
         par.STAdelayList = 10;
         
+        parStruct(j0) = par;
     elseif j0 == 5
+        par.resultName = 'R4_NLD';
         % NLD sweep 
         par.NLDshiftList = linspace(-1 ,1,11);
         par.NLDgradList = linspace(1,5,11).^2;% [1:1:14];
@@ -90,6 +99,7 @@ for j0= [4]%:nFigures
 %         par.NLDshiftList = [-0.2:0.1:0.7];
 %         par.NLDsharpnessList = [5:1:14];
         par.wTruncList = 1:30;
+        parStruct(j0) = par;
     elseif j0 == 6   % just to test neural Net . STA-variability
         par.theta_distList = 0.1; %[0:5:100] ;
         par.phi_distList = 0.312;%[0:5:100]  ;
@@ -114,6 +124,7 @@ for j0= [4]%:nFigures
         par.NLDshiftList = [0.5];
         par.NLDgradList = [10];
         
+        parStruct(j0) = par;
 % %         STAdelay = 3.6;
 %         freq = 1;
 %         width = 12;

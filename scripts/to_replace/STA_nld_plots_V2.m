@@ -205,7 +205,7 @@ for j = 1:length(widthList)
     plot(x,func(x))
 end
 %% 
-STAdelay = 3;
+STAdelay = 10;
 freq = 1;
 width = 8;
 eta = 12;
@@ -233,12 +233,12 @@ widthList(1) = 0.1;
 
 figure('Position',[100,100,1000,1000])
 
-for j = 1: length(freqList)
-    for k = 1:length(widthList)
-        sub_nr = (j-1)*length(widthList) + k;
-        subplot( length(freqList) , length(widthList),sub_nr )
-        freq = freqList(j);
-        width = widthList(k);
+for j = 1:length(widthList)
+    for k = 1: length(freqList)
+        sub_nr = (j-1)*length(freqList) + k;
+        subplot(  length(widthList),length(freqList) ,sub_nr )
+        freq = freqList(k);
+        width = widthList(j);
     % 
         func = @(t) cos( freq*(t+STAdelay)  ).*exp(-(t+STAdelay).^2 / width^2);
         plot(x,func(x))

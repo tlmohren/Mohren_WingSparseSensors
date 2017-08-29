@@ -1,4 +1,4 @@
-function [s] = SSPOC(Psi, w, fixPar)
+function [s] = SSPOC(Psi, w, par)
 % function [s] = SSPOC(Psi, w, varargin)
 % the elastic net version
 % INPUTS:
@@ -21,7 +21,7 @@ function [s] = SSPOC(Psi, w, fixPar)
 %   Last updated: 2017/07/03  (TLM)
 
 % value set for elastic net 
-alpha = fixPar.elasticNet;
+alpha = par.elasticNet;
 
 % define some dimensions
 [n, r] = size(Psi); %#ok<ASGLU>
