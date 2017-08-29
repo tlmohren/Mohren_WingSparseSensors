@@ -9,7 +9,8 @@ function [fixPar,varParCombinationsAll, varParStruct ] = createPar( parameterSet
     end
 
     for j = varParIndex
-       if  ~exist('combinationStruct')
+        varParCombinationsAll(j)
+       if  ~exist('varParStruct')
            varParStruct = createParList(varParCombinationsAll(j));
        else
            prev_length = length(varParStruct) + 1;
@@ -17,7 +18,7 @@ function [fixPar,varParCombinationsAll, varParStruct ] = createPar( parameterSet
            varParStruct( prev_length:new_length )  = createParList( varParCombinationsAll(j) );
        end
     end
-
+        
 %     varParCombinations = varParCombinationsAll(varParIndex);
     save( ['data' filesep 'parameterSet_', parameterSetName '.mat'], 'fixPar','varParCombinationsAll','varParStruct')
 
