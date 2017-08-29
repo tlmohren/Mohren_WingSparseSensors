@@ -17,7 +17,7 @@ addpathFolderStructure()
 
 parameterSetName    = 'testR2Iter2';
 iter                = 2;
-figuresToRun        = {'R2A'};  % select any from {'R2A','R2B','R2C','R3','R4'} 
+figuresToRun        = {'R2A_allSensors'};  % select any from {'R2A','R2B','R2C','R3','R4','R2A_allSensors'} 
 
 % Build struct that specifies all parameter combinations to run 
 [fixPar,~ ,varParStruct ] = createPar( parameterSetName,figuresToRun,iter );
@@ -25,11 +25,18 @@ figuresToRun        = {'R2A'};  % select any from {'R2A','R2B','R2C','R3','R4'}
 %% Run eulerLagrangeSimulation (optional) and sparse sensor placement algorithm
 tic 
 for j = 1:length(varParStruct)
-    % Initialize matrices for this particular parameter set----------------
-    DataMat = zeros(fixPar.rmodes,fixPar.iter);
-    SensMat = zeros(fixPar.rmodes,fixPar.rmodes,fixPar.iter);
-    % Redefine parameter combination in parameter structure (par) ---------d
     varPar = varParStruct(j);     
+    
+    % Initialize matrices for this particular parameter set----------------
+    if varPar.wTrunc <=30
+        DataMat = zeros(fixPar.rmodes,fixPar.iter);
+        SensMat = zeros(fixPar.rmodes,fixPar.rmodes,fixPar.iter);
+    else 
+        DataMat = zeros(1,fixPar.iter);
+        SensMat = [];
+    end
+    
+    % Redefine parameter combination in parameter structure (par) ---------d
     % Run parameter combination for a set number of iterations ---------
     for k = 1:fixPar.iter
 % % %         try 
@@ -41,10 +48,16 @@ for j = 1:length(varParStruct)
             % Find accuracy and optimal sensor locations  ---------
             [acc,sensors ] = sparseWingSensors( X,G,fixPar, varPar);
             % Store data in 3D matrix ----------------------------
-            q = length(sensors);
-            prev = length(find( DataMat(q, :) )  );
-            DataMat(q, prev+1) = acc; 
-            SensMat(q, 1:q,prev+1) = sensors ;    
+            if varPar.wTrunc <=30
+                q = length(sensors);
+                prev = length(find( DataMat(q, :) )  );
+                DataMat(q, prev+1) = acc; 
+                SensMat(q, 1:q,prev+1) = sensors ;    
+            else 
+                q = length(sensors);
+                prev = length(find( DataMat(1, :) )  );
+                DataMat(1, prev+1) = acc; 
+            end
             % Print accuracy in command window --------------------
             fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q,acc])
 % % %         catch

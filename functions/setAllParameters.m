@@ -44,7 +44,7 @@ function [ fixPar,varyPar ] = setAllParameters(name,iter)
     standardPar.wTruncList = 1:30;
     standardPar.resultName = '';
 
-    for j = 1:5%length(resultNames)
+    for j = 1:6%length(resultNames)
         if j == 1
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R2A_disturbance';
@@ -70,6 +70,14 @@ function [ fixPar,varyPar ] = setAllParameters(name,iter)
             varyPar(j).resultName = 'R4_NLD';
             varyPar(j).NLDshiftList = linspace(-1 ,1,11);
             varyPar(j).NLDgradList = linspace(1,5,11).^2;% [1:1:14];
+        elseif j == 6
+            varyPar(j) = standardPar;
+            varyPar(j).resultName = 'R2A_allSensors_disturbance';
+            varyPar(j).theta_distList = [0.001,0.01,0.1,1] * 10;
+            varyPar(j).phi_distList =[0.001,0.01,0.1,1] * 31.2 ;
+            varyPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
+            varyPar(j).SSPOConList = [0];
+%             standardPar.wTruncList = 13:15;
         end
     end
         

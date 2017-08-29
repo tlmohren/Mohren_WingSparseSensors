@@ -1,13 +1,17 @@
 function [fixPar,varParCombinationsAll, varParStruct ] = createPar( parameterSetName,figuresToRun,iter )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
-    [fixPar,varParCombinationsAll] = setAllParameters(parameterSetName,iter);
+    [fixPar,varParCombinationsAll] = setAllParameters(parameterSetName,iter)
     varParIndex = [];
     for j = 1:length(figuresToRun)
          figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , figuresToRun{j} )));
          varParIndex = [ varParIndex, figMatch];
     end
-
+    
+    if  isempty(figMatch)
+        error('Incorrect simulation entry')
+    end
+    
     for j = varParIndex
         varParCombinationsAll(j)
        if  ~exist('varParStruct')
