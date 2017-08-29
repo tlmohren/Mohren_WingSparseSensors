@@ -72,7 +72,7 @@ function [ fixPar,varyPar ] = setAllParameters(name,iter)
             varyPar(j).NLDgradList = linspace(1,5,11).^2;% [1:1:14];
         elseif j == 6
             varyPar(j) = standardPar;
-            varyPar(j).resultName = 'R2A_allSensors_disturbance';
+            varyPar(j).resultName = 'R2allSensorsA_disturbance';
             varyPar(j).theta_distList = [0.001,0.01,0.1,1] * 10;
             varyPar(j).phi_distList =[0.001,0.01,0.1,1] * 31.2 ;
             varyPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;

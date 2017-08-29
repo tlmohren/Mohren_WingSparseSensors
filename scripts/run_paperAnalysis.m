@@ -17,7 +17,7 @@ addpathFolderStructure()
 
 parameterSetName    = 'testR2Iter2';
 iter                = 2;
-figuresToRun        = {'R2A_allSensors'};  % select any from {'R2A','R2B','R2C','R3','R4','R2A_allSensors'} 
+figuresToRun        = {'R2A','R2allSensorsA'};  % select any from {'R2A','R2B','R2C','R3','R4','R2Allsensors'} 
 
 % Build struct that specifies all parameter combinations to run 
 [fixPar,~ ,varParStruct ] = createPar( parameterSetName,figuresToRun,iter );
@@ -36,7 +36,6 @@ for j = 1:length(varParStruct)
         SensMat = [];
     end
     
-    % Redefine parameter combination in parameter structure (par) ---------d
     % Run parameter combination for a set number of iterations ---------
     for k = 1:fixPar.iter
 % % %         try 
