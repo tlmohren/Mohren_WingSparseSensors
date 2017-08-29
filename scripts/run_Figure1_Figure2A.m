@@ -17,7 +17,7 @@ addpathFolderStructure()
 w = warning ('off','all');
 
 %% 
-naming = 'test1';
+naming = 'testR2Iter2';
 load(['data' filesep 'parameterSet_', naming])
 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2A' )));

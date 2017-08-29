@@ -19,7 +19,7 @@ function [ dataStruct,paramStruct ] = combineDataMat(fixPar,varParCombinations)
     varParCombinationsShort.wTruncList = 1;
     paramStruct =  createParList(varParCombinationsShort);           
     
-   for j1 = 1%:length(paramStruct);   
+   for j1 = 1:length(paramStruct);   
         varPar = paramStruct(j1);     
     
         if fixPar.allSensors == 0
