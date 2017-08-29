@@ -15,8 +15,8 @@
 clear all, close all, clc
 addpathFolderStructure()
 
-parameterSetName    = 'test1';
-iter                = 1;
+parameterSetName    = 'testR2Iter2';
+iter                = 2;
 figuresToRun        = {'R2'};  % select any from {'R2A','R2B','R2C','R3','R4'} 
 
 % Build struct that specifies all parameter combinations to run 
