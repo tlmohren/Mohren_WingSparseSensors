@@ -20,7 +20,7 @@ function [ fixPar,varyPar ] = setAllParameters(name,iter)
     fixPar.saveNameParameters = name;        
 %     fixPar.STAdelay = 3.6;  
     fixPar.STAdelay = 20;
-    fixPar.elasticNet = 0.9;
+    fixPar.elasticNet = 1;
     fixPar.allSensors = 0;
     % to phase out -----------------------------------------------
     % currently used for Euler-lagrange simulation
@@ -28,11 +28,6 @@ function [ fixPar,varyPar ] = setAllParameters(name,iter)
     fixPar.xInclude = [0];
     fixPar.yInclude = [1];
     
-    
-%     par.baseZero = 0;   % doesn't do anything 
-%     par.singValsMult = 1;
-%     par.setBaseZero = 1;
-%     par.showFigure = 0;
 %    -----------------------------------------------
     
     standardPar.SSPOConList = [0,1];
@@ -45,7 +40,7 @@ function [ fixPar,varyPar ] = setAllParameters(name,iter)
     standardPar.wTruncList = 1:30;
     standardPar.resultName = '';
 
-    for j = 1:7%length(resultNames)
+    for j = 1:8
         if j == 1
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R2A_disturbance';
@@ -90,6 +85,11 @@ function [ fixPar,varyPar ] = setAllParameters(name,iter)
             varyPar(j).phi_distList =[0.001,0.01,0.1,1] * 31.2 ;
             varyPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
             varyPar(j).SSPOConList = [0];
+        elseif j == 8
+            varyPar(j) = standardPar;
+            varyPar(j).resultName = 'R1_noNoise';
+            varyPar(j).theta_distList = 0;%[0.001,0.01,0.1,1] * 10;
+            varyPar(j).phi_distList =0;%[0.001,0.01,0.1,1] * 31.2 ;
         end
     end
         

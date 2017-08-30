@@ -28,9 +28,9 @@ function  [  sensors  ] = sensorLocSSPOC(  Xtrain,Gtrain ,fixPar, varyPar)
         % cutoff_lim = norm(s, 'fro')/c/par.rmodes/2;
         cutoff_lim = norm(s, 'fro')/fixPar.rmodes;
         sensors = sensors_sort(  abs(s(sensors_sort))>= cutoff_lim );
-    elseif varyPar.SSPOCon == 2 
-        % sensorset contains all possible sensors 
-        sensors = 1:size(Xtrain,1);
+%     elseif varyPar.SSPOCon == 2 
+%         % sensorset contains all possible sensors 
+%         sensors = 1:size(Xtrain,1);
     else
         % randomly placed sensors 
         randloc = randperm(n); 
