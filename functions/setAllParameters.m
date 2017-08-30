@@ -18,7 +18,8 @@ function [ fixPar,varyPar ] = setAllParameters(name,iter)
     fixPar.iter = iter; 
     fixPar.trainFraction = 0.9;
     fixPar.saveNameParameters = name;        
-    fixPar.STAdelay = 3.6;
+%     fixPar.STAdelay = 3.6;  
+    fixPar.STAdelay = 20;
     fixPar.elasticNet = 0.9;
     fixPar.allSensors = 0;
     % to phase out -----------------------------------------------

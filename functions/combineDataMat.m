@@ -52,7 +52,7 @@ function [ dataStruct,paramStruct ] = combineDataMat(fixPar,varParCombinations)
                         varPar.STAwidth , varPar.STAfreq , varPar.NLDshift , varPar.NLDgrad , varParCombinations.wTruncList(end) };
             saveNameBase = sprintf( fillString,fillCell{:} );
             ['data' filesep saveNameBase '*'];
-            nameMatches = dir(['data' filesep saveNameBase '*'])      ;
+            nameMatches = dir(['data' filesep saveNameBase '*']);      
             
             if ~isempty(nameMatches);
                 for k2 = 1:length(nameMatches)

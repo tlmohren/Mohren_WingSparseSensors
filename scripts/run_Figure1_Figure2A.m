@@ -23,42 +23,41 @@ load(['data' filesep 'parameterSet_', naming])
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2A' )));
 varParCombinations = varParCombinationsAll(figMatch);
 [dataStruct,paramStruct] = combineDataMat(fixPar,varParCombinations);
-
 ind_SSPOCoff = find( ~[paramStruct.SSPOCon]);
 ind_SSPOCon = find([paramStruct.SSPOCon]);
 
 %% 
-figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2all' )));
+figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2allSensorsNoFilt' )));
 varParCombinations = varParCombinationsAll(figMatch);
-[dataStructAll,paramStructAll] = combineDataMat(fixPar,varParCombinations);
+[dataStructAllnoFilt,paramStructAllnoFilt] = combineDataMat(fixPar,varParCombinations);
 
-% ind_SSPOCoffAll = find( ~[paramStructAll.SSPOCon]);
-% ind_SSPOConAll = find([paramStructAll.SSPOCon]);
-
-
+%% 
+figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2allSensorsFilt' )));
+varParCombinations = varParCombinationsAll(figMatch);
+[dataStructAllFilt,paramStructAllFilt] = combineDataMat(fixPar,varParCombinations);
 
 %% Figure settings
 
 % Figure 1 settings 
-col = {ones(3,1)*0.5,'-r'};
-dotcol = {'.k','.r'}; 
-errLocFig1A = 35;
-axisOptsFig1A = {'xtick',[0:10:30,errLocFig1A ],'xticklabel',{'0','10','20','30','\bf \it 1326'},...
-    'ytick',0.4:0.2:1   ,'xlim', [0,errLocFig1A+2],'ylim',[0.4,1]};
+% errLocFig1A = 35;
+% axisOptsFig1A = {'xtick',[0:10:30,errLocFig1A ],'xticklabel',{'0','10','20','30','\bf \it 1326'},...
+%     'ytick',0.4:0.2:1   ,'xlim', [0,errLocFig1A+2],'ylim',[0.4,1]};
 % Figure 2A settings 
 errLocFig2A = 38;
 axisOptsFig2A = {'xtick',[0:10:30,errLocFig2A ],'xticklabel',{'0','10','20','30','\bf \it 1326'},...
     'ytick',0.4:0.2:1 ,'xlim', [0,errLocFig2A+2],'ylim',[0.4,1] };
+col = {ones(3,1)*0.5,'-r'};
+dotcol = {'.k','.r'}; 
 % Figure 2C settings 
-figure(1)
-xh = get(gca, 'Xlabel');
-yh = get(gca, 'Ylabel');
-xh.String = '$\dot{\phi}^*$';
-yh.String = '$\dot{\theta}^*$';
-axisOptsFig2C = {'xtick', 1:4,'ytick',1:4, ...
-    'xticklabel', [0.01,0.1,1,10]*3.1,'yticklabel',[0.01,0.1,1,10], ...
-    'xaxislocation','top',...
-     'XLabel', xh, 'YLabel', yh,'clim',[0,20]};
+% figure(1)
+% xh = get(gca, 'Xlabel');
+% yh = get(gca, 'Ylabel');
+% xh.String = '$\dot{\phi}^*$';
+% yh.String = '$\dot{\theta}^*$';
+% axisOptsFig2C = {'xtick', 1:4,'ytick',1:4, ...
+%     'xticklabel', [0.01,0.1,1,10]*3.1,'yticklabel',[0.01,0.1,1,10], ...
+%     'xaxislocation','top',...
+%      'XLabel', xh, 'YLabel', yh,'clim',[0,20]};
 
 %% Figure 2A
 n_plots = 16; 
@@ -77,7 +76,6 @@ for j = 1:n_y
         realNumbers = find(~isnan(meanVec));
         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1});
         thresholdMat(j,k,1) = sigmFitParam(realNumbers,meanVec(realNumbers));
-
         %---------------------------------SSPOCon-------------------------
         Dat_I = ind_SSPOCon(sub_nr);
         [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
@@ -88,28 +86,22 @@ for j = 1:n_y
         end
         plot(realNumbers, meanVec(realNumbers),col{2})
         thresholdMat(j,k,2) = sigmFitParam(realNumbers,meanVec(realNumbers));
-
         %--------------------------------Allsensors Neural filt-------------------------    
-        meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr,:)  ) );
-        stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr,:)  ) );
-
-        errorbar(errLocFig2A,meanval,stdval,'k','LineWidth',1)
-        plot([-1,1]+errLocFig2A,[meanval,meanval],'k','LineWidth',1)   
-
-        %--------------------------------Allsensors no NF-------------------------    
-        meanval = mean( nonzeros(  dataStructAll.dataMatTot(sub_nr+16,:)  ) );
-        stdval = std( nonzeros(    dataStructAll.dataMatTot(sub_nr+16,:)  ) );
-
+        meanval = mean( nonzeros(  dataStructAllFilt.dataMatTot(sub_nr,:)  ) );
+        stdval = std( nonzeros(    dataStructAllFilt.dataMatTot(sub_nr,:)  ) );
         errorbar(errLocFig2A,meanval,stdval,'b','LineWidth',1)
         plot([-1,1]+errLocFig2A,[meanval,meanval],'b','LineWidth',1)   
-
+        %--------------------------------Allsensors no NF-------------------------    
+        meanval = mean( nonzeros(  dataStructAllnoFilt.dataMatTot(sub_nr,:)  ) );
+        stdval = std( nonzeros(    dataStructAllnoFilt.dataMatTot(sub_nr,:)  ) );
+        errorbar(errLocFig2A,meanval,stdval,'k','LineWidth',1)
+        plot([-1,1]+errLocFig2A,[meanval,meanval],'k','LineWidth',1)   
         %--------------------------------Figure cosmetics-------------------------    
         ylh = get(gca,'ylabel');                                            % Object Information
         ylp = get(ylh, 'Position');
         set(ylh, 'Rotation',0, 'Position',ylp, 'VerticalAlignment','middle', 'HorizontalAlignment','right')
         grid on 
         set(gca, axisOptsFig2A{:})
-        
         if  sub_nr <13
             set(gca, 'XTicklabel', []);
         end
@@ -119,6 +111,11 @@ for j = 1:n_y
         drawnow
     end
 end
+
+
+
+
+
 
 %%
 % 

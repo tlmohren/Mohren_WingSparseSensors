@@ -15,9 +15,10 @@
 clear all, close all, clc
 addpathFolderStructure()
 
-parameterSetName    = 'testR2Iter2';
-iter                = 2;
-figuresToRun        = {'R2allSensors'};  % select any from {'R2A','R2B','R2C','R3','R4','R2Allsensors'} 
+parameterSetName    = 'testR2Iter2Delay20';
+iter                = 5;
+figuresToRun        = {'R2A','R2allSensorsNoFilt','R2allSensorsFilt'};  
+% select any from {'R2A','R2B','R2C','R3','R4','R2allSensorsnoFilt','R2allSensorsFilt} 
 
 % Build struct that specifies all parameter combinations to run 
 [fixPar,~ ,varParStruct ] = createPar( parameterSetName,figuresToRun,iter );
@@ -26,7 +27,6 @@ figuresToRun        = {'R2allSensors'};  % select any from {'R2A','R2B','R2C','R
 tic 
 for j = 1:length(varParStruct)
     varPar = varParStruct(j);     
-    
     % Initialize matrices for this particular parameter set----------------
     if varPar.wTrunc <=30
         DataMat = zeros(fixPar.rmodes,fixPar.iter);
@@ -35,7 +35,6 @@ for j = 1:length(varParStruct)
         DataMat = zeros(1,fixPar.iter);
         SensMat = [];
     end
-    
     % Run parameter combination for a set number of iterations ---------
     for k = 1:fixPar.iter
 % % %         try 
