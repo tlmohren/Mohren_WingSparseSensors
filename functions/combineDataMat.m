@@ -2,15 +2,14 @@ function [ dataStruct,paramStruct ] = combineDataMat(fixPar,varParCombinations)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
-    m = fixPar.rmodes;
+    m = length(varParCombinations.wTruncList);
     varParCombinations.resultName = {varParCombinations.resultName};
-    n = prod( structfun(@length,varParCombinations)) / m ;
-
-%     fixPar.iter = 10;
-    if fixPar.allSensors == 0
+    n = prod( structfun(@length,varParCombinations)) / m;
+    
+    if varParCombinations.wTruncList(end)<=30
         dataMatTot = zeros( n , m , fixPar.iter);
         sensorMatTot = zeros( n , m , m ,fixPar.iter);
-    elseif par.allSensors == 1
+    else
         dataMatTot = zeros( n , fixPar.iter);
         sensorMatTot = [];
     end
@@ -22,7 +21,7 @@ function [ dataStruct,paramStruct ] = combineDataMat(fixPar,varParCombinations)
    for j1 = 1:length(paramStruct);   
         varPar = paramStruct(j1);     
     
-        if fixPar.allSensors == 0
+        if varParCombinations.wTruncList(end)<=30
            for j2 = 1:length(varParCombinations.wTruncList)
                 wTrunc = varParCombinations.wTruncList(j2);
 
@@ -31,7 +30,6 @@ function [ dataStruct,paramStruct ] = combineDataMat(fixPar,varParCombinations)
                             varPar.STAwidth , varPar.STAfreq , varPar.NLDshift , varPar.NLDgrad , wTrunc };
                 saveNameBase = sprintf( fillString,fillCell{:} );
                 nameMatches = dir(['data' filesep saveNameBase '*']);
-                
                 
                 if ~isempty(nameMatches)
                     for k2 = 1:length(nameMatches)
@@ -42,21 +40,20 @@ function [ dataStruct,paramStruct ] = combineDataMat(fixPar,varParCombinations)
                             prev = length(find( dataMatTot(j1,q,:) )  );
                             dataMatTot(j1,q, prev+1) = tempDat.DataMat(q_vec(k3),it(k3)); 
                             
-%                             if par.sensorMatOn == 1
                             sensorMatTot(j1,q,1:q, prev+1) = tempDat.SensMat(q_vec(k3),1:q_vec(k3),it(k3)); 
                        
-%                             end
                         end
                     end
                 end
            end
-           
-           
-        elseif par.allSensors == 1
-            saveNameBase = sprintf(['Data_',par.naming{1}, '_allSensors_dT%g_dP%g_xIn%g_yIn%g_sOn%g_STAw%g_STAs%g_NLDs%g_NLDg%g_wT%g_'],...
-            [par.theta_dist , par.phi_dist , par.xInclude , par.yInclude , par.SSPOCon , ...
-            par.STAwidth , par.STAshift , par.NLDshift , par.NLDsharpness , 1326]);
-            nameMatches = dir(['data' filesep saveNameBase '*']);
+        else            
+            fillString = 'Data_%s_dT%g_dP%g_sOn%g_STAw%g_STAf%g_NLDs%g_NLDg%g_wT%g_';
+            fillCell = {fixPar.saveNameParameters ,varPar.theta_dist , varPar.phi_dist, varPar.SSPOCon , ...
+                        varPar.STAwidth , varPar.STAfreq , varPar.NLDshift , varPar.NLDgrad , varParCombinations.wTruncList(end) };
+            saveNameBase = sprintf( fillString,fillCell{:} );
+            ['data' filesep saveNameBase '*'];
+            nameMatches = dir(['data' filesep saveNameBase '*'])      ;
+            
             if ~isempty(nameMatches);
                 for k2 = 1:length(nameMatches)
                     tempDat = load( ['data' filesep nameMatches(k2).name] ); 
