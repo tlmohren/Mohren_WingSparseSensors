@@ -103,7 +103,7 @@ function [ fixPar,varyPar ] = setAllParameters(name,iter)
             varyPar(j).STAwidthList = 0.01;
         elseif j == 10
             varyPar(j) = standardPar;
-            varyPar(j).resultName = 'R1_Filt';
+            varyPar(j).resultName = 'R1_allSensorsFilt';
             varyPar(j).theta_distList = 0;%[0.001,0.01,0.1,1] * 10;
             varyPar(j).phi_distList =0;%[0.001,0.01,0.1,1] * 31.2 ;
             varyPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
