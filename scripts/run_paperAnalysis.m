@@ -15,15 +15,19 @@
 clear all, close all, clc
 addpathFolderStructure()
 
-parameterSetName    = 'testR1Iter1';
-iter                = 3;
+parameterSetName    = 'testR1Iter1_oldNorm';
+iter                = 1;
 figuresToRun        = {'R1'};  
-fixPar.elasticNet = 0.8;;
+fixPar.elasticNet = 0.9;
 % select any from {'R2A','R2B','R2C','R3','R4','R2allSensorsnoFilt','R2allSensorsFilt} 
 
 % Build struct that specifies all parameter combinations to run 
 [fixPar,~ ,varParStruct ] = createPar( parameterSetName,figuresToRun,iter );
+% varParStruct = varParStruct(45)
+fixPar.staDelay = 20;
 
+AA = load('verificationData.mat')
+% aa.par
 %% Run eulerLagrangeSimulation (optional) and sparse sensor placement algorithm
 tic 
 for j = 1:length(varParStruct)
@@ -44,6 +48,8 @@ for j = 1:length(varParStruct)
             strainSet = eulerLagrangeConcatenate( fixPar,varPar);
             % Apply neural filters to strain --------------------------
             [X,G] = neuralEncodingNewFilters(strainSet, fixPar,varPar );
+%             [X,G] = neuralEncodingNewFilters_Test(strainSet, AA.par );
+%             [X2,G2] = neuralEncodingNewFilters_Test(strainSet, AA.par );
             % Find accuracy and optimal sensor locations  ---------
             [acc,sensors ] = sparseWingSensors( X,G,fixPar, varPar);
             % Store data in 3D matrix ----------------------------
@@ -74,10 +80,10 @@ for j = 1:length(varParStruct)
     fprintf('Runtime = %g[s], Saved as: %s \n',[toc,saveName]) 
     
     % Sync to github(git required) once every 100 parameter combinations or if last combination is reached 
-    if ~(mod(j, 100)~= 0 && j ~= length(varParStruct))
-        system('git pull');
-        system('git add data/*.mat');
-        system(sprintf('git commit * -m "pushing data from more runs %i"', j));
-        system('git push');
-    end;
+% % %     if ~(mod(j, 100)~= 0 && j ~= length(varParStruct))
+% % %         system('git pull');
+% % %         system('git add data/*.mat');
+% % %         system(sprintf('git commit * -m "pushing data from more runs %i"', j));
+% % %         system('git push');
+% % %     end;
 end

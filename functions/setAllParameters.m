@@ -33,10 +33,12 @@ function [ fixPar,varyPar ] = setAllParameters(name,iter)
     standardPar.SSPOConList = [0,1];
     standardPar.theta_distList = 0.01;
     standardPar.phi_distList = 0.0312 ;
-    standardPar.STAwidthList = [12];
+%     standardPar.STAwidthList = [12];
+    standardPar.STAwidthList = [4.5];
     standardPar.STAfreqList = 1;% 
     standardPar.NLDshiftList = [0.5];
-    standardPar.NLDgradList = [12];
+%     standardPar.NLDgradList = [12];
+    standardPar.NLDgradList = [10];
     standardPar.wTruncList = 1:30;
     standardPar.resultName = '';
 
@@ -88,13 +90,13 @@ function [ fixPar,varyPar ] = setAllParameters(name,iter)
         elseif j == 8
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R1_disturbance';
-            varyPar(j).theta_distList = 0;%[0.001,0.01,0.1,1] * 10;
-            varyPar(j).phi_distList =0;%[0.001,0.01,0.1,1] * 31.2 ;
+            varyPar(j).theta_distList = 0.01;%[0.001,0.01,0.1,1] * 10;
+            varyPar(j).phi_distList =0.0312;%[0.001,0.01,0.1,1] * 31.2 ;
         elseif j == 9
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R1_allSensorsNoFilt';
-            varyPar(j).theta_distList = 0;%[0.001,0.01,0.1,1] * 10;
-            varyPar(j).phi_distList =0;%[0.001,0.01,0.1,1] * 31.2 ;
+            varyPar(j).theta_distList = 0.01;%[0.001,0.01,0.1,1] * 10;
+            varyPar(j).phi_distList =0.0312;%[0.001,0.01,0.1,1] * 31.2 ;
             varyPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
             varyPar(j).SSPOConList = [0];
             varyPar(j).NLDshiftList = [-5];
@@ -104,8 +106,8 @@ function [ fixPar,varyPar ] = setAllParameters(name,iter)
         elseif j == 10
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R1_allSensorsFilt';
-            varyPar(j).theta_distList = 0;%[0.001,0.01,0.1,1] * 10;
-            varyPar(j).phi_distList =0;%[0.001,0.01,0.1,1] * 31.2 ;
+            varyPar(j).theta_distList = 0.01;%[0.001,0.01,0.1,1] * 10;
+            varyPar(j).phi_distList =0.0312;%[0.001,0.01,0.1,1] * 31.2 ;
             varyPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
             varyPar(j).SSPOConList = [0];
         end

@@ -13,7 +13,7 @@ function [fixPar,varParCombinationsAll, varParStruct ] = createPar( parameterSet
     end
     
     for j = varParIndex
-        varParCombinationsAll(j)
+% % % % %         varParCombinationsAll(j)
        if  ~exist('varParStruct')
            varParStruct = createParList(varParCombinationsAll(j));
        else
