@@ -16,8 +16,9 @@ clear all, close all, clc
 addpathFolderStructure()
 
 parameterSetName    = 'testR1Iter1';
-iter                = 1;
-figuresToRun        = {'R1_'};  
+iter                = 3;
+figuresToRun        = {'R1'};  
+fixPar.elasticNet = 0.8;;
 % select any from {'R2A','R2B','R2C','R3','R4','R2allSensorsnoFilt','R2allSensorsFilt} 
 
 % Build struct that specifies all parameter combinations to run 

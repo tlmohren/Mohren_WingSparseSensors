@@ -87,12 +87,12 @@ function [ fixPar,varyPar ] = setAllParameters(name,iter)
             varyPar(j).SSPOConList = [0];
         elseif j == 8
             varyPar(j) = standardPar;
-            varyPar(j).resultName = 'R1';
+            varyPar(j).resultName = 'R1_disturbance';
             varyPar(j).theta_distList = 0;%[0.001,0.01,0.1,1] * 10;
             varyPar(j).phi_distList =0;%[0.001,0.01,0.1,1] * 31.2 ;
         elseif j == 9
             varyPar(j) = standardPar;
-            varyPar(j).resultName = 'R1_NoFilt';
+            varyPar(j).resultName = 'R1_allSensorsNoFilt';
             varyPar(j).theta_distList = 0;%[0.001,0.01,0.1,1] * 10;
             varyPar(j).phi_distList =0;%[0.001,0.01,0.1,1] * 31.2 ;
             varyPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
