@@ -29,11 +29,11 @@ function [ X,G ] = neuralEncodingNewFilters( strainSet,fixPar ,varyPar)
         NLD = @(s) ( 1./ (1+ exp(-varyPar.NLDgrad.*(s-varyPar.NLDshift)) ) - 0.5) + 0.5; 
     end
     
-    figure(101);
-        subplot(121)
-        plot(STAt,STAfilt);hold on;drawnow
-        subplot(122)
-        plot(-1:0.01:1,NLD(-1:0.01:1));hold on;drawnow; grid on
+%     figure(101);
+%         subplot(121)
+%         plot(STAt,STAfilt);hold on;drawnow
+%         subplot(122)
+%         plot(-1:0.01:1,NLD(-1:0.01:1));hold on;drawnow; grid on
 
     % calibrate strain 
     calib = max([strainSet.(fn{1})(:) ;strainSet.(fn{2})(:) ] );
