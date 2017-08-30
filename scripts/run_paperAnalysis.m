@@ -15,7 +15,7 @@
 clear all, close all, clc
 addpathFolderStructure()
 
-parameterSetName    = 'testR2Iter1Delay20eNet1';
+parameterSetName    = 'testR1Iter1';
 iter                = 1;
 figuresToRun        = {'R1'};  
 % select any from {'R2A','R2B','R2C','R3','R4','R2allSensorsnoFilt','R2allSensorsFilt} 

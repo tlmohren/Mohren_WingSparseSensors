@@ -40,7 +40,7 @@ function [ fixPar,varyPar ] = setAllParameters(name,iter)
     standardPar.wTruncList = 1:30;
     standardPar.resultName = '';
 
-    for j = 1:8
+    for j = 1:10
         if j == 1
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R2A_disturbance';
@@ -87,9 +87,27 @@ function [ fixPar,varyPar ] = setAllParameters(name,iter)
             varyPar(j).SSPOConList = [0];
         elseif j == 8
             varyPar(j) = standardPar;
-            varyPar(j).resultName = 'R1_noNoise';
+            varyPar(j).resultName = 'R1';
             varyPar(j).theta_distList = 0;%[0.001,0.01,0.1,1] * 10;
             varyPar(j).phi_distList =0;%[0.001,0.01,0.1,1] * 31.2 ;
+        elseif j == 9
+            varyPar(j) = standardPar;
+            varyPar(j).resultName = 'R1_NoFilt';
+            varyPar(j).theta_distList = 0;%[0.001,0.01,0.1,1] * 10;
+            varyPar(j).phi_distList =0;%[0.001,0.01,0.1,1] * 31.2 ;
+            varyPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
+            varyPar(j).SSPOConList = [0];
+            varyPar(j).NLDshiftList = [-5];
+            varyPar(j).NLDgradList = 10;
+            varyPar(j).STAfreqList = 1;
+            varyPar(j).STAwidthList = 0.01;
+        elseif j == 10
+            varyPar(j) = standardPar;
+            varyPar(j).resultName = 'R1_Filt';
+            varyPar(j).theta_distList = 0;%[0.001,0.01,0.1,1] * 10;
+            varyPar(j).phi_distList =0;%[0.001,0.01,0.1,1] * 31.2 ;
+            varyPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
+            varyPar(j).SSPOConList = [0];
         end
     end
         
