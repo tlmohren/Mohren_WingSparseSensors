@@ -16,7 +16,7 @@ function [ dataStruct,paramStruct ] = combineDataMat(fixPar,varParCombinations)
     
     varParCombinationsShort = varParCombinations;
     varParCombinationsShort.wTruncList = 1;
-    paramStruct =  createParList(varParCombinationsShort);           
+    paramStruct =  createParListSingle(varParCombinationsShort);           
     
    for j1 = 1:length(paramStruct);   
         varPar = paramStruct(j1);     

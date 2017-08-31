@@ -19,7 +19,8 @@ w = warning ('off','all');
 %% 
 % naming = 'testR2Iter2';
 % naming = 'testR2Iter1Delay20eNet1';
-naming = 'testR1Iter1_oldNorm';
+% naming = 'testNoHarmonicCal';
+% naming = 'testNoHarmonicCalWithHarmonic';
 load(['data' filesep 'parameterSet_', naming])
 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R1_disturbance' )));

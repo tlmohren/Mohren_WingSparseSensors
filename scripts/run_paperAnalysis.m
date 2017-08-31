@@ -15,16 +15,13 @@
 clear all, close all, clc
 addpathFolderStructure()
 
-parameterSetName    = 'testNoHarmonicCalWithHarmonic';
-iter                = 1;
-figuresToRun        = {'R1'};%,'R2','R3','R4'};  
+parameterSetName    = 'R1R2withExpFilterIter5';
+iter                = 5;
+figuresToRun        = {'R1','R2'};
 % select any from {'R2A','R2B','R2C','R3','R4','R2allSensorsnoFilt','R2allSensorsFilt} 
-[fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
-
 
 % Build struct that specifies all parameter combinations to run 
-
-% AA = load('verificationData.mat')
+[fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
 % aa.par
 %% Run eulerLagrangeSimulation (optional) and sparse sensor placement algorithm
 tic 
@@ -44,11 +41,8 @@ for j = 1:length(varParStruct)
             varPar.curIter = k; 
             % Generate strain with Euler-Lagrange simulation ----------
             strainSet = eulerLagrangeConcatenate( fixPar,varPar);
-            
             % Apply neural filters to strain --------------------------
             [X,G] = neuralEncoding(strainSet, fixPar,varPar );
-%             [X,G] = neuralEncodingNewFilters_Test(strainSet, AA.par );
-%             [X2,G2] = neuralEncodingNewFilters_Test(strainSet, AA.par );
             % Find accuracy and optimal sensor locations  ---------
             [acc,sensors ] = sparseWingSensors( X,G,fixPar, varPar);
             % Store data in 3D matrix ----------------------------
