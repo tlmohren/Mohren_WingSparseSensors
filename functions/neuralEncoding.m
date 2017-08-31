@@ -25,11 +25,11 @@ function [ X,G ] = neuralEncoding( strainSet,fixPar ,varPar)
         NLD = @(s) ( 1./ (1+ exp(-varPar.NLDgrad.*(s-varPar.NLDshift)) ) - 0.5) + 0.5; 
     end
     
-    figure(101);
-        subplot(121)
-        plot(STAt,STAfilt);hold on;drawnow
-        subplot(122)
-        plot(-1:0.01:1,NLD(-1:0.01:1));hold on;drawnow; grid on
+%     figure(101);
+%         subplot(121)
+%         plot(STAt,STAfilt);hold on;drawnow
+%         subplot(122)
+%         plot(-1:0.01:1,NLD(-1:0.01:1));hold on;drawnow; grid on
 
     % Remove startup phase from strain, but leave a piece the lenght of the
     % match filter to obtain correct output length
@@ -53,28 +53,27 @@ function [ X,G ] = neuralEncoding( strainSet,fixPar ,varPar)
     end
 
 
-       normalize_strain = max(convMat(:))
-%        calib = max(std(convMat'))
+%        normalize_strain = max(convMat(:))
 
 %     % Part2) The calibrated filtered signal is padded through the Non-linear function
     X = NLD( convMat/fixPar.normalizeVal );
 
 
-    tSet =2500:3000;
-    figure()
-    subplot(321)
-    plot(strainSet.(fn{j})(1000,tSet))
-    subplot(323)
-    plot(strainConv(1000,tSet))
-    subplot(325)
-    plot(X(1000,tSet))
-
-    subplot(322)
-    plot(strainSet.(fn{j})(1,tSet))
-    subplot(324)
-    plot(strainConv(1,tSet))
-    subplot(326)
-    plot(X(1,tSet))
+%     tSet =2500:3000;
+%     figure()
+%     subplot(321)
+%     plot(strainSet.(fn{j})(1000,tSet))
+%     subplot(323)
+%     plot(strainConv(1000,tSet))
+%     subplot(325)
+%     plot(X(1000,tSet))
+% 
+%     subplot(322)
+%     plot(strainSet.(fn{j})(1,tSet))
+%     subplot(324)
+%     plot(strainConv(1,tSet))
+%     subplot(326)
+%     plot(X(1,tSet))
         
         
 end

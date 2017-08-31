@@ -16,7 +16,7 @@ clear all, close all, clc
 addpathFolderStructure()
 
 parameterSetName    = 'testNoHarmonicCal';
-iter                = 3;
+iter                = 1;
 figuresToRun        = {'R1'};%,'R2','R3','R4'};  
 % select any from {'R2A','R2B','R2C','R3','R4','R2allSensorsnoFilt','R2allSensorsFilt} 
 [fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
@@ -40,7 +40,7 @@ for j = 1:length(varParStruct)
     end
     % Run parameter combination for a set number of iterations ---------
     for k = 1:fixPar.iter
-% % %         try 
+        try
             varPar.curIter = k; 
             % Generate strain with Euler-Lagrange simulation ----------
             strainSet = eulerLagrangeConcatenate( fixPar,varPar);
@@ -64,9 +64,9 @@ for j = 1:length(varParStruct)
             end
             % Print accuracy in command window --------------------
             fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q,acc])
-% % %         catch
-% % %             fprintf(['W_trunc = %1.0f, gave error \n'],[varPar.wTrunc])
-% % %         end
+        catch
+            fprintf(['W_trunc = %1.0f, gave error \n'],[varPar.wTrunc])
+        end
     end
     % save classification accuracy and sensor location in small .mat file
     fillString = 'Data_%s_dT%g_dP%g_sOn%g_STAw%g_STAf%g_NLDs%g_NLDg%g_wT%g_';
@@ -79,10 +79,10 @@ for j = 1:length(varParStruct)
     fprintf('Runtime = %g[s], Saved as: %s \n',[toc,saveName]) 
     
     % Sync to github(git required) once every 100 parameter combinations or if last combination is reached 
-% % %     if ~(mod(j, 100)~= 0 && j ~= length(varParStruct))
-% % %         system('git pull');
-% % %         system('git add data/*.mat');
-% % %         system(sprintf('git commit * -m "pushing data from more runs %i"', j));
-% % %         system('git push');
-% % %     end;
+    if ~(mod(j, 100)~= 0 && j ~= length(varParStruct))
+        system('git pull');
+        system('git add data/*.mat');
+        system(sprintf('git commit * -m "pushing data from more runs %i"', j));
+        system('git push');
+    end;
 end
