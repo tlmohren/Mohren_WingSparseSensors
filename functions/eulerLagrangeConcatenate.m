@@ -8,13 +8,6 @@ function [ strainSet ] = eulerLagrangeConcatenate(fixPar,varPar)
 %    1) flapping, 2) flapping & rotating
 %   Last updated: 2017/07/03  (TLM)
 
-
-% define name for simdata with these parameters 
-%     simName = sprintf('strainSet_th%gph%git%gcEl%2.0fsEl%2.0fEx%1.0fEy%1.0f.mat',...
-%         [ varPar.theta_dist,varPar.phi_dist,varPar.curIter,...
-%         fixPar.chordElements,fixPar.spanElements,...
-%         fixPar.xInclude,fixPar.yInclude]);
-    
     simName = sprintf('strainSet_th%gph%git%gharm%g.mat',...
         [ varPar.theta_dist,varPar.phi_dist,...
         varPar.curIter, fixPar.harmonic]);
@@ -45,12 +38,5 @@ function [ strainSet ] = eulerLagrangeConcatenate(fixPar,varPar)
             fprintf(['saved simulations for: ' simName '\n']); 
         end
     end
-    
-% % %     % (optional, not used) set base sensors strain to zero (useful if clamping effect gives weird results)
-% % %     if fixPar.baseZero == 1
-% % %         display('did this')
-% % %        strainSet.strain_0(1:fixPar.chordElements,:)= 0;  
-% % %        strainSet.strain_10(1:fixPar.chordElements,:)= 0;  
-% % %     end
     
 end

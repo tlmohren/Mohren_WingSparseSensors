@@ -12,7 +12,10 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.simEnd = 4; % in seconds
     fixPar.flapFrequency = 25;
 %     fixPar.harmonic = 0.2;
+%     fixPar.normalizeVal = 3.7732e-4; % for harmonic 0.2 
     fixPar.harmonic = 0;
+    fixPar.normalizeVal = 2.4803e-4;
+    
     fixPar.runSim = 0;
     fixPar.saveSim = 1;
     fixPar.rmodes = 30;
@@ -22,7 +25,6 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.STAdelay = 3.6;  
     fixPar.allSensors = 0;
     fixPar.elasticNet = 0.9;
-    fixPar.normalizeVal = 3.7732e-4;
     % to phase out -----------------------------------------------
     % currently used for Euler-lagrange simulation
     fixPar.sampFreq = 1e3;

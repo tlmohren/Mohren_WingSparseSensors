@@ -53,7 +53,7 @@ function [ X,G ] = neuralEncoding( strainSet,fixPar ,varPar)
     end
 
 
-%        normalize_strain = max(convMat(:))
+       normalize_strain = max(convMat(:))
 %        calib = max(std(convMat'))
 
 %     % Part2) The calibrated filtered signal is padded through the Non-linear function
