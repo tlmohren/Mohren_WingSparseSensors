@@ -24,7 +24,7 @@ x = -39:0.1:0;
 STAdelay = 3.6;
 % STAdelay = 10;
 freq = 1;
-width = 12;
+width = 4;
 eta = 20;
 shift = 0.5;
 s = - 1:0.01:1;
@@ -45,7 +45,7 @@ end
 
 
 subplot(121)
-    func = @(t) cos( freq*(t+STAdelay )  ).*exp(-(t+STAdelay ).^2 / width);
+    func = @(t) cos( freq*(t+STAdelay )  ).*exp(-(t+STAdelay ).^2 / width.^2);
     plot(x,func(x)*1.2 )
 subplot(122)
     funNLD = @(s) ( 1./ (1+ exp(-eta.*(s-shift)) ) - 0.5) + 0.5; 

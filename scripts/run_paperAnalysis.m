@@ -15,21 +15,22 @@
 clear all, close all, clc
 addpathFolderStructure()
 
-parameterSetName    = 'testR1Iter1_oldNorm';
-iter                = 1;
-figuresToRun        = {'R1'};  
-fixPar.elasticNet = 0.9;
+parameterSetName    = 'testNoHarmonicIter3';
+iter                = 3;
+figuresToRun        = {'R1'};%,'R2','R3','R4'};  
 % select any from {'R2A','R2B','R2C','R3','R4','R2allSensorsnoFilt','R2allSensorsFilt} 
+[fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
+
 
 % Build struct that specifies all parameter combinations to run 
-[fixPar,~ ,varParStruct ] = createPar( parameterSetName,figuresToRun,iter );
-% varParStruct = varParStruct(45)
-fixPar.staDelay = 20;
 
-AA = load('verificationData.mat')
+% varParStruct = varParStruct(45)
+
+% AA = load('verificationData.mat')
 % aa.par
 %% Run eulerLagrangeSimulation (optional) and sparse sensor placement algorithm
 tic 
+% varParStruct = varParStruct(45);
 for j = 1:length(varParStruct)
     varPar = varParStruct(j);
     % Initialize matrices for this particular parameter set----------------
@@ -46,8 +47,9 @@ for j = 1:length(varParStruct)
             varPar.curIter = k; 
             % Generate strain with Euler-Lagrange simulation ----------
             strainSet = eulerLagrangeConcatenate( fixPar,varPar);
+            
             % Apply neural filters to strain --------------------------
-            [X,G] = neuralEncodingNewFilters(strainSet, fixPar,varPar );
+            [X,G] = neuralEncoding(strainSet, fixPar,varPar );
 %             [X,G] = neuralEncodingNewFilters_Test(strainSet, AA.par );
 %             [X2,G2] = neuralEncodingNewFilters_Test(strainSet, AA.par );
             % Find accuracy and optimal sensor locations  ---------
