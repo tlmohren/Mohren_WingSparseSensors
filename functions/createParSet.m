@@ -11,10 +11,10 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.simStartup = 1;
     fixPar.simEnd = 4; % in seconds
     fixPar.flapFrequency = 25;
-%     fixPar.harmonic = 0.2;
-%     fixPar.normalizeVal = 3.7732e-4; % for harmonic 0.2 
-    fixPar.harmonic = 0;
-    fixPar.normalizeVal = 2.4803e-4;
+    fixPar.harmonic = 0.2;
+    fixPar.normalizeVal = 3.7732e-4; % for harmonic 0.2 
+%     fixPar.harmonic = 0;
+%     fixPar.normalizeVal = 2.4803e-4;
     
     fixPar.runSim = 0;
     fixPar.saveSim = 1;
