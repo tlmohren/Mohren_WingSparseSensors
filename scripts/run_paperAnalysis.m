@@ -15,9 +15,9 @@
 clear all, close all, clc
 addpathFolderStructure()
 
-parameterSetName    = 'R1R2withExpFilterIter5';
+parameterSetName    = 'R3R4withExpFilterIter5';
 iter                = 5;
-figuresToRun        = {'R1','R2'};
+figuresToRun        = {'R3','R4'};
 % select any from {'R2A','R2B','R2C','R3','R4','R2allSensorsnoFilt','R2allSensorsFilt} 
 
 % Build struct that specifies all parameter combinations to run 
@@ -26,6 +26,7 @@ figuresToRun        = {'R1','R2'};
 %% Run eulerLagrangeSimulation (optional) and sparse sensor placement algorithm
 tic 
 for j = 1:length(varParStruct)
+    
     varPar = varParStruct(j);
     % Initialize matrices for this particular parameter set----------------
     if varPar.wTrunc <=30

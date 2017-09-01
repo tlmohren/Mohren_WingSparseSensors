@@ -54,11 +54,11 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
 %             standardPar.wTruncList = 13:15;
         elseif j == 2
             varyPar(j) = standardPar;
-            varyPar(j).resultName = 'R2B_disturbance_theta';
+            varyPar(j).resultName = 'R2C_disturbance_phi';
             varyPar(j).phi_distList = spa_sf( 10.^[-2:0.1:2] ,2) * 3.12;
         elseif j == 3
             varyPar(j) = standardPar;
-            varyPar(j).resultName = 'R2C_disturbance_phi';
+            varyPar(j).resultName = 'R2B_disturbance_theta';
             varyPar(j).theta_distList = spa_sf( 10.^[-2:0.1:2] ,2);
         elseif j == 4
             varyPar(j) = standardPar;

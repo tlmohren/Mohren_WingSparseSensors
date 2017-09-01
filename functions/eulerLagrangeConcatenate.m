@@ -24,17 +24,14 @@ function [ strainSet ] = eulerLagrangeConcatenate(fixPar,varPar)
     else
         % Run simulations for the given parameters 
         fprintf(['Running simulations for: ' simName '\n']); 
-%         
-        strain_0 = eulerLagrange( 0, varPar.phi_dist, varPar.phi_dist ,fixPar);
-        strain_10 = eulerLagrange( 10, varPar.phi_dist, varPar.phi_dist ,fixPar);
-        strainSet.strain_0 = strain_0;
-        strainSet.strain_10 = strain_10;
+
+        strainSet.strain_0 = eulerLagrange( 0, varPar.phi_dist, varPar.phi_dist ,fixPar);
+        strainSet.strain_10 = eulerLagrange( 10, varPar.phi_dist, varPar.phi_dist ,fixPar);
         
         fprintf(['Completed simulations for: ' simName '\n']); 
         
         if (fixPar.saveSim == 1)
-            % save eulerLagrange results
-            save(simLocationName,'strain_0','strain_10')
+            save(simLocationName,'-struct','strainSet','strain_0','strain_10');
             fprintf(['saved simulations for: ' simName '\n']); 
         end
     end

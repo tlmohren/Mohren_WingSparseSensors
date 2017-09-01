@@ -17,11 +17,12 @@ addpathFolderStructure()
 w = warning ('off','all');
 
 %% 
-% naming = 'testR2Iter2';
+% naming = 'testR2Iter2';.
 % naming = 'testR2Iter1Delay20eNet1';
 % naming = 'testNoHarmonicCal';
-naming = 'testNoHarmonicCalWithHarmonic';
-load(['data' filesep 'parameterSet_', naming])
+% naming = 'testNoHarmonicCalWithHarmonic';
+parameterSetName    = 'R1R2withExpFilterIter5';
+load(['data' filesep 'parameterSet_', parameterSetName])
 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R1_disturbance' )));
 varParCombinations = varParCombinationsAll(figMatch);
