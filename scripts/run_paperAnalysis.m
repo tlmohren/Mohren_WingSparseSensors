@@ -11,6 +11,12 @@
 % combinationStruct contains all required combinations specified in varParList
 % varPar is one combination specified in combinationStruct
 %------------------------------
+% To Do:
+% createFilt as a function
+% clean up code 
+
+
+
 
 clear all, close all, clc
 addpathFolderStructure()
