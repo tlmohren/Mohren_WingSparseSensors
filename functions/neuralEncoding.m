@@ -12,7 +12,7 @@ function [ X,G ] = neuralEncoding( strainSet,fixPar ,varPar)
 % define neural filters 
     
     
-    [STAFunc,NLDFunc ] = createNeuralFilt(fixPar,varPar)
+%     [STAFunc,NLDFunc ] = createNeuralFilt(fixPar,varPar);
     
     
     
@@ -25,7 +25,7 @@ function [ X,G ] = neuralEncoding( strainSet,fixPar ,varPar)
     else
         NLDFunc = @(s) ( 1./ (1+ exp(-varPar.NLDgrad.*(s-varPar.NLDshift)) ) - 0.5) + 0.5; 
     end
-    [STAFunc,NLDFunc];
+%     [STAFunc,NLDFunc];
 
     
     STAt = -39:0;   
