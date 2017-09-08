@@ -22,7 +22,8 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.iter = iter; 
     fixPar.trainFraction = 0.9;
     fixPar.saveNameParameters = name;        
-    fixPar.STAdelay = 3.6;  
+%     fixPar.STAdelay = 3.6;     If this is 3.6, sta might disappear 
+    fixPar.STAdelay = 4;  
     fixPar.allSensors = 0;
     fixPar.elasticNet = 0.9;
     % to phase out -----------------------------------------------

@@ -10,17 +10,27 @@ function [ X,G ] = neuralEncoding( strainSet,fixPar ,varPar)
     fn = {'strain_0','strain_10'};
     
 % define neural filters 
-    STAt = -39:0;   
+    
+    
+    [STAFunc,NLDFunc ] = createNeuralFilt(fixPar,varPar)
+    
+    
+    
     STAFunc = @(t) cos( varPar.STAfreq*(t+ fixPar.STAdelay)  ).*exp(-(t+fixPar.STAdelay).^2 / varPar.STAwidth.^2);
-    STAfilt = STAFunc( STAt ) ; 
     if varPar.NLDgrad <=1
-        NLD = @(s)  heaviside(0.5*s-varPar.NLDshift+0.5).*(0.5*s-varPar.NLDshift+0.5) ...
+        NLDFunc = @(s)  heaviside(0.5*s-varPar.NLDshift+0.5).*(0.5*s-varPar.NLDshift+0.5) ...
            -heaviside(0.5*s-varPar.NLDshift-1+0.5).*(0.5*s-varPar.NLDshift-1+0.5);
     elseif varPar.NLDgrad >= 25
-        NLD = @(s) heaviside( 0.5*s - 0.5*varPar.NLDshift) ;
+        NLDFunc = @(s) heaviside( 0.5*s - 0.5*varPar.NLDshift) ;
     else
-        NLD = @(s) ( 1./ (1+ exp(-varPar.NLDgrad.*(s-varPar.NLDshift)) ) - 0.5) + 0.5; 
+        NLDFunc = @(s) ( 1./ (1+ exp(-varPar.NLDgrad.*(s-varPar.NLDshift)) ) - 0.5) + 0.5; 
     end
+    [STAFunc,NLDFunc];
+
+    
+    STAt = -39:0;   
+    STAfilt = STAFunc( STAt ) ; 
+    
 %     figure(101);
 %         subplot(121)
 %         plot(STAt,STAfilt);hold on;drawnow
@@ -46,7 +56,7 @@ function [ X,G ] = neuralEncoding( strainSet,fixPar ,varPar)
     end
 
 % Part2) The calibrated filtered signal is padded through the Non-linear function
-    X = NLD( convMat/fixPar.normalizeVal );
+    X = NLDFunc( convMat/fixPar.normalizeVal );
 
 
 %     tSet =2500:3000;
