@@ -31,7 +31,7 @@ figuresToRun        = {'R1','R2','R3','R4'};
 % aa.par
 %% Run eulerLagrangeSimulation (optional) and sparse sensor placement algorithm
 tic 
-for j = 1:length(varParStruct)
+for j = 1%:length(varParStruct)
     
     varPar = varParStruct(j);
     % Initialize matrices for this particular parameter set----------------
@@ -43,7 +43,7 @@ for j = 1:length(varParStruct)
         SensMat = [];
     end
     % Run parameter combination for a set number of iterations ---------
-    for k = 1:fixPar.iter
+    for k = 1%:fixPar.iter
         try
             varPar.curIter = k; 
             % Generate strain with Euler-Lagrange simulation ----------

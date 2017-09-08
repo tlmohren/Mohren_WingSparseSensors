@@ -10,27 +10,21 @@ function [ X,G ] = neuralEncoding( strainSet,fixPar ,varPar)
     fn = {'strain_0','strain_10'};
     
 % define neural filters 
+    [STAFunc,NLDFunc ] = createNeuralFilt(fixPar,varPar);
     
-    
-%     [STAFunc,NLDFunc ] = createNeuralFilt(fixPar,varPar);
-    
-    
-    
-    STAFunc = @(t) cos( varPar.STAfreq*(t+ fixPar.STAdelay)  ).*exp(-(t+fixPar.STAdelay).^2 / varPar.STAwidth.^2);
-    if varPar.NLDgrad <=1
-        NLDFunc = @(s)  heaviside(0.5*s-varPar.NLDshift+0.5).*(0.5*s-varPar.NLDshift+0.5) ...
-           -heaviside(0.5*s-varPar.NLDshift-1+0.5).*(0.5*s-varPar.NLDshift-1+0.5);
-    elseif varPar.NLDgrad >= 25
-        NLDFunc = @(s) heaviside( 0.5*s - 0.5*varPar.NLDshift) ;
-    else
-        NLDFunc = @(s) ( 1./ (1+ exp(-varPar.NLDgrad.*(s-varPar.NLDshift)) ) - 0.5) + 0.5; 
-    end
-%     [STAFunc,NLDFunc];
-
-    
+%-----------------------------------------------
+%     STAFunc = @(t) cos( varPar.STAfreq*(t+ fixPar.STAdelay)  ).*exp(-(t+fixPar.STAdelay).^2 / varPar.STAwidth.^2);
+%     if varPar.NLDgrad <=1
+%         NLDFunc = @(s)  heaviside(0.5*s-varPar.NLDshift+0.5).*(0.5*s-varPar.NLDshift+0.5) ...
+%            -heaviside(0.5*s-varPar.NLDshift-1+0.5).*(0.5*s-varPar.NLDshift-1+0.5);
+%     elseif varPar.NLDgrad >= 25
+%         NLDFunc = @(s) heaviside( 0.5*s - 0.5*varPar.NLDshift) ;
+%     else
+%         NLDFunc = @(s) ( 1./ (1+ exp(-varPar.NLDgrad.*(s-varPar.NLDshift)) ) - 0.5) + 0.5; 
+%     end
+%-----------------------------------------------
     STAt = -39:0;   
     STAfilt = STAFunc( STAt ) ; 
-    
 %     figure(101);
 %         subplot(121)
 %         plot(STAt,STAfilt);hold on;drawnow
