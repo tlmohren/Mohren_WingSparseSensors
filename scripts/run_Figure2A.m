@@ -17,7 +17,8 @@ addpathFolderStructure()
 w = warning ('off','all');
 
 %% 
-parameterSetName    = 'R1R2withExpFilterIter5';
+% parameterSetName    = 'R1R2withExpFilterIter5';
+parameterSetName    = 'R1toR4Iter10_delay4';
 load(['data' filesep 'parameterSet_', parameterSetName ])
 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2A' )));
@@ -95,3 +96,60 @@ for j = 1:n_y
         drawnow
     end
 end
+
+
+%% 
+figure(1)
+xh = get(gca, 'Xlabel');
+yh = get(gca, 'Ylabel');
+axisOptsFig3_heatMap = {
+    'xtick', 1:length(varParCombinations.phi_distList),'xticklabel',varParCombinations.phi_distList, ...
+    'ytick', 1:length(varParCombinations.theta_distList),'yticklabel',varParCombinations.theta_distList,...
+     'XLabel', xh, 'YLabel', yh, 'clim',[0,20]};
+%  thresholdMatB  = l
+set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
+fig2C_V2 = figure('Position', [1000, 100, 400, 600]);
+subplot(211);
+%     mask2 = isnan(thresholdMatB(:,:,1));
+    imagesc(thresholdMat(:,:,2))
+    colormap(flipud(summer(500)))
+    set(gca, axisOptsFig3_heatMap{:})
+    h = colorbar;
+    set( h, 'YDir', 'reverse' );
+    ylabel(h, '# of sensors required for 75% accuracy')
+    title('optimal')
+subplot(212)
+    imagesc(thresholdMat(:,:,1))
+    colormap(flipud(summer(500)))
+    set(gca, axisOptsFig3_heatMap{:})
+    h = colorbar;
+    set( h, 'YDir', 'reverse' );
+    ylabel(h, '# of sensors required for 75% accuracy')
+    
+    title('random')
+fig2C_mark = figure('Position', [1000, 100, 400, 600]);
+subplot(211);
+
+    mask1 = isnan(thresholdMat(:,:,2));
+    Im(1) = imagesc( ones(size(mask1))*20 );
+    
+    set(gca, axisOptsFig3_heatMap{:})
+    h = colorbar;
+    set( h, 'YDir', 'reverse' );
+    ylabel(h, '# of sensors required for 75% accuracy')
+
+    title('optimal')
+   set(Im(1),'alphadata',mask1);
+subplot(212)    
+    mask2 = isnan(thresholdMat(:,:,1));
+    Im(2) = imagesc(ones(size(mask2))*20);
+    
+    colormap(flipud(bone(3)))
+    set(gca, axisOptsFig3_heatMap{:})
+    h = colorbar;
+    set( h, 'YDir', 'reverse' );
+    ylabel(h, '# of sensors required for 75% accuracy')
+    
+    title('random')
+   set(Im(2),'alphadata',mask2);
+   

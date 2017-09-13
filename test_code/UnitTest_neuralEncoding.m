@@ -3,72 +3,47 @@
 % TLM 2017
 % -----------------------------
 % initialize path and clear memory 
+
+
+clear all, close all, clc
 scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
 addpath([scriptLocation filesep 'scripts']);
 addpathFolderStructure()
-clc;clear all;close all
 
+parameterSetName    = 'R1toR4Iter10_delay4';
+iter                = 10;
+figuresToRun        = {'R1'};
+% select any from {'R2A','R2B','R2C','R3','R4','R2allSensorsnoFilt','R2allSensorsFilt} 
+
+% Build struct that specifies all parameter combinations to run 
+[fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
 %% Run testcases
-% load required parameters 
+% varPar = varParStruct(15);
+varPar = varParStruct(45);
+varPar.curIter = 1; 
 
-par = setParameters;
-[varParList,~] = setVariableParameters_MultipleSets(par);
-par.varParNames = fieldnames(varParList);
-par.iter = 20;
-par.elasticNet = 0.9;
-par.saveNameParameters = 'STANLD11_Iter20';
+fixPar.subSamp =20;
+% Generate strain with Euler-Lagrange simulation ----------
+strainSet = eulerLagrangeConcatenate( fixPar,varPar);
+% Apply neural filters to strain --------------------------
+[X,G] = neuralEncoding(strainSet, fixPar,varPar );
 
-
-% Specify testcase 
-testCase =2;
-
-% [varParList,varParList_short] = setVariableParameters_STANLD0(par);
-j =1 ;
-par.varParNames = fieldnames(varParList);
-for k = 1:length(par.varParNames)
-    par.(par.varParNames{k}) = varParList(j).(par.varParNames{k});
-end
-
-
-    DataFolder = 'D:\Mijn_documenten\Dropbox\A. PhD\C. Papers\ch_Wingsensors\Mohren_WingSparseSensorsData';
-    strainSet = load([DataFolder filesep 'strainSet_th0ph0cEl26sEl51Ex0Ey1.mat']);
-if testCase == 1
-    % load 26 x 51 strain wing data 
-%     strainSet = load(['diagnostics' filesep 'UnitTest_neuralEncoding_testdata2651.mat']);
-%     strainSet = load([DataFolder filesep 'strainSet_th0ph0cEl26sEl51Ex0Ey1.mat']);
-%     strain = loadSingleVariableMATFile(['diagnostics' filesep 'UnitTest_neuralEncoding_testdata2651.mat']);
-    par.STAwidth = 0;
-    par.NLDsharpness = 0;
-elseif testCase == 2
-    % load 10 x 10 strain wing data 
-%     strainSet = load(['diagnostics' filesep 'UnitTest_neuralEncoding_testdata2651.mat']
-%     strainSet = load(['data' filesep 'strainSet_th0ph0chElem12spElem12.mat']);
-%     par.STAwidth = 0;
-%     par.NLDsharpness = 0;
-    
-else
-    error('Invalid testcase entry    TLM 2017')
-    
-end
-par.STAfreq = 1;
-par.STAwidth = 3;
-% [X,G] = neuralEncoding(strainSet, par); 
-[X,G] = neuralEncodingNewFilters(strainSet, par); 
-parSort = orderfields(par);
-par.wTrunc = 15;
-[acc,~ ] = sparseWingSensors( X,G, par)
+Xsub = X(:,1:fixPar.subSamp:size(X,2));
+Gsub = G(:,1:fixPar.subSamp:size(X,2));
+[acc,~ ] = sparseWingSensors( Xsub,Gsub,fixPar, varPar)
 
 %% check output here, size, content 
 display('Output diagnostics')
 % [m,n] = size(strain)
-% [mx,nx] = size(X)
-partShow = 2500:3500;
+[mx,nx] = size(X)
+partShow = (2500:3500);
+partShowSub = (2500:3500)*fixPar.subSamp;
 figure(); 
     subplot(311)
-    plot( [strainSet.strain_0(40,partShow) , strainSet.strain_10(40,partShow) ])
+    plot( [strainSet.strain_0(40,partShow) ; strainSet.strain_10(40,partShow) ]')
     subplot(312)
-    plot( X(40,partShow))
+    plot( X(40,partShowSub))
     
     subplot(313)
-    plot( G(partShow))
+    plot( G(partShowSub))
     

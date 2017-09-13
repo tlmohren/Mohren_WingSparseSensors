@@ -23,7 +23,11 @@ function [ X,G ] = neuralEncoding( strainSet,fixPar ,varPar)
 %         NLDFunc = @(s) ( 1./ (1+ exp(-varPar.NLDgrad.*(s-varPar.NLDshift)) ) - 0.5) + 0.5; 
 %     end
 %-----------------------------------------------
+
+
+    
     STAt = -39:0;   
+    STAt = linspace(-39,0,40*fixPar.subSamp);
     STAfilt = STAFunc( STAt ) ; 
 %     figure(101);
 %         subplot(121)
@@ -32,17 +36,22 @@ function [ X,G ] = neuralEncoding( strainSet,fixPar ,varPar)
 %         plot(-1:0.01:1,NLD(-1:0.01:1));hold on;drawnow; grid on
 
     % Remove startup phase from strain, but leave a piece the lenght of the
-    n_conv = ( fixPar.simStartup*fixPar.sampFreq +2 -length(STAt) )...
-            : fixPar.simEnd*fixPar.sampFreq;
-    n_out = (fixPar.simEnd-fixPar.simStartup) * fixPar.sampFreq;
+    n_conv = ( fixPar.simStartup  *fixPar.sampFreq*fixPar.subSamp +2 -length(STAt) )...
+            : fixPar.simEnd*fixPar.sampFreq*fixPar.subSamp;
+    n_out = (fixPar.simEnd-fixPar.simStartup) * fixPar.sampFreq*fixPar.subSamp;
     convMat = [];
-    
+    t = (1:size(strainSet.(fn{1}),2))/fixPar.sampFreq;
+    t = (1:size(strainSet.(fn{1}),2))/fixPar.sampFreq;
+    tNew = linspace(t(1),t(end),size(strainSet.(fn{1}),2)*fixPar.subSamp);
+    m = size(strainSet.(fn{1}),1);
 % Part1) For each individual sensor, convolve strain with match filter over time.
     for j = 1:numel(fn)
-        [m,~] = size( strainSet.(fn{j}) );
+%         [m,~] = size( strainSet.(fn{j}) );
         strainConv = zeros(m,n_out);
         for jj = 1:m
-            strainConv(jj,:) = conv(  strainSet.(fn{j})(jj,n_conv)  , (STAfilt),'valid');
+            strainSub = interp1(t,strainSet.(fn{j})(jj,:),tNew,'spline');
+%             strainConv(jj,:) = conv(  strainSet.(fn{j})(jj,n_conv)  , (STAfilt),'valid');
+            strainConv(jj,:) = conv(  strainSub(n_conv)  , STAfilt,'valid');
         end
         convMat = [convMat , strainConv];
         Gtemp = ones(1, n_out); % For each iteration, a class of magnitude j is added to G
@@ -50,9 +59,16 @@ function [ X,G ] = neuralEncoding( strainSet,fixPar ,varPar)
     end
 
 % Part2) The calibrated filtered signal is padded through the Non-linear function
-    X = NLDFunc( convMat/fixPar.normalizeVal );
 
+%     fixPar.normalizeVal
+%     fixPar.normalizeVal = tempNorm;
+    X = NLDFunc( convMat/fixPar.normalizeVal/fixPar.subSamp );
 
+    
+    if fixPar.determineNorm == 1
+        X.tempNorm = max(convMat(:));
+    end
+    
 %     tSet =2500:3000;
 %     figure()
 %     subplot(321)

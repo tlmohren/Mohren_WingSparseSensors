@@ -17,7 +17,8 @@ addpathFolderStructure()
 w = warning ('off','all');
 
 %% 
-parameterSetName    = 'R1R2withExpFilterIter5';
+% parameterSetName    = 'R1R2withExpFilterIter5';
+parameterSetName    = 'R1toR4Iter10_delay4';
 load(['data' filesep 'parameterSet_', parameterSetName ])
 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2B' )));
@@ -78,7 +79,7 @@ for j = 1:n_y
         set(ylh, 'Rotation',0, 'Position',ylp, 'VerticalAlignment','middle', 'HorizontalAlignment','right')
         grid on 
         set(gca, axisOptsFig2A{:})
-        title( paramStructB(Dat_I).phi_dist)
+        title( paramStructB(Dat_I).theta_dist)
         
         axis off 
         drawnow
@@ -124,7 +125,7 @@ for j = 1:n_y
         set(ylh, 'Rotation',0, 'Position',ylp, 'VerticalAlignment','middle', 'HorizontalAlignment','right')
         grid on 
         set(gca, axisOptsFig2A{:})
-        title( paramStructC(Dat_I).theta_dist)
+        title( paramStructC(Dat_I).phi_dist)
         
         axis off 
         drawnow
@@ -132,11 +133,8 @@ for j = 1:n_y
 end
 %% 
 
-% x_axisB = varParCombinationsB.theta_distList;
-% x_axisC = varParCombinationsC.phi_distList;
-x_axisB = varParCombinationsB.phi_distList;
-x_axisC = varParCombinationsC.theta_distList;
-
+x_axisB = varParCombinationsB.theta_distList;
+x_axisC = varParCombinationsC.phi_distList;
 
 figure();
 subplot(211)

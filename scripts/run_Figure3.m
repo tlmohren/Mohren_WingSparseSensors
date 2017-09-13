@@ -17,7 +17,8 @@ addpathFolderStructure()
 w = warning ('off','all');
 
 %% 
-parameterSetName    = 'R3R4withExpFilterIter5';
+% parameterSetName    = 'R3R4withExpFilterIter5';
+parameterSetName    = 'R1toR4Iter10_delay4';
 load(['data' filesep 'parameterSet_', parameterSetName ])
 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R3' )));
@@ -26,12 +27,6 @@ varParCombinations = varParCombinationsAll(figMatch);
 ind_SSPOCoffB = find( ~[paramStructB.SSPOCon]);
 ind_SSPOConB = find([paramStructB.SSPOCon]);
 
-% figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2C' )));
-% varParCombinationsC = varParCombinationsAll(figMatch);
-% [dataStructC,paramStructC] = combineDataMat(fixPar,varParCombinationsC);
-% ind_SSPOCoffC = find( ~[paramStructC.SSPOCon]);
-% ind_SSPOConC = find([paramStructC.SSPOCon]);
-
 %% Figure settings
 
 errLocFig2A = 38;
@@ -39,7 +34,6 @@ axisOptsFig2A = {'xtick',[0:10:30,errLocFig2A ],'xticklabel',{'0','10','20','30'
     'ytick',0.4:0.2:1 ,'xlim', [0,errLocFig2A+2],'ylim',[0.4,1] };
 col = {ones(3,1)*0.5,'-r'};
 dotcol = {'.k','.r'}; 
-
 
 %% Figure 2B
 n_x = length(varParCombinations.STAwidthList);
@@ -115,12 +109,8 @@ axisOptsFig3_heatMap = {
     'xtick', 1:length(varParCombinations.STAwidthList),'xticklabel',varParCombinations.STAwidthList, ...
     'ytick', 1:length(varParCombinations.STAfreqList),'yticklabel',varParCombinations.STAfreqList,...
      'XLabel', xh, 'YLabel', yh, 'clim',[0,20]};
- 
- 
- 
 %  thresholdMatB  = l
 set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
-% [X,Y] = meshgrid(par.phi_dist,par.theta_dist);
 fig2C_V2 = figure('Position', [1000, 100, 400, 600]);
 subplot(211);
 %     mask2 = isnan(thresholdMatB(:,:,1));

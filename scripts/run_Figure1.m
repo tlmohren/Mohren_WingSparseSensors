@@ -21,7 +21,8 @@ w = warning ('off','all');
 % naming = 'testR2Iter1Delay20eNet1';
 % naming = 'testNoHarmonicCal';
 % naming = 'testNoHarmonicCalWithHarmonic';
-parameterSetName    = 'R1R2withExpFilterIter5';
+% parameterSetName    = 'R1R2withExpFilterIter5';
+parameterSetName    = 'R1toR4Iter10_delay4_subSamp10';
 load(['data' filesep 'parameterSet_', parameterSetName])
 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R1_disturbance' )));
@@ -90,4 +91,7 @@ fig1B = figure();
 q = 15;
 binar = get_pdf( dataStruct.sensorMatTot(2,q,1:q,:));
 plotSensorLocs(binar,fixPar)
+if sum(binar) == 0
+   display(['no simulations ended on q = ' num2str(q)] ) 
+end
 %% 

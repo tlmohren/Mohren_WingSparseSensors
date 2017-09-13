@@ -12,7 +12,9 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.simEnd = 4; % in seconds
     fixPar.flapFrequency = 25;
     fixPar.harmonic = 0.2;
-    fixPar.normalizeVal = 3.7732e-4; % for harmonic 0.2 
+%     fixPar.normalizeVal = 3.7732e-4; % for harmonic 0.2 .
+    fixPar.normalizeVal = 3.6122e-4;
+    
 %     fixPar.harmonic = 0;
 %     fixPar.normalizeVal = 2.4803e-4;
     
@@ -24,6 +26,8 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.saveNameParameters = name;        
 %     fixPar.STAdelay = 3.6;     If this is 3.6, sta might disappear 
     fixPar.STAdelay = 4;  
+    fixPar.subSamp = 10;
+    fixPar.determineNorm = 0;
     fixPar.allSensors = 0;
     fixPar.elasticNet = 0.9;
     % to phase out -----------------------------------------------
