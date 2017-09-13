@@ -17,8 +17,8 @@ addpathFolderStructure()
 w = warning ('off','all');
 
 %% 
-% parameterSetName    = 'R1R2withExpFilterIter5';
-parameterSetName    = 'R1toR4Iter10_delay4';
+parameterSetName    = 'R1R2withExpFilterIter5';
+% parameterSetName    = 'R1toR4Iter10_delay4';
 load(['data' filesep 'parameterSet_', parameterSetName ])
 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2B' )));
@@ -46,7 +46,7 @@ dotcol = {'.k','.r'};
 n_x = 7;
 n_y =  6; 
 n_plots = n_x*n_y;
-fig2A=figure('Position', [100, 100, 950, 750]);
+fig2B=figure('Position', [100, 100, 950, 750]);
 
 for j = 1:n_y
     for k = 1:n_x
@@ -86,13 +86,14 @@ for j = 1:n_y
     end
 end
 
+saveas(fig2B,['figs' filesep 'Figure2B_' parameterSetName '.png'])
 
 
 %% Figure 2C
 n_x = 7;
 n_y =  6; 
 n_plots = n_x*n_y;
-fig2A=figure('Position', [100, 100, 950, 750]);
+fig2C=figure('Position', [100, 100, 950, 750]);
 
 for j = 1:n_y
     for k = 1:n_x
@@ -131,13 +132,17 @@ for j = 1:n_y
         drawnow
     end
 end
+
+saveas(fig2C,['figs' filesep 'Figure2C_' parameterSetName '.png'])
 %% 
 
-x_axisB = varParCombinationsB.theta_distList;
-x_axisC = varParCombinationsC.phi_distList;
+% x_axisB = varParCombinationsB.theta_distList;
+% x_axisC = varParCombinationsC.phi_distList;
+x_axisC = varParCombinationsB.phi_distList;
+x_axisB = varParCombinationsC.theta_distList;
 
-figure();
-subplot(211)
+fig2BC = figure('Position',[900,800,600,250]);
+% subplot(211)
     nonz_vals = find( ~isnan(thresholdMatB( 1,:)) );
     B1= semilogx(  x_axisB(nonz_vals ),thresholdMatB( 1 ,nonz_vals),'LineWidth',0.1);
     hold on
@@ -163,3 +168,5 @@ set(B2,B2_makeup{:})
 set(B3,B3_makeup{:})
 set(B4,B4_makeup{:})
 
+
+saveas(fig2BC,['figs' filesep 'Figure2B_' parameterSetName '.png'])

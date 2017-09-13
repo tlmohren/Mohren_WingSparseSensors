@@ -18,6 +18,7 @@ w = warning ('off','all');
 
 %% 
 parameterSetName    = 'R3R4withExpFilterIter5';
+% parameterSetName    = 'R1toR4Iter10_delay4';
 load(['data' filesep 'parameterSet_', parameterSetName ])
 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R4' )));
@@ -40,7 +41,7 @@ dotcol = {'.k','.r'};
 n_x = length(varParCombinations.NLDshiftList);
 n_y =  length(varParCombinations.NLDgradList);
 n_plots = n_x*n_y;
-fig2A=figure('Position', [100, 100, 950, 750]);
+fig4plots=figure('Position', [100, 100, 950, 750]);
 
 for j = 1:n_y
     for k = 1:n_x
@@ -74,15 +75,14 @@ for j = 1:n_y
         grid on 
         set(gca, axisOptsFig2A{:})
 %         title( paramStructB(Dat_I).phi_dist)
-        
         axis off 
         drawnow
     end
 end
 
-
+% saveas(fig4plots,['figs' filesep 'Figure4plots_' parameterSetName '.png'])
 %% 
-fig2A=figure('Position', [100, 100, 950, 750]);
+fig4NLD=figure('Position', [100, 100, 950, 750]);
 % fixPar.STAdelay = 3;
 for j = 1:n_y
     for k = 1:n_x
@@ -101,6 +101,7 @@ for j = 1:n_y
     end
 end
 
+saveas(fig4NLD,['figs' filesep 'Figure4NLD_' parameterSetName '.png'])
 
 %% Heatmap & Mask 
 figure(1)
@@ -111,12 +112,8 @@ axisOptsFig3_heatMap = {
     'ytick', 1:length(varParCombinations.NLDgradList),'yticklabel',varParCombinations.NLDgradList,...
      'XLabel', xh, 'YLabel', yh, 'clim',[0,20]};
  
- 
- 
-%  thresholdMatB  = l
 set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
-% [X,Y] = meshgrid(par.phi_dist,par.theta_dist);
-fig2C_V2 = figure('Position', [1000, 100, 400, 600]);
+fig4heatmap = figure('Position', [1000, 100, 400, 600]);
 subplot(211);
 %     mask2 = isnan(thresholdMatB(:,:,1));
     imagesc(thresholdMatB(:,:,2))
@@ -133,9 +130,13 @@ subplot(212)
     h = colorbar;
     set( h, 'YDir', 'reverse' );
     ylabel(h, '# of sensors required for 75% accuracy')
-    
     title('random')
-fig2C_mark = figure('Position', [1000, 100, 400, 600]);
+saveas(fig4heatmap,['figs' filesep 'Figure4_' parameterSetName '.png'])    
+    
+    
+%%    
+    
+fig4_mask = figure('Position', [1000, 100, 400, 600]);
 subplot(211);
 
     mask1 = isnan(thresholdMatB(:,:,2));
@@ -145,9 +146,9 @@ subplot(211);
     h = colorbar;
     set( h, 'YDir', 'reverse' );
     ylabel(h, '# of sensors required for 75% accuracy')
-
     title('optimal')
    set(Im(1),'alphadata',mask1);
+   
 subplot(212)    
     mask2 = isnan(thresholdMatB(:,:,1));
     Im(2) = imagesc(ones(size(mask2))*20);
@@ -157,7 +158,8 @@ subplot(212)
     h = colorbar;
     set( h, 'YDir', 'reverse' );
     ylabel(h, '# of sensors required for 75% accuracy')
-    
     title('random')
    set(Im(2),'alphadata',mask2);
-%    set(Im(3),'alphadata',mask2);
+   
+saveas(fig4mask,['figs' filesep 'Figure4mask_' parameterSetName '.png'])    
+    

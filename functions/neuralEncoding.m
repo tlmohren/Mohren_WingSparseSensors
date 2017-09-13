@@ -25,33 +25,46 @@ function [ X,G ] = neuralEncoding( strainSet,fixPar ,varPar)
 %-----------------------------------------------
 
 
-    
-    STAt = -39:0;   
+    if fixPar.subSamp == 1
+        STAt = -39:0;   
+    else
     STAt = linspace(-39,0,40*fixPar.subSamp);
+    end
     STAfilt = STAFunc( STAt ) ; 
-%     figure(101);
-%         subplot(121)
-%         plot(STAt,STAfilt);hold on;drawnow
-%         subplot(122)
-%         plot(-1:0.01:1,NLD(-1:0.01:1));hold on;drawnow; grid on
+    figure(101);
+        subplot(121)
+        plot(STAt,STAfilt);hold on;drawnow
+        subplot(122)
+        plot(-1:0.01:1,NLDFunc(-1:0.01:1));hold on;drawnow; grid on
 
     % Remove startup phase from strain, but leave a piece the lenght of the
+        convMat = [];
+%     if fixPar.subSamp == 1
+%         n_conv = ( fixPar.simStartup  *fixPar.sampFreq*fixPar.subSamp +2 -length(STAt) )...
+%                 : fixPar.simEnd*fixPar.sampFreq*fixPar.subSamp;
+%         n_out = (fixPar.simEnd-fixPar.simStartup) * fixPar.sampFreq*fixPar.subSamp;
+%         t = (1:size(strainSet.(fn{1}),2))/fixPar.sampFreq;
+%         
+%     else
     n_conv = ( fixPar.simStartup  *fixPar.sampFreq*fixPar.subSamp +2 -length(STAt) )...
             : fixPar.simEnd*fixPar.sampFreq*fixPar.subSamp;
     n_out = (fixPar.simEnd-fixPar.simStartup) * fixPar.sampFreq*fixPar.subSamp;
-    convMat = [];
-    t = (1:size(strainSet.(fn{1}),2))/fixPar.sampFreq;
     t = (1:size(strainSet.(fn{1}),2))/fixPar.sampFreq;
     tNew = linspace(t(1),t(end),size(strainSet.(fn{1}),2)*fixPar.subSamp);
+%     end
     m = size(strainSet.(fn{1}),1);
+    
 % Part1) For each individual sensor, convolve strain with match filter over time.
     for j = 1:numel(fn)
 %         [m,~] = size( strainSet.(fn{j}) );
         strainConv = zeros(m,n_out);
         for jj = 1:m
-            strainSub = interp1(t,strainSet.(fn{j})(jj,:),tNew,'spline');
-%             strainConv(jj,:) = conv(  strainSet.(fn{j})(jj,n_conv)  , (STAfilt),'valid');
-            strainConv(jj,:) = conv(  strainSub(n_conv)  , STAfilt,'valid');
+            if fixPar.subSamp == 1
+                strainConv(jj,:) = conv(  strainSet.(fn{j})(jj,n_conv)  , (STAfilt),'valid');
+            else
+                strainSub = interp1(t,strainSet.(fn{j})(jj,:),tNew,'spline');
+                strainConv(jj,:) = conv(  strainSub(n_conv)  , STAfilt,'valid');
+            end
         end
         convMat = [convMat , strainConv];
         Gtemp = ones(1, n_out); % For each iteration, a class of magnitude j is added to G

@@ -15,11 +15,12 @@ function [q ] = sigmFitParam( x,y )
         beta = nlinfit(x,y,modelfun,beta0,opts);
 %         beta
         syms xs 
-        xa = eval(solve(modelfun(beta,xs) == 0.75));
+        xa = eval(solve(modelfun(beta,xs) == 0.7));
 
-        if isreal( modelfun(beta,xa)  ) == 1 && xa <=30 && xa> 0 ;
+%         if isreal( modelfun(beta,xa)  ) == 1 && xa <=30 && xa> 0 ;
+        if isreal( modelfun(beta,xa)  ) == 1 && xa <=40 && xa> 0 ;
             q = xa;
-        elseif ~any(modelfun(beta,x) <=0.75)
+        elseif ~any(modelfun(beta,x) <=0.7)
             q = x(1);
         else
             q = nan;

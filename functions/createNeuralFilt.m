@@ -1,4 +1,4 @@
-function [ STAFunc,NLD] = createNeuralFilt( fixPar,varPar )
+function [ STAFunc,NLDFunc] = createNeuralFilt( fixPar,varPar )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -8,12 +8,20 @@ function [ STAFunc,NLD] = createNeuralFilt( fixPar,varPar )
     STAfilt = STAFunc( STAt ) ; 
 
     if varPar.NLDgrad <=1
-        NLD = @(s)  heaviside(0.5*s-varPar.NLDshift+0.5).*(0.5*s-varPar.NLDshift+0.5) ...
+        NLDFunc = @(s)  heaviside(0.5*s-varPar.NLDshift+0.5).*(0.5*s-varPar.NLDshift+0.5) ...
            -heaviside(0.5*s-varPar.NLDshift-1+0.5).*(0.5*s-varPar.NLDshift-1+0.5);
     elseif varPar.NLDgrad >= 25
-        NLD = @(s) heaviside( 0.5*s - 0.5*varPar.NLDshift) ;
+        NLDFunc = @(s) heaviside( 0.5*s - 0.5*varPar.NLDshift) ;
     else
-        NLD = @(s) ( 1./ (1+ exp(-varPar.NLDgrad.*(s-varPar.NLDshift)) ) - 0.5) + 0.5; 
+        NLDFunc = @(s) ( 1./ (1+ exp(-varPar.NLDgrad.*(s-varPar.NLDshift)) ) - 0.5) + 0.5; 
+    end
+    
+    if  isfield(fixPar,'showFilt') == 1 
+    figure(101);
+        subplot(121)
+        plot(STAt,STAfilt);hold on;drawnow
+        subplot(122)
+        plot( s ,NLDFunc(s));hold on;drawnow; grid on
     end
 end
 

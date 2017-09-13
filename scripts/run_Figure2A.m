@@ -17,8 +17,8 @@ addpathFolderStructure()
 w = warning ('off','all');
 
 %% 
-% parameterSetName    = 'R1R2withExpFilterIter5';
-parameterSetName    = 'R1toR4Iter10_delay4';
+parameterSetName    = 'R1R2withExpFilterIter5';
+% parameterSetName    = 'R1toR4Iter10_delay4';
 load(['data' filesep 'parameterSet_', parameterSetName ])
 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2A' )));
@@ -97,6 +97,7 @@ for j = 1:n_y
     end
 end
 
+saveas(fig2A,['figs' filesep 'Figure2A_' parameterSetName '.png'])
 
 %% 
 figure(1)
@@ -108,7 +109,7 @@ axisOptsFig3_heatMap = {
      'XLabel', xh, 'YLabel', yh, 'clim',[0,20]};
 %  thresholdMatB  = l
 set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
-fig2C_V2 = figure('Position', [1000, 100, 400, 600]);
+fig2AB = figure('Position', [1000, 100, 400, 600]);
 subplot(211);
 %     mask2 = isnan(thresholdMatB(:,:,1));
     imagesc(thresholdMat(:,:,2))
@@ -127,7 +128,11 @@ subplot(212)
     ylabel(h, '# of sensors required for 75% accuracy')
     
     title('random')
-fig2C_mark = figure('Position', [1000, 100, 400, 600]);
+    
+    
+saveas(fig2AB,['figs' filesep 'Figure2AB_' parameterSetName '.png'])
+%% 
+fig2AB_mask = figure('Position', [1400, 100, 400, 600]);
 subplot(211);
 
     mask1 = isnan(thresholdMat(:,:,2));
@@ -153,3 +158,5 @@ subplot(212)
     title('random')
    set(Im(2),'alphadata',mask2);
    
+   
+saveas(fig2AB_mask,['figs' filesep 'Figure2ABmask_' parameterSetName '.png'])

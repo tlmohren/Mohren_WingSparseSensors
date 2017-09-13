@@ -17,8 +17,8 @@ addpathFolderStructure()
 w = warning ('off','all');
 
 %% 
-% parameterSetName    = 'R3R4withExpFilterIter5';
-parameterSetName    = 'R1toR4Iter10_delay4';
+parameterSetName    = 'R3R4withExpFilterIter5';
+% parameterSetName    = 'R1toR4Iter10_delay4';
 load(['data' filesep 'parameterSet_', parameterSetName ])
 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R3' )));
@@ -39,7 +39,7 @@ dotcol = {'.k','.r'};
 n_x = length(varParCombinations.STAwidthList);
 n_y =  length(varParCombinations.STAfreqList);
 n_plots = n_x*n_y;
-fig2A=figure('Position', [100, 100, 950, 750]);
+fig3plots=figure('Position', [100, 100, 950, 750]);
 
 for j = 1:n_y
     for k = 1:n_x
@@ -79,27 +79,33 @@ for j = 1:n_y
     end
 end
 
+% saveas(fig3plots,['figs' filesep 'Figure3plots_' parameterSetName '.png'])
 
 %% 
-fig2A=figure('Position', [100, 100, 950, 750]);
+fig3STA=figure('Position', [100, 100, 950, 750]);
 % fixPar.STAdelay = 3;
 for j = 1:n_y
     for k = 1:n_x
         sub_nr = (j-1)*n_y + k;
         subplot(n_y,n_x, sub_nr)
         hold on
-        varPar.STAwidth = varParCombinations.STAwidthList(k);
-        varPar.STAfreq = varParCombinations.STAfreqList(j);
+        varPar.STAfreq = varParCombinations.STAfreqList(k);
+        varPar.STAwidth = varParCombinations.STAwidthList(j);
         varPar.NLDshift = varParCombinations.NLDshiftList;
         varPar.NLDgrad = varParCombinations.NLDgradList;
         [STAfunc,NLDfunc]= createNeuralFilt (fixPar,varPar);
-        STAt = -39:0.1:0;
+        if  isfield(fixPar,'subSamp') == 0 
+            STAt = -39:1:0;
+        else
+            STAt = -39:1/fixPar.subSamp:0;
+        end
         plot( STAt,STAfunc(STAt))
         axis([-39,0,-1,1])
         axis off
     end
 end
 
+saveas(fig3STA,['figs' filesep 'Figure3STA_' parameterSetName '.png'])
 
 %% Heatmap & Mask 
 figure(1)
@@ -111,7 +117,7 @@ axisOptsFig3_heatMap = {
      'XLabel', xh, 'YLabel', yh, 'clim',[0,20]};
 %  thresholdMatB  = l
 set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
-fig2C_V2 = figure('Position', [1000, 100, 400, 600]);
+fig3heatmap = figure('Position', [1000, 100, 400, 600]);
 subplot(211);
 %     mask2 = isnan(thresholdMatB(:,:,1));
     imagesc(thresholdMatB(:,:,2))
@@ -130,7 +136,12 @@ subplot(212)
     ylabel(h, '# of sensors required for 75% accuracy')
     
     title('random')
-fig2C_mark = figure('Position', [1000, 100, 400, 600]);
+    
+    
+    
+saveas(fig3heatmap,['figs' filesep 'Figure3_' parameterSetName '.png'])
+
+fig3mask = figure('Position', [1000, 100, 400, 600]);
 subplot(211);
 
     mask1 = isnan(thresholdMatB(:,:,2));
@@ -156,3 +167,5 @@ subplot(212)
     title('random')
    set(Im(2),'alphadata',mask2);
 %    set(Im(3),'alphadata',mask2);
+
+saveas(fig3mask,['figs' filesep 'Figure3mask_' parameterSetName '.png'])
