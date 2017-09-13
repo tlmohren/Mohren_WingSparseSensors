@@ -22,7 +22,12 @@ figuresToRun        = {'R1'};
 varPar = varParStruct(45);
 varPar.curIter = 1; 
 
-fixPar.subSamp =20;
+fixPar.subSamp =1;
+fixPar.showFilt = 1;
+fixPar.STAdelay = 4;
+varPar.NLDgrad = -1;
+varPar.STAfreq = 1;
+varPar.STAwidth = 0.01;
 % Generate strain with Euler-Lagrange simulation ----------
 strainSet = eulerLagrangeConcatenate( fixPar,varPar);
 % Apply neural filters to strain --------------------------

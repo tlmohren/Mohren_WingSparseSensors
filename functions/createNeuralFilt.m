@@ -7,11 +7,13 @@ function [ STAFunc,NLDFunc] = createNeuralFilt( fixPar,varPar )
     STAFunc = @(t) cos( varPar.STAfreq*(t+ fixPar.STAdelay)  ).*exp(-(t+fixPar.STAdelay).^2 / varPar.STAwidth.^2);
     STAfilt = STAFunc( STAt ) ; 
 
-    if varPar.NLDgrad <=1
+    if (varPar.NLDgrad <=1) && (varPar.NLDgrad >=0)
         NLDFunc = @(s)  heaviside(0.5*s-varPar.NLDshift+0.5).*(0.5*s-varPar.NLDshift+0.5) ...
            -heaviside(0.5*s-varPar.NLDshift-1+0.5).*(0.5*s-varPar.NLDshift-1+0.5);
     elseif varPar.NLDgrad >= 25
         NLDFunc = @(s) heaviside( 0.5*s - 0.5*varPar.NLDshift) ;
+    elseif varPar.NLDgrad == -1 
+        NLDFunc = @(s) s;
     else
         NLDFunc = @(s) ( 1./ (1+ exp(-varPar.NLDgrad.*(s-varPar.NLDshift)) ) - 0.5) + 0.5; 
     end
