@@ -2,7 +2,6 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 % variable parameters 
-% fixPar = d
 
 % eulerLagrange parameters 
     fixPar.predictTrain = 1;
@@ -14,7 +13,6 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.harmonic = 0.2;
     fixPar.normalizeVal = 3.7732e-4; % for harmonic 0.2 .
 %     fixPar.normalizeVal = 3.6122e-4;
-    
 %     fixPar.harmonic = 0;
 %     fixPar.normalizeVal = 2.4803e-4;
     
@@ -75,7 +73,7 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R4_NLD';
             varyPar(j).NLDshiftList = linspace(-1 ,1,11);
-            varyPar(j).NLDgradList = linspace(1,5,11).^2;% [1:1:14];
+            varyPar(j).NLDgradList = linspace(1,5,11).^2;
         elseif j == 6
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R2allSensorsNoFilt_disturbance';
@@ -97,13 +95,13 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
         elseif j == 8
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R1_disturbance';
-            varyPar(j).theta_distList = 0.01;%[0.001,0.01,0.1,1] * 10;
-            varyPar(j).phi_distList =0.0312;%[0.001,0.01,0.1,1] * 31.2 ;
+            varyPar(j).theta_distList = 0.01;
+            varyPar(j).phi_distList =0.0312;
         elseif j == 9
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R1_allSensorsNoFilt';
-            varyPar(j).theta_distList = 0.01;%[0.001,0.01,0.1,1] * 10;
-            varyPar(j).phi_distList =0.0312;%[0.001,0.01,0.1,1] * 31.2 ;
+            varyPar(j).theta_distList = 0.01;
+            varyPar(j).phi_distList =0.0312;
             varyPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
             varyPar(j).SSPOConList = [0];
 %             varyPar(j).NLDshiftList = [-5];
@@ -113,8 +111,8 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
         elseif j == 10
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R1_allSensorsFilt';
-            varyPar(j).theta_distList = 0.01;%[0.001,0.01,0.1,1] * 10;
-            varyPar(j).phi_distList =0.0312;%[0.001,0.01,0.1,1] * 31.2 ;
+            varyPar(j).theta_distList = 0.01;
+            varyPar(j).phi_distList =0.0312;
             varyPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
             varyPar(j).SSPOConList = [0];
         end

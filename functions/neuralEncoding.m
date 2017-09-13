@@ -28,17 +28,12 @@ function [ X,G ] = neuralEncoding( strainSet,fixPar ,varPar)
     if fixPar.subSamp == 1
         STAt = -39:0;   
     else
-    STAt = linspace(-39,0,40*fixPar.subSamp);
+        STAt = linspace(-39,0,40*fixPar.subSamp);
     end
-    STAfilt = STAFunc( STAt ) ; 
-%     figure(101);
-%         subplot(121)
-%         plot(STAt,STAfilt);hold on;drawnow
-%         subplot(122)
-%         plot(-1:0.01:1,NLDFunc(-1:0.01:1));hold on;drawnow; grid on
-
+    STAfilt = STAFunc( STAt) ; 
+    
     % Remove startup phase from strain, but leave a piece the lenght of the
-        convMat = [];
+    convMat = [];
     n_conv = ( fixPar.simStartup  *fixPar.sampFreq*fixPar.subSamp +2 -length(STAt) )...
             : fixPar.simEnd*fixPar.sampFreq*fixPar.subSamp;
     n_out = (fixPar.simEnd-fixPar.simStartup) * fixPar.sampFreq*fixPar.subSamp;
