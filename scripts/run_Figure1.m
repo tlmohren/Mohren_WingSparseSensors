@@ -20,7 +20,8 @@ w = warning ('off','all');
 
 % parameterSetName    = 'R1R2withExpFilterIter5';
 % parameterSetName    = 'subPartPaperR1Iter5_delay3_6';
-parameterSetName    = 'subPartPaperR1Iter5_delay4_forReal';
+% parameterSetName    = 'subPartPaperR1Iter5_delay4_forReal';
+parameterSetName    = 'subPartPaperR1Iter5_delay4_eNet08';
 % parameterSetName    = 'R1toR4Iter10_delay4_subSamp10';
 load(['data' filesep 'parameterSet_', parameterSetName])
 
