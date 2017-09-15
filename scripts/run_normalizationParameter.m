@@ -43,4 +43,4 @@ for k = 1:fixPar.iter
 end
 meanNorm = mean(normVals);
 fprintf('Mean norm is = %1.5f \n',[ meanNorm])
-save(['results' filesep 'normalizationVal_th0_1ph0_312.mat'],'meanNorm','fixPar','varPar')
+save(['data' filesep 'normalizationVal_th0_1ph0_312.mat'],'meanNorm','fixPar','varPar')
