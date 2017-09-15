@@ -1,10 +1,10 @@
 function [ dataStruct,paramStruct ] = combineDataMat(fixPar,varParCombinations)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
-
-    m = length(varParCombinations.wTruncList);
+    m = fixPar.rmodes;
     varParCombinations.resultName = {varParCombinations.resultName};
-    n = prod( structfun(@length,varParCombinations)) / m;
+    mn = length(varParCombinations.wTruncList);
+    n = prod( structfun(@length,varParCombinations)) / mn;
     
     if varParCombinations.wTruncList(end)<=30
         dataMatTot = zeros( n , m , fixPar.iter);

@@ -19,9 +19,12 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.rmodes = 30;
     fixPar.iter = iter; 
     fixPar.trainFraction = 0.9;
+
     fixPar.saveNameParameters = name;        
+
     fixPar.STAdelay = 3.6;
 %     fixPar.STAdelay = 4;  
+
     fixPar.subSamp = 1;
     fixPar.determineNorm = 0;
     fixPar.allSensors = 0;
@@ -34,8 +37,8 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     
 %    -----------------------------------------------
     
-%     standardPar.SSPOConList = [0,1];
-    standardPar.SSPOConList = [1];
+    standardPar.SSPOConList = [0,1];
+%     standardPar.SSPOConList = [1];
     standardPar.theta_distList = 0.1;
     standardPar.phi_distList = 0.312 ;
     standardPar.STAwidthList = [4];
@@ -43,7 +46,7 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     standardPar.NLDshiftList = [0.5];
     standardPar.NLDgradList = [10];
 %     standardPar.wTruncList = 1:30;
-    standardPar.wTruncList = 5:20;
+    standardPar.wTruncList = 8:18;
     standardPar.resultName = '';
     for j = 1:10
         if j == 1

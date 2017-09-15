@@ -18,7 +18,9 @@ w = warning ('off','all');
 
 %% 
 
-parameterSetName    = 'R1R2withExpFilterIter5';
+% parameterSetName    = 'R1R2withExpFilterIter5';
+% parameterSetName    = 'subPartPaperR1Iter5_delay3_6';
+parameterSetName    = 'subPartPaperR1Iter5_delay4';
 % parameterSetName    = 'R1toR4Iter10_delay4_subSamp10';
 load(['data' filesep 'parameterSet_', parameterSetName])
 
@@ -87,7 +89,7 @@ saveas(fig1A,['figs' filesep 'Figure1A_' parameterSetName '.png'])
 
 %%
 fig1B = figure();
-q = 15;
+q = 10;
 binar = get_pdf( dataStruct.sensorMatTot(2,q,1:q,:));
 plotSensorLocs(binar,fixPar)
 if sum(binar) == 0
