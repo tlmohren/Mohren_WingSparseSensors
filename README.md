@@ -1,8 +1,7 @@
 # Mohren_WingSparseSensors
-Code for paper in prep Mohren, Daniel, Brunton
+Code for paper in prep by TMohren, TDaniel, BBrunton
 
 ### General Structre
-
     Mohren_WingSparseSensors/
       |- README.md
       |- LICENSE
@@ -34,10 +33,10 @@ Code for paper in prep Mohren, Daniel, Brunton
 		 
 		 |- createNeuralFilt.m
 		 |- neuralEncoding.m  
-		 |- predictTrain.m 
-		 |- randCrossVal.m 
 		 
 		 |- sparseWingSensors.m  
+		 |- predictTrain.m 
+		 |- randCrossVal.m 
 		 |- PCA_LDA_singVals.m 
 		 |- LDA_n.m  
 		 |- sensorLocSSPOC.m  
@@ -52,10 +51,14 @@ Code for paper in prep Mohren, Daniel, Brunton
 		 |- get_pdf.m  
 		 |- plotSensorLocs.m  
 		 
-		 |- spa_sf.m  
-		 
       |- figs/
-	     |- Figure1A_R1R2withExpFilterIter5.png
+	     |- run_experimentalSTAfit.png
+	     |- Figure1A.png
+	     |- Figure1B.png
+	     |- Figure2A.png
+	     |- Figure2BC.png
+	     |- Figure3.png
+	     |- Figure4.png
 	  |- test_code
 
 
