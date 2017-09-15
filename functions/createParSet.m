@@ -11,10 +11,8 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.simEnd = 4; % in seconds
     fixPar.flapFrequency = 25;
     fixPar.harmonic = 0.2;
-%     fixPar.normalizeVal = 3.7732e-4; % for harmonic 0.2 .
-    fixPar.normalizeVal = 3.63e-4; % for delay = 4
-%     fixPar.harmonic = 0;
-%     fixPar.normalizeVal = 2.4803e-4;
+    fixPar.normalizeVal = 3.7732e-4; % for harmonic 0.2 .
+%     fixPar.normalizeVal = 3.63e-4; % for delay = 4
     
     fixPar.runSim = 0;
     fixPar.saveSim = 1;
@@ -22,9 +20,8 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.iter = iter; 
     fixPar.trainFraction = 0.9;
     fixPar.saveNameParameters = name;        
-%     fixPar.STAdelay = 4;    % If this is 3.6, sta might disappear 
-%     fixPar.STAdelay = 3.6;
-    fixPar.STAdelay = 4;  
+    fixPar.STAdelay = 3.6;
+%     fixPar.STAdelay = 4;  
     fixPar.subSamp = 1;
     fixPar.determineNorm = 0;
     fixPar.allSensors = 0;
@@ -37,21 +34,17 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     
 %    -----------------------------------------------
     
-    standardPar.SSPOConList = [0,1];
-    standardPar.theta_distList = 0.01;
-    standardPar.phi_distList = 0.0312 ;
+%     standardPar.SSPOConList = [0,1];
+    standardPar.SSPOConList = [1];
+    standardPar.theta_distList = 0.1;
+    standardPar.phi_distList = 0.312 ;
     standardPar.STAwidthList = [4];
-%     standardPar.STAwidthList = [4.5];
     standardPar.STAfreqList = 1;% 
     standardPar.NLDshiftList = [0.5];
-% % %     standardPar.NLDgradList = [20];
     standardPar.NLDgradList = [10];
-    standardPar.wTruncList = 1:30;
-%     standardPar.wTruncList = 5:20;
-    
+%     standardPar.wTruncList = 1:30;
+    standardPar.wTruncList = 5:20;
     standardPar.resultName = '';
-
-%             standardPar.SSPOConList = [1];
     for j = 1:10
         if j == 1
             varyPar(j) = standardPar;
@@ -102,8 +95,8 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
         elseif j == 8
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R1_disturbance';
-            varyPar(j).theta_distList = 0.01;
-            varyPar(j).phi_distList =0.0312;
+            varyPar(j).theta_distList = 0.1;
+            varyPar(j).phi_distList =0.312;
         elseif j == 9
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R1_allSensorsNoFilt';
