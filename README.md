@@ -15,7 +15,6 @@ Code for paper in prep by TMohren, TDaniel, BBrunton
          |- run_Figure4.m
 		 |- run_normalizationParameter.m
 		 |- run_allFigures.m
-		 
       |- functions/
 		 |- createParListSingle.m
 		 |- createParListTotal.m
@@ -30,10 +29,8 @@ Code for paper in prep by TMohren, TDaniel, BBrunton
 		 |- createODEfile_rotvect.m
 		 |- disturbanceCalibrate.m
 		 |- whiteNoiseDisturbance.m 
-		 
 		 |- createNeuralFilt.m
 		 |- neuralEncoding.m  
-		 
 		 |- sparseWingSensors.m  
 		 |- predictTrain.m 
 		 |- randCrossVal.m 
@@ -43,14 +40,12 @@ Code for paper in prep by TMohren, TDaniel, BBrunton
 		 |- SSPOC.m  
 		 |- sensorLocClassify.m  
 		 |- classify_nc.m
-		 
 		 |- combineDataMat.m
 		 |- getMeanSTD.m  
 		 |- shadedErrorBar.m  
 		 |- sigmFitParam.m  
 		 |- get_pdf.m  
 		 |- plotSensorLocs.m  
-		 
       |- figs/
 	     |- run_experimentalSTAfit.png
 	     |- Figure1A.png
@@ -60,7 +55,6 @@ Code for paper in prep by TMohren, TDaniel, BBrunton
 	     |- Figure3.png
 	     |- Figure4.png
 	  |- test_code
-
 ## Software requirements
 Code was developed on MATLAB 2015a
 
