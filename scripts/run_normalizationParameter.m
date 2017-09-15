@@ -24,8 +24,8 @@ figuresToRun        = {'R1'};
 fixPar.determineNorm = 1;
 varParStruct(1).theta_dist = 0.1;
 varParStruct(1).phi_dist = 0.312;
-varParStruct(1).theta_dist = 0.1;
-varParStruct(1).phi_dist = 0.312;
+% varParStruct(1).theta_dist = 0.1;
+% varParStruct(1).phi_dist = 0.312;
 %% Run eulerLagrangeSimulation (optional) and sparse sensor placement algorithm
 
 j=1;

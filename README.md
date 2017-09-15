@@ -61,4 +61,23 @@ Code for paper in prep by TMohren, TDaniel, BBrunton
 	     |- Figure4.png
 	  |- test_code
 
+## Software requirements
+Code was developed on MATLAB 2015a
 
+## How to run the code 
+
+## 
+## Authors
+
+* **Thomas Mohren** - *code development* - (https://github.com/tlmohren)
+* **Tom Daniel** - *supervisor* 
+* **Bing Brunton** - *supervisor* - (https://github.com/bwbrunton)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+* Annika Eberle for developing the eulerLagrange wing model 
+	Eberle, A. L., et al. "A new twist on gyroscopic sensing: body rotations lead to torsion in flapping, flexing insect wings." Journal of the Royal Society Interface 12.104 (2015): 20141088. 
