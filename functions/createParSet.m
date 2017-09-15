@@ -18,7 +18,7 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.saveSim = 1;
     fixPar.rmodes = 30;
     fixPar.iter = iter; 
-    fixPar.trainFraction = 0.9;
+    fixPar.trainFraction = 0.8;
 
     fixPar.saveNameParameters = name;        
 
