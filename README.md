@@ -64,9 +64,6 @@ Code for paper in prep by TMohren, TDaniel, BBrunton
 ## Software requirements
 Code was developed on MATLAB 2015a
 
-## How to run the code 
-
-## 
 ## Authors
 
 * **Thomas Mohren** - *code development* - (https://github.com/tlmohren)
