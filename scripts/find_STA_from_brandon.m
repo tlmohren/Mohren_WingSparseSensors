@@ -21,7 +21,8 @@ nameMatches = dir([folder filesep 'STAs' filesep 'STA*']);
 %% 
 
 x = -39:0.1:0;
-STAdelay = 3.6;
+% STAdelay = 3.6;
+STAdelay = 4;
 % STAdelay = 10;
 freq = 1;
 width = 4;

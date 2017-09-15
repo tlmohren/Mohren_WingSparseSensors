@@ -22,7 +22,8 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.iter = iter; 
     fixPar.trainFraction = 0.9;
     fixPar.saveNameParameters = name;        
-    fixPar.STAdelay = 4;    % If this is 3.6, sta might disappear 
+%     fixPar.STAdelay = 4;    % If this is 3.6, sta might disappear 
+    fixPar.STAdelay = 3.6;
 %     fixPar.STAdelay = 4;  
     fixPar.subSamp = 1;
     fixPar.determineNorm = 0;
@@ -43,17 +44,23 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
 %     standardPar.STAwidthList = [4.5];
     standardPar.STAfreqList = 1;% 
     standardPar.NLDshiftList = [0.5];
-    standardPar.NLDgradList = [20];
+% % %     standardPar.NLDgradList = [20];
     standardPar.NLDgradList = [10];
     standardPar.wTruncList = 1:30;
+%     standardPar.wTruncList = 5:20;
+    
     standardPar.resultName = '';
 
+%             standardPar.SSPOConList = [1];
     for j = 1:10
         if j == 1
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R2A_disturbance';
             varyPar(j).theta_distList = [0.001,0.01,0.1,1] * 10;
             varyPar(j).phi_distList =[0.001,0.01,0.1,1] * 31.2 ;
+%             varyPar(j).theta_distList = [0.01] * 10;
+%             varyPar(j).phi_distList =[0.01] * 31.2 ;
+%             varPar(j).SSPOConList = [1];
 %             standardPar.wTruncList = 13:15;
         elseif j == 2
             varyPar(j) = standardPar;

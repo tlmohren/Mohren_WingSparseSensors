@@ -17,8 +17,8 @@ addpathFolderStructure()
 w = warning ('off','all');
 
 %% 
-parameterSetName    = 'R3R4withExpFilterIter5';
-% parameterSetName    = 'R1toR4Iter10_delay4';
+% parameterSetName    = 'R3R4withExpFilterIter5';
+parameterSetName    = 'R1toR4Iter10_delay4';
 load(['data' filesep 'parameterSet_', parameterSetName ])
 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R3' )));

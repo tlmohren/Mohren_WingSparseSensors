@@ -17,8 +17,8 @@ addpathFolderStructure()
 w = warning ('off','all');
 
 %% 
-parameterSetName    = 'R1R2withExpFilterIter5';
-% parameterSetName    = 'R1toR4Iter10_delay4';
+% parameterSetName    = 'R1R2withExpFilterIter5';
+parameterSetName    = 'R1toR4Iter10_delay4';
 load(['data' filesep 'parameterSet_', parameterSetName ])
 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2B' )));
@@ -136,10 +136,12 @@ end
 saveas(fig2C,['figs' filesep 'Figure2C_' parameterSetName '.png'])
 %% 
 
-% x_axisB = varParCombinationsB.theta_distList;
-% x_axisC = varParCombinationsC.phi_distList;
-x_axisC = varParCombinationsB.phi_distList;
-x_axisB = varParCombinationsC.theta_distList;
+x_axisB = varParCombinationsB.theta_distList;
+x_axisC = varParCombinationsC.phi_distList;
+if parameterSetName == 'R1R2withExpFilterIter5'
+    x_axisC = varParCombinationsB.phi_distList;
+    x_axisB = varParCombinationsC.theta_distList;
+end
 
 fig2BC = figure('Position',[900,800,600,250]);
 % subplot(211)

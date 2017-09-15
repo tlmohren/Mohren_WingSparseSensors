@@ -22,9 +22,9 @@ clear all, close all, clc
 addpathFolderStructure()
 
 % parameterSetName    = 'R1toR4Iter10_delay4';
-parameterSetName    = 'R1R2Iter5_delay3.6_normval377';
-iter                = 5;
-figuresToRun        = {'R1','R2'};
+parameterSetName    = 'R1R2Iter8_delay3.6_fullOvernight';
+iter                = 8;
+figuresToRun        = {'R2A_disturbance'};
 % select any from {'R2A','R2B','R2C','R3','R4','R2allSensorsnoFilt','R2allSensorsFilt} 
 
 % Build struct that specifies all parameter combinations to run 
