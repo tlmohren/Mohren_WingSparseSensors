@@ -1,5 +1,6 @@
 # Mohren_WingSparseSensors
-Code for paper in prep by TMohren, TDaniel, BBrunton
+
+Code for paper in prep by T.Mohren, T.Daniel, B.Brunton
 
 ### General Structre
     Mohren_WingSparseSensors/
@@ -19,7 +20,6 @@ Code for paper in prep by TMohren, TDaniel, BBrunton
 		 |- createParListSingle.m
 		 |- createParListTotal.m
 		 |- createParSet.m
-		 
 		 |- eulerLagrange.m
 		 |- eulerLagrangeConcatenate.m  
 		 |- funcCa.m 
@@ -55,8 +55,10 @@ Code for paper in prep by TMohren, TDaniel, BBrunton
 	     |- Figure3.png
 	     |- Figure4.png
 	  |- test_code
+	  
 ## Software requirements
-Code was developed on MATLAB 2015a
+
+Code was developed on MATLAB 2015a. 
 
 ## Authors
 
