@@ -80,4 +80,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Acknowledgments
 
 * Annika Eberle for developing the eulerLagrange wing model 
-[Eberle et al. 2015](Eberle, A. L., et al. "A new twist on gyroscopic sensing: body rotations lead to torsion in flapping, flexing insect wings." Journal of the Royal Society Interface 12.104 (2015): 20141088. )
+[Eberle et al. 2015](http://rsif.royalsocietypublishing.org/content/12/104/20141088.short)
