@@ -11,8 +11,8 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.simEnd = 4; % in seconds
     fixPar.flapFrequency = 25;
     fixPar.harmonic = 0.2;
-    fixPar.normalizeVal = 3.7732e-4; % for harmonic 0.2 .
-%     fixPar.normalizeVal = 3.6122e-4;
+%     fixPar.normalizeVal = 3.7732e-4; % for harmonic 0.2 .
+    fixPar.normalizeVal = 3.63e-4; % for delay = 4
 %     fixPar.harmonic = 0;
 %     fixPar.normalizeVal = 2.4803e-4;
     
@@ -23,8 +23,8 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.trainFraction = 0.9;
     fixPar.saveNameParameters = name;        
 %     fixPar.STAdelay = 4;    % If this is 3.6, sta might disappear 
-    fixPar.STAdelay = 3.6;
-%     fixPar.STAdelay = 4;  
+%     fixPar.STAdelay = 3.6;
+    fixPar.STAdelay = 4;  
     fixPar.subSamp = 1;
     fixPar.determineNorm = 0;
     fixPar.allSensors = 0;

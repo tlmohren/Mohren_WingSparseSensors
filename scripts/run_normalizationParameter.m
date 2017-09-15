@@ -24,6 +24,8 @@ figuresToRun        = {'R1'};
 fixPar.determineNorm = 1;
 varParStruct(1).theta_dist = 0.1;
 varParStruct(1).phi_dist = 0.312;
+varParStruct(1).theta_dist = 0.1;
+varParStruct(1).phi_dist = 0.312;
 %% Run eulerLagrangeSimulation (optional) and sparse sensor placement algorithm
 
 j=1;
@@ -41,4 +43,4 @@ for k = 1:fixPar.iter
 end
 meanNorm = mean(normVals);
 fprintf('Mean norm is = %1.5f \n',[ meanNorm])
-save(['results' filesep 'normalizationVal_th10ph31.2.mat'],'meanNorm')
+save(['results' filesep 'normalizationVal_th0_1ph0_312.mat'],'meanNorm','fixPar','varPar')
