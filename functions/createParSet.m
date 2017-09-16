@@ -18,8 +18,7 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.saveSim = 1;
     fixPar.rmodes = 30;
     fixPar.iter = iter; 
-    fixPar.trainFraction = 1;
-
+    fixPar.trainFraction = 0.9;
     fixPar.saveNameParameters = name;        
 
 %     fixPar.STAdelay = 3.6;
@@ -28,7 +27,10 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.subSamp = 1;
     fixPar.determineNorm = 0;
     fixPar.allSensors = 0;
-    fixPar.elasticNet = 0.9;
+    
+    
+                fixPar.elasticNet = 1;
+    
     % to phase out -----------------------------------------------
     % currently used for Euler-lagrange simulation
     fixPar.sampFreq = 1e3;
