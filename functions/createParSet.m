@@ -29,7 +29,7 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.allSensors = 0;
     
     
-                fixPar.elasticNet = 0.7;
+                fixPar.elasticNet = 0.8;
     
     % to phase out -----------------------------------------------
     % currently used for Euler-lagrange simulation
