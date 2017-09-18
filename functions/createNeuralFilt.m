@@ -4,6 +4,11 @@ function [ STAFunc,NLDFunc] = createNeuralFilt( fixPar,varPar )
 
     STAFunc = @(t) cos( varPar.STAfreq*(t+ fixPar.STAdelay)  ).*exp(-(t+fixPar.STAdelay).^2 / varPar.STAwidth.^2);
 
+    STAt = -39:0;   
+    if (varPar.STAwidth <=0.2)  && ( max( STAFunc(STAt)) < 0.1) 
+        STAFunc = @(t) cos( varPar.STAfreq*(t+ fixPar.STAdelay)  ).*exp(-(t+fixPar.STAdelay).^2 / varPar.STAwidth.^2) /  max(STAFunc(STAt));
+     end 
+    
     if (varPar.NLDgrad <=1) && (varPar.NLDgrad >=0)
         NLDFunc = @(s)  heaviside(0.5*s-varPar.NLDshift+0.5).*(0.5*s-varPar.NLDshift+0.5) ...
            -heaviside(0.5*s-varPar.NLDshift-1+0.5).*(0.5*s-varPar.NLDshift-1+0.5);

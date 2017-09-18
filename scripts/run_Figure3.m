@@ -17,8 +17,8 @@ addpathFolderStructure()
 w = warning ('off','all');
 
 %% 
-% parameterSetName    = 'R3R4withExpFilterIter5';
-parameterSetName    = 'R1toR4Iter10_delay4';
+parameterSetName    = 'R3R4withExpFilterIter5';
+% parameterSetName    = 'R1toR4Iter10_delay4';
 load(['data' filesep 'parameterSet_', parameterSetName ])
 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R3' )));
@@ -102,10 +102,11 @@ for j = 1:n_y
         plot( STAt,STAfunc(STAt))
         axis([-39,0,-1,1])
         axis off
+        grid on 
     end
 end
 
-saveas(fig3STA,['figs' filesep 'Figure3STA_' parameterSetName '.png'])
+% saveas(fig3STA,['figs' filesep 'Figure3STA_' parameterSetName '.png'])
 
 %% Heatmap & Mask 
 figure(1)
