@@ -20,7 +20,8 @@ w = warning ('off','all');
 % parameterSetName    = 'R1R2withExpFilterIter5';
 % parameterSetName    = 'R1toR4Iter10_delay4';
 % parameterSetName    = 'R1R2Iter5_delay3_6_normval377';
-parameterSetName = 'R1R2Iter5_delay4_newNormalization'
+% parameterSetName = 'R1R2Iter5_delay4_newNormalization'
+parameterSetName    = 'R1R4Iter10_delay3_6_fixSTAwidth';
 load(['data' filesep 'parameterSet_', parameterSetName ])
 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2A' )));

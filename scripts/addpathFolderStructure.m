@@ -27,7 +27,6 @@ function addpathFolderStructure()
 
 %% Add paths required for main script
     addpath([scriptLocation filesep 'functions'])
-    addpath([scriptLocation filesep 'results'])
     addpath([scriptLocation filesep 'scripts'])
 
 %% Check if CVX is downloaded/installed
