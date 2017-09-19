@@ -24,14 +24,16 @@ addpathFolderStructure()
 % parameterSetName    = 'R1toR4Iter10_delay4';
 % parameterSetName    = 'subPartPaperR1Iter5_delay4';
 
-parameterSetName    = 'subPartPaperR1Iter3_delay4_eNet08';
+parameterSetName    = 'subPartPaperR1Iter2_delay3_8_eNet09';
 
 iter                = 3;
-figuresToRun        = {'R1_disturbance'};
+figuresToRun        = {'subSetTest_delay_3_8'};
 % select any from {'R2A','R2B','R2C','R3','R4','R2allSensorsnoFilt','R2allSensorsFilt} 
 
 % Build struct that specifies all parameter combinations to run 
 [fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
+
+% varParStruct = varParStruct(45);
 % % aa.par
 % % % varParStruct = varParStruct(1);
 %% Run eulerLagrangeSimulation (optional) and sparse sensor placement algorithm
