@@ -36,7 +36,7 @@ figuresToRun        = {'R1_disturbance'};
 % % % varParStruct = varParStruct(1);
 %% Run eulerLagrangeSimulation (optional) and sparse sensor placement algorithm
 tic 
-for j = 1:length(varParStruct)
+for j = 0% 1:length(varParStruct)
     
     varPar = varParStruct(j);
     % Initialize matrices for this particular parameter set----------------
