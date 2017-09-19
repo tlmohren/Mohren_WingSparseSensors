@@ -20,6 +20,7 @@ Code for paper in prep by T.Mohren, T.Daniel, B.Brunton
             |- createParListSingle.m
             |- createParListTotal.m
             |- createParSet.m
+            |- spa_sf.m  
             |- eulerLagrange.m
             |- eulerLagrangeConcatenate.m  
             |- funcCa.m 
