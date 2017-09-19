@@ -40,15 +40,14 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
 %    -----------------------------------------------
     
     standardPar.SSPOConList = [0,1];
-%     standardPar.SSPOConList = [1];
     standardPar.theta_distList = 0.1;
     standardPar.phi_distList = 0.312 ;
     standardPar.STAwidthList = [4];
     standardPar.STAfreqList = 1;% 
     standardPar.NLDshiftList = [0.5];
     standardPar.NLDgradList = [10];
-%     standardPar.wTruncList = 1:30;
-    standardPar.wTruncList = 8:18;
+    standardPar.wTruncList = 1:30;
+%     standardPar.wTruncList = 8:18;
     standardPar.resultName = '';
     for j = 1:10
         if j == 1
@@ -89,7 +88,6 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
             varyPar(j).NLDgradList = -1;
             varyPar(j).STAfreqList = 1;
             varyPar(j).STAwidthList = 0.01;
-%             standardPar.wTruncList = 13:15;
         elseif j == 7
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R2allSensorsFilt_disturbance';
@@ -116,8 +114,8 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
         elseif j == 10
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R1_allSensorsFilt';
-            varyPar(j).theta_distList = 0.01;
-            varyPar(j).phi_distList =0.0312;
+            varyPar(j).theta_distList = 0.1;
+            varyPar(j).phi_distList =0.312;
             varyPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
             varyPar(j).SSPOConList = [0];
         end
