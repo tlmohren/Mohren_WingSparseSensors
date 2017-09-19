@@ -24,10 +24,10 @@ addpathFolderStructure()
 % parameterSetName    = 'R1toR4Iter10_delay4';
 % parameterSetName    = 'subPartPaperR1Iter5_delay4';
 
-parameterSetName    = 'subPartPaperR1Iter2_delay3_8_eNet09';
+parameterSetName    = 'subPartPaperR1Iter3_delay4_singValMult0';
 
 iter                = 3;
-figuresToRun        = {'subSetTest_delay_3_8'};
+figuresToRun        = {'subSetTest'};
 % select any from {'R2A','R2B','R2C','R3','R4','R2allSensorsnoFilt','R2allSensorsFilt} 
 
 % Build struct that specifies all parameter combinations to run 

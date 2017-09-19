@@ -26,7 +26,7 @@ function [ STAFunc,NLDFunc] = createNeuralFilt( fixPar,varPar )
         STAfilt = STAFunc( STAt ) ; 
         figure(101);
             subplot(121)
-            plot(STAt,STAfilt);hold on;drawnow
+            plot(STAt,STAfilt,'o-');hold on;drawnow
             subplot(122)
             plot( s ,NLDFunc(s));hold on;drawnow; grid on
     end

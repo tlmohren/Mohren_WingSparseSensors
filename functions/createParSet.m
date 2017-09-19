@@ -20,9 +20,11 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.iter = iter; 
     fixPar.trainFraction = 0.9;
     fixPar.saveNameParameters = name;        
+%     fixPar.singValsMult = 1;
+    fixPar.singValsMult = 0;
 
-%     fixPar.STAdelay = 3.6;
-    fixPar.STAdelay = 3.8;
+    fixPar.STAdelay = 4;
+%     fixPar.STAdelay = 3.8;
 % % % % % % % %     fixPar.STAdelay = 4;  
 
     fixPar.subSamp = 1;
@@ -30,7 +32,7 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.allSensors = 0;
     
     
-                fixPar.elasticNet = 0.9;
+    fixPar.elasticNet = 0.9;
     
     % to phase out -----------------------------------------------
     % currently used for Euler-lagrange simulation
@@ -41,15 +43,15 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
 %    -----------------------------------------------
     
     standardPar.SSPOConList = [0,1];
-    standardPar.SSPOConList = [1];
+%     standardPar.SSPOConList = [1];
     standardPar.theta_distList = 0.1;
     standardPar.phi_distList = 0.312 ;
     standardPar.STAwidthList = [4];
     standardPar.STAfreqList = 1;% 
     standardPar.NLDshiftList = [0.5];
     standardPar.NLDgradList = [10];
-%     standardPar.wTruncList = 1:30;
-    standardPar.wTruncList = 10:15;
+    standardPar.wTruncList = 1:30;
+%     standardPar.wTruncList = 8:17;
     standardPar.resultName = '';
     for j = 1:11
         if j == 1
@@ -122,11 +124,12 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
             varyPar(j).SSPOConList = [0];
         elseif j == 11
             varyPar(j) = standardPar;
-            varyPar(j).resultName = 'subSetTest_delay_3_8';
+            varyPar(j).resultName = 'subSetTest';
             varyPar(j).theta_distList = 0.1;
             varyPar(j).phi_distList =0.312;
+            
 %             varyPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
-            varyPar(j).SSPOConList = [1];
+%             varyPar(j).SSPOConList = [1];
         end
     end
         

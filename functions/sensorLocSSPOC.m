@@ -1,4 +1,4 @@
-function  [  sensors  ] = sensorLocSSPOC(  Xtrain,Gtrain ,fixPar, varyPar)
+function  [  sensors  ] = sensorLocSSPOC(  Xtrain,Gtrain ,fixPar, varPar)
 %[  sensors  ] = sensorLocSSPOC(  Xtrain,Gtrain , par)
 %   Creates Psi and w_t vector and use to call SSPOC
 %   Created: 2017/??/??  (TLM)
@@ -8,12 +8,16 @@ function  [  sensors  ] = sensorLocSSPOC(  Xtrain,Gtrain ,fixPar, varyPar)
 %     classes = unique(Gtrain); 
 %     c = numel(classes); 
     
-    if varyPar.SSPOCon == 1
+    if varPar.SSPOCon == 1
         % determine optimal sensors using SSPOC
         [w_r, Psi, singVals,~] = PCA_LDA_singVals(Xtrain, Gtrain, 'nFeatures',fixPar.rmodes);
         singValsR = singVals(1:length(w_r));
-        [~,Iw]=sort(abs(w_r).*singValsR,'descend');  
-        big_modes = Iw(1:varyPar.wTrunc);
+        if fixPar.singValsMult == 1
+            [~,Iw]=sort(abs(w_r).*singValsR,'descend');  
+        else
+            [~,Iw]=sort(abs(w_r),'descend');  
+        end
+        big_modes = Iw(1:varPar.wTrunc);
         w_t = w_r(big_modes);
         Psi = Psi(:,big_modes);
         
@@ -34,7 +38,7 @@ function  [  sensors  ] = sensorLocSSPOC(  Xtrain,Gtrain ,fixPar, varyPar)
     else
         % randomly placed sensors 
         randloc = randperm(n); 
-        sensors = randloc(1:varyPar.wTrunc);
+        sensors = randloc(1:varPar.wTrunc);
     end
 
 end
