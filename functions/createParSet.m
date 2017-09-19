@@ -21,8 +21,8 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.trainFraction = 0.9;
     fixPar.saveNameParameters = name;        
 
-%     fixPar.STAdelay = 3.6;
-    fixPar.STAdelay = 4;  
+    fixPar.STAdelay = 3.6;
+% % % % % % % %     fixPar.STAdelay = 4;  
 
     fixPar.subSamp = 1;
     fixPar.determineNorm = 0;
