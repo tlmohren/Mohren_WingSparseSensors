@@ -34,7 +34,7 @@ figuresToRun        = {'subSetTest'};
 % Build struct that specifies all parameter combinations to run 
 [fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
 
-fixPar.elasticNet = 0.95;
+fixPar.elasticNet = 0.99;
 % varParStruct = varParStruct(45);
 % % aa.par
 % % % varParStruct = varParStruct(1);

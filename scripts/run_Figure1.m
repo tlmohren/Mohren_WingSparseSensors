@@ -28,6 +28,7 @@ w = warning ('off','all');
 % parameterSetName    = 'R1toR4Iter10_delay4_subSamp10';
 
 % parameterSetName    = 'subPartPaperR1Iter3_delay4_singValMult0_eNet1';
+% parameterSetName    = 'subPartPaperR1Iter3_delay4_singValMult0_eNet098'
 parameterSetName    = 'subPartPaperR1Iter3_delay4_singValMult0_eNet098'
 % parameterSetName    = 'subPartPaperR1Iter3_delay4_singValMult0_eNet095';
 % parameterSetName    = 'subPartPaperR1Iter3_delay4_singValMult0_eNet08';

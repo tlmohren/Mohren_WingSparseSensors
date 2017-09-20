@@ -12,7 +12,6 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.flapFrequency = 25;
     fixPar.harmonic = 0.2;
     fixPar.normalizeVal = 3.7732e-4; % for harmonic 0.2 .
-%     fixPar.normalizeVal = 3.63e-4; % for delay = 4
     
     fixPar.runSim = 0;
     fixPar.saveSim = 1;
@@ -20,39 +19,39 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.iter = iter; 
     fixPar.trainFraction = 0.9;
     fixPar.saveNameParameters = name;        
-%     fixPar.singValsMult = 1;
-    fixPar.singValsMult = 0;
-
+    fixPar.singValsMult = 1;
     fixPar.STAdelay = 4;
-%     fixPar.STAdelay = 3.8;
-% % % % % % % %     fixPar.STAdelay = 4;  
-
     fixPar.subSamp = 1;
     fixPar.determineNorm = 0;
-    fixPar.allSensors = 0;
-    
-    
-    fixPar.elasticNet = 0.9;
+    fixPar.elasticNet = 0.99;
     
     % to phase out -----------------------------------------------
     % currently used for Euler-lagrange simulation
     fixPar.sampFreq = 1e3;
     fixPar.xInclude = [0];
     fixPar.yInclude = [1];
+    fixPar.allSensors = 0;
     
 %    -----------------------------------------------
     
     standardPar.SSPOConList = [0,1];
-%     standardPar.SSPOConList = [1];
     standardPar.theta_distList = 0.1;
     standardPar.phi_distList = 0.312 ;
     standardPar.STAwidthList = [4];
     standardPar.STAfreqList = 1;% 
     standardPar.NLDshiftList = [0.5];
     standardPar.NLDgradList = [10];
-%     standardPar.wTruncList = 1:30;
-    standardPar.wTruncList = 6:20;
+    standardPar.wTruncList = 1:30;
     standardPar.resultName = '';
+    
+    % to overwrite regular parameters  -----------------------------------------------
+    % currently used for Euler-lagrange simulation
+    fixPar.singValsMult = 0;
+    fixPar.STAdelay = 3.6;
+    standardPar.wTruncList = 6:20;
+    standardPar.SSPOConList = [1];
+%     fixPar.normalizeVal = 3.63e-4; % for delay = 4
+    % ----------------------------------------------------
     for j = 1:11
         if j == 1
             varyPar(j) = standardPar;
