@@ -51,7 +51,7 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     standardPar.NLDshiftList = [0.5];
     standardPar.NLDgradList = [10];
 %     standardPar.wTruncList = 1:30;
-    standardPar.wTruncList = 8:17;
+    standardPar.wTruncList = 6:20;
     standardPar.resultName = '';
     for j = 1:11
         if j == 1
