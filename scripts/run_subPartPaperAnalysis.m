@@ -24,10 +24,10 @@ addpathFolderStructure()
 % parameterSetName    = 'R1toR4Iter10_delay4';
 % parameterSetName    = 'subPartPaperR1Iter5_delay4';
 
-parameterSetName    = 'subPartPaperR1Iter3_delay4_eNet09';
+parameterSetName    = 'subPartPaperR1Iter5_delay4_eNet09';
 
 
-iter                = 3;
+iter                = 5;
 figuresToRun        = {'subSetTest'};
 % select any from {'R2A','R2B','R2C','R3','R4','R2allSensorsnoFilt','R2allSensorsFilt} 
 
