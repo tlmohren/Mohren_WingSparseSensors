@@ -24,7 +24,7 @@ addpathFolderStructure()
 % parameterSetName    = 'R1toR4Iter10_delay4';
 % parameterSetName    = 'subPartPaperR1Iter5_delay4';
 
-parameterSetName    = 'subPartPaperR1Iter3_delay4_singValMult0_eNet098';
+parameterSetName    = 'subPartPaperR1Iter3_delay4_eNet09';
 
 
 iter                = 3;
@@ -34,7 +34,8 @@ figuresToRun        = {'subSetTest'};
 % Build struct that specifies all parameter combinations to run 
 [fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
 
-fixPar.elasticNet = 0.99;
+% fixPar.elasticNet = 0.99;
+fixPar.subPart = 1;
 % varParStruct = varParStruct(45);
 % % aa.par
 % % % varParStruct = varParStruct(1);

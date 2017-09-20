@@ -30,9 +30,10 @@ figuresToRun        = {'subSetTest'};
 varParStruct = varParStruct(45);
 strainSet = load('strainSet_th0.1ph0.312it1harm0.2.mat');
 fixPar.showFilt = 1;
+% fixPar.STAdelay = 4;
 %% conditions under which error occurs 
 varPar = varParStruct(1);
-varPar.wTrunc = 10;
+varPar.wTrunc = 15;
 
 %% Test neural encoding effert
 
@@ -74,8 +75,8 @@ fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q
 % [acc,sensors ] = sparseWingSensors( X4,G,fixPar, varPar);
 [Xtrain4, Xtest4, Gtrain, Gtest] = predictTrain(X4, G, fixPar.trainFraction);
 % sensors = sensorLocSSPOC(Xtrain4,Gtrain,fixPar,varyPar);
-        [w_r, Psi, singVals,~] = PCA_LDA_singVals(Xtrain4, Gtrain, 'nFeatures',fixPar.rmodes);
-        singValsR = singVals(1:length(w_r));
+        [w_r, Psi, singVals4,~] = PCA_LDA_singVals(Xtrain4, Gtrain, 'nFeatures',fixPar.rmodes);
+        singValsR4 = singVals4(1:length(w_r));
 %         [~,Iw]=sort(abs(w_r).*singValsR,'descend');  
         [~,Iw]=sort(abs(w_r),'descend');  
         big_modes = Iw(1:varPar.wTrunc);
@@ -92,3 +93,11 @@ acc = sensorLocClassify(  sensors,Xtrain4,Gtrain,Xtest4,Gtest );
 q = length(sensors);
 fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q,acc])
 
+
+
+
+%% Show quantities of interest 
+figure();
+semilogy(singValsR,'o')
+hold on 
+semilogy(singValsR4,'+')
