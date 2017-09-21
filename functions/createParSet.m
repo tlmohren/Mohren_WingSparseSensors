@@ -15,7 +15,7 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     
     fixPar.runSim = 0;
     fixPar.saveSim = 1;
-    fixPar.rmodes = 30;
+    fixPar.rmodes = 25;
     fixPar.iter = iter; 
     fixPar.trainFraction = 0.9;
     fixPar.saveNameParameters = name;        
@@ -23,7 +23,8 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.STAdelay = 4;
     fixPar.subSamp = 1;
     fixPar.determineNorm = 0;
-    fixPar.elasticNet = 0.9;
+%     fixPar.elasticNet = 0.9;
+    fixPar.elasticNet = 0.5;
     
     % to phase out -----------------------------------------------
     % currently used for Euler-lagrange simulation
@@ -41,11 +42,13 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     standardPar.STAfreqList = 1;% 
     standardPar.NLDshiftList = [0.5];
     standardPar.NLDgradList = [10];
-    standardPar.wTruncList = 1:30;
+%     standardPar.wTruncList = 1:30;
+    standardPar.wTruncList = 1:fixPar.rmodes;
     standardPar.resultName = '';
     
     % to overwrite regular parameters  -----------------------------------------------
-%     if isfield(fixPar,'subPart') == 1 
+    fixPar.sThreshold  = 1;
+    
     if strfind(name,'subPart')
         fixPar.singValsMult = 1;
         fixPar.elasticNet = 0.5;

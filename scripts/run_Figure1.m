@@ -37,7 +37,9 @@ w = warning ('off','all');
 % parameterSetName    = 'subPartPaperR1Iter5_delay4_eNet09';
 % parameterSetName    = 'subPartPaperR1Iter5_delay4_singValsMult0_eNet09';
 
-parameterSetName    = 'subPartPaperR1Iter5_delay4_singValsMult1_eNet05_thresholdTest1';
+% parameterSetName    = 'subPartPaperR1Iter5_delay4_singValsMult1_eNet05_thresholdTest1';
+
+parameterSetName    = 'subPartPaperR1Iter5_delay4_singValsMult1_eNet05_thresholdTest2';
 
 load(['data' filesep 'parameterSet_', parameterSetName])
 
