@@ -49,9 +49,9 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     if strfind(name,'subPart')
         fixPar.singValsMult = 1;
         fixPar.elasticNet = 0.5;
-        fixPar.rmodes = 30;
+        fixPar.rmodes = 25;
 %         fixPar.STAdelay = 3.6;
-        standardPar.wTruncList = 1:10;
+        standardPar.wTruncList = 1:25;
         standardPar.SSPOConList = [1];
 %     fixPar.normalizeVal = 3.63e-4; % for delay = 4
     end

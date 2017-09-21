@@ -51,8 +51,8 @@ figure();
 
 %% adjusted parameters 
 
-varPar.wTrunc = 11; %% 11 does it for iter2 eNet 09
-varPar.wTrunc = 5; %% 11 does it for iter2 eNet 09
+% varPar.wTrunc = 11; %% 11 does it for iter2 eNet 09
+varPar.wTrunc = 7; %% 11 does it for iter2 eNet 09
 fixPar.elasticNet = 0.5;
 fixPar.sThreshold =  fixPar.rmodes/varPar.wTrunc;
 fixPar.singValsMult = 1;
@@ -70,15 +70,13 @@ fixPar.rmodes = 25; % reduce from 30, solves it? Overfitting problem?
         end
         big_modes = Iw(1:varPar.wTrunc);
         w_t = w_r(big_modes);
-        Psi = Psi(:,big_modes);
-        s = SSPOC(Psi,w_t,fixPar);
+        Psir = Psi(:,big_modes);
+        s = SSPOC(Psir,w_t,fixPar);
         s = sum(s, 2);   
         [~, I_top2] = sort( abs(s),'descend');
         sensors_sort = I_top2(1:fixPar.rmodes);
         cutoff_lim = norm(s, 'fro')/fixPar.rmodes*fixPar.sThreshold;
         sensors = sensors_sort(  abs(s(sensors_sort))>= cutoff_lim )
-
-%             [~,I3] = max(s);
             sensors = I_top2(1:varPar.wTrunc)
 acc = sensorLocClassify(  sensors,Xtrain,Gtrain,Xtest,Gtest );
 q = length(sensors);
@@ -88,7 +86,7 @@ fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q
 % [acc,sensors ] = sparseWingSensors( X4,G,fixPar, varPar);
 [Xtrain4, Xtest4, Gtrain, Gtest] = predictTrain(X4, G, fixPar.trainFraction);
 % sensors = sensorLocSSPOC(Xtrain4,Gtrain,fixPar,varyPar);
-        [w_r4, Psi, singVals4,~] = PCA_LDA_singVals(Xtrain4, Gtrain, 'nFeatures',fixPar.rmodes);
+        [w_r4, Psi4, singVals4,~] = PCA_LDA_singVals(Xtrain4, Gtrain, 'nFeatures',fixPar.rmodes);
         singValsR4 = singVals4(1:length(w_r));
         if fixPar.singValsMult == 1
             [~,Iw]=sort(abs(w_r4).*singValsR4,'descend');  
@@ -97,15 +95,18 @@ fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q
         end
         big_modes4 = Iw(1:varPar.wTrunc);
         w_t = w_r4(big_modes4);
-        Psi = Psi(:,big_modes4);
-        s4 = SSPOC(Psi,w_t,fixPar);
+        Psi4r = Psi4(:,big_modes4);
+        s4 = SSPOC(Psi4r,w_t,fixPar);
         s4 = sum(s4, 2);   
         [~, I_top2] = sort( abs(s4),'descend');
         sensors_sort4 = I_top2(1:fixPar.rmodes);
+        
         cutoff_lim4 = norm(s4, 'fro')/fixPar.rmodes*fixPar.sThreshold;
         norm(s4, 'fro')
-        
         sensors4 = sensors_sort4(  abs(s4(sensors_sort4))>= cutoff_lim4 );
+        
+            sensors4 = I_top2(1:varPar.wTrunc)
+        
 acc = sensorLocClassify(  sensors4,Xtrain4,Gtrain,Xtest4,Gtest );
 q = length(sensors4);
 fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q,acc])
@@ -142,3 +143,15 @@ figure()
     plot(sensors, zeros(1,length(sensors)),'*')
     plot(sensors4, zeros(1,length(sensors4)),'*')
     legend('delay 3.6','theshold 3.6','delay 4','theshold 4','Location','NorthEastOutside')
+    
+%% 
+for j = 1:30
+    figure(11)
+    subplot(6,5,j)
+        pcolor( reshape(Psi(:,j),26,51) *singValsR(j) )
+    figure(12)
+    subplot(6,5,j)
+        pcolor( reshape(Psi4(:,j),26,51) *singValsR(j)  )
+end
+    
+    
