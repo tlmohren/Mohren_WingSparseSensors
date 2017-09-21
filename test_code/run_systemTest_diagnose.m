@@ -32,7 +32,7 @@ varParStruct = varParStruct(45);
 strainSet = load('strainSet_th0.1ph0.312it2harm0.2.mat');
 % fixPar.showFilt = 1;
 % fixPar.STAdelay = 4;
-%% conditions under which error occurs 
+% conditions under which error occurs 
 varPar = varParStruct(1);
 % varPar.wTrunc = 9;
 %% Test neural encoding effert
@@ -52,9 +52,11 @@ figure();
 %% adjusted parameters 
 
 varPar.wTrunc = 11; %% 11 does it for iter2 eNet 09
-fixPar.elasticNet = 0.9;
-% fixPar.singValsMult = 1
+varPar.wTrunc = 7; %% 11 does it for iter2 eNet 09
+fixPar.elasticNet = 0.5;
+fixPar.sThreshold =  fixPar.rmodes/varPar.wTrunc;
 fixPar.singValsMult = 1;
+fixPar.rmodes = 25; % reduce from 30, solves it? Overfitting problem? 
 %% 
 % [acc,sensors ] = sparseWingSensors( X,G,fixPar, varPar);
 [Xtrain, Xtest, Gtrain, Gtest] = predictTrain(X, G, fixPar.trainFraction);
@@ -71,11 +73,9 @@ fixPar.singValsMult = 1;
         Psi = Psi(:,big_modes);
         s = SSPOC(Psi,w_t,fixPar);
         s = sum(s, 2);   
-%         [~, I_top] = sort( abs(s));
-%         I_top2 = flipud(I_top);
         [~, I_top2] = sort( abs(s),'descend');
         sensors_sort = I_top2(1:fixPar.rmodes);
-        cutoff_lim = norm(s, 'fro')/fixPar.rmodes;
+        cutoff_lim = norm(s, 'fro')/fixPar.rmodes*fixPar.sThreshold;
         sensors = sensors_sort(  abs(s(sensors_sort))>= cutoff_lim );
 acc = sensorLocClassify(  sensors,Xtrain,Gtrain,Xtest,Gtest );
 q = length(sensors);
@@ -97,14 +97,10 @@ fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q
         Psi = Psi(:,big_modes4);
         s4 = SSPOC(Psi,w_t,fixPar);
         s4 = sum(s4, 2);   
-%         [~, I_top] = sort( abs(s4));
-%         I_top2 = flipud(I_top);
         [~, I_top2] = sort( abs(s4),'descend');
-%         I_top2 = flipud(I_top);
         sensors_sort4 = I_top2(1:fixPar.rmodes);
-        cutoff_lim4 = norm(s4, 'fro')/fixPar.rmodes;
-        
-        
+        cutoff_lim4 = norm(s4, 'fro')/fixPar.rmodes*fixPar.sThreshold;
+        norm(s4, 'fro')
         
         sensors = sensors_sort4(  abs(s4(sensors_sort4))>= cutoff_lim4 );
 acc = sensorLocClassify(  sensors,Xtrain4,Gtrain,Xtest4,Gtest );
@@ -135,9 +131,9 @@ subplot(212)
     plot(big_modes4, zeros(1,length(big_modes)),'+')
 %%     
 figure()
-plot( abs(s) )
-hold on
-plot([1,1326],cutoff_lim*[1,1],'k--','LineWidth',1)
-plot(- abs(s4) )
-plot([1,1326],-cutoff_lim4*[1,1],'k--','LineWidth',1)
-legend('delay 3.6','theshold 3.6','delay 4','theshold 4','Location','NorthEastOutside')
+    plot( abs(s) )
+    hold on
+    plot([1,1326],cutoff_lim*[1,1],'k--','LineWidth',1)
+    plot(- abs(s4) )
+    plot([1,1326],-cutoff_lim4*[1,1],'k--','LineWidth',1)
+    legend('delay 3.6','theshold 3.6','delay 4','theshold 4','Location','NorthEastOutside')

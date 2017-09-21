@@ -31,7 +31,12 @@ function  [  sensors  ] = sensorLocSSPOC(  Xtrain,Gtrain ,fixPar, varPar)
 
         % set cutoff limit
         % cutoff_lim = norm(s, 'fro')/c/par.rmodes/2;
-        cutoff_lim = norm(s, 'fro')/fixPar.rmodes;
+        if isfield(fixPar,'sThreshold')
+%             wTrunc = varPar.wTrunc;
+            cutoff_lim = norm(s, 'fro')/varPar.wTrunc;
+        else
+            cutoff_lim = norm(s, 'fro')/fixPar.rmodes;
+        end
         sensors = sensors_sort(  abs(s(sensors_sort))>= cutoff_lim );
 %     elseif varyPar.SSPOCon == 2 
 %         % sensorset contains all possible sensors 

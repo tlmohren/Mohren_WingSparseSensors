@@ -47,10 +47,11 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     % to overwrite regular parameters  -----------------------------------------------
 %     if isfield(fixPar,'subPart') == 1 
     if strfind(name,'subPart')
-        fixPar.singValsMult = 0;
-        fixPar.elasticNet = 0.9;
+        fixPar.singValsMult = 1;
+        fixPar.elasticNet = 0.5;
+        fixPar.rmodes = 25;
 %         fixPar.STAdelay = 3.6;
-        standardPar.wTruncList = 6:20;
+        standardPar.wTruncList = 1:15;
         standardPar.SSPOConList = [1];
 %     fixPar.normalizeVal = 3.63e-4; % for delay = 4
     end

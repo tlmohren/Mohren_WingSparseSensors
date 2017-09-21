@@ -24,7 +24,7 @@ addpathFolderStructure()
 % parameterSetName    = 'R1toR4Iter10_delay4';
 % parameterSetName    = 'subPartPaperR1Iter5_delay4';
 
-parameterSetName    = 'subPartPaperR1Iter5_delay4_eNet09';
+parameterSetName    = 'subPartPaperR1Iter5_delay4_singValsMult1_eNet05_thresholdTest1';
 
 
 iter                = 3;
@@ -36,6 +36,8 @@ figuresToRun        = {'subSetTest'};
 
 % fixPar.elasticNet = 0.99;
 fixPar.subPart = 1;
+fixPar.sThreshold = 1;
+% fixPar.sThreshold = @(wTrunc) fixPar.rmodes/wTrunc;
 % varParStruct = varParStruct(45);
 % % aa.par
 % % % varParStruct = varParStruct(1);
@@ -54,7 +56,7 @@ for j = 1:length(varParStruct)
     end
     % Run parameter combination for a set number of iterations ---------
     for k = 1:fixPar.iter
-        try
+%         try
             varPar.curIter = k; 
             % Generate strain with Euler-Lagrange simulation ----------
             strainSet = eulerLagrangeConcatenate( fixPar,varPar);
@@ -75,9 +77,9 @@ for j = 1:length(varParStruct)
             end
             % Print accuracy in command window --------------------
             fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q,acc])
-        catch
-            fprintf(['W_trunc = %1.0f, gave error \n'],[varPar.wTrunc])
-        end
+%         catch
+%             fprintf(['W_trunc = %1.0f, gave error \n'],[varPar.wTrunc])
+%         end
     end
     % save classification accuracy and sensor location in small .mat file
     fillString = 'Data_%s_dT%g_dP%g_sOn%g_STAw%g_STAf%g_NLDs%g_NLDg%g_wT%g_';
