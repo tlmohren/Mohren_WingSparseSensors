@@ -52,7 +52,7 @@ figure();
 %% adjusted parameters 
 
 varPar.wTrunc = 11; %% 11 does it for iter2 eNet 09
-varPar.wTrunc = 7; %% 11 does it for iter2 eNet 09
+varPar.wTrunc = 5; %% 11 does it for iter2 eNet 09
 fixPar.elasticNet = 0.5;
 fixPar.sThreshold =  fixPar.rmodes/varPar.wTrunc;
 fixPar.singValsMult = 1;
@@ -76,7 +76,10 @@ fixPar.rmodes = 25; % reduce from 30, solves it? Overfitting problem?
         [~, I_top2] = sort( abs(s),'descend');
         sensors_sort = I_top2(1:fixPar.rmodes);
         cutoff_lim = norm(s, 'fro')/fixPar.rmodes*fixPar.sThreshold;
-        sensors = sensors_sort(  abs(s(sensors_sort))>= cutoff_lim );
+        sensors = sensors_sort(  abs(s(sensors_sort))>= cutoff_lim )
+
+%             [~,I3] = max(s);
+            sensors = I_top2(1:varPar.wTrunc)
 acc = sensorLocClassify(  sensors,Xtrain,Gtrain,Xtest,Gtest );
 q = length(sensors);
 fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q,acc])
@@ -102,9 +105,9 @@ fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q
         cutoff_lim4 = norm(s4, 'fro')/fixPar.rmodes*fixPar.sThreshold;
         norm(s4, 'fro')
         
-        sensors = sensors_sort4(  abs(s4(sensors_sort4))>= cutoff_lim4 );
-acc = sensorLocClassify(  sensors,Xtrain4,Gtrain,Xtest4,Gtest );
-q = length(sensors);
+        sensors4 = sensors_sort4(  abs(s4(sensors_sort4))>= cutoff_lim4 );
+acc = sensorLocClassify(  sensors4,Xtrain4,Gtrain,Xtest4,Gtest );
+q = length(sensors4);
 fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q,acc])
 
 
@@ -136,4 +139,6 @@ figure()
     plot([1,1326],cutoff_lim*[1,1],'k--','LineWidth',1)
     plot(- abs(s4) )
     plot([1,1326],-cutoff_lim4*[1,1],'k--','LineWidth',1)
+    plot(sensors, zeros(1,length(sensors)),'*')
+    plot(sensors4, zeros(1,length(sensors4)),'*')
     legend('delay 3.6','theshold 3.6','delay 4','theshold 4','Location','NorthEastOutside')
