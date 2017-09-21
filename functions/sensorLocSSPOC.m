@@ -24,8 +24,9 @@ function  [  sensors  ] = sensorLocSSPOC(  Xtrain,Gtrain ,fixPar, varPar)
         s = SSPOC(Psi,w_t,fixPar);
         s = sum(s, 2);   
         
-        [~, I_top] = sort( abs(s));
-        I_top2 = flipud(I_top);
+%         [~, I_top] = sort( abs(s));
+%         I_top2 = flipud(I_top);
+        [~, I_top2] = sort( abs(s),'descend');
         sensors_sort = I_top2(1:fixPar.rmodes);
 
         % set cutoff limit

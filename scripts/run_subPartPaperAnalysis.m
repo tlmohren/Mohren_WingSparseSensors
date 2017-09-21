@@ -27,7 +27,7 @@ addpathFolderStructure()
 parameterSetName    = 'subPartPaperR1Iter5_delay4_eNet09';
 
 
-iter                = 5;
+iter                = 3;
 figuresToRun        = {'subSetTest'};
 % select any from {'R2A','R2B','R2C','R3','R4','R2allSensorsnoFilt','R2allSensorsFilt} 
 

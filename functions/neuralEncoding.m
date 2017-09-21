@@ -62,7 +62,9 @@ function [ X,G ] = neuralEncoding( strainSet,fixPar ,varPar)
 % Part2) The calibrated filtered signal is padded through the Non-linear function
 
 %     fixPar.normalizeVal
+%     tempNorm = max(convMat(:));
 %     fixPar.normalizeVal = tempNorm;
+
     X = NLDFunc( convMat/fixPar.normalizeVal/fixPar.subSamp );
 
     

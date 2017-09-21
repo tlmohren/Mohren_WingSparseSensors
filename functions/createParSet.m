@@ -45,9 +45,9 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     standardPar.resultName = '';
     
     % to overwrite regular parameters  -----------------------------------------------
-    % currently used for Euler-lagrange simulation
-    if isfield(fixPar,'subPart') == 1 
-%         fixPar.singValsMult = 0;
+%     if isfield(fixPar,'subPart') == 1 
+    if strfind(name,'subPart')
+        fixPar.singValsMult = 0;
         fixPar.elasticNet = 0.9;
 %         fixPar.STAdelay = 3.6;
         standardPar.wTruncList = 6:20;
