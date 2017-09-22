@@ -1,4 +1,4 @@
-function [w, Psi, singVals,centroid] = PCA_LDA_singVals(X, G, varargin)
+function [w, Psi, singVals,V] = PCA_LDA_singVals(X, G, varargin)
 % function [w, Psi, centroid] = PCA_LDA(X, G, varargin)
 %
 %
@@ -52,7 +52,7 @@ c = numel(classes); % number of groups
 
 
 % compute feature basis Psi
-[U, Sigma, ~] = svd(X, 0);
+[U, Sigma, V] = svd(X, 0);
 Psi = U(:, 1:inputs.nFeatures);
 
 singVals = diag(Sigma);

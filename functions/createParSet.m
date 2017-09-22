@@ -15,7 +15,8 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     
     fixPar.runSim = 0;
     fixPar.saveSim = 1;
-    fixPar.rmodes = 25;
+%     fixPar.rmodes = 25;
+    fixPar.rmodes = 30;
     fixPar.iter = iter; 
     fixPar.trainFraction = 0.9;
     fixPar.saveNameParameters = name;        
@@ -23,8 +24,8 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.STAdelay = 4;
     fixPar.subSamp = 1;
     fixPar.determineNorm = 0;
-%     fixPar.elasticNet = 0.9;
-    fixPar.elasticNet = 0.5;
+    fixPar.elasticNet = 0.9;
+%     fixPar.elasticNet = 0.5;
     
     % to phase out -----------------------------------------------
     % currently used for Euler-lagrange simulation
@@ -51,7 +52,7 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     
     if strfind(name,'subPart')
         fixPar.singValsMult = 1;
-        fixPar.elasticNet = 0.5;
+        fixPar.elasticNet = 0.9;
         fixPar.rmodes = 25;
 %         fixPar.STAdelay = 3.6;
         standardPar.wTruncList = 1:25;

@@ -24,7 +24,7 @@ addpathFolderStructure()
 % parameterSetName    = 'R1toR4Iter10_delay4';
 % parameterSetName    = 'subPartPaperR1Iter5_delay4';
 
-parameterSetName    = 'subPartPaperR1Iter5_delay4_singValsMult1_eNet05_thresholdTest2';
+parameterSetName    = 'subPartPaperR1Iter5_delay4_singValsMult1_eNet09_reweighW';
 
 
 iter                = 3;
@@ -36,7 +36,7 @@ figuresToRun        = {'subSetTest'};
 
 % fixPar.elasticNet = 0.99;
 fixPar.subPart = 1;
-fixPar.sThreshold = 1;
+% fixPar.sThreshold = 1;
 % fixPar.sThreshold = @(wTrunc) fixPar.rmodes/wTrunc;
 % varParStruct = varParStruct(45);
 % % aa.par

@@ -21,6 +21,11 @@ function  [  sensors  ] = sensorLocSSPOC(  Xtrain,Gtrain ,fixPar, varPar)
         w_t = w_r(big_modes);
         Psi = Psi(:,big_modes);
         
+        
+        a = Psi'*Xtrain;
+        w_t = LDA_n(a, Gtrain);
+        
+        
         s = SSPOC(Psi,w_t,fixPar);
         s = sum(s, 2);   
         
