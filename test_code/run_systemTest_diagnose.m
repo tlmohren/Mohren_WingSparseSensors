@@ -39,12 +39,12 @@ figure();
 
 %% adjusted parameters 
 % varPar.wTrunc = 7;
-varPar.wTrunc = 6; %% 11 does it for iter2 eNet 09
+varPar.wTrunc = 11; %% 11 does it for iter2 eNet 09
 % varPar.wTrunc = 7; %% 11 does it for iter2 eNet 09
 fixPar.elasticNet = 0.9;
 % fixPar.sThreshold =  fixPar.rmodes/varPar.wTrunc;
 fixPar.singValsMult = 1;
-fixPar.rmodes = 50; % reduce from 30, solves it? Overfitting problem? 
+fixPar.rmodes = 26; % reduce from 30, solves it? Overfitting problem? 
 %% 
 % [acc,sensors ] = sparseWingSensors( X,G,fixPar, varPar);
 [Xtrain, Xtest, Gtrain, Gtest] = predictTrain(X, G, fixPar.trainFraction);
@@ -74,7 +74,7 @@ fixPar.rmodes = 50; % reduce from 30, solves it? Overfitting problem?
         [~, I_top2] = sort( abs(s),'descend');
         
         sensors_sort = I_top2(1:fixPar.rmodes);
-        cutoff_lim = norm(s, 'fro')/fixPar.rmodes*fixPar.sThreshold;
+        cutoff_lim = norm(s, 'fro')/fixPar.rmodes;
         sensors = sensors_sort(  abs(s(sensors_sort))>= cutoff_lim )
 %             sensors_empty = I_top2(1:varPar.wTrunc)
 %             sensors = sensors_empty;
@@ -119,7 +119,7 @@ fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q
         [~, I_top2] = sort( abs(s4),'descend');
         sensors_sort4 = I_top2(1:fixPar.rmodes);
         
-        cutoff_lim4 = norm(s4, 'fro')/fixPar.rmodes*fixPar.sThreshold;
+        cutoff_lim4 = norm(s4, 'fro')/fixPar.rmodes;
         sensors4 = sensors_sort4(  abs(s4(sensors_sort4))>= cutoff_lim4 )
 %         
 %         sensors4_empty = I_top2(1:varPar.wTrunc)
@@ -222,12 +222,18 @@ subplot(211)
     plot( abs(w_r4),'o') 
     plot(big_modes, -0.2*ones(1,length(big_modes)),'*')
     plot(big_modes4, -0.25*ones(1,length(big_modes)),'*')
+    
+    plot(big_modes,  abs(w_t4),'*')
 subplot(212) 
     plot( abs(w_r.*singValsR) );
     hold on 
     plot( abs(w_r4.*singValsR4),'o') 
     plot(big_modes, zeros(1,length(big_modes)),'o')
     plot(big_modes4, zeros(1,length(big_modes)),'+')
+    
+%     plot( big_modes, abs(w_t4),'*')
+    
+    
 %%     
 figure()
     plot( abs(s) )

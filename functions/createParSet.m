@@ -33,7 +33,7 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.xInclude = [0];
     fixPar.yInclude = [1];
     fixPar.allSensors = 0;
-    
+%   
 %    -----------------------------------------------
     
     standardPar.SSPOConList = [0,1];
@@ -48,12 +48,12 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     standardPar.resultName = '';
     
     % to overwrite regular parameters  -----------------------------------------------
-    fixPar.sThreshold  = 1;
     
     if strfind(name,'subPart')
+%      fixPar.sThreshold  = 1;
         fixPar.singValsMult = 1;
         fixPar.elasticNet = 0.9;
-        fixPar.rmodes = 25;
+        fixPar.rmodes = 26;
 %         fixPar.STAdelay = 3.6;
         standardPar.wTruncList = 1:25;
         standardPar.SSPOConList = [1];
