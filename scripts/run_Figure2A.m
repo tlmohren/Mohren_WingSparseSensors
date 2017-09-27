@@ -16,18 +16,21 @@ addpath([scriptLocation filesep 'scripts']);
 addpathFolderStructure()
 w = warning ('off','all');
 
+overflow_loc = 'D:\Mijn_documenten\Dropbox\A. PhD\C. Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
 %% 
-parameterSetName    = 'R1R2withExpFilterIter5';
+% parameterSetName    = 'R1R2withExpFilterIter5';
 % parameterSetName    = 'R1toR4Iter10_delay4';
 % parameterSetName    = 'R1R2Iter5_delay3_6_normval377';
 % parameterSetName = 'R1R2Iter5_delay4_newNormalization'
 % parameterSetName    = 'R1R4Iter10_delay3_6_fixSTAwidth';
 % parameterSetName    = 'R1R2Iter10_delay4_singValsMult0';
-% parameterSetName   = 'R1R2Iter10_delay5_singValsMult1_eNet09'
+parameterSetName   = 'R1R2Iter10_delay5_singValsMult1_eNet09'
 % parameterSetName   = 'R1R2Iter7_delay3_singValsMult1_eNet09'
 
 % load(['data' filesep 'parameterSet_', parameterSetName ])
-load([parameterSetName ])
+addpath(overflow_loc)
+addpath( 'data')
+load(['parameterSet_' parameterSetName ])
 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2A' )));
 varParCombinations = varParCombinationsAll(figMatch);

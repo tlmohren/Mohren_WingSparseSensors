@@ -50,13 +50,15 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     % to overwrite regular parameters  -----------------------------------------------
     
     if strfind(name,'subPart')
+    standardPar.theta_distList = 1.0;
+    standardPar.phi_distList = 3.12 ;
 %      fixPar.sThreshold  = 1;
         fixPar.singValsMult = 1;
-        fixPar.elasticNet = 0.9;
+        fixPar.elasticNet = 0.95;
 %         fixPar.rmodes = 26;
         fixPar.rmodes = 30;
 %         fixPar.STAdelay = 3.6;
-        standardPar.wTruncList = 1:25;
+        standardPar.wTruncList = 7:20;
         standardPar.SSPOConList = [1];
 %     fixPar.normalizeVal = 3.63e-4; % for delay = 4
     end
