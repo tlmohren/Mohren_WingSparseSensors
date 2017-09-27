@@ -47,7 +47,8 @@ w = warning ('off','all');
 % parameterSetName    = 'subPartPaperR1Iter5_delay4_singValsMult1_eNet09_reweighW';
 % parameterSetName    = 'subPartPaperR1Iter5_delay4_singValsMult1_eNet09';
 % parameterSetName    = 'subPartPaperR1Iter3_delay5_singValsMult1_eNet095';
-parameterSetName    = 'subPartPaperR1Iter3_delay5_singValsMult1_eNet085';
+% parameterSetName    = 'subPartPaperR1Iter3_delay5_singValsMult1_eNet085';
+parameterSetName    = 'subPartPaperR1Iter3_delay5_singValsMult1_eNet095_real';
 
 % overflow_loc = 'D:\Mijn_documenten\Dropbox\A. PhD\C. Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
 % addpath(overflow_loc)

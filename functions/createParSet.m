@@ -24,7 +24,7 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.STAdelay = 5;
     fixPar.subSamp = 1;
     fixPar.determineNorm = 0;
-    fixPar.elasticNet = 0.9;
+    fixPar.elasticNet = 0.95;
 %     fixPar.elasticNet = 0.5;
     
     % to phase out -----------------------------------------------
