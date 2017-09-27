@@ -17,6 +17,10 @@ addpathFolderStructure()
 w = warning ('off','all');
 
 %% 
+overflow_loc = 'D:\Mijn_documenten\Dropbox\A. PhD\C. Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
+addpath(overflow_loc)
+addpath( 'data')
+
 
 % parameterSetName    = 'R1R2withExpFilterIter5';
 % parameterSetName    = 'subPartPaperR1Iter5_delay3_6';
@@ -42,8 +46,10 @@ w = warning ('off','all');
 % parameterSetName    = 'subPartPaperR1Iter5_delay4_singValsMult1_eNet05_thresholdTest2';
 % parameterSetName    = 'subPartPaperR1Iter5_delay4_singValsMult1_eNet09_reweighW';
 % parameterSetName    = 'subPartPaperR1Iter5_delay4_singValsMult1_eNet09';
-parameterSetName    = 'subPartPaperR1Iter3_delay5_singValsMult1_eNet095';
-
+% parameterSetName    = 'subPartPaperR1Iter3_delay5_singValsMult1_eNet095';
+overflow_loc = 'D:\Mijn_documenten\Dropbox\A. PhD\C. Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
+addpath(overflow_loc)
+addpath( 'data')
 load(['data' filesep 'parameterSet_', parameterSetName])
 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R1_disturbance' )));

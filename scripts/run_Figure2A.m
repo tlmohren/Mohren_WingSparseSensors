@@ -16,7 +16,6 @@ addpath([scriptLocation filesep 'scripts']);
 addpathFolderStructure()
 w = warning ('off','all');
 
-overflow_loc = 'D:\Mijn_documenten\Dropbox\A. PhD\C. Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
 %% 
 % parameterSetName    = 'R1R2withExpFilterIter5';
 % parameterSetName    = 'R1toR4Iter10_delay4';
@@ -29,6 +28,7 @@ parameterSetName    = 'subPartPaperR1Iter3_delay5_singValsMult1_eNet085';
 % parameterSetName   = 'R1R2Iter7_delay3_singValsMult1_eNet09'
 
 % load(['data' filesep 'parameterSet_', parameterSetName ])
+overflow_loc = 'D:\Mijn_documenten\Dropbox\A. PhD\C. Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
 addpath(overflow_loc)
 addpath( 'data')
 load(['parameterSet_' parameterSetName ])
