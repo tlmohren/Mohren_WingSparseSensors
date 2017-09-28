@@ -28,6 +28,7 @@ function addpathFolderStructure()
 %% Add paths required for main script
     addpath([scriptLocation filesep 'functions'])
     addpath([scriptLocation filesep 'scripts'])
+%     addpath('D:\Mijn_documenten\Dropbox\A. PhD\C. Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow')
 
 %% Check if CVX is downloaded/installed
     if size(strfind(path, 'cvx')) < 1
