@@ -24,7 +24,7 @@ addpathFolderStructure()
 % parameterSetName    = 'R1toR4Iter10_delay4';
 % parameterSetName    = 'subPartPaperR1Iter5_delay4';
 
-parameterSetName    = 'subPartPaperR1Iter3_delay5_singValsMult1_eNet095_real';
+parameterSetName    = 'subPartPaperR1Iter3_delay5_singValsMult1_eNet085_real';
 
 
 iter                = 3;

@@ -19,7 +19,8 @@ w = warning ('off','all');
 %% 
 % parameterSetName    = 'R1R2withExpFilterIter5';
 % parameterSetName    = 'R1toR4Iter10_delay4';
-parameterSetName = 'R1R2Iter8_delay3_6_fullOvernight'
+% parameterSetName = 'R1R2Iter8_delay3_6_fullOvernight'
+parameterSetName    = 'R1R2Iter7_delay5_singValsMult1_eNet095';
 load(['data' filesep 'parameterSet_', parameterSetName ])
 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2B' )));
@@ -139,7 +140,7 @@ saveas(fig2C,['figs' filesep 'Figure2C_' parameterSetName '.png'])
 
 x_axisB = varParCombinationsB.theta_distList;
 x_axisC = varParCombinationsC.phi_distList;
-if parameterSetName == 'R1R2withExpFilterIter5'
+if strcmp(parameterSetName,'R1R2withExpFilterIter5')
     x_axisC = varParCombinationsB.phi_distList;
     x_axisB = varParCombinationsC.theta_distList;
 end
