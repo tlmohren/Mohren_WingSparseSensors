@@ -81,7 +81,7 @@ for j = 1:length(varParStruct)
     save(  ['data',filesep, saveName]  ,'DataMat','SensMat','fixPar','varPar')
     fprintf('Runtime = %g[s], Saved as: %s \n',[toc,saveName]) 
     
-    % Sync to github(git required) once every 100 parameter combinations or if last combination is reached 
+% % %     Sync to github(git required) once every 100 parameter combinations or if last combination is reached 
 %     if ~(mod(j, 100)~= 0 && j ~= length(varParStruct))
 %         system('git pull');
 %         system('git add data/*.mat');
