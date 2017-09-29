@@ -22,9 +22,9 @@ clear all, close all, clc
 addpathFolderStructure()
 
 % parameterSetName    = 'R1toR4Iter10_delay4';
-parameterSetName    = 'R1R2Iter5_delay5_singValsMult1_eNet085';
+parameterSetName    = 'R1R2AIter5_delay4_singValsMult1_eNet09';
 iter                = 5;
-figuresToRun        = {'R1','R2'};
+figuresToRun        = {'R1','R2A'};
 % select any from {'R2A','R2B','R2C','R3','R4','R2allSensorsnoFilt','R2allSensorsFilt} 
 
 % Build struct that specifies all parameter combinations to run 
@@ -81,11 +81,11 @@ for j = 1:length(varParStruct)
     save(  ['data',filesep, saveName]  ,'DataMat','SensMat','fixPar','varPar')
     fprintf('Runtime = %g[s], Saved as: %s \n',[toc,saveName]) 
     
-% % %     Sync to github(git required) once every 100 parameter combinations or if last combination is reached 
-%     if ~(mod(j, 100)~= 0 && j ~= length(varParStruct))
-%         system('git pull');
-%         system('git add data/*.mat');
-%         system(sprintf('git commit * -m "pushing data from more runs %i"', j));
-%         system('git push');
-%     end;
+% %     Sync to github(git required) once every 100 parameter combinations or if last combination is reached 
+    if ~(mod(j, 100)~= 0 && j ~= length(varParStruct))
+        system('git pull');
+        system('git add data/*.mat');
+        system(sprintf('git commit * -m "pushing data from more runs %i"', j));
+        system('git push');
+    end;
 end

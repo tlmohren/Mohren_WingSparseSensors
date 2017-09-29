@@ -21,10 +21,10 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.trainFraction = 0.9;
     fixPar.saveNameParameters = name;        
     fixPar.singValsMult = 1;
-    fixPar.STAdelay = 5;
+    fixPar.STAdelay = 4;
     fixPar.subSamp = 1;
     fixPar.determineNorm = 0;
-    fixPar.elasticNet = 0.85;
+    fixPar.elasticNet = 0.9;
 %     fixPar.elasticNet = 0.5;
     
     % to phase out -----------------------------------------------
@@ -54,7 +54,7 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     standardPar.phi_distList = 3.12 ;
 %      fixPar.sThreshold  = 1;
         fixPar.singValsMult = 1;
-        fixPar.elasticNet = 0.85;
+        fixPar.elasticNet = 0.9;
 %         fixPar.rmodes = 26;
         fixPar.rmodes = 30;
 %         fixPar.STAdelay = 3.6;
@@ -117,8 +117,8 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
         elseif j == 9
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R1_allSensorsNoFilt';
-            varyPar(j).theta_distList = 0.01;
-            varyPar(j).phi_distList =0.0312;
+            varyPar(j).theta_distList = 0.1;
+            varyPar(j).phi_distList =0.312;
             varyPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
             varyPar(j).SSPOConList = [0];
 %             varyPar(j).NLDshiftList = [-5];
