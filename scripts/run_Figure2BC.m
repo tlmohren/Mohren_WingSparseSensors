@@ -13,15 +13,17 @@ clc;clear all; close all
 set(groot, 'defaultAxesTickLabelInterpreter', 'factory');
 scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
 addpath([scriptLocation filesep 'scripts']);
-addpathFolderStructure()
+% addpathFolderStructure()
 w = warning ('off','all');
 
 %% 
 % parameterSetName    = 'R1R2withExpFilterIter5';
 % parameterSetName    = 'R1toR4Iter10_delay4';
-% parameterSetName = 'R1R2Iter8_delay3_6_fullOvernight'
-parameterSetName    = 'R1R2Iter7_delay5_singValsMult1_eNet095';
-load(['data' filesep 'parameterSet_', parameterSetName ])
+parameterSetName = 'R1R2Iter8_delay3_6_fullOvernight'
+% parameterSetName    = 'R1R2Iter7_delay5_singValsMult1_eNet095';
+% parameterSetName = 'R1R2Iter5_delay5_singValsMult1_eNet085';
+
+load(['parameterSet_', parameterSetName ])
 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2B' )));
 varParCombinationsB = varParCombinationsAll(figMatch);
