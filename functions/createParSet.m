@@ -135,8 +135,8 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
         elseif j == 11
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'subSetTest';
-            varyPar(j).theta_distList = 0.1;
-            varyPar(j).phi_distList =0.312;
+            varyPar(j).theta_distList = 10;
+            varyPar(j).phi_distList =3.12;
             
 %             varyPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
 %             varyPar(j).SSPOConList = [1];
