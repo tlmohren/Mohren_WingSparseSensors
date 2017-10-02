@@ -50,7 +50,7 @@ Code for paper in prep by T.Mohren, T.Daniel, B.Brunton
             |- plotSensorLocs.m  
         |- test_code
         |- data
-		    |- Data_*
+            |- Data_*
         |- eulerLagrangeData
             |- strainSet*
         |- figs/
