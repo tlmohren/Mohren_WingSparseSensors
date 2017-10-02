@@ -11,19 +11,28 @@
 clc;clear all; close all 
 
 set(groot, 'defaultAxesTickLabelInterpreter', 'factory');
-scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
-addpath([scriptLocation filesep 'scripts']);
-% addpathFolderStructure()
+addpathFolderStructure()
 w = warning ('off','all');
 
 %% 
 % parameterSetName    = 'R1R2withExpFilterIter5';
-% parameterSetName    = 'R1toR4Iter10_delay4';
-parameterSetName = 'R1R2Iter8_delay3_6_fullOvernight'
+parameterSetName    = 'R1toR4Iter10_delay4';
+% parameterSetName = 'R1R2Iter8_delay3_6_fullOvernight';
 % parameterSetName    = 'R1R2Iter7_delay5_singValsMult1_eNet095';
 % parameterSetName = 'R1R2Iter5_delay5_singValsMult1_eNet085';
 
-load(['parameterSet_', parameterSetName ])
+
+overflow_loc = 'D:\Mijn_documenten\Dropbox\A. PhD\C. Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
+github_loc = 'data';
+    
+try
+    load([github_loc filesep 'parameterSet_' parameterSetName ])
+    fixPar.data_loc = github_loc;
+catch
+    display('not on github, looking at old data')
+    load([overflow_loc filesep 'parameterSet_' parameterSetName ])
+    fixPar.data_loc = overflow_loc;
+end 
 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2B' )));
 varParCombinationsB = varParCombinationsAll(figMatch);

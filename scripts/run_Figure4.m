@@ -11,15 +11,24 @@
 clc;clear all; close all 
 
 set(groot, 'defaultAxesTickLabelInterpreter', 'factory');
-scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
-addpath([scriptLocation filesep 'scripts']);
 addpathFolderStructure()
 w = warning ('off','all');
 
 %% 
-% parameterSetName    = 'R3R4withExpFilterIter5';
-parameterSetName    = 'R1toR4Iter10_delay4';
-load(['data' filesep 'parameterSet_', parameterSetName ])
+parameterSetName    = 'R3R4withExpFilterIter5';
+% parameterSetName    = 'R1toR4Iter10_delay4';
+
+overflow_loc = 'D:\Mijn_documenten\Dropbox\A. PhD\C. Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
+github_loc = 'data';
+    
+try
+    load([github_loc filesep 'parameterSet_' parameterSetName ])
+    fixPar.data_loc = github_loc;
+catch
+    display('not on github, looking at old data')
+    load([overflow_loc filesep 'parameterSet_' parameterSetName ])
+    fixPar.data_loc = overflow_loc;
+end 
 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R4' )));
 varParCombinations = varParCombinationsAll(figMatch);

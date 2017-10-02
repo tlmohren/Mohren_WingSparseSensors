@@ -29,11 +29,11 @@ function [ dataStruct,paramStruct ] = combineDataMat(fixPar,varParCombinations)
                 fillCell = {fixPar.saveNameParameters ,varPar.theta_dist , varPar.phi_dist, varPar.SSPOCon , ...
                             varPar.STAwidth , varPar.STAfreq , varPar.NLDshift , varPar.NLDgrad , wTrunc };
                 saveNameBase = sprintf( fillString,fillCell{:} );
-                nameMatches = dir(['data' filesep saveNameBase '*']);
+                nameMatches = dir([fixPar.data_loc filesep saveNameBase '*']);
                 
                 if ~isempty(nameMatches)
                     for k2 = 1:length(nameMatches)
-                        tempDat = load( ['data' filesep nameMatches(k2).name] ); 
+                        tempDat = load( [fixPar.data_loc filesep nameMatches(k2).name] ); 
                         [q_vec,it] = ind2sub(size(tempDat.DataMat),find(tempDat.DataMat));
                         for k3 = 1:length(q_vec)
                             q = q_vec(k3);
@@ -51,12 +51,12 @@ function [ dataStruct,paramStruct ] = combineDataMat(fixPar,varParCombinations)
             fillCell = {fixPar.saveNameParameters ,varPar.theta_dist , varPar.phi_dist, varPar.SSPOCon , ...
                         varPar.STAwidth , varPar.STAfreq , varPar.NLDshift , varPar.NLDgrad , varParCombinations.wTruncList(end) };
             saveNameBase = sprintf( fillString,fillCell{:} );
-            ['data' filesep saveNameBase '*'];
-            nameMatches = dir(['data' filesep saveNameBase '*']);      
+%             ['data' filesep saveNameBase '*'];
+            nameMatches = dir([fixPar.data_loc filesep saveNameBase '*']);      
             
             if ~isempty(nameMatches);
                 for k2 = 1:length(nameMatches)
-                    tempDat = load( ['data' filesep nameMatches(k2).name] ); 
+                    tempDat = load( [fixPar.data_loc filesep nameMatches(k2).name] ); 
                     [q_vec,it] = ind2sub(size(tempDat.DataMat),find(tempDat.DataMat));
                     for k3 = 1:length(q_vec)
                         prev = length(find( dataMatTot(j1,:) )  );

@@ -63,7 +63,7 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
 %     fixPar.normalizeVal = 3.63e-4; % for delay = 4
     end
     % ----------------------------------------------------
-    for j = 1:10%s1
+    for j = 1:11
         if j == 1
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R2A_disturbance';

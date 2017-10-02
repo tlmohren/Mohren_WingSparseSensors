@@ -11,8 +11,6 @@
 clc;clear all; close all 
 
 set(groot, 'defaultAxesTickLabelInterpreter', 'factory');
-scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
-addpath([scriptLocation filesep 'scripts']);
 addpathFolderStructure()
 w = warning ('off','all');
 
@@ -28,29 +26,36 @@ w = warning ('off','all');
 % parameterSetName    = 'R1R2Iter7_delay5_singValsMult1_eNet095';
 % parameterSetName = 'R1R2Iter5_delay5_singValsMult1_eNet085';gith
 % parameterSetName   = 'R1R2Iter7_delay3_singValsMult1_eNet09'
-% parameterSetName = 'R1R2AIter5_delay4_singValsMult1_eNet09';
+% parameterSetName = 'R1R2AIter5_delay4_singValsMult1_eNet09'
+parameterSetName = 'R1R4_Iter3_delay5_eNet09';
 
-load(['data' filesep 'parameterSet_', parameterSetName ])
-% overflow_loc = 'D:\Mijn_documenten\Dropbox\A. PhD\C. Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
-% addpath(overflow_loc)
-% addpath( 'data')
-% load(['parameterSet_' parameterSetName ])
-
+overflow_loc = 'D:\Mijn_documenten\Dropbox\A. PhD\C. Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
+github_loc = 'data';
+    
+try
+    load([github_loc filesep 'parameterSet_' parameterSetName ])
+    fixPar.data_loc = github_loc;
+catch
+    display('not on github, looking at old data')
+    load([overflow_loc filesep 'parameterSet_' parameterSetName ])
+    fixPar.data_loc = overflow_loc;
+end 
+    
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2A' )));
-varParCombinations = varParCombinationsAll(figMatch);
-[dataStruct,paramStruct] = combineDataMat(fixPar,varParCombinations);
+varParCombinationsR2A = varParCombinationsAll(figMatch);
+[dataStruct,paramStruct] = combineDataMat(fixPar,varParCombinationsR2A);
 ind_SSPOCoff = find( ~[paramStruct.SSPOCon]);
 ind_SSPOCon = find([paramStruct.SSPOCon]);
 
 display('added paths')
 %% 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2allSensorsNoFilt' )));
-varParCombinations = varParCombinationsAll(figMatch);
-[dataStructAllnoFilt,paramStructAllnoFilt] = combineDataMat(fixPar,varParCombinations);
+varParCombinationsR2A_allNoFilt = varParCombinationsAll(figMatch);
+[dataStructAllnoFilt,paramStructAllnoFilt] = combineDataMat(fixPar,varParCombinationsR2A_allNoFilt);
 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2allSensorsFilt' )));
-varParCombinations = varParCombinationsAll(figMatch);
-[dataStructAllFilt,paramStructAllFilt] = combineDataMat(fixPar,varParCombinations);
+varParCombinationsR2A_allFilt = varParCombinationsAll(figMatch);
+[dataStructAllFilt,paramStructAllFilt] = combineDataMat(fixPar,varParCombinationsR2A_allFilt);
 
 %% Figure settings
 
@@ -62,8 +67,8 @@ dotcol = {'.k','.r'};
 
 %% Figure 2A
 n_plots = 16; 
-n_x = length(varParCombinations.theta_distList);
-n_y = length(varParCombinations.phi_distList);
+n_x = length(varParCombinationsR2A.theta_distList);
+n_y = length(varParCombinationsR2A.phi_distList);
 fig2A=figure('Position', [100, 100, 950, 750]);
 
 for j = 1:n_y
@@ -120,8 +125,8 @@ figure(1)
 xh = get(gca, 'Xlabel');
 yh = get(gca, 'Ylabel');
 axisOptsFig3_heatMap = {
-    'xtick', 1:length(varParCombinations.phi_distList),'xticklabel',varParCombinations.phi_distList, ...
-    'ytick', 1:length(varParCombinations.theta_distList),'yticklabel',varParCombinations.theta_distList,...
+    'xtick', 1:length(varParCombinationsR2A.phi_distList),'xticklabel',varParCombinationsR2A.phi_distList, ...
+    'ytick', 1:length(varParCombinationsR2A.theta_distList),'yticklabel',varParCombinationsR2A.theta_distList,...
      'XLabel', xh, 'YLabel', yh, 'clim',[0,20]};
 %  thresholdMatB  = l
 set(groot, 'defaultAxesTickLabelInterpreter', 'latex');

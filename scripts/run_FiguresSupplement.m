@@ -13,38 +13,72 @@ clc;clear all; close all
 set(groot, 'defaultAxesTickLabelInterpreter', 'factory');
 addpathFolderStructure()
 w = warning ('off','all');
-
 %% 
-parameterSetName = 'R1R4_Iter3_delay5_eNet09';
+% overflow_loc = 'D:\Mijn_documenten\Dropbox\A. PhD\C. Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
+% addpath(overflow_loc)
+% addpath( 'data')
+
+
+% parameterSetName    = 'R1R2withExpFilterIter5';
+% parameterSetName    = 'subPartPaperR1Iter5_delay3_6';
+% parameterSetName    = 'subPartPaperR1Iter5_delay4_forReal';
+% parameterSetName    = 'subPartPaperR1Iter5_delay4_eNet08';
+% parameterSetName    = 'subPartPaperR1Iter5_delay4_eNet1';
+% parameterSetName    = 'subPartPaperR1Iter5_delay4_eNet1';
+% parameterSetName    = 'subPartPaperR1Iter3_delay4_eNet08';
+% parameterSetName    = 'R1toR4Iter10_delay4_subSamp10';
+
+% parameterSetName    = 'subPartPaperR1Iter3_delay4_singValMult0_eNet1';
+% parameterSetName    = 'subPartPaperR1Iter3_delay4_singValMult0_eNet098'
+% parameterSetName    = 'subPartPaperR1Iter3_delay4_singValMult0_eNet099'
+% parameterSetName    = 'subPartPaperR1Iter3_delay4_singValMult0_eNet095';
+% parameterSetName    = 'subPartPaperR1Iter3_delay4_singValMult0_eNet08';
+% parameterSetName    = 'subPartPaperR1Iter3_delay4_singValMult0_eNet09';
+% parameterSetName    = 'subPartPaperR1Iter5_delay4_eNet09';
+% parameterSetName    = 'subPartPaperR1Iter5_delay4_eNet09';
+% parameterSetName    = 'subPartPaperR1Iter5_delay4_singValsMult0_eNet09';
+
+% parameterSetName    = 'subPartPaperR1Iter5_delay4_singValsMult1_eNet05_thresholdTest1';
+
+% parameterSetName    = 'subPartPaperR1Iter5_delay4_singValsMult1_eNet05_thresholdTest2';
+% parameterSetName    = 'subPartPaperR1Iter5_delay4_singValsMult1_eNet09_reweighW';
+% parameterSetName    = 'subPartPaperR1Iter5_delay4_singValsMult1_eNet09';
+% parameterSetName    = 'subPartPaperR1Iter3_delay5_singValsMult1_eNet095';
+% parameterSetName    = 'subPartPaperR1Iter5_delay5_singValsMult1_eNet085';
+parameterSetName = 'subPartPaperR1Iter3_delay4_singValMult0_eNet095';
+% parameterSetName    = 'subPartPaperR1Iter3_delay5_singValsMult1_eNet095_real';
+% parameterSetName = 'R1R2Iter5_delay5_singValsMult1_eNet085'
 
 overflow_loc = 'D:\Mijn_documenten\Dropbox\A. PhD\C. Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
 github_loc = 'data';
     
-try
-    load([github_loc filesep 'parameterSet_' parameterSetName ])
+if 0
+    load([github_locloc filesep 'parameterSet_' parameterSetName ])
     fixPar.data_loc = github_loc;
-catch
-    display('not on github, looking at old data')
+else
     load([overflow_loc filesep 'parameterSet_' parameterSetName ])
     fixPar.data_loc = overflow_loc;
 end 
 
+
+
+
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R1_disturbance' )));
-varParCombinations_R1 = varParCombinationsAll(figMatch);
-[dataStruct,paramStruct] = combineDataMat(fixPar,varParCombinations_R1);
+varParCombinations = varParCombinationsAll(figMatch);
+[dataStruct,paramStruct] = combineDataMat(fixPar,varParCombinations);
 
 ind_SSPOCoff = find( ~[paramStruct.SSPOCon]);
 ind_SSPOCon = find([paramStruct.SSPOCon]);
 
 %% 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R1_allSensorsNoFilt' )));
-varParCombinations_allNoFilt = varParCombinationsAll(figMatch);
-[dataStructAllnoFilt,paramStructAllnoFilt] = combineDataMat(fixPar,varParCombinations_allNoFilt);
+varParCombinations = varParCombinationsAll(figMatch);
+[dataStructAllnoFilt,paramStructAllnoFilt] = combineDataMat(fixPar,varParCombinations);
 
 %% 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R1_allSensorsFilt' )));
-varParCombinations_allFilt = varParCombinationsAll(figMatch);
-[dataStructAllFilt,paramStructAllFilt] = combineDataMat(fixPar,varParCombinations_allFilt);
+varParCombinations = varParCombinationsAll(figMatch);
+[dataStructAllFilt,paramStructAllFilt] = combineDataMat(fixPar,varParCombinations);
 
 %% Figure settings
 
@@ -56,6 +90,7 @@ dotcol = {'.k','.r'};
 
 %% Figure 2A
 fig1A=figure('Position', [100, 600, 600, 450]);
+
 hold on
 %---------------------------------SSPOCoff-------------------------
 if any(ind_SSPOCoff)
@@ -103,3 +138,5 @@ if sum(binar) == 0
 end
 
 saveas(fig1B,['figs' filesep 'Figure1B_' parameterSetName '.png'])
+
+%% 

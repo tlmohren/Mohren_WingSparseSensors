@@ -5,6 +5,10 @@
 Thumbs.db
 ehthumbs.db
 
+# Strain simulation data  
+**/strainSet*
+
+
 # Folder config file
 Desktop.ini
 
