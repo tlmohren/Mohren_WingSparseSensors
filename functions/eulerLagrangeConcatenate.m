@@ -13,9 +13,9 @@ function [ strainSet ] = eulerLagrangeConcatenate(fixPar,varPar)
         varPar.curIter, fixPar.harmonic]);
 
 % find location where data is stored 
-    [dataDirectory,baseName] = fileparts(pwd);
-    simLocation = [dataDirectory filesep baseName,'Data'];
-    simLocationName = [simLocation filesep simName];
+%     [dataDirectory,baseName] = fileparts(pwd);
+%     simLocation = [dataDirectory filesep baseName,'Data'];
+    simLocationName = ['eulerLagrangeData' filesep simName];
 
     if (fixPar.runSim == 0) && (exist(simLocationName,'file')==2) 
         % if exists and par.runSim says to load instead of run simulation

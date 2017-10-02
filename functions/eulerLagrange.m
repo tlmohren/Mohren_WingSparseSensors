@@ -93,18 +93,18 @@ function [strain] = eulerLagrange(frot, th,ph ,par )
 %% Generate function with equations for ODEs
 
 % ensure no previous version of this ODE file exists 
-if exist('functions/PlateODE.m') == 2
+if exist(['functions' filesep 'PlateODE.m']) == 2
     display('PlateODE exists, deleting now ')
 end
 %     delete('functions/PlateODE.m')
-clear('functions/PlateODE.m')
+clear(['functions' filesep 'PlateODE.m'])
     
 [M K Ma Ia Q] = createODEfile_rotvect(a,b,E,G,nu,h,density,dampingfactor,phi,theta,gamma,globalangle,N,dxi);
 
 % pause(4) %make sure file saves before solving the ODE 
 % this section is problematic
 iter =1; 
-while exist('functions/PlateODE.m', 'file') ~= 2 && iter<5
+while exist(['functions' filesep 'PlateODE.m'], 'file') ~= 2 && iter<5
     pause(2)
     iter = iter+1; 
 end 

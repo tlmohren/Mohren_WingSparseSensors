@@ -17,7 +17,7 @@ addpathFolderStructure()
 parameterSetName    = ' ';
 iter                = 1;
 figuresToRun        = {'subSetTest'};
-fixPar.data_loc     = 'data'
+fixPar.data_loc     = 'accuracyData';
 
 
 % Build struct that specifies all parameter combinations to run 
