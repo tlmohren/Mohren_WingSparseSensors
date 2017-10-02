@@ -29,8 +29,7 @@ figuresToRun        = {'R1','R2','R3','R4'};
 
 % Build struct that specifies all parameter combinations to run 
 [fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
-% % aa.par
-% % % varParStruct = varParStruct(1);
+
 %% Run eulerLagrangeSimulation (optional) and sparse sensor placement algorithm
 tic 
 for j = 1:length(varParStruct)
@@ -82,7 +81,7 @@ for j = 1:length(varParStruct)
     fprintf('Runtime = %g[s], Saved as: %s \n',[toc,saveName]) 
     
 % %     Sync to github(git required) once every 100 parameter combinations or if last combination is reached 
-    if ~(mod(j, 1)~= 0 && j ~= length(varParStruct))
+    if ~(mod(j, 100)~= 0 && j ~= length(varParStruct))
         system('git pull');
         system('git add data/*.mat');
         system(sprintf('git commit * -m "pushing data from more runs %i"', j));
