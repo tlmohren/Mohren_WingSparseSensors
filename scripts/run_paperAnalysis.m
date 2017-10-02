@@ -77,7 +77,7 @@ for j = 1:length(varParStruct)
             
     saveNameBase = sprintf( fillString,fillCell{:} );
     saveName = [saveNameBase,computer,'_',datestr(datetime('now'), 30),'.mat'];
-    save(  ['data',filesep, saveName]  ,'DataMat','SensMat','fixPar','varPar')
+    save(  ['accuracyData',filesep, saveName]  ,'DataMat','SensMat','fixPar','varPar')
     fprintf('Runtime = %g[s], Saved as: %s \n',[toc,saveName]) 
     
 % %     Sync to github(git required) once every 100 parameter combinations or if last combination is reached 

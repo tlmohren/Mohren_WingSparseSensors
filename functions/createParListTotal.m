@@ -24,7 +24,7 @@ function [fixPar,varParCombinationsAll, varParStruct ] = createParListTotal( par
     end
         
 %     varParCombinations = varParCombinationsAll(varParIndex);
-    save( ['data' filesep 'parameterSet_', parameterSetName '.mat'], 'fixPar','varParCombinationsAll','varParStruct')
+    save( ['accuracyData' filesep 'parameterSet_', parameterSetName '.mat'], 'fixPar','varParCombinationsAll','varParStruct')
 
 end
 

@@ -50,8 +50,8 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     % to overwrite regular parameters  -----------------------------------------------
     
     if strfind(name,'subPart')
-    standardPar.theta_distList = 1.0;
-    standardPar.phi_distList = 3.12 ;
+        standardPar.theta_distList = 1.3;
+        standardPar.phi_distList = 3.12 ;
 %      fixPar.sThreshold  = 1;
         fixPar.singValsMult = 1;
         fixPar.elasticNet = 0.9;
@@ -135,7 +135,7 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
         elseif j == 11
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'subSetTest';
-            varyPar(j).theta_distList = 10;
+            varyPar(j).theta_distList = 11;
             varyPar(j).phi_distList =3.12;
             
 %             varyPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
