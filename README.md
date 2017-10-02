@@ -7,7 +7,7 @@ Code for paper in prep by T.Mohren, T.Daniel, B.Brunton
         |- README.md
         |- LICENSE
         |- scripts/
-        |- addpathFolderStructure.m
+            |- addpathFolderStructure.m
             |- run_paperAnalysis.m
             |- run_Figure1.m
             |- run_Figure2A.m
@@ -16,6 +16,7 @@ Code for paper in prep by T.Mohren, T.Daniel, B.Brunton
             |- run_Figure4.m
             |- run_normalizationParameter.m
             |- run_allFigures.m
+            |- run_experimetalSTAfit.m
         |- functions/
             |- createParListSingle.m
             |- createParListTotal.m
@@ -47,6 +48,11 @@ Code for paper in prep by T.Mohren, T.Daniel, B.Brunton
             |- sigmFitParam.m  
             |- get_pdf.m  
             |- plotSensorLocs.m  
+        |- test_code
+        |- data
+		    |- Data_*
+        |- eulerLagrangeData
+            |- strainSet*
         |- figs/
             |- run_experimentalSTAfit.png
             |- Figure1A.png
@@ -55,8 +61,7 @@ Code for paper in prep by T.Mohren, T.Daniel, B.Brunton
             |- Figure2BC.png
             |- Figure3.png
             |- Figure4.png
-        |- test_code
-	  
+			
 ## Software requirements
 
 Code was developed on MATLAB 2015a. 
