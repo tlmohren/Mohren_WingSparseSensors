@@ -1,7 +1,22 @@
-function [q ] = sigmFitParam( x,y )
+function [q ] = sigmFitParam( x,y,varargin )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
-
+%     varargin
+%     varargin{2}
+    
+%     length(varargin)
+%     varargin
+    
+    p = inputParser; 
+    p.addRequired('x', @isfloat);
+    p.addRequired('y', @isfloat);
+    p.addOptional('plot_show',false, @islogical);
+    p.parse(x,y, varargin{:});
+    inputs = p.Results; 
+% 
+%     p 
+%     p.plot_show
+%     plot_on =0;
     x = [-5:0,x];
     y = [ones(1,6)*0.5,y];
     modelfun = @(c,x)( 0.5 + c(2) ./ (1+ exp( - (x-c(3))./c(4) )  ) );
@@ -27,12 +42,14 @@ function [q ] = sigmFitParam( x,y )
         else
             q = nan;
         end
-
-        hold on 
-        plot(x,modelfun(beta,x),'k--','LineWidth',1)
-        plot([0,lastQ],[trheshold,trheshold],':k','LineWidth',1)
-        if ~isnan(q)
-            plot([q,q],[0.4,1],':k','LineWidth',1)
+        
+        if inputs.plot_show == true
+            hold on 
+            plot(x,modelfun(beta,x),'k--','LineWidth',1)
+            plot([0,lastQ],[trheshold,trheshold],':k','LineWidth',1)
+            if ~isnan(q)
+                plot([q,q],[0.4,1],':k','LineWidth',1)
+            end
         end
 %     catch
 %        q = nan;

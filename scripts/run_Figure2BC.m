@@ -48,6 +48,7 @@ ind_SSPOConC = find([paramStructC.SSPOCon]);
 
 %% Figure settings
 
+plot_on = false ;
 errLocFig2A = 38;
 axisOptsFig2A = {'xtick',[0:10:30,errLocFig2A ],'xticklabel',{'0','10','20','30','\bf \it 1326'},...
     'ytick',0.4:0.2:1 ,'xlim', [0,errLocFig2A+2],'ylim',[0.4,1] };
@@ -59,94 +60,116 @@ dotcol = {'.k','.r'};
 n_x = 7;
 n_y =  6; 
 n_plots = n_x*n_y;
-fig2B=figure('Position', [100, 100, 950, 750]);
-
+if plot_on == true
+    fig2B=figure('Position', [100, 100, 950, 750]);
+end
 for j = 1:n_y
     for k = 1:n_x
         sub_nr = (j-1)*n_y + k;
-        subplot(n_y,n_x, sub_nr)
-        hold on
-
+        if plot_on == true
+            subplot(n_y,n_x, sub_nr)
+            hold on
+        end
         %---------------------------------SSPOCoff-------------------------
         Dat_I = ind_SSPOCoffB( sub_nr);
         [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStructB );
         realNumbers = find(~isnan(meanVec));
-        a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1});
-
-        thresholdMatB(1,sub_nr) = sigmFitParam(realNumbers,meanVec(realNumbers));
+        
+        if plot_on == true
+            a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1});
+        end
+        thresholdMatB(1,sub_nr) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
 
         %---------------------------------SSPOCon-------------------------
         Dat_I = ind_SSPOConB(sub_nr);
         [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStructB );
         realNumbers = find(~isnan(meanVec));
-        for k2 = 1:size(dataStructB.dataMatTot,2)
-            iters = length(nonzeros(dataStructB.dataMatTot(Dat_I,k2,:)) );
-            scatter( ones(iters,1)*k2,nonzeros(dataStructB.dataMatTot(Dat_I,k2,:)) , dotcol{2})
-        end
-        plot(realNumbers, meanVec(realNumbers),col{2})
-        thresholdMatB(2,sub_nr) = sigmFitParam(realNumbers,meanVec(realNumbers));
-
-        %--------------------------------Figure cosmetics-------------------------    
-        ylh = get(gca,'ylabel');                                            % Object Information
-        ylp = get(ylh, 'Position');
-        set(ylh, 'Rotation',0, 'Position',ylp, 'VerticalAlignment','middle', 'HorizontalAlignment','right')
-        grid on 
-        set(gca, axisOptsFig2A{:})
-        title( paramStructB(Dat_I).theta_dist)
         
-        axis off 
-        drawnow
+        
+        thresholdMatB(2,sub_nr) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
+        
+        if plot_on == true
+            for k2 = 1:size(dataStructB.dataMatTot,2)
+                iters = length(nonzeros(dataStructB.dataMatTot(Dat_I,k2,:)) );
+                scatter( ones(iters,1)*k2,nonzeros(dataStructB.dataMatTot(Dat_I,k2,:)) , dotcol{2})
+            end
+            plot(realNumbers, meanVec(realNumbers),col{2})
+
+            %--------------------------------Figure cosmetics-------------------------    
+            ylh = get(gca,'ylabel');                                            % Object Information
+            ylp = get(ylh, 'Position');
+            set(ylh, 'Rotation',0, 'Position',ylp, 'VerticalAlignment','middle', 'HorizontalAlignment','right')
+            grid on 
+            set(gca, axisOptsFig2A{:})
+            title( paramStructB(Dat_I).theta_dist)
+
+            axis off 
+            drawnow
+        end
     end
 end
 
-saveas(fig2B,['figs' filesep 'Figure2B_' parameterSetName '.png'])
+if plot_on == true
+    saveas(fig2B,['figs' filesep 'Figure2B_' parameterSetName '.png'])
+end
 
 
 %% Figure 2C
 n_x = 7;
 n_y =  6; 
 n_plots = n_x*n_y;
-fig2C=figure('Position', [100, 100, 950, 750]);
-
+if plot_on == true
+    fig2C=figure('Position', [100, 100, 950, 750]);
+end
 for j = 1:n_y
     for k = 1:n_x
         sub_nr = (j-1)*n_y + k;
-        subplot(n_y,n_x, sub_nr)
-        hold on
-
+        if plot_on == true
+            subplot(n_y,n_x, sub_nr)
+            hold on
+        end
         %---------------------------------SSPOCoff-------------------------
         Dat_I = ind_SSPOCoffC( sub_nr);
         [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStructC );
         realNumbers = find(~isnan(meanVec));
-        a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1});
-
+        
+        if plot_on == true
+            a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1});
+        end
         thresholdMatC(1,sub_nr) = sigmFitParam(realNumbers,meanVec(realNumbers));
 
         %---------------------------------SSPOCon-------------------------
         Dat_I = ind_SSPOConC(sub_nr);
         [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStructC );
         realNumbers = find(~isnan(meanVec));
-        for k2 = 1:size(dataStructC.dataMatTot,2)
-            iters = length(nonzeros(dataStructC.dataMatTot(Dat_I,k2,:)) );
-            scatter( ones(iters,1)*k2,nonzeros(dataStructC.dataMatTot(Dat_I,k2,:)) , dotcol{2})
-        end
-        plot(realNumbers, meanVec(realNumbers),col{2})
-        thresholdMatC(2,sub_nr) = sigmFitParam(realNumbers,meanVec(realNumbers));
-
-        %--------------------------------Figure cosmetics-------------------------    
-        ylh = get(gca,'ylabel');                                            % Object Information
-        ylp = get(ylh, 'Position');
-        set(ylh, 'Rotation',0, 'Position',ylp, 'VerticalAlignment','middle', 'HorizontalAlignment','right')
-        grid on 
-        set(gca, axisOptsFig2A{:})
-        title( paramStructC(Dat_I).phi_dist)
         
-        axis off 
-        drawnow
+        thresholdMatC(2,sub_nr) = sigmFitParam(realNumbers,meanVec(realNumbers));
+        
+        if plot_on == true
+
+            for k2 = 1:size(dataStructC.dataMatTot,2)
+                iters = length(nonzeros(dataStructC.dataMatTot(Dat_I,k2,:)) );
+                scatter( ones(iters,1)*k2,nonzeros(dataStructC.dataMatTot(Dat_I,k2,:)) , dotcol{2})
+            end
+            plot(realNumbers, meanVec(realNumbers),col{2})
+
+            %--------------------------------Figure cosmetics-------------------------    
+            ylh = get(gca,'ylabel');                                            % Object Information
+            ylp = get(ylh, 'Position');
+            set(ylh, 'Rotation',0, 'Position',ylp, 'VerticalAlignment','middle', 'HorizontalAlignment','right')
+            grid on 
+            set(gca, axisOptsFig2A{:})
+            title( paramStructC(Dat_I).phi_dist)
+
+            axis off 
+            drawnow
+        end
     end
 end
 
-saveas(fig2C,['figs' filesep 'Figure2C_' parameterSetName '.png'])
+if plot_on == true
+    saveas(fig2C,['figs' filesep 'Figure2C_' parameterSetName '.png'])
+end
 %% 
 
 x_axisB = varParCombinationsB.theta_distList;

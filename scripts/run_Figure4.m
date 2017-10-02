@@ -39,6 +39,7 @@ ind_SSPOConB = find([paramStructB.SSPOCon]);
 
 %% Figure settings
 
+plot_on = false ;
 errLocFig2A = 38;
 axisOptsFig2A = {'xtick',[0:10:30,errLocFig2A ],'xticklabel',{'0','10','20','30','\bf \it 1326'},...
     'ytick',0.4:0.2:1 ,'xlim', [0,errLocFig2A+2],'ylim',[0.4,1] };
@@ -50,42 +51,48 @@ dotcol = {'.k','.r'};
 n_x = length(varParCombinations.NLDshiftList);
 n_y =  length(varParCombinations.NLDgradList);
 n_plots = n_x*n_y;
-fig4plots=figure('Position', [100, 100, 950, 750]);
 
+if plot_on == true
+    fig4plots=figure('Position', [100, 100, 950, 750]);
+end
 for j = 1:n_y
     for k = 1:n_x
         sub_nr = (j-1)*n_y + k;
-        subplot(n_y,n_x, sub_nr)
-        hold on
-
+        if plot_on == true
+            subplot(n_y,n_x, sub_nr)
+            hold on
+        end
         %---------------------------------SSPOCoff-------------------------
         Dat_I = ind_SSPOCoffB( sub_nr);
         [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStructB );
         realNumbers = find(~isnan(meanVec));
-        a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1});
-
-        thresholdMatB(j,k,1) = sigmFitParam(realNumbers,meanVec(realNumbers));
+        if plot_on == true
+            a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1});
+        end
+        thresholdMatB(j,k,1) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
 
         %---------------------------------SSPOCon-------------------------
         Dat_I = ind_SSPOConB(sub_nr);
         [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStructB );
-        realNumbers = find(~isnan(meanVec));
-        for k2 = 1:size(dataStructB.dataMatTot,2)
-            iters = length(nonzeros(dataStructB.dataMatTot(Dat_I,k2,:)) );
-            scatter( ones(iters,1)*k2,nonzeros(dataStructB.dataMatTot(Dat_I,k2,:)) , dotcol{2})
+        realNumbers = find(~isnan(meanVec));        
+        thresholdMatB(j,k,2) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
+        
+        if plot_on == true
+            for k2 = 1:size(dataStructB.dataMatTot,2)
+                iters = length(nonzeros(dataStructB.dataMatTot(Dat_I,k2,:)) );
+                scatter( ones(iters,1)*k2,nonzeros(dataStructB.dataMatTot(Dat_I,k2,:)) , dotcol{2})
+            end
+            plot(realNumbers, meanVec(realNumbers),col{2})
+            %--------------------------------Figure cosmetics-------------------------    
+            ylh = get(gca,'ylabel');                                            % Object Information
+            ylp = get(ylh, 'Position');
+            set(ylh, 'Rotation',0, 'Position',ylp, 'VerticalAlignment','middle', 'HorizontalAlignment','right')
+            grid on 
+            set(gca, axisOptsFig2A{:})
+    %         title( paramStructB(Dat_I).phi_dist)
+            axis off 
+            drawnow
         end
-        plot(realNumbers, meanVec(realNumbers),col{2})
-        thresholdMatB(j,k,2) = sigmFitParam(realNumbers,meanVec(realNumbers));
-
-        %--------------------------------Figure cosmetics-------------------------    
-        ylh = get(gca,'ylabel');                                            % Object Information
-        ylp = get(ylh, 'Position');
-        set(ylh, 'Rotation',0, 'Position',ylp, 'VerticalAlignment','middle', 'HorizontalAlignment','right')
-        grid on 
-        set(gca, axisOptsFig2A{:})
-%         title( paramStructB(Dat_I).phi_dist)
-        axis off 
-        drawnow
     end
 end
 
@@ -170,5 +177,5 @@ subplot(212)
     title('random')
    set(Im(2),'alphadata',mask2);
    
-saveas(fig4mask,['figs' filesep 'Figure4mask_' parameterSetName '.png'])    
+saveas(fig4_mask,['figs' filesep 'Figure4mask_' parameterSetName '.png'])    
     
