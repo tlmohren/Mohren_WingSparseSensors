@@ -21,7 +21,7 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     fixPar.trainFraction = 0.9;
     fixPar.saveNameParameters = name;        
     fixPar.singValsMult = 1;
-    fixPar.STAdelay = 4;
+    fixPar.STAdelay = 5;
     fixPar.subSamp = 1;
     fixPar.determineNorm = 0;
     fixPar.elasticNet = 0.9;
@@ -63,7 +63,7 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
 %     fixPar.normalizeVal = 3.63e-4; % for delay = 4
     end
     % ----------------------------------------------------
-    for j = 1:11
+    for j = 1:10%s1
         if j == 1
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R2A_disturbance';
