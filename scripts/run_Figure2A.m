@@ -30,7 +30,7 @@ w = warning ('off','all');
 parameterSetName = 'R1R4_Iter3_delay5_eNet09';
 
 overflow_loc = 'D:\Mijn_documenten\Dropbox\A. PhD\C. Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
-github_loc = 'data';
+github_loc = 'accuracyData';
     
 try
     load([github_loc filesep 'parameterSet_' parameterSetName ])
@@ -59,6 +59,7 @@ varParCombinationsR2A_allFilt = varParCombinationsAll(figMatch);
 
 %% Figure settings
 
+plot_on = true ;
 errLocFig2A = 38;
 axisOptsFig2A = {'xtick',[0:10:30,errLocFig2A ],'xticklabel',{'0','10','20','30','\bf \it 1326'},...
     'ytick',0.4:0.2:1 ,'xlim', [0,errLocFig2A+2],'ylim',[0.4,1] };
@@ -81,7 +82,7 @@ for j = 1:n_y
         [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
         realNumbers = find(~isnan(meanVec));
         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1});
-        thresholdMat(j,k,1) = sigmFitParam(realNumbers,meanVec(realNumbers));
+        thresholdMat(j,k,1) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
         %---------------------------------SSPOCon-------------------------
         Dat_I = ind_SSPOCon(sub_nr);
         [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
@@ -91,7 +92,7 @@ for j = 1:n_y
             scatter( ones(iters,1)*k2,nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) , dotcol{2})
         end
         plot(realNumbers, meanVec(realNumbers),col{2})
-        thresholdMat(j,k,2) = sigmFitParam(realNumbers,meanVec(realNumbers));
+        thresholdMat(j,k,2) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
         %--------------------------------Allsensors Neural filt-------------------------    
         meanval = mean( nonzeros(  dataStructAllFilt.dataMatTot(sub_nr,:)  ) );
         stdval = std( nonzeros(    dataStructAllFilt.dataMatTot(sub_nr,:)  ) );

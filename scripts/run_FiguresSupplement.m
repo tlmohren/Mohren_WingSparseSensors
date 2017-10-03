@@ -50,7 +50,7 @@ parameterSetName = 'subPartPaperR1Iter3_delay4_singValMult0_eNet095';
 % parameterSetName = 'R1R2Iter5_delay5_singValsMult1_eNet085'
 
 overflow_loc = 'D:\Mijn_documenten\Dropbox\A. PhD\C. Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
-github_loc = 'data';
+github_loc = 'accuracyData';
     
 if 0
     load([github_locloc filesep 'parameterSet_' parameterSetName ])

@@ -20,8 +20,8 @@ parameterSetName    = 'R3R4withExpFilterIter5';
 % parameterSetName    = 'R1R4Iter10_delay3_6_fixSTAwidth';
 
 overflow_loc = 'D:\Mijn_documenten\Dropbox\A. PhD\C. Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
-github_loc = 'data';
-    
+github_loc = 'accuracyData';
+
 try
     load([github_loc filesep 'parameterSet_' parameterSetName ])
     fixPar.data_loc = github_loc;
