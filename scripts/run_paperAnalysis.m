@@ -83,7 +83,7 @@ for j = 1:length(varParStruct)
 % %     Sync to github(git required) once every 100 parameter combinations or if last combination is reached 
     if ~(mod(j, 100)~= 0 && j ~= length(varParStruct))
         system('git pull');
-        system('git add data/*.mat');
+        system('git add accuracyData/*.mat');
         system(sprintf('git commit * -m "pushing data from more runs %i"', j));
         system('git push');
     end;
