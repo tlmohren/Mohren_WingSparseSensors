@@ -16,10 +16,11 @@ w = warning ('off','all');
 
 %% 
 % parameterSetName    = 'R1R2withExpFilterIter5';
-parameterSetName    = 'R1toR4Iter10_delay4';
+% parameterSetName    = 'R1toR4Iter10_delay4';
 % parameterSetName = 'R1R2Iter8_delay3_6_fullOvernight';
 % parameterSetName    = 'R1R2Iter7_delay5_singValsMult1_eNet095';
 % parameterSetName = 'R1R2Iter5_delay5_singValsMult1_eNet085';
+parameterSetName = 'R1R4_Iter3_delay5_eNet09';
 
 
 overflow_loc = 'D:\Mijn_documenten\Dropbox\A. PhD\C. Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';

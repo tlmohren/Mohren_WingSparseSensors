@@ -14,46 +14,53 @@ addpathFolderStructure()
             
 %% Run testcases
 % Specify testcase 
-par = setParameters();
-testCase = 2;
-par.baseZero = 0;
-par.xInclude = 0;
-par.yInclude = 1;
+parameterSetName    = ' ';
+figuresToRun        = {'subSetTest'};
+iter = 1;
+[fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
+
+
+varPar = varParStruct(1);
+varPar.curIter = 1;
+testCase = 3;
+fixPar.baseZero = 0;
+fixPar.xInclude = 0;
+fixPar.yInclude = 1;
 if testCase == 1
     ph = 0;
     th = 0; 
-    par.runSim = 1;
-    par.saveSim = 0;
-    par.chordElements = 26;
-    par.spanElements = 51;
+    fixPar.runSim = 1;
+    fixPar.saveSim = 0;
+    fixPar.chordElements = 26;
+    fixPar.spanElements = 51;
 elseif testCase == 2
     ph = 0.1;
     th = 0; 
-    par.runSim = 1;
-    par.saveSim = 1;
-    par.chordElements = 26;
-    par.spanElements = 51;
+    fixPar.runSim = 1;
+    fixPar.saveSim = 1;
+    fixPar.chordElements = 26;
+    fixPar.spanElements = 51;
 elseif testCase == 3
-    ph = 1;
-    th = 0; 
-    par.runSim = 0;
+    varPar.phi_dist = 2.5;
+    varPar.theta_dist = 0.312; 
+    fixPar.runSim = 0;
 elseif testCase == 4
     ph = 0.1;
     th = 0.1; 
-    par.runSim = 1;
-    par.saveSim = 1;
+    fixPar.runSim = 1;
+    fixPar.saveSim = 1;
 elseif testCase == 5
     % test for fewer evaluation points 
     ph = 0;
     th = 0; 
-    par.runSim = 1;
-    par.chordElements = 10;
-    par.spanElements = 10;
+    fixPar.runSim = 1;
+    fixPar.chordElements = 10;
+    fixPar.spanElements = 10;
 else
     display('Invalid testcase entry')
 end
 
-strain = eulerLagrangeConcatenate(ph,th,par);
+strain = eulerLagrangeConcatenate(fixPar,varPar);
 
 
 %% check output here, size, content 

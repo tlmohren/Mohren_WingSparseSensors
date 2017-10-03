@@ -12,31 +12,34 @@ clc;clear all;close all
 
 %% Run testcases
 % Specify testcase 
-par = setParameters();
-par.xInclude = 0;
-par.yInclude = 1;
+parameterSetName    = ' ';
+figuresToRun        = {'subSetTest'};
+iter = 1;
+[fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
+fixPar.xInclude = 0;
+fixPar.yInclude = 1;
 testCase =1;
 
 if testCase == 1
     % regular testcase
     frot = 0;
-    th = 1;
-    ph = 31.2;
+    th = 3;
+    ph = 3.12;
 elseif testCase == 2
     % reduce size for speed increase 
     frot = 0;
     ph = 0;
     th = 0; 
-    par.chordElements = 10;
-    par.spanElements = 10;
+    fixPar.chordElements = 10;
+    fixPar.spanElements = 10;
 elseif testCase == 3
     % introduce disturbance level 
     frot = 0;
     ph = 1;
     th = 1; 
-    par.runSim = 1;
-    par.chordElements = 10;
-    par.spanElements = 10;
+    fixPar.runSim = 1;
+    fixPar.chordElements = 10;
+    fixPar.spanElements = 10;
 elseif testCase == 4
     % introduce disturbance level 
     frot = 10;
@@ -46,11 +49,11 @@ else
     error('Invalid testcase entry    TLM 2017')
 end
 
-par
+fixPar
 % [strain,figdata] =  eulerLagrange_forfigures(frot, th,ph ,par );
-strain =  eulerLagrange(frot, th,ph ,par );
+strain =  eulerLagrange(frot, th,ph ,fixPar );
 %% 
-save('flapDisturbance_31_2.mat','figdata')
+% save('flapDisturbance_31_2.mat','figdata')
 
 %% check output here, size, content 
 display('Output diagnostics')
