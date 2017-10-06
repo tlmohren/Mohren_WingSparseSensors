@@ -20,7 +20,7 @@ w = warning ('off','all');
 parameterSetName = 'R1R4_Iter3_delay5_eNet09';
 
 overflow_loc = 'D:\Mijn_documenten\Dropbox\A. PhD\C. Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
-ggithub_loc = 'accuracyData';
+github_loc = 'accuracyData';
     
 try
     load([github_loc filesep 'parameterSet_' parameterSetName ])

@@ -39,7 +39,7 @@ ind_SSPOCoffB = find( ~[paramStructB.SSPOCon]);
 ind_SSPOConB = find([paramStructB.SSPOCon]);
 
 %% Figure settings
-plot_on = false ;
+plot_on = false;
 errLocFig2A = 38;
 axisOptsFig2A = {'xtick',[0:10:30,errLocFig2A ],'xticklabel',{'0','10','20','30','\bf \it 1326'},...
     'ytick',0.4:0.2:1 ,'xlim', [0,errLocFig2A+2],'ylim',[0.4,1] };
@@ -95,8 +95,9 @@ for j = 1:n_y
     end
 end
 
-saveas(fig3plots,['figs' filesep 'Figure3plots_' parameterSetName '.png'])
-
+% if plot_on == true
+%     saveas(fig3plots,['figs' filesep 'Figure3plots_' parameterSetName '.png'])
+% end
 %% 
 fig3STA=figure('Position', [100, 100, 950, 750]);
 % fixPar.STAdelay = 3;
