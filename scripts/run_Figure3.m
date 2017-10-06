@@ -116,7 +116,7 @@ for j = 1:n_y
         else
             STAt = -39:1/fixPar.subSamp:0;
         end
-        plot( STAt,STAfunc(STAt))
+        plot( STAt,STAfunc(STAt),'--','Linewidth',1)
         axis([-39,0,-1,1])
         axis off
         grid on 
