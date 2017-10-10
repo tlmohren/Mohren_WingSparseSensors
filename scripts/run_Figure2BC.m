@@ -35,12 +35,14 @@ catch
     fixPar.data_loc = overflow_loc;
 end 
 
+% B = theta 
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2B' )));
 varParCombinationsB = varParCombinationsAll(figMatch);
 [dataStructB,paramStructB] = combineDataMat(fixPar,varParCombinationsB);
 ind_SSPOCoffB = find( ~[paramStructB.SSPOCon]);
 ind_SSPOConB = find([paramStructB.SSPOCon]);
 
+% C = phi
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2C' )));
 varParCombinationsC = varParCombinationsAll(figMatch);
 [dataStructC,paramStructC] = combineDataMat(fixPar,varParCombinationsC);
@@ -49,7 +51,7 @@ ind_SSPOConC = find([paramStructC.SSPOCon]);
 
 %% Figure settings
 
-plot_on = false ;
+plot_on = true;
 errLocFig2A = 38;
 axisOptsFig2A = {'xtick',[0:10:30,errLocFig2A ],'xticklabel',{'0','10','20','30','\bf \it 1326'},...
     'ytick',0.4:0.2:1 ,'xlim', [0,errLocFig2A+2],'ylim',[0.4,1] };
@@ -102,8 +104,8 @@ for j = 1:n_y
             set(ylh, 'Rotation',0, 'Position',ylp, 'VerticalAlignment','middle', 'HorizontalAlignment','right')
             grid on 
             set(gca, axisOptsFig2A{:})
-            title( paramStructB(Dat_I).theta_dist)
 
+            title( paramStructB(Dat_I).theta_dist)
             axis off 
             drawnow
         end
@@ -137,14 +139,16 @@ for j = 1:n_y
         if plot_on == true
             a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1});
         end
-        thresholdMatC(1,sub_nr) = sigmFitParam(realNumbers,meanVec(realNumbers));
+%         thresholdMatC(1,sub_nr) = sigmFitParam(realNumbers,meanVec(realNumbers));
+        thresholdMatC(1,sub_nr) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
 
         %---------------------------------SSPOCon-------------------------
         Dat_I = ind_SSPOConC(sub_nr);
         [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStructC );
         realNumbers = find(~isnan(meanVec));
         
-        thresholdMatC(2,sub_nr) = sigmFitParam(realNumbers,meanVec(realNumbers));
+%         thresholdMatC(2,sub_nr) = sigmFitParam(realNumbers,meanVec(realNumbers));
+        thresholdMatC(2,sub_nr) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
         
         if plot_on == true
 
@@ -160,8 +164,9 @@ for j = 1:n_y
             set(ylh, 'Rotation',0, 'Position',ylp, 'VerticalAlignment','middle', 'HorizontalAlignment','right')
             grid on 
             set(gca, axisOptsFig2A{:})
-            title( paramStructC(Dat_I).phi_dist)
 
+            title( paramStructC(Dat_I).phi_dist)
+%             title( paramStructB(Dat_I).theta_dist)
             axis off 
             drawnow
         end

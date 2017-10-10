@@ -39,7 +39,7 @@ ind_SSPOCoffB = find( ~[paramStructB.SSPOCon]);
 ind_SSPOConB = find([paramStructB.SSPOCon]);
 
 %% Figure settings
-plot_on = false;
+plot_on = true ;
 errLocFig2A = 38;
 axisOptsFig2A = {'xtick',[0:10:30,errLocFig2A ],'xticklabel',{'0','10','20','30','\bf \it 1326'},...
     'ytick',0.4:0.2:1 ,'xlim', [0,errLocFig2A+2],'ylim',[0.4,1] };
@@ -52,7 +52,7 @@ n_x = length(varParCombinations.STAwidthList);
 n_y =  length(varParCombinations.STAfreqList);
 n_plots = n_x*n_y;
 if plot_on == true
-    fig3plots=figure('Position', [100, 100, 950, 750]);
+    fig4plots=figure('Position', [50, 50, 1200, 1000]);
 end
 for j = 1:n_y
     for k = 1:n_x
@@ -94,7 +94,7 @@ for j = 1:n_y
         end
     end
 end
-
+tightfig
 % if plot_on == true
 %     saveas(fig3plots,['figs' filesep 'Figure3plots_' parameterSetName '.png'])
 % end
@@ -116,13 +116,18 @@ for j = 1:n_y
         else
             STAt = -39:1/fixPar.subSamp:0;
         end
-        plot( STAt,STAfunc(STAt),'--','Linewidth',1)
+        plot( STAt,STAfunc(STAt),'','Linewidth',1)
         axis([-39,0,-1,1])
-        axis off
-        grid on 
+%         axis off
+%         grid on 
+        if (varPar.STAfreq == 1 && varPar.STAwidth == 4)
+            plot( STAt,STAfunc(STAt),'r','Linewidth',2)
+        end
+        scatter(STAt,STAfunc(STAt),'.','b')
     end
+            
 end
-
+tightfig;
 saveas(fig3STA,['figs' filesep 'Figure3STA_' parameterSetName '.png'])
 
 %% Heatmap & Mask 

@@ -40,7 +40,7 @@ ind_SSPOConB = find([paramStructB.SSPOCon]);
 
 %% Figure settings
 
-plot_on = false ;
+plot_on = true ;
 errLocFig2A = 38;
 axisOptsFig2A = {'xtick',[0:10:30,errLocFig2A ],'xticklabel',{'0','10','20','30','\bf \it 1326'},...
     'ytick',0.4:0.2:1 ,'xlim', [0,errLocFig2A+2],'ylim',[0.4,1] };
@@ -54,7 +54,6 @@ n_y =  length(varParCombinations.NLDgradList);
 n_plots = n_x*n_y;
 
 if plot_on == true
-    fig4plots=figure('Position', [100, 100, 950, 750]);
 end
 for j = 1:n_y
     for k = 1:n_x
@@ -96,11 +95,13 @@ for j = 1:n_y
         end
     end
 end
+tightfig
 
 % saveas(fig4plots,['figs' filesep 'Figure4plots_' parameterSetName '.png'])
 %% 
 fig4NLD=figure('Position', [100, 100, 950, 750]);
 % fixPar.STAdelay = 3;
+varParCombinations.NLDgradList = spa_sf( linspace(1,5.4,11).^2 ,2 );
 for j = 1:n_y
     for k = 1:n_x
         sub_nr = (j-1)*n_y + k;
@@ -115,9 +116,12 @@ for j = 1:n_y
         plot( NLDs,NLDfunc(NLDs))
         axis([-1,1,0,1])
         axis off
+        if ( 0.39 <= varPar.NLDshift && varPar.NLDshift <= 0.61 && 9.8<= varPar.NLDgrad && varPar.NLDgrad <= 10.2)
+            plot( NLDs,NLDfunc(NLDs),'r')
+        end
     end
 end
-
+tightfig
 saveas(fig4NLD,['figs' filesep 'Figure4NLD_' parameterSetName '.png'])
 
 %% Heatmap & Mask 

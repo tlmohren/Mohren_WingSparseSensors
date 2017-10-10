@@ -25,8 +25,8 @@ function [ strainSet ] = eulerLagrangeConcatenate(fixPar,varPar)
         % Run simulations for the given parameters 
         fprintf(['Running simulations for: ' simName '\n']); 
 
-        strainSet.strain_0 = eulerLagrange( 0, varPar.phi_dist, varPar.phi_dist ,fixPar);
-        strainSet.strain_10 = eulerLagrange( 10, varPar.phi_dist, varPar.phi_dist ,fixPar);
+        strainSet.strain_0 = eulerLagrange( 0, varPar.theta_dist, varPar.phi_dist ,fixPar);
+        strainSet.strain_10 = eulerLagrange( 10, varPar.theta_dist, varPar.phi_dist ,fixPar);
         
         fprintf(['Completed simulations for: ' simName '\n']); 
         

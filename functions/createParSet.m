@@ -50,7 +50,7 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     % to overwrite regular parameters  -----------------------------------------------
     
     if strfind(name,'subPart')
-        standardPar.theta_distList = 1.3;
+        standardPar.theta_distList = 1;
         standardPar.phi_distList = 3.12 ;
 %      fixPar.sThreshold  = 1;
         fixPar.singValsMult = 1;
@@ -69,18 +69,14 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
             varyPar(j).resultName = 'R2A_disturbance';
             varyPar(j).theta_distList = [0.001,0.01,0.1,1] * 10;
             varyPar(j).phi_distList =[0.001,0.01,0.1,1] * 31.2 ;
-%             varyPar(j).theta_distList = [0.01] * 10;
-%             varyPar(j).phi_distList =[0.01] * 31.2 ;
-%             varPar(j).SSPOConList = [1];
-%             standardPar.wTruncList = 13:15;
         elseif j == 2
-            varyPar(j) = standardPar;
-            varyPar(j).resultName = 'R2C_disturbance_phi';
-            varyPar(j).phi_distList = spa_sf( 10.^[-2:0.1:2] ,2) * 3.12;
-        elseif j == 3
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R2B_disturbance_theta';
             varyPar(j).theta_distList = spa_sf( 10.^[-2:0.1:2] ,2);
+        elseif j == 3
+            varyPar(j) = standardPar;
+            varyPar(j).resultName = 'R2C_disturbance_phi';
+            varyPar(j).phi_distList = spa_sf( 10.^[-2:0.1:2] ,2) * 3.12;
         elseif j == 4
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R3_STA';
@@ -91,7 +87,8 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R4_NLD';
             varyPar(j).NLDshiftList = linspace(-1 ,1,11);
-            varyPar(j).NLDgradList = linspace(1,5,11).^2;
+%             varyPar(j).NLDgradList = spa_sf(  linspace(1,5,11).^2 ,2 );
+            varyPar(j).NLDgradList = spa_sf( linspace(1,5.4,11).^2 ,2 );
         elseif j == 6
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R2allSensorsNoFilt_disturbance';
@@ -137,9 +134,6 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
             varyPar(j).resultName = 'subSetTest';
             varyPar(j).theta_distList = 11;
             varyPar(j).phi_distList =3.12;
-            
-%             varyPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
-%             varyPar(j).SSPOConList = [1];
         end
     end
         

@@ -22,8 +22,8 @@ clear all, close all, clc
 addpathFolderStructure()
 
 % parameterSetName    = 'R1toR4Iter10_delay4';
-parameterSetName    = 'R1R4_Iter3_delay5_eNet09';
-iter                = 3;
+parameterSetName    = 'R1R4_Iter5_delay5_eNet09';
+iter                = 5;
 figuresToRun        = {'R1','R2','R3','R4'};
 % select any from {'R2A','R2B','R2C','R3','R4','R2allSensorsnoFilt','R2allSensorsFilt} 
 

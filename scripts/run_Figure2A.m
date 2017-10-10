@@ -109,6 +109,7 @@ for j = 1:n_y
         set(ylh, 'Rotation',0, 'Position',ylp, 'VerticalAlignment','middle', 'HorizontalAlignment','right')
         grid on 
         set(gca, axisOptsFig2A{:})
+%         title('
         if  sub_nr <13
             set(gca, 'XTicklabel', []);
         end
