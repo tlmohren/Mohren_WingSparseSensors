@@ -46,7 +46,7 @@ for j = 1:length(varParStruct)
     % Run parameter combination for a set number of iterations ---------
     for k = 1:fixPar.iter
         try
-            varPar.curIter = k+3; 
+            varPar.curIter = k; 
             % Generate strain with Euler-Lagrange simulation ----------
             strainSet = eulerLagrangeConcatenate( fixPar,varPar);
             % Apply neural filters to strain --------------------------
