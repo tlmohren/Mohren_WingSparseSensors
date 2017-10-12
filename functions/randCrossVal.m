@@ -11,6 +11,16 @@ function [trainData, testData, Gtrain, Gtest] = randCrossVal(X, G, trainRatio)
 
 classes = length(unique(G));
 [n, m] = size(X);
+
+if mod(m,2) ~= 0
+   error('randCrossVal:XMustBeEven','X must be even.') 
+end
+
+if classes <= 1
+   error('randCrossVal:GhasLessThanTwoClasses','G has less than two classes.') 
+end
+
+
 trainData = []; 
 testData = [];
 Gtrain = []; 
@@ -21,9 +31,6 @@ for j = 1:classes
     classLength = size(classData,2);
     
     randIndices = randperm(classLength);
-%     randIndices(1:15)
-%     randIndices = 1:classLength;
-%     randIndices(1:15)
     
     trainLength = floor(classLength * trainRatio);
     testLength = classLength - trainLength;
