@@ -25,6 +25,25 @@ function cls = classify_nc(X, Phi, w, centroid)
 %
 % BWB, June 2015
 
+% % % required inputs
+p = inputParser; 
+p.addRequired('X', @isnumeric);
+p.addRequired('Phi', @isnumeric);
+p.addRequired('w', @isnumeric);
+p.addRequired('centroid', @isnumeric);
+p.parse(X, Phi, w, centroid);
+inputs = p.Results;
+
+% % % determine combination input
+% [n, r] = size(Psi); %
+% [r_w, c] = size(w); %
+% if r ~= r_w 
+%    error('SSPOCelastic:DimensionPsiMismatchR','number of modes in Psi do not match length of R.') 
+% end
+
+
+
+
 Xcls = w'*(Phi * X);
 
 cls = zeros(1, size(Xcls,2));

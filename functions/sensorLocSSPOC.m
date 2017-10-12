@@ -26,7 +26,7 @@ function  [  sensors  ] = sensorLocSSPOC(  Xtrain,Gtrain ,fixPar, varPar)
 %         w_t = LDA_n(a, Gtrain);
 %         
         
-        s = SSPOC(Psi,w_t,fixPar);
+        s = SSPOCelastic(Psi,w_t,'alpha',fixPar.elasticNet);
         s = sum(s, 2);   
         
 %         [~, I_top] = sort( abs(s));

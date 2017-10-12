@@ -132,7 +132,7 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
         elseif j == 11
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'subSetTest';
-            varyPar(j).theta_distList = 11;
+            varyPar(j).theta_distList = 1;
             varyPar(j).phi_distList =3.12;
         end
     end

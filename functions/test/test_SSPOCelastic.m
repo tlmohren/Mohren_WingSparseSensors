@@ -1,14 +1,25 @@
+% TLM 2017/10/12  
 
-function tests = test_SSPOC
+% starts test
+function tests = test_SSPOCelastic
     tests = functiontests(localfunctions);
 end
-function testUnevenError(testCase)
-    X = [ones(2,100) , 3*ones(2,99) ];
-    G = [ones(1,100) , 2* ones(1,99) ];
-    trainRatio = 0.6;
-    testCase.verifyError(@()randCrossVal(X, G, trainRatio),'randCrossVal:XMustBeEven')
+
+% test if input verification is triggered 
+function testAlphaValueError(testCase)
+    Psi = randn(50,5);
+    w = randn(1,5);
+    alpha = 1.1;
+    testCase.verifyError(@() SSPOCelastic(Psi, w, 'alpha',alpha),'MATLAB:InputParser:ArgumentFailedValidation')
 end
 
+% test if dimension error is triggered
+function testDimensionError(testCase)
+    Psi = randn(50,5);
+    w = randn(1,5);
+    alpha = 1;
+    testCase.verifyError(@() SSPOCelastic(Psi, w, 'alpha',alpha),'SSPOCelastic:DimensionPsiMismatchR')
+end
 
 % test if elastic net works on nyquist
 function testNyquist(testCase)
@@ -26,7 +37,7 @@ function testNyquist(testCase)
     Psi         = bases(perm(1:m),:);                      % random permutation of this 
     fixPar.elasticNet = 0.9;
 
-    sparse_coeff = SSPOC(Psi',sparse_signal',fixPar);
+    sparse_coeff = SSPOCelastic(Psi',sparse_signal','alpha',fixPar.elasticNet);
 
     [~,I]   = sort(dct_coeff,'descend');
     [~,I3]  = sort(sparse_coeff,'descend');

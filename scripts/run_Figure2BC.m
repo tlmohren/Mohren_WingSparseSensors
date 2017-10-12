@@ -187,12 +187,20 @@ if strcmp(parameterSetName,'R1R2withExpFilterIter5')
 end
 
 fig2BC = figure('Position',[900,800,600,250]);
-% subplot(211)
+subplot(211)
     nonz_vals = find( ~isnan(thresholdMatB( 1,:)) );
     B1= semilogx(  x_axisB(nonz_vals ),thresholdMatB( 1 ,nonz_vals),'LineWidth',0.1);
     hold on
     B2=semilogx(  x_axisB(nonz_vals) ,thresholdMatB( 2,nonz_vals),'LineWidth',0.1);
-% subplot(212)
+    
+    
+grid on
+xlabel('disturbance fraction')
+ylabel('sensors for 75 %')
+legend('\theta Random','\theta optimal' ,'Location','NorthEastOutside')
+
+
+subplot(212)
     nonz_vals = find( ~isnan(thresholdMatC( 1,:)) );
     B3= semilogx(  x_axisC(nonz_vals ),thresholdMatC( 1 ,nonz_vals),'LineWidth',0.1);
     hold on
@@ -201,7 +209,7 @@ fig2BC = figure('Position',[900,800,600,250]);
 grid on
 xlabel('disturbance fraction')
 ylabel('sensors for 75 %')
-legend('\theta Random','\theta optimal' ,'\phi Random','\phi optimal','Location','NorthEastOutside')
+legend('\phi Random','\phi optimal','Location','NorthEastOutside')
 
 B1_makeup = {'Color',[1,1,1]*0.3,'Marker','d','MarkerEdgeColor','k','MarkerSize',4};
 B2_makeup = {'Color','r' ,'Marker','d','MarkerSize',4};
