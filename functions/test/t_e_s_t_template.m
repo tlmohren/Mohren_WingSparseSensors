@@ -21,6 +21,7 @@ function testInputCombinationError(testCase)
 %     testCase.verifyError(@()predictTrain(X, G, trainRatio),'randCrossVal:XMustBeEven')
 end
 
+% % % test standard case 
 function testStandardCase(testCase)
 %     X = [ones(2,100) , 3*ones(2,100) ];
 %     G = [ones(1,100) , 2* ones(1,100) ];

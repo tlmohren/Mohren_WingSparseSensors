@@ -14,27 +14,37 @@ function testInputVerificationError(testCase)
     testCase.verifyError(@() classify_nc(X, Phi, w, centroid),'MATLAB:InputParser:ArgumentFailedValidation')
 end
 % 
-% % test if input combination errors are triggered 
-% function testInputCombinationError(testCase)
-% %     X = [ones(2,100) , 3*ones(2,99) ];
-% %     G = [ones(1,100) , 2* ones(1,99) ];
-% %     trainRatio = 0.6;
-% %     testCase.verifyError(@()predictTrain(X, G, trainRatio),'randCrossVal:XMustBeEven')
-% end
+% test if input combination errors are triggered 
+function testInputCombinationErrorPhiX(testCase)
+    X = (-5:3)' *sin(2*pi*(0.05+(0:0.1:2)));
+    Phi = zeros(2,10); Phi(1,3) = 1; Phi(2,8) =1;
+    centroid = [-0.56, 0.615];
+    w = [1;1];
+    testCase.verifyError(@() classify_nc(X, Phi, w, centroid),'SSPOCelastic:DimensionPhiMismatchX')
+end
+
+
+function testInputCombinationErrorPhiW(testCase)
+    X = (-5:4)' *sin(2*pi*(0.05+(0:0.1:2)));
+    Phi = zeros(2,10); Phi(1,3) = 1; Phi(2,8) =1;
+    centroid = [-0.56, 0.615];
+    w = [1;1;2];
+    testCase.verifyError(@() classify_nc(X, Phi, w, centroid),'SSPOCelastic:DimensionPhiMismatchw')
+end
+
+
+
 % 
-% function testStandardCase(testCase)
-% %     X = [ones(2,100) , 3*ones(2,100) ];
-% %     G = [ones(1,100) , 2* ones(1,100) ];
-% %     trainRatio = 0.6;
-% %     [actTrainData, actTestData, actGtrain, actGtest] = predictTrain(X, G, trainRatio);
-% % 
-% %     expTrainData = [ones(2,100*trainRatio) , 3*ones(2,100*trainRatio) ];
-% %     expTestData = [ones(2,100*(1-trainRatio)) , 3*ones(2,100*(1-trainRatio)) ];
-% %     expGtrain = [ones(1,100*trainRatio) , 2*ones(1,100*trainRatio) ];
-% %     expGtest = [ones(1,100*(1-trainRatio)) , 2*ones(1,100*(1-trainRatio)) ];
-% %     
-% %     verifyEqual(testCase,actTrainData,expTrainData)
-% %     verifyEqual(testCase,actTestData,expTestData)
-% %     verifyEqual(testCase,actGtrain,expGtrain)
-% %     verifyEqual(testCase,actGtest,expGtest)
-% end
+function testStandardCase(testCase)
+    X = (-5:4)' *sin(2*pi*(0.05+(0:0.1:2)));
+    Phi = zeros(2,10); Phi(1,3) = 1; Phi(2,8) =1;
+    centroid = [-0.56, 0.615];
+    w = [1;1];
+    
+    actData = classify_nc(X, Phi, w, centroid);
+    
+    expData = ones(1,21); 
+    expData([6:10,16:20])= 2;
+    
+    verifyEqual(testCase,actData,expData)
+end

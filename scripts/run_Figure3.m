@@ -119,8 +119,8 @@ for j = 1:n_y
         end
         plot( STAt,STAfunc(STAt),'','Linewidth',1)
         axis([-39,0,-1,1])
-%         axis off
-%         grid on 
+        axis off
+        grid on 
         if (varPar.STAfreq == 1 && varPar.STAwidth == 4)
             plot( STAt,STAfunc(STAt),'r','Linewidth',2)
         end
@@ -132,14 +132,13 @@ tightfig;
 saveas(fig3STA,['figs' filesep 'Figure3STA_' parameterSetName '.png'])
 
 %% Heatmap & Mask 
-figure(1)
+figure(1);
 xh = get(gca, 'Xlabel');
 yh = get(gca, 'Ylabel');
 axisOptsFig3_heatMap = {
     'xtick', 1:length(varParCombinations.STAwidthList),'xticklabel',varParCombinations.STAwidthList, ...
     'ytick', 1:length(varParCombinations.STAfreqList),'yticklabel',varParCombinations.STAfreqList,...
      'XLabel', xh, 'YLabel', yh, 'clim',[0,20]};
-%  thresholdMatB  = l
 set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
 fig3heatmap = figure('Position', [1000, 100, 400, 600]);
 subplot(211);
@@ -165,7 +164,6 @@ saveas(fig3heatmap,['figs' filesep 'Figure3_' parameterSetName '.png'])
 
 fig3mask = figure('Position', [1000, 100, 400, 600]);
 subplot(211);
-
     mask1 = isnan(thresholdMatB(:,:,2));
     Im(1) = imagesc( ones(size(mask1))*20 );
     
@@ -173,7 +171,6 @@ subplot(211);
     h = colorbar;
     set( h, 'YDir', 'reverse' );
     ylabel(h, '# of sensors required for 75% accuracy')
-
     title('optimal')
    set(Im(1),'alphadata',mask1);
 subplot(212)    

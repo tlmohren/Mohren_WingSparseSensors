@@ -35,11 +35,14 @@ p.parse(X, Phi, w, centroid);
 inputs = p.Results;
 
 % % % determine combination input
-% [n, r] = size(Psi); %
-% [r_w, c] = size(w); %
-% if r ~= r_w 
-%    error('SSPOCelastic:DimensionPsiMismatchR','number of modes in Psi do not match length of R.') 
-% end
+[qPhi, ntotal] = size(Phi); %
+[ntotalX, ntime] = size(X); %
+[qw,~] = size(w); %
+if ntotal ~= ntotalX  
+   error('SSPOCelastic:DimensionPhiMismatchX','# of modes in Phi do not match # modes of X.') 
+elseif qPhi ~= qw  
+   error('SSPOCelastic:DimensionPhiMismatchw','# of sensors in Phi do not match length of w.') 
+end
 
 
 

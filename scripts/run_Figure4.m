@@ -17,7 +17,8 @@ w = warning ('off','all');
 %% 
 % parameterSetName    = 'R3R4withExpFilterIter5';
 % parameterSetName    = 'R1toR4Iter10_delay4';
-parameterSetName = 'R1R4_Iter3_delay5_eNet09';
+% parameterSetName = 'R1R4_Iter3_delay5_eNet09';
+parameterSetName = 'R1R4_Iter5_delay5_eNet09';
 
 overflow_loc = 'D:\Mijn_documenten\Dropbox\A. PhD\C. Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
 github_loc = 'accuracyData';
@@ -129,8 +130,8 @@ figure(1)
 xh = get(gca, 'Xlabel');
 yh = get(gca, 'Ylabel');
 axisOptsFig3_heatMap = {
-    'xtick', 1:length(varParCombinations.NLDshiftList),'xticklabel',varParCombinations.NLDshiftList, ...
-    'ytick', 1:length(varParCombinations.NLDgradList),'yticklabel',varParCombinations.NLDgradList,...
+    'xtick', 1:length(varParCombinations.NLDgradList),'xticklabel',varParCombinations.NLDgradList,...
+    'ytick', 1:length(varParCombinations.NLDshiftList),'yticklabel',varParCombinations.NLDshiftList, ...
      'XLabel', xh, 'YLabel', yh, 'clim',[0,20]};
  
 set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
@@ -168,7 +169,7 @@ subplot(211);
     set( h, 'YDir', 'reverse' );
     ylabel(h, '# of sensors required for 75% accuracy')
     title('optimal')
-   set(Im(1),'alphadata',mask1);
+    set(Im(1),'alphadata',mask1);
    
 subplot(212)    
     mask2 = isnan(thresholdMatB(:,:,1));

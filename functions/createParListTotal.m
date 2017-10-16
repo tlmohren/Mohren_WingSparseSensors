@@ -1,8 +1,10 @@
 function [fixPar,varParCombinationsAll, varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
-    [fixPar,varParCombinationsAll] = createParSet(parameterSetName,iter);
+    [fixPar,varParCombinationsAll] = createParSet(parameterSetName,iter)
     varParIndex = [];
+    {varParCombinationsAll.resultName} 
+     figuresToRun{1} 
     for j = 1:length(figuresToRun)
          figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , figuresToRun{j} )));
          varParIndex = [ varParIndex, figMatch];
