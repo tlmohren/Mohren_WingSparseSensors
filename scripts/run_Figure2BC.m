@@ -187,6 +187,10 @@ if strcmp(parameterSetName,'R1R2withExpFilterIter5')
 end
 
 fig2BC = figure('Position',[900,800,600,250]);
+
+figureOpts = { 'PaperUnits', 'centimeters', 'PaperPosition', [0 0 15 10] };
+set(fig2BC,figureOpts{:})
+
 subplot(211)
     nonz_vals = find( ~isnan(thresholdMatB( 1,:)) );
     B1= semilogx(  x_axisB(nonz_vals ),thresholdMatB( 1 ,nonz_vals),'LineWidth',0.1);
@@ -222,4 +226,7 @@ set(B3,B3_makeup{:})
 set(B4,B4_makeup{:})
 
 
-saveas(fig2BC,['figs' filesep 'Figure2B_' parameterSetName '.png'])
+% saveas(fig2BC,['figs' filesep 'Figure2BC_' parameterSetName '.png'])
+
+print(fig2BC,['figs' filesep 'Figure2BC_' parameterSetName '.png'],'-r500','-dpng')
+% fig2AB = figure('Position', [1000, 100, 400, 600]);

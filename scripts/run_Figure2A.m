@@ -61,13 +61,14 @@ varParCombinationsR2A_allFilt = varParCombinationsAll(figMatch);
 %% Figure settings
 
 plot_on = true ;
+
+%% Figure 2A
 errLocFig2A = 38;
 axisOptsFig2A = {'xtick',[0:10:30,errLocFig2A ],'xticklabel',{'0','10','20','30','\bf \it 1326'},...
     'ytick',0.4:0.2:1 ,'xlim', [0,errLocFig2A+2],'ylim',[0.4,1] };
 col = {ones(3,1)*0.5,'-r'};
 dotcol = {'.k','.r'}; 
 
-%% Figure 2A
 n_plots = 16; 
 n_x = length(varParCombinationsR2A.theta_distList);
 n_y = length(varParCombinationsR2A.phi_distList);
@@ -123,64 +124,47 @@ end
 
 saveas(fig2A,['figs' filesep 'Figure2A_' parameterSetName '.png'])
 
+print(fig2AB,['figs' filesep 'Figure2AB_' parameterSetName '.png'],'-r500','-dpng')
 %% 
 figure(1)
 xh = get(gca, 'Xlabel');
 yh = get(gca, 'Ylabel');
+thresholdMat( isnan(thresholdMat) ) = 35;
 axisOptsFig3_heatMap = {
     'xtick', 1:length(varParCombinationsR2A.phi_distList),'xticklabel',varParCombinationsR2A.phi_distList, ...
     'ytick', 1:length(varParCombinationsR2A.theta_distList),'yticklabel',varParCombinationsR2A.theta_distList,...
-     'XLabel', xh, 'YLabel', yh, 'clim',[0,20]};
-%  thresholdMatB  = l
+     'XLabel', xh, 'YLabel', yh, 'clim',[0,35]};
+colorBarOpts = { 'YDir', 'reverse', 'Ticks' ,[0:10:30,34], 'TickLabels', {0,10,20,30,'> 40' }  };  
 set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
+
+figureOpts = { 'PaperUnits', 'centimeters', 'PaperPosition', [0 0 10 15] };
+
+summerWithBlack = flipud(summer(300));
+summerWithBlack = [ summerWithBlack ; ones(50,3)*0.1];%     summerMa
+
 fig2AB = figure('Position', [1000, 100, 400, 600]);
+set(fig2AB,figureOpts{:})
+
+
 subplot(211);
-%     mask2 = isnan(thresholdMatB(:,:,1));
     imagesc(thresholdMat(:,:,2))
-    colormap(flipud(summer(500)))
+    colormap( summerWithBlack );
     set(gca, axisOptsFig3_heatMap{:})
     h = colorbar;
-    set( h, 'YDir', 'reverse' );
+    set( h, colorBarOpts{:})
     ylabel(h, '# of sensors required for 75% accuracy')
     title('optimal')
 subplot(212)
     imagesc(thresholdMat(:,:,1))
-    colormap(flipud(summer(500)))
+    colormap( summerWithBlack );
     set(gca, axisOptsFig3_heatMap{:})
     h = colorbar;
-    set( h, 'YDir', 'reverse' );
+    set( h, colorBarOpts{:})
     ylabel(h, '# of sensors required for 75% accuracy')
-    
     title('random')
-    
-    
-saveas(fig2AB,['figs' filesep 'Figure2AB_' parameterSetName '.png'])
-%% 
-fig2AB_mask = figure('Position', [1400, 100, 400, 600]);
-subplot(211);
-
-    mask1 = isnan(thresholdMat(:,:,2));
-    Im(1) = imagesc( ones(size(mask1))*20 );
-    
-    set(gca, axisOptsFig3_heatMap{:})
-    h = colorbar;
-    set( h, 'YDir', 'reverse' );
-    ylabel(h, '# of sensors required for 75% accuracy')
-
-    title('optimal')
-   set(Im(1),'alphadata',mask1);
-subplot(212)    
-    mask2 = isnan(thresholdMat(:,:,1));
-    Im(2) = imagesc(ones(size(mask2))*20);
-    
-    colormap(flipud(bone(3)))
-    set(gca, axisOptsFig3_heatMap{:})
-    h = colorbar;
-    set( h, 'YDir', 'reverse' );
-    ylabel(h, '# of sensors required for 75% accuracy')
-    
-    title('random')
-   set(Im(2),'alphadata',mask2);
    
-   
-saveas(fig2AB_mask,['figs' filesep 'Figure2ABmask_' parameterSetName '.png'])
+% saveas(fig2AB,['figs' filesep 'Figure2AB_' parameterSetName '.png'])   
+
+
+% print('5by3DimensionsFigure','-dpng','-r0')
+print(fig2AB,['figs' filesep 'Figure2AB_' parameterSetName '.png'],'-r500','-dpng')

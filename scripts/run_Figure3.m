@@ -41,14 +41,18 @@ ind_SSPOConB = find([paramStructB.SSPOCon]);
 
 %% Figure settings
 plot_on = true ;
+
+
+% plot_on = plas;
+%% Figure 2B
+
 errLocFig2A = 38;
 axisOptsFig2A = {'xtick',[0:10:30,errLocFig2A ],'xticklabel',{'0','10','20','30','\bf \it 1326'},...
     'ytick',0.4:0.2:1 ,'xlim', [0,errLocFig2A+2],'ylim',[0.4,1] };
 col = {ones(3,1)*0.5,'-r'};
 dotcol = {'.k','.r'}; 
 
-% plot_on = plas;
-%% Figure 2B
+
 n_x = length(varParCombinations.STAwidthList);
 n_y =  length(varParCombinations.STAfreqList);
 n_plots = n_x*n_y;
@@ -101,6 +105,11 @@ tightfig
 % end
 %% 
 fig3STA=figure('Position', [100, 100, 950, 750]);
+
+figureOpts = { 'PaperUnits', 'centimeters', 'PaperPosition', [0 0 10 15] };
+set(fig3STA,figureOpts{:})
+
+
 % fixPar.STAdelay = 3;
 for j = 1:n_y
     for k = 1:n_x
@@ -129,7 +138,10 @@ for j = 1:n_y
             
 end
 tightfig;
-saveas(fig3STA,['figs' filesep 'Figure3STA_' parameterSetName '.png'])
+
+% saveas(fig3STA,['figs' filesep 'Figure3STA_' parameterSetName '.png'])
+print(fig3STA,['figs' filesep 'Figure3STA_' parameterSetName] ,'-r500','-dpng')
+
 
 %% Heatmap & Mask 
 figure(1);
@@ -138,53 +150,48 @@ yh = get(gca, 'Ylabel');
 axisOptsFig3_heatMap = {
     'xtick', 1:length(varParCombinations.STAwidthList),'xticklabel',varParCombinations.STAwidthList, ...
     'ytick', 1:length(varParCombinations.STAfreqList),'yticklabel',varParCombinations.STAfreqList,...
-     'XLabel', xh, 'YLabel', yh, 'clim',[0,20]};
+     'XLabel', xh, 'YLabel', yh, 'clim',[0,35]};
+% axisOptsFig3_heatMap = {
+%     'xtick', 1:length(varParCombinationsR2A.phi_distList),'xticklabel',varParCombinationsR2A.phi_distList, ...
+%     'ytick', 1:length(varParCombinationsR2A.theta_distList),'yticklabel',varParCombinationsR2A.theta_distList,...
+%      'XLabel', xh, 'YLabel', yh, 'clim',[0,35]};
 set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
+
+
+colorBarOpts = { 'YDir', 'reverse', 'Ticks' ,[0:10:30,34], 'TickLabels', {0,10,20,30,'> 40' }  };  
+set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
+
+summerWithBlack = flipud(summer(300));
+summerWithBlack = [ summerWithBlack ; ones(50,3)*0.1];%     summerMa
+
+
+thresholdMatB( isnan(thresholdMatB) ) = 35;
+
 fig3heatmap = figure('Position', [1000, 100, 400, 600]);
+figureOpts = { 'PaperUnits', 'centimeters', 'PaperPosition', [0 0 10 15] };
+set(fig3heatmap,figureOpts{:})
+
+
 subplot(211);
 %     mask2 = isnan(thresholdMatB(:,:,1));
     imagesc(thresholdMatB(:,:,2))
-    colormap(flipud(summer(500)))
+%     colormap(flipud(summer(500)))
+    colormap( summerWithBlack );
     set(gca, axisOptsFig3_heatMap{:})
     h = colorbar;
-    set( h, 'YDir', 'reverse' );
+    set( h, colorBarOpts{:})
     ylabel(h, '# of sensors required for 75% accuracy')
     title('optimal')
 subplot(212)
     imagesc(thresholdMatB(:,:,1))
-    colormap(flipud(summer(500)))
+%     colormap(flipud(summer(500)))
+    colormap( summerWithBlack );
     set(gca, axisOptsFig3_heatMap{:})
     h = colorbar;
-    set( h, 'YDir', 'reverse' );
+    set( h, colorBarOpts{:})
     ylabel(h, '# of sensors required for 75% accuracy')
     
     title('random')
     
-saveas(fig3heatmap,['figs' filesep 'Figure3_' parameterSetName '.png'])
-
-fig3mask = figure('Position', [1000, 100, 400, 600]);
-subplot(211);
-    mask1 = isnan(thresholdMatB(:,:,2));
-    Im(1) = imagesc( ones(size(mask1))*20 );
-    
-    set(gca, axisOptsFig3_heatMap{:})
-    h = colorbar;
-    set( h, 'YDir', 'reverse' );
-    ylabel(h, '# of sensors required for 75% accuracy')
-    title('optimal')
-   set(Im(1),'alphadata',mask1);
-subplot(212)    
-    mask2 = isnan(thresholdMatB(:,:,1));
-    Im(2) = imagesc(ones(size(mask2))*20);
-    
-    colormap(flipud(bone(3)))
-    set(gca, axisOptsFig3_heatMap{:})
-    h = colorbar;
-    set( h, 'YDir', 'reverse' );
-    ylabel(h, '# of sensors required for 75% accuracy')
-    
-    title('random')
-   set(Im(2),'alphadata',mask2);
-%    set(Im(3),'alphadata',mask2);
-
-saveas(fig3mask,['figs' filesep 'Figure3mask_' parameterSetName '.png'])
+% saveas(fig3heatmap,['figs' filesep 'Figure3_' parameterSetName '.png'])
+print(fig3heatmap,['figs' filesep 'Figure3_' parameterSetName] ,'-r500','-dpng')

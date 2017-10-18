@@ -96,11 +96,13 @@ saveas(fig1A,['figs' filesep 'Figure1A_' parameterSetName '.png'])
 
 %%
 fig1B = figure();
-q = 10;
+q = 17;
 binar = get_pdf( dataStruct.sensorMatTot(2,q,1:q,:));
 plotSensorLocs(binar,fixPar)
 if sum(binar) == 0
    display(['no simulations ended on q = ' num2str(q)] ) 
 end
 
-saveas(fig1B,['figs' filesep 'Figure1B_' parameterSetName '.png'])
+% saveas(fig1B,['figs' filesep 'Figure1B_' parameterSetName '.png'])
+saveas(fig1B,['figs' filesep 'Figure1B_' parameterSetName '.svg'])
+% print(fig1B,['figs' filesep 'Figure1B_' parameterSetName ],'-r500','-dpng')

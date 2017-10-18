@@ -42,19 +42,21 @@ ind_SSPOConB = find([paramStructB.SSPOCon]);
 %% Figure settings
 
 plot_on = true ;
+
+
+%% Figure 4
+
 errLocFig2A = 38;
 axisOptsFig2A = {'xtick',[0:10:30,errLocFig2A ],'xticklabel',{'0','10','20','30','\bf \it 1326'},...
     'ytick',0.4:0.2:1 ,'xlim', [0,errLocFig2A+2],'ylim',[0.4,1] };
 col = {ones(3,1)*0.5,'-r'};
 dotcol = {'.k','.r'}; 
-
-
-%% Figure 4
 n_x =  length(varParCombinations.NLDgradList);
 n_y = length(varParCombinations.NLDshiftList);
 n_plots = n_x*n_y;
 
 if plot_on == true
+    fig4plots=figure('Position', [100, 100, 950, 750]);
 end
 for j = 1:n_y
     for k = 1:n_x
@@ -101,11 +103,12 @@ tightfig
 % saveas(fig4plots,['figs' filesep 'Figure4plots_' parameterSetName '.png'])
 %% 
 fig4NLD=figure('Position', [100, 100, 950, 750]);
-% fixPar.STAdelay = 3;
-varParCombinations.NLDgradList = spa_sf( linspace(1,5.4,11).^2 ,2 );
+% figureOpts = { 'PaperUnits', 'centimeters', 'PaperPosition', [0 0 10 15] };
+% set(fig4NLD,figureOpts{:})
+
 for j = 1:n_y
     for k = 1:n_x
-        sub_nr = (j-1)*n_y + k;
+        sub_nr = (j-1)*n_x + k;
         subplot(n_y,n_x, sub_nr)
         hold on
         varPar.STAwidth = varParCombinations.STAwidthList(1);
@@ -123,65 +126,49 @@ for j = 1:n_y
     end
 end
 tightfig
-saveas(fig4NLD,['figs' filesep 'Figure4NLD_' parameterSetName '.png'])
+% saveas(fig4NLD,['figs' filesep 'Figure4NLD_' parameterSetName '.png'])
+print(fig4NLD,['figs' filesep 'Figure4NLD_' parameterSetName '.png'],'-r500','-dpng')
 
 %% Heatmap & Mask 
 figure(1)
 xh = get(gca, 'Xlabel');
 yh = get(gca, 'Ylabel');
-axisOptsFig3_heatMap = {
+axisOptsFig4_heatMap = {
     'xtick', 1:length(varParCombinations.NLDgradList),'xticklabel',varParCombinations.NLDgradList,...
     'ytick', 1:length(varParCombinations.NLDshiftList),'yticklabel',varParCombinations.NLDshiftList, ...
-     'XLabel', xh, 'YLabel', yh, 'clim',[0,20]};
+     'XLabel', xh, 'YLabel', yh, 'clim',[0,35]};
  
 set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
+
+
+summerWithBlack = flipud(summer(300));
+summerWithBlack = [ summerWithBlack ; ones(50,3)*0.1];%     summerMa
+
+colorBarOpts = { 'YDir', 'reverse', 'Ticks' ,[0:10:30,34], 'TickLabels', {0,10,20,30,'> 40' }  };
+
+thresholdMatB( isnan(thresholdMatB) ) = 35;
 fig4heatmap = figure('Position', [1000, 100, 400, 600]);
+figureOpts = { 'PaperUnits', 'centimeters', 'PaperPosition', [0 0 10 15] };
+set(fig4heatmap,figureOpts{:})
+
 subplot(211);
 %     mask2 = isnan(thresholdMatB(:,:,1));
     imagesc(thresholdMatB(:,:,2))
-    colormap(flipud(summer(500)))
-    set(gca, axisOptsFig3_heatMap{:})
+    colormap( summerWithBlack );
+    set(gca, axisOptsFig4_heatMap{:})
     h = colorbar;
-    set( h, 'YDir', 'reverse' );
+    set( h, colorBarOpts{:})
     ylabel(h, '# of sensors required for 75% accuracy')
     title('optimal')
 subplot(212)
     imagesc(thresholdMatB(:,:,1))
-    colormap(flipud(summer(500)))
-    set(gca, axisOptsFig3_heatMap{:})
+    colormap( summerWithBlack );
+    set(gca, axisOptsFig4_heatMap{:})
     h = colorbar;
-    set( h, 'YDir', 'reverse' );
+    set( h, colorBarOpts{:})
     ylabel(h, '# of sensors required for 75% accuracy')
     title('random')
-saveas(fig4heatmap,['figs' filesep 'Figure4_' parameterSetName '.png'])    
+% saveas(fig4heatmap,['figs' filesep 'Figure4_' parameterSetName '.png'])    
     
-    
-%%    
-    
-fig4_mask = figure('Position', [1000, 100, 400, 600]);
-subplot(211);
+print(fig4heatmap,['figs' filesep 'Figure4_' parameterSetName] ,'-r500','-dpng')
 
-    mask1 = isnan(thresholdMatB(:,:,2));
-    Im(1) = imagesc( ones(size(mask1))*20 );
-    
-    set(gca, axisOptsFig3_heatMap{:})
-    h = colorbar;
-    set( h, 'YDir', 'reverse' );
-    ylabel(h, '# of sensors required for 75% accuracy')
-    title('optimal')
-    set(Im(1),'alphadata',mask1);
-   
-subplot(212)    
-    mask2 = isnan(thresholdMatB(:,:,1));
-    Im(2) = imagesc(ones(size(mask2))*20);
-    
-    colormap(flipud(bone(3)))
-    set(gca, axisOptsFig3_heatMap{:})
-    h = colorbar;
-    set( h, 'YDir', 'reverse' );
-    ylabel(h, '# of sensors required for 75% accuracy')
-    title('random')
-   set(Im(2),'alphadata',mask2);
-   
-saveas(fig4_mask,['figs' filesep 'Figure4mask_' parameterSetName '.png'])    
-    
