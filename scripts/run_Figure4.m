@@ -49,16 +49,16 @@ col = {ones(3,1)*0.5,'-r'};
 dotcol = {'.k','.r'}; 
 
 
-%% Figure 2B
-n_x = length(varParCombinations.NLDshiftList);
-n_y =  length(varParCombinations.NLDgradList);
+%% Figure 4
+n_x =  length(varParCombinations.NLDgradList);
+n_y = length(varParCombinations.NLDshiftList);
 n_plots = n_x*n_y;
 
 if plot_on == true
 end
 for j = 1:n_y
     for k = 1:n_x
-        sub_nr = (j-1)*n_y + k;
+        sub_nr = (j-1)*n_x + k;
         if plot_on == true
             subplot(n_y,n_x, sub_nr)
             hold on
@@ -117,7 +117,7 @@ for j = 1:n_y
         plot( NLDs,NLDfunc(NLDs))
         axis([-1,1,0,1])
         axis off
-        if ( 0.39 <= varPar.NLDshift && varPar.NLDshift <= 0.61 && 9.8<= varPar.NLDgrad && varPar.NLDgrad <= 10.2)
+        if ( 0.45 <= varPar.NLDshift && varPar.NLDshift <= 0.55 && 9.8<= varPar.NLDgrad && varPar.NLDgrad <= 10.2)
             plot( NLDs,NLDfunc(NLDs),'r')
         end
     end

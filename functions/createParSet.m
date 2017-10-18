@@ -86,8 +86,11 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
         elseif j == 5
             varyPar(j) = standardPar;
             varyPar(j).resultName = 'R4_NLD';
-            varyPar(j).NLDshiftList = linspace(-1 ,1,11);
-%             varyPar(j).NLDgradList = spa_sf(  linspace(1,5,11).^2 ,2 );
+            
+%             varyPar(j).NLDshiftList= linspace(-1 ,1,11);
+            tempVec = linspace(-1 ,1,11);
+            varyPar(j).NLDshiftList  = [tempVec(1:8), 0.5, tempVec(9:end)];
+            
             varyPar(j).NLDgradList = spa_sf( linspace(1,5.4,11).^2 ,2 );
         elseif j == 6
             varyPar(j) = standardPar;
