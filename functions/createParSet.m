@@ -58,7 +58,7 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
 %         fixPar.rmodes = 26;
         fixPar.rmodes = 30;
 %         fixPar.STAdelay = 3.6;
-        standardPar.wTruncList = 3:15;
+        standardPar.wTruncList = 3:5;
         standardPar.SSPOConList = [1];
 %     fixPar.normalizeVal = 3.63e-4; % for delay = 4
     end

@@ -49,6 +49,20 @@ figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} ,
 varParCombinations_allFilt = varParCombinationsAll(figMatch);
 [dataStructAllFilt,paramStructAllFilt] = combineDataMat(fixPar,varParCombinations_allFilt);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 %% Figure settings
 
 errLocFig1A = 35;
@@ -59,6 +73,10 @@ dotcol = {'.k','.r'};
 
 %% Figure 2A
 fig1A=figure('Position', [100, 600, 600, 450]);
+
+
+
+
 hold on
 %---------------------------------SSPOCoff-------------------------
 if any(ind_SSPOCoff)
@@ -67,6 +85,7 @@ if any(ind_SSPOCoff)
     realNumbers = find(~isnan(meanVec));
     a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1});
 end
+
 %---------------------------------SSPOCon-------------------------
 Dat_I = ind_SSPOCon(1);
 [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
@@ -76,16 +95,21 @@ for k2 = 1:size(dataStruct.dataMatTot,2)
     scatter( ones(iters,1)*k2,nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) , dotcol{2})
 end
 plot(realNumbers, meanVec(realNumbers),col{2})
+
 %--------------------------------Allsensors Neural filt-------------------------    
 meanval = mean( nonzeros(  dataStructAllFilt.dataMatTot(1,:)  ) );
 stdval = std( nonzeros(    dataStructAllFilt.dataMatTot(1,:)  ) );
 errorbar(errLocFig1A,meanval,stdval,'b','LineWidth',1)
 plot([-1,1]+errLocFig1A,[meanval,meanval],'b','LineWidth',1)   
+
 %--------------------------------Allsensors no NF-------------------------    
 meanval = mean( nonzeros(  dataStructAllnoFilt.dataMatTot(1,:)  ) );
 stdval = std( nonzeros(    dataStructAllnoFilt.dataMatTot(1,:)  ) );
-errorbar(errLocFig1A,meanval,stdval,'k','LineWidth',1)
-plot([-1,1]+errLocFig1A,[meanval,meanval],'k','LineWidth',1)   
+errorbar(errLocFig1A, meanval, stdval,'k','LineWidth',1)
+plot([-1,1]+errLocFig1A, [meanval, meanval],'k','LineWidth',1)   
+
+
+
 %--------------------------------Figure cosmetics-------------------------    
 ylh = get(gca,'ylabel');                                            % Object Information
 ylp = get(ylh, 'Position');
@@ -95,6 +119,21 @@ set(gca, axisOptsFig1A{:})
 drawnow
 
 saveas(fig1A,['figs' filesep 'Figure1A_' parameterSetName '.png'])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 %%
 fig1B = figure();
