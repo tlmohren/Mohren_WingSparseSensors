@@ -148,8 +148,8 @@ figure(1);
 xh = get(gca, 'Xlabel');
 yh = get(gca, 'Ylabel');
 axisOptsFig3_heatMap = {
-    'xtick', 1:length(varParCombinations.STAwidthList),'xticklabel',varParCombinations.STAwidthList, ...
-    'ytick', 1:length(varParCombinations.STAfreqList),'yticklabel',varParCombinations.STAfreqList,...
+    'xtick', 1:length(varParCombinations.STAfreqList),'xticklabel',varParCombinations.STAfreqList,...
+    'ytick', 1:length(varParCombinations.STAwidthList),'yticklabel',varParCombinations.STAwidthList, ...
      'XLabel', xh, 'YLabel', yh, 'clim',[0,35]};
 % axisOptsFig3_heatMap = {
 %     'xtick', 1:length(varParCombinationsR2A.phi_distList),'xticklabel',varParCombinationsR2A.phi_distList, ...
@@ -182,6 +182,9 @@ subplot(211);
     set( h, colorBarOpts{:})
     ylabel(h, '# of sensors required for 75% accuracy')
     title('optimal')
+    hold on
+%     plot( [5,6 ; 6,6;6,5;5,5]+0.5,[3,3;3,2;2,2;2,3]+0.5,'r')
+    plot( 5.5 + [0,1 ; 1,1;1,0;0,0] ,2.5+ [1,1;1,0;0,0;0,1],'r')
 subplot(212)
     imagesc(thresholdMatB(:,:,1))
 %     colormap(flipud(summer(500)))
@@ -192,6 +195,9 @@ subplot(212)
     ylabel(h, '# of sensors required for 75% accuracy')
     
     title('random')
+    hold on 
+%     plot( [5,6 ; 6,6;6,5;5,5]+0.5,[3,3;3,2;2,2;2,3]+0.5,'r')
+    plot( 5.5 + [0,1 ; 1,1;1,0;0,0] ,2.5+ [1,1;1,0;0,0;0,1],'r')
     
 % saveas(fig3heatmap,['figs' filesep 'Figure3_' parameterSetName '.png'])
 print(fig3heatmap,['figs' filesep 'Figure3_' parameterSetName] ,'-r500','-dpng')

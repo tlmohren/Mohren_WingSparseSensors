@@ -10,6 +10,8 @@
 %------------------------------
 clc;clear all; close all 
 
+% runtests
+
 set(groot, 'defaultAxesTickLabelInterpreter', 'factory');
 addpathFolderStructure()
 w = warning ('off','all');

@@ -160,6 +160,11 @@ subplot(211);
     set( h, colorBarOpts{:})
     ylabel(h, '# of sensors required for 75% accuracy')
     title('optimal')
+    
+    hold on
+    plot( 5.5 + [0,1 ; 1,1;1,0;0,0] ,8.5+ [1,1;1,0;0,0;0,1],'r')
+    
+    
 subplot(212)
     imagesc(thresholdMatB(:,:,1))
     colormap( summerWithBlack );
@@ -168,6 +173,8 @@ subplot(212)
     set( h, colorBarOpts{:})
     ylabel(h, '# of sensors required for 75% accuracy')
     title('random')
+    hold on
+    plot( 5.5 + [0,1 ; 1,1;1,0;0,0] ,8.5+ [1,1;1,0;0,0;0,1],'r')
 % saveas(fig4heatmap,['figs' filesep 'Figure4_' parameterSetName '.png'])    
     
 print(fig4heatmap,['figs' filesep 'Figure4_' parameterSetName] ,'-r500','-dpng')
