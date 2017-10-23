@@ -118,9 +118,10 @@ grid on
 set(gca, axisOptsFig1A{:})
 drawnow
 
-saveas(fig1A,['figs' filesep 'Figure1A_' parameterSetName '.png'])
+% saveas(fig1A,['figs' filesep 'Figure1A_' parameterSetName '.png'])
 
 
+print(fig1A,,['figs' filesep 'Figure1A_' parameterSetName  '.png'],'-r500','-dpng')
 
 
 

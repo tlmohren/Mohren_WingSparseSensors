@@ -43,7 +43,7 @@ fixPar.subPart = 1;
 % % % varParStruct = varParStruct(1);
 %% Run eulerLagrangeSimulation (optional) and sparse sensor placement algorithm
 tic 
-for j = 1:length(varParStruct)
+parfor j = 1:length(varParStruct)
     
     varPar = varParStruct(j);
     % Initialize matrices for this particular parameter set----------------
@@ -81,21 +81,22 @@ for j = 1:length(varParStruct)
 %             fprintf(['W_trunc = %1.0f, gave error \n'],[varPar.wTrunc])
 %         end
     end
-    % save classification accuracy and sensor location in small .mat file
-    fillString = 'Data_%s_dT%g_dP%g_sOn%g_STAw%g_STAf%g_NLDs%g_NLDg%g_wT%g_';
-    fillCell = {fixPar.saveNameParameters ,varPar.theta_dist , varPar.phi_dist, varPar.SSPOCon , ...
-                varPar.STAwidth , varPar.STAfreq , varPar.NLDshift , varPar.NLDgrad , varPar.wTrunc };
-            
-    saveNameBase = sprintf( fillString,fillCell{:} );
-    saveName = [saveNameBase,computer,'_',datestr(datetime('now'), 30),'.mat'];
-    save(  ['accuracyData',filesep, saveName]  ,'DataMat','SensMat','fixPar','varPar')
-    fprintf('Runtime = %g[s], Saved as: %s \n',[toc,saveName]) 
+%     % save classification accuracy and sensor location in small .mat file
+%     fillString = 'Data_%s_dT%g_dP%g_sOn%g_STAw%g_STAf%g_NLDs%g_NLDg%g_wT%g_';
+%     fillCell = {fixPar.saveNameParameters ,varPar.theta_dist , varPar.phi_dist, varPar.SSPOCon , ...
+%                 varPar.STAwidth , varPar.STAfreq , varPar.NLDshift , varPar.NLDgrad , varPar.wTrunc };
+%             
+%     saveNameBase = sprintf( fillString,fillCell{:} );
+%     saveName = [saveNameBase,computer,'_',datestr(datetime('now'), 30),'.mat'];
+%     save(  ['accuracyData',filesep, saveName]  ,'DataMat','SensMat','fixPar','varPar')
+%     fprintf('Runtime = %g[s], Saved as: %s \n',[toc,saveName]) 
     
     % Sync to github(git required) once every 100 parameter combinations or if last combination is reached 
-    if ~(mod(j, 100)~= 0 && j ~= length(varParStruct))
-        system('git pull');
-        system('git add data/*.mat');
-        system(sprintf('git commit * -m "pushing data from more runs %i"', j));
-        system('git push');
-    end;
+%     if ~(mod(j, 100)~= 0 && j ~= length(varParStruct))
+%         system('git pull');
+%         system('git add data/*.mat');
+%         system(sprintf('git commit * -m "pushing data from more runs %i"', j));
+%         system('git push');
+%     end;
 end
+toc

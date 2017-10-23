@@ -122,7 +122,7 @@ for j = 1:n_y
     end
 end
 
-saveas(fig2A,['figs' filesep 'Figure2A_' parameterSetName '.png'])
+% saveas(fig2A,['figs' filesep 'Figure2A_' parameterSetName '.png'])
 
 print(fig2AB,['figs' filesep 'Figure2AB_' parameterSetName '.png'],'-r500','-dpng')
 %% 
