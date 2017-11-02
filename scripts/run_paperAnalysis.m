@@ -25,6 +25,7 @@ addpathFolderStructure()
 parameterSetName    = 'R1R4_Iter5_delay5_eNet09';
 iter                = 5;
 figuresToRun        = {'R1','R2','R3','R4'};
+runOccurence        = 4;
 % select any from {'R2A','R2B','R2C','R3','R4','R2allSensorsnoFilt','R2allSensorsFilt} 
 
 % Build struct that specifies all parameter combinations to run 
@@ -46,7 +47,8 @@ for j = 1:length(varParStruct)
     % Run parameter combination for a set number of iterations ---------
     for k = 1:fixPar.iter
         try
-            varPar.curIter = k+10; 
+%             varPar.curIter = k+10; 
+            varPar.curIter = k+5*(runOccurence-1); 
             % Generate strain with Euler-Lagrange simulation ----------
             strainSet = eulerLagrangeConcatenate( fixPar,varPar);
             % Apply neural filters to strain --------------------------

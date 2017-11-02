@@ -139,7 +139,7 @@ diagS = diag(S)/sum(S(:));
 diagSs = diag(Ss)/sum(Ss(:));
 
 
-figSub1A = figure('Position',[100,100,800,900]);
+% figSub1A = figure('Position',[100,100,800,900]);
 for j = 1:fixPar.rmodes
     
     subplot(10,6,j*2-1)

@@ -10,11 +10,17 @@
 %------------------------------
 clc;clear all; close all 
 
-set(groot, 'defaultAxesTickLabelInterpreter', 'factory');
 addpathFolderStructure()
 w = warning ('off','all');
 
-%% 
+set(0,'defaultLineLineWidth',0.3);   % set the default line width to lw
+set(0,'defaultLineMarkerSize',2); % set the default line marker size to msz
+% pre plot decisions 
+width = 7;     % Width in inches,   find column width in paper 
+height = 2.5;    % Height in inches
+plot_on = false ;
+
+%% data collection
 % parameterSetName    = 'R3R4withExpFilterIter5';
 % parameterSetName    = 'R1toR4Iter10_delay4';
 % parameterSetName    = 'R1R4Iter10_delay3_6_fixSTAwidth';
@@ -39,10 +45,6 @@ varParCombinations = varParCombinationsAll(figMatch);
 ind_SSPOCoffB = find( ~[paramStructB.SSPOCon]);
 ind_SSPOConB = find([paramStructB.SSPOCon]);
 
-%% Figure settings
-plot_on = true ;
-
-
 % plot_on = plas;
 %% Figure 2B
 
@@ -52,13 +54,13 @@ axisOptsFig2A = {'xtick',[0:10:30,errLocFig2A ],'xticklabel',{'0','10','20','30'
 col = {ones(3,1)*0.5,'-r'};
 dotcol = {'.k','.r'}; 
 
-
 n_x = length(varParCombinations.STAwidthList);
 n_y =  length(varParCombinations.STAfreqList);
 n_plots = n_x*n_y;
 if plot_on == true
     fig4plots=figure('Position', [50, 50, 1200, 1000]);
 end
+
 for j = 1:n_y
     for k = 1:n_x
         sub_nr = (j-1)*n_y + k;
@@ -99,22 +101,36 @@ for j = 1:n_y
         end
     end
 end
-tightfig
-% if plot_on == true
-%     saveas(fig3plots,['figs' filesep 'Figure3plots_' parameterSetName '.png'])
-% end
-%% 
-fig3STA=figure('Position', [100, 100, 950, 750]);
 
-figureOpts = { 'PaperUnits', 'centimeters', 'PaperPosition', [0 0 10 15] };
-set(fig3STA,figureOpts{:})
+
+if plot_on == true
+    tightfig;
+end
+
+%% Figure 3
+fig3 = figure();
+set(fig3, 'Position', [fig3.Position(1:2) width*100, height*100]); %<- Set size
+plot_on = true ;
+
+%% Axis makeup 
+errLocFig2A = 40;
+axisOptsFig2A = {'xtick',[0:15:30,errLocFig2A ],'xticklabel',{'0','15','30','\textbf{ {1326}}'},...
+    'ytick',0.4:0.3:1 ,'xlim', [-1,errLocFig2A+2],'ylim',[0.4,1] };
+col = {ones(3,1)*0.5,'-r'};
+dotcol = {'.k','.r'}; 
+
+n_x = length(varParCombinations.STAwidthList);
+n_y =  length(varParCombinations.STAfreqList);
+d_x = 19;
+pltSTA = repmat(13:19, 5, 1)+ repmat( (0:4)', [1,7])*19;
 
 
 % fixPar.STAdelay = 3;
 for j = 1:n_y
     for k = 1:n_x
-        sub_nr = (j-1)*n_y + k;
-        subplot(n_y,n_x, sub_nr)
+        sub_nr = (j-1)*d_x + k;
+%         plot_nr = (j-1)*n_x + k;
+        subplot(n_y,d_x, sub_nr)
         hold on
         varPar.STAfreq = varParCombinations.STAfreqList(k);
         varPar.STAwidth = varParCombinations.STAwidthList(j);
@@ -126,78 +142,77 @@ for j = 1:n_y
         else
             STAt = -39:1/fixPar.subSamp:0;
         end
-        plot( STAt,STAfunc(STAt),'','Linewidth',1)
-        axis([-39,0,-1,1])
+        plot( STAt,STAfunc(STAt),'k')
+        axis([-39,0,-1,1.2])
         axis off
         grid on 
         if (varPar.STAfreq == 1 && varPar.STAwidth == 4)
-            plot( STAt,STAfunc(STAt),'r','Linewidth',2)
+%             plot( STAt,STAfunc(STAt),'r','Linewidth',2)
+            plot( [-40,1,1,-40,-40],[-1,-1,1,1,-1]+0.2,'r','LineWidth',0.5)
+        axis([-40,1,-1,1.2])
         end
-        scatter(STAt,STAfunc(STAt),'.','b')
+%         scatter(STAt,STAfunc(STAt),'.','k')
     end
-            
 end
-tightfig;
-
-% saveas(fig3STA,['figs' filesep 'Figure3STA_' parameterSetName '.png'])
-print(fig3STA,['figs' filesep 'Figure3STA_' parameterSetName] ,'-r500','-dpng')
-
 
 %% Heatmap & Mask 
-figure(1);
-xh = get(gca, 'Xlabel');
-yh = get(gca, 'Ylabel');
+thresholdMatB( isnan(thresholdMatB) ) = 35;
+tickList = 1:5:length(varParCombinations.STAfreqList);
 axisOptsFig3_heatMap = {
-    'xtick', 1:length(varParCombinations.STAfreqList),'xticklabel',varParCombinations.STAfreqList,...
-    'ytick', 1:length(varParCombinations.STAwidthList),'yticklabel',varParCombinations.STAwidthList, ...
-     'XLabel', xh, 'YLabel', yh, 'clim',[0,35]};
-% axisOptsFig3_heatMap = {
-%     'xtick', 1:length(varParCombinationsR2A.phi_distList),'xticklabel',varParCombinationsR2A.phi_distList, ...
-%     'ytick', 1:length(varParCombinationsR2A.theta_distList),'yticklabel',varParCombinationsR2A.theta_distList,...
-%      'XLabel', xh, 'YLabel', yh, 'clim',[0,35]};
-set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
+    'xtick', tickList,...
+    'xticklabel',varParCombinations.STAfreqList(tickList),...
+    'ytick', tickList,...
+    'yticklabel',varParCombinations.STAwidthList(tickList), ...
+     'clim',[0,35]};
 
-
-colorBarOpts = { 'YDir', 'reverse', 'Ticks' ,[0:10:30,34], 'TickLabels', {0,10,20,30,'> 40' }  };  
-set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
-
+colorBarOpts = { 'YDir', 'reverse', 'Ticks' ,[0:10:30,34], 'TickLabels', {0,10,20,30,'$>$ 30' }  ,'TickLabelInterpreter','latex'};
 summerWithBlack = flipud(summer(300));
 summerWithBlack = [ summerWithBlack ; ones(50,3)*0.1];%     summerMa
 
+pltTop = repmat(13:19, 5, 1)+ repmat( (0:4)', [1,7])*19;
+pltBottom = repmat(13:19, 5, 1)+ repmat( (6:10)', [1,7])*19;
 
-thresholdMatB( isnan(thresholdMatB) ) = 35;
-
-fig3heatmap = figure('Position', [1000, 100, 400, 600]);
-figureOpts = { 'PaperUnits', 'centimeters', 'PaperPosition', [0 0 10 15] };
-set(fig3heatmap,figureOpts{:})
-
-
-subplot(211);
-%     mask2 = isnan(thresholdMatB(:,:,1));
+subplot(11,19,pltTop(:))
     imagesc(thresholdMatB(:,:,2))
-%     colormap(flipud(summer(500)))
     colormap( summerWithBlack );
     set(gca, axisOptsFig3_heatMap{:})
     h = colorbar;
     set( h, colorBarOpts{:})
-    ylabel(h, '# of sensors required for 75% accuracy')
-    title('optimal')
+    ylabel(h, 'Sensors for 75\% Accuracy', 'Interpreter', 'latex')
+    title('Optimal')
     hold on
-%     plot( [5,6 ; 6,6;6,5;5,5]+0.5,[3,3;3,2;2,2;2,3]+0.5,'r')
     plot( 5.5 + [0,1 ; 1,1;1,0;0,0] ,2.5+ [1,1;1,0;0,0;0,1],'r')
-subplot(212)
+    
+subplot(11,19,pltBottom(:))
     imagesc(thresholdMatB(:,:,1))
-%     colormap(flipud(summer(500)))
     colormap( summerWithBlack );
     set(gca, axisOptsFig3_heatMap{:})
     h = colorbar;
     set( h, colorBarOpts{:})
-    ylabel(h, '# of sensors required for 75% accuracy')
-    
-    title('random')
+    ylabel(h, 'Sensors for 75\% Accuracy', 'Interpreter', 'latex')
+    title('Random')
     hold on 
-%     plot( [5,6 ; 6,6;6,5;5,5]+0.5,[3,3;3,2;2,2;2,3]+0.5,'r')
     plot( 5.5 + [0,1 ; 1,1;1,0;0,0] ,2.5+ [1,1;1,0;0,0;0,1],'r')
+    xlabel('f [$\frac{Hz}{2 \pi}$]'); ylabel('$\sigma$')
     
-% saveas(fig3heatmap,['figs' filesep 'Figure3_' parameterSetName '.png'])
-print(fig3heatmap,['figs' filesep 'Figure3_' parameterSetName] ,'-r500','-dpng')
+%% Setting paper size for saving 
+% set(gca, 'LooseInset', get(gca(), 'TightInset')); % remove whitespace around figure
+% tightfig;
+% % % Here we preserve the size of the image when we save it.
+set(fig3,'InvertHardcopy','on');
+set(fig3,'PaperUnits', 'inches');
+papersize = get(fig3, 'PaperSize');
+left = (papersize(1)- width)/2;
+bottom = (papersize(2)- height)/2;
+myfiguresize = [left, bottom, width, height];
+set(fig3, 'PaperPosition', myfiguresize);
+
+%% Saving figure 
+print(fig3, ['figs' filesep 'Figure_R3' ], '-dpng', '-r600');
+
+% total hack, why does saving to svg scale image up???
+stupid_ratio = 15/16;
+myfiguresize = [left, bottom, width*stupid_ratio, height*stupid_ratio];
+set(fig3, 'PaperPosition', myfiguresize);
+
+print(fig3, ['figs' filesep 'Figure_R3' ], '-dsvg');

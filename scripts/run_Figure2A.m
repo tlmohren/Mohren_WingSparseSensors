@@ -10,11 +10,18 @@
 %------------------------------
 clc;clear all; close all 
 
-set(groot, 'defaultAxesTickLabelInterpreter', 'factory');
+% set(groot, 'defaultAxesTickLabelInterpreter', 'factory');
 addpathFolderStructure()
 w = warning ('off','all');
 
-%% 
+% pre plot decisions 
+width = 7;     % Width in inches,   find column width in paper 
+height = 2.5;    % Height in inches
+
+set(0,'DefaultAxesFontSize',8)% .
+% set(0,'DefaultAxesLabelFontSize', 8/6)
+
+%% Data collection 
 % parameterSetName    = 'R1R2withExpFilterIter5';
 % parameterSetName    = 'R1toR4Iter10_delay4';
 % parameterSetName    = 'R1R2Iter5_delay3_6_normval377';
@@ -49,7 +56,7 @@ ind_SSPOCoff = find( ~[paramStruct.SSPOCon]);
 ind_SSPOCon = find([paramStruct.SSPOCon]);
 
 display('added paths')
-%% 
+%
 figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2allSensorsNoFilt' )));
 varParCombinationsR2A_allNoFilt = varParCombinationsAll(figMatch);
 [dataStructAllnoFilt,paramStructAllnoFilt] = combineDataMat(fixPar,varParCombinationsR2A_allNoFilt);
@@ -58,35 +65,62 @@ figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} ,
 varParCombinationsR2A_allFilt = varParCombinationsAll(figMatch);
 [dataStructAllFilt,paramStructAllFilt] = combineDataMat(fixPar,varParCombinationsR2A_allFilt);
 
-%% Figure settings
 
+
+
+
+
+
+
+
+
+
+
+%% Figure settings
+fig2 = figure();
+set(fig2, 'Position', [fig2.Position(1:2) width*100, height*100]); %<- Set size
 plot_on = true ;
 
-%% Figure 2A
-errLocFig2A = 38;
-axisOptsFig2A = {'xtick',[0:10:30,errLocFig2A ],'xticklabel',{'0','10','20','30','\bf \it 1326'},...
-    'ytick',0.4:0.2:1 ,'xlim', [0,errLocFig2A+2],'ylim',[0.4,1] };
+%% Axis makeup 
+errLocFig2A = 36;
+axisOptsFig2Out = {...    
+     'ytick',0.4:0.3:1 ,'xlim', [-1,errLocFig2A+2],'ylim',[0.4,1] ,...
+    'xtick',[0:10:30,errLocFig2A],'xticklabel',{[0:10:30],''},...   
+%         'ytick',0.4:0.3:1 ,'xlim', [-1,errLocFig2A+2],'ylim',[0.4,1] ,...
+%     'xtick',[0:15:30,errLocFig2A ],'xticklabel',{'0','15','30','\textbf{ {1326}}'},...
+    };
+axisOptsFig2In = {...    
+     'ytick',0.4:0.3:1 ,'xlim', [-1,errLocFig2A+2],'ylim',[0.4,1] ,...
+    'xtick',[0:10:30,errLocFig2A],'xticklabel',{'','','','',''},...   
+%         'ytick',0.4:0.3:1 ,'xlim', [-1,errLocFig2A+2],'ylim',[0.4,1] ,...
+%     'xtick',[0:15:30,errLocFig2A ],'xticklabel',{'0','15','30','\textbf{ {1326}}'},...
+    };
 col = {ones(3,1)*0.5,'-r'};
 dotcol = {'.k','.r'}; 
 
 n_plots = 16; 
 n_x = length(varParCombinationsR2A.theta_distList);
 n_y = length(varParCombinationsR2A.phi_distList);
-fig2A=figure('Position', [100, 100, 950, 750]);
+d_x = 7;
+
+%% 
 
 for j = 1:n_y
     for k = 1:n_x
-        sub_nr = (j-1)*n_y + k;
-        subplot(n_y,n_x, sub_nr)
+        sub_nr = (j-1)*d_x + k;
+        plot_nr = (j-1)*n_x + k;
+        
+        subplot(n_y,d_x, sub_nr)
         hold on
         %---------------------------------SSPOCoff-------------------------
-        Dat_I = ind_SSPOCoff( sub_nr);
+        Dat_I = ind_SSPOCoff( plot_nr);
         [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
         realNumbers = find(~isnan(meanVec));
         a = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1});
         thresholdMat(j,k,1) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
+        
         %---------------------------------SSPOCon-------------------------
-        Dat_I = ind_SSPOCon(sub_nr);
+        Dat_I = ind_SSPOCon(plot_nr);
         [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
         realNumbers = find(~isnan(meanVec));
         for k2 = 1:size(dataStruct.dataMatTot,2)
@@ -95,76 +129,153 @@ for j = 1:n_y
         end
         plot(realNumbers, meanVec(realNumbers),col{2})
         thresholdMat(j,k,2) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
+        
         %--------------------------------Allsensors Neural filt-------------------------    
-        meanval = mean( nonzeros(  dataStructAllFilt.dataMatTot(sub_nr,:)  ) );
-        stdval = std( nonzeros(    dataStructAllFilt.dataMatTot(sub_nr,:)  ) );
+        meanval = mean( nonzeros(  dataStructAllFilt.dataMatTot(plot_nr,:)  ) );
+        stdval = std( nonzeros(    dataStructAllFilt.dataMatTot(plot_nr,:)  ) );
         errorbar(errLocFig2A,meanval,stdval,'b','LineWidth',1)
         plot([-1,1]+errLocFig2A,[meanval,meanval],'b','LineWidth',1)   
         %--------------------------------Allsensors no NF-------------------------    
-        meanval = mean( nonzeros(  dataStructAllnoFilt.dataMatTot(sub_nr,:)  ) );
-        stdval = std( nonzeros(    dataStructAllnoFilt.dataMatTot(sub_nr,:)  ) );
+        meanval = mean( nonzeros(  dataStructAllnoFilt.dataMatTot(plot_nr,:)  ) );
+        stdval = std( nonzeros(    dataStructAllnoFilt.dataMatTot(plot_nr,:)  ) );
         errorbar(errLocFig2A,meanval,stdval,'k','LineWidth',1)
         plot([-1,1]+errLocFig2A,[meanval,meanval],'k','LineWidth',1)   
+         
+
         %--------------------------------Figure cosmetics-------------------------    
-        ylh = get(gca,'ylabel');                                            % Object Information
-        ylp = get(ylh, 'Position');
-        set(ylh, 'Rotation',0, 'Position',ylp, 'VerticalAlignment','middle', 'HorizontalAlignment','right')
         grid on 
-        set(gca, axisOptsFig2A{:})
-%         title('
-        if  sub_nr <13
-            set(gca, 'XTicklabel', []);
+        
+        if  plot_nr <13
+            set(gca, 'Xtick',[],'XTicklabel', []);
+            set(gca, axisOptsFig2In{:})
+        else
+            set(gca, axisOptsFig2Out{:})
+%             break_axisSubPlot('axis','x','position',38, 'length',0.02)
         end
-        if ~rem(sub_nr-1,4)== 0
+        if ~rem(plot_nr-1,4)== 0
             set(gca, 'YTicklabel', []);
         end
         drawnow
     end
 end
 
-% saveas(fig2A,['figs' filesep 'Figure2A_' parameterSetName '.png'])
+set(fig2,'InvertHardcopy','on');
+set(fig2,'PaperUnits', 'inches');
+papersize = get(fig2, 'PaperSize');
+left = (papersize(1)- width)/2;
+bottom = (papersize(2)- height)/2;
+myfiguresize = [left, bottom, width, height];
+set(fig2, 'PaperPosition', myfiguresize);
 
-print(fig2AB,['figs' filesep 'Figure2AB_' parameterSetName '.png'],'-r500','-dpng')
+print(fig2, ['figs' filesep 'Figure_R2png' ], '-dpng', '-r1000');
+print(fig2, ['figs' filesep 'Figure_R2pdf' ], '-dpdf');
+print(fig2, ['figs' filesep 'Figure_R2plotsvg' ], '-dsvg');
+print(fig2, ['figs' filesep 'Figure_R2ploteps' ], '-deps');
+
+
 %% 
-figure(1)
-xh = get(gca, 'Xlabel');
-yh = get(gca, 'Ylabel');
 thresholdMat( isnan(thresholdMat) ) = 35;
-axisOptsFig3_heatMap = {
+axisOptsFig2B_heatMap = {
     'xtick', 1:length(varParCombinationsR2A.phi_distList),'xticklabel',varParCombinationsR2A.phi_distList, ...
     'ytick', 1:length(varParCombinationsR2A.theta_distList),'yticklabel',varParCombinationsR2A.theta_distList,...
-     'XLabel', xh, 'YLabel', yh, 'clim',[0,35]};
-colorBarOpts = { 'YDir', 'reverse', 'Ticks' ,[0:10:30,34], 'TickLabels', {0,10,20,30,'> 40' }  };  
-set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
-
-figureOpts = { 'PaperUnits', 'centimeters', 'PaperPosition', [0 0 10 15] };
+      'clim',[0,35]};
+% colorBarOpts = { 'YDir', 'reverse', 'Ticks' ,[0:10:30,34], 'TickLabels', {0,10,20,30,'> 30' }  };  
+colorBarOpts = { 'YDir', 'reverse', 'Ticks' ,[0:10:30,34], 'TickLabels', {0,10,20,30,'$>$ 30' }  ,'TickLabelInterpreter','latex'};
 
 summerWithBlack = flipud(summer(300));
 summerWithBlack = [ summerWithBlack ; ones(50,3)*0.1];%     summerMa
 
-fig2AB = figure('Position', [1000, 100, 400, 600]);
-set(fig2AB,figureOpts{:})
+% subplot(n_y,d_x,[5:7,12:14])
+subplot(6,8,[6:8,14:16,22:24])
+% subplot(6,8,[15:16,23:24])
 
-
-subplot(211);
     imagesc(thresholdMat(:,:,2))
     colormap( summerWithBlack );
-    set(gca, axisOptsFig3_heatMap{:})
+    set(gca, axisOptsFig2B_heatMap{:})
     h = colorbar;
     set( h, colorBarOpts{:})
-    ylabel(h, '# of sensors required for 75% accuracy')
-    title('optimal')
-subplot(212)
+    ylabel(h, 'Sensors for 75\% Accuracy', 'Interpreter', 'latex')
+    title('Optimal Sensors')
+    
+pbaspect([1 1 1])
+subplot(6,8,[6:8,14:16,22:24]+24)
+% subplot(n_y,d_x,[19:21,26:28])
     imagesc(thresholdMat(:,:,1))
     colormap( summerWithBlack );
-    set(gca, axisOptsFig3_heatMap{:})
+    set(gca, axisOptsFig2B_heatMap{:})
     h = colorbar;
     set( h, colorBarOpts{:})
-    ylabel(h, '# of sensors required for 75% accuracy')
-    title('random')
-   
-% saveas(fig2AB,['figs' filesep 'Figure2AB_' parameterSetName '.png'])   
+    ylabel(h, 'Sensors for 75\% Accuracy', 'Interpreter', 'latex')
+    title('Random Sensors ')
+    pbaspect([1 1 1])
+
+%% Setting paper size for saving 
+% set(gca, 'LooseInset', get(gca(), 'TightInset')); % remove whitespace around figure
+% tightfig;
+% % % Here we preserve the size of the image when we save it.
+set(fig2,'InvertHardcopy','on');
+set(fig2,'PaperUnits', 'inches');
+papersize = get(fig2, 'PaperSize');
+left = (papersize(1)- width)/2;
+bottom = (papersize(2)- height)/2;
+myfiguresize = [left, bottom, width, height];
+set(fig2, 'PaperPosition', myfiguresize);
+
+%% Saving figure 
+print(fig2, ['figs' filesep 'Figure_R2' ], '-dpng', '-r600');
+
+%% 
 
 
-% print('5by3DimensionsFigure','-dpng','-r0')
-print(fig2AB,['figs' filesep 'Figure2AB_' parameterSetName '.png'],'-r500','-dpng')
+
+
+
+
+
+%% Figure heatmap part repeat 
+fig2_heatmap = figure();
+set(fig2_heatmap, 'Position', [fig2_heatmap.Position(1:2) width*100, height*100]); %<- Set size
+plot_on = true ;
+
+
+subplot(6,8,[6:8,14:16,22:24])
+% subplot(6,8,[15:16,23:24])
+
+    imagesc(thresholdMat(:,:,2))
+    colormap( summerWithBlack );
+    set(gca, axisOptsFig2B_heatMap{:})
+    h = colorbar;
+    set( h, colorBarOpts{:})
+    ylabel(h, 'Sensors for 75\% Accuracy', 'Interpreter', 'latex')
+    title('Optimal Sensors')
+    
+pbaspect([1 1 1])
+subplot(6,8,[6:8,14:16,22:24]+24)
+% subplot(n_y,d_x,[19:21,26:28])
+    imagesc(thresholdMat(:,:,1))
+    colormap( summerWithBlack );
+    set(gca, axisOptsFig2B_heatMap{:})
+    h = colorbar;
+    set( h, colorBarOpts{:})
+    ylabel(h, 'Sensors for 75\% Accuracy', 'Interpreter', 'latex')
+    title('Random Sensors ')
+    pbaspect([1 1 1])
+
+
+
+print(fig2_heatmap, ['figs' filesep 'Figure_R2heatmap' ], '-dpng', '-r600');
+
+% total hack, why does saving to svg scale image up???
+stupid_ratio = 15/16;
+myfiguresize = [left, bottom, width*stupid_ratio, height*stupid_ratio];
+set(fig2_heatmap, 'PaperPosition', myfiguresize);
+
+print(fig2_heatmap, ['figs' filesep 'Figure_R2heatmap' ], '-dsvg');
+
+
+set(0,'DefaultAxesFontSize',8)% .
+
+
+
+
+
