@@ -24,7 +24,7 @@ svg_save            = false;
 [fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
 varParStruct = varParStruct(45);
 % strainSet = load('strainSet_th0.1ph0.312it1harm0.2.mat');
-strainSet = load('strainSet_th0.1ph0.312it2harm0.2.mat');
+strainSet = load(['eulerLagrangeData' filesep 'strainSet_th0.1ph0.312it2harm0.2.mat']);
 varPar = varParStruct(1);
 %% Test neural encoding effert
 fixPar.STAdelay = 5;
@@ -71,7 +71,7 @@ w_t = w_r(big_modes);
 
 a = Psir'*Xtrain;
 w_t = LDA_n(a, Gtrain);
-s = SSPOC(Psir,w_t,fixPar);
+s = SSPOCelastic(Psir,w_t,'alpha',fixPar.elasticNet);
 s = sum(s, 2);   
 [~, I_top2] = sort( abs(s),'descend');
 
@@ -100,7 +100,7 @@ w_tStrain = w_rStrain(big_modesStrain);
 
 aStrain = PsirStrain'*XtrainStrain;
 w_tStrain = LDA_n(aStrain, Gtrain);
-sStrain = SSPOC(PsirStrain,w_tStrain,fixPar);
+sStrain = SSPOCelastic(PsirStrain,w_t,'alpha',fixPar.elasticNet);
 sStrain = sum(sStrain, 2);   
 [~, I_top2] = sort( abs(sStrain),'descend');
 
@@ -139,7 +139,7 @@ diagS = diag(S)/sum(S(:));
 diagSs = diag(Ss)/sum(Ss(:));
 
 
-% figSub1A = figure('Position',[100,100,800,900]);
+figSub1A = figure('Position',[100,100,800,900]);
 for j = 1:fixPar.rmodes
     
     subplot(10,6,j*2-1)

@@ -17,12 +17,16 @@ height = 2.5;    % Height in inches
 alw = 0.5;    % AxesLineWidth
 fsz = 8;      % Fontsize
 lw = 1.5;      % LineWidth
-msz = 8;       % MarkerSize
+msz = 6;       % MarkerSize
 xlab = '$\dot{\theta}$' ;
 ylab = '$\frac{\partial \theta}{\partial t}$   ';
 lnStl = {'-','-'};
 legend_entries = {'sin','$\sin 4 \pi x$'};
 legend_location = 'NorthEast';
+
+% set(0,'DefaultAxesFontSize',6)% .
+% set(0,'DefaultAxesLabelFontSize', 8/6)
+set(0,'defaultLineLineWidth',1.5);   % set the default line width to lw
 
 %% axis adjustment
 axisOptsSTA = {'xtick',-40:10:0,'xticklabel',{-40:10:0}, ...
@@ -45,7 +49,7 @@ col = {ones(3,1)*0.5,'-r'};
 dotcol = {'.k','.r'}; 
 
 %% get the data out 
-dataFolder = 'neuralData';
+dataFolder = 'introFigData';
 STAname = 'STA and StdM4 N2';
 NLDname = 'NLDM4 N2';
 % STA 
@@ -74,22 +78,22 @@ subplot(221)
     xlabel('Time [ms]'); ylabel('Displacement [mm]')
     set(gca,axisOptsSTA{:})
     grid on
-    title('Experiment')
+    title('\textbf{Experiment}')
 subplot(222)
     plot(timeMS,func(timeMS)*1.2 ,':k')
     xlabel('Time [ms]'); %ylabel('displacement [mm]')
     grid on
 %     legend('Experimental','Function','Location','Best')
     set(gca, axisOptsSTA{:})
-    title('\textbf{Function}')
+    title('\textbf{Functional approximation}')
 subplot(223)
     plot(NLDstruct.Bin_Centers_Store{:},NLDstruct.fire_rate{:}/max(NLDstruct.fire_rate{:}),'k')
-    xlabel('Projection');ylabel('Probability of Firing')
+    xlabel('Strain Projection on Feature');ylabel('Probability of Firing')
     set(gca, axisOptsNLD{:})
     grid on
 subplot(224)
     plot(s,funNLD(s),':k')
-    xlabel('Projection');%ylabel('Probability of firing')
+    xlabel('Strain Projection on Feature');%ylabel('Probability of Firing')
     grid on
     set(gca, axisOptsNLD{:})
 %     legend('Experimental','Function','Location','Best')
@@ -117,5 +121,5 @@ stupid_ratio = 15/16;
 myfiguresize = [left, bottom, width*stupid_ratio, height*stupid_ratio];
 set(fig04, 'PaperPosition', myfiguresize);
 
-print(fig04, ['figs' filesep 'fig04_expSTANLD' ], '-dsvg');
+print(fig04, ['figs' filesep 'Figure_04_expSTANLD' ], '-dsvg');
 

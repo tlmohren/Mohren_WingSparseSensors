@@ -10,18 +10,17 @@
 %------------------------------
 clc;clear all; close all
 
-
 % set(groot, 'defaultAxesTickLabelInterpreter', 'factory');
 addpathFolderStructure()
 w = warning ('off','all');
 
 % pre plot decisions 
-width = 7;     % Width in inches,   find column width in paper 
-height = 2;    % Height in inches
+width = 3.3;     % Width in inches,   find column width in paper 
+height = 1.7;    % Height in inches
 fsz = 7;      % Fontsize
 legend_entries = {'All Sensors, Strain','All Sensors, Encoded','Random Sensors, Encoded', 'Optimal Sensors, Encoded'};
 legend_location = 'NorthEast';
-plot_on = true;
+
 %% Processing before plotting 
 % parameterSetName = 'R1R4_Iter3_delay5_eNet09';
 parameterSetName = 'R1R4_Iter5_delay5_eNet09';
@@ -55,7 +54,7 @@ varParCombinations_allFilt = varParCombinationsAll(figMatch);
 
 %% setup figure
 fig1 = figure();
-subplot(1,2,1)
+% subplot(1,2,1)
 set(fig1, 'Position', [fig1.Position(1:2) width*100, height*100]); %<- Set size
 
 errLocFig1A = 35;
@@ -66,66 +65,38 @@ col = {ones(3,1)*0.5,'-r'};
 dotcol = {'.k','.r'}; 
 hold on
 
-%% Figure 1
-%---------------------------------SSPOCoff-------------------------
-if any(ind_SSPOCoff)
-    Dat_I = ind_SSPOCoff( 1);
-    [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
-    realNumbers = find(~isnan(meanVec));
-    
-    pltSSPOCoff = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),col{1});
-end
-sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
-        
-%---------------------------------SSPOCon-------------------------
-Dat_I = ind_SSPOCon(1);
-[ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
-realNumbers = find(~isnan(meanVec));
-
-for k2 = 1:size(dataStruct.dataMatTot,2)
-    iters = length(nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) );
-    
-    scatter( ones(iters,1)*k2,nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) , dotcol{2})
-end
-pltSSPOCon = plot(realNumbers, meanVec(realNumbers),col{2});
-sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
-        
-%--------------------------------Allsensors Neural filt-------------------------    
-meanval = mean( nonzeros(  dataStructAllFilt.dataMatTot(1,:)  ) );
-stdval = std( nonzeros(    dataStructAllFilt.dataMatTot(1,:)  ) );
-
-eBarNF = errorbar(errLocFig1A,meanval,stdval,'b','LineWidth',1);
-plot([-1,1]+errLocFig1A,[meanval,meanval],'b','LineWidth',1)   
-
-%--------------------------------Allsensors no NF-------------------------    
-meanval = mean( nonzeros(  dataStructAllnoFilt.dataMatTot(1,:)  ) );
-stdval = std( nonzeros(    dataStructAllnoFilt.dataMatTot(1,:)  ) );
-
-eBar = errorbar(errLocFig1A, meanval, stdval,'k','LineWidth',1);
-plot([-1,1]+errLocFig1A, [meanval, meanval],'k','LineWidth',1)   
-
-%% Legend 
-legVec = [eBar, eBarNF, pltSSPOCoff.mainLine, pltSSPOCon];
-legOpts = {'Location', legend_location,'FontSize',fsz};
-[leg,lns] = legend(legVec,legend_entries, legOpts{:});
-
-%% --------------------------------Figure cosmetics-------------------------    
-xlabel('\# of Sensors'); ylabel('Cross-Validated Accuracy')
-grid on 
-set(gca, axisOptsFig1A{:})
-drawnow
-break_axis('axis','x','position',(errLocFig1A -30)/2+30, 'length',0.05)
-
 
 %% Sensor locations 
 
 
 q = 17;
-binar = get_pdf( dataStruct.sensorMatTot(2,q,1:q,:));
+binar = get_pdf( dataStruct.sensorMatTot(1,q,1:q,1));
 sensorloc_tot = reshape(binar,fixPar.chordElements,fixPar.spanElements); 
 colorBarOpts = { 'YDir', 'reverse', 'Ticks' ,0:0.5:1, 'TickLabels', {1:-0.5:0}  ,'TickLabelInterpreter','latex'};
 
-subplot(2,2,4)
+subplot(211)
+    imshow((1-sensorloc_tot), 'InitialMagnification', 'fit')
+    rectangle('Position',[0.5,0.5,fixPar.spanElements,fixPar.chordElements])
+    
+    set(gca,'YDir','normal')
+    hold on 
+%     h = gca;  % Handle to currently active axes
+    set(gca, 'YDir', 'reverse');
+    hb = colorbar;
+    set(hb,colorBarOpts{:});
+    %     set( h, colorBarOpts{:})
+    hold on
+    plot( [1,1]*0.5,[-1,27],'k','LineWidth',1)
+    scatter(0.5,14,40,'k','filled')
+    title('Sensor Locations for \#17')
+    
+    
+q = 17;
+binar = get_pdf( dataStruct.sensorMatTot(2,q,1:q,1));
+sensorloc_tot = reshape(binar,fixPar.chordElements,fixPar.spanElements); 
+colorBarOpts = { 'YDir', 'reverse', 'Ticks' ,0:0.5:1, 'TickLabels', {1:-0.5:0}  ,'TickLabelInterpreter','latex'};
+
+subplot(212)
     imshow((1-sensorloc_tot), 'InitialMagnification', 'fit')
     rectangle('Position',[0.5,0.5,fixPar.spanElements,fixPar.chordElements])
     
@@ -154,14 +125,14 @@ myfiguresize = [left, bottom, width, height];
 set(fig1, 'PaperPosition', myfiguresize);
 
 % Saving figure 
-print(fig1, ['figs' filesep 'Figure_R1' ], '-dpng', '-r600');
+print(fig1, ['figs' filesep 'Figure_03_randomOptimal' ], '-dpng', '-r600');
 
 % total hack, why does saving to svg scale image up???
 stupid_ratio = 15/16;
 myfiguresize = [left, bottom, width*stupid_ratio, height*stupid_ratio];
 set(fig1, 'PaperPosition', myfiguresize);
 
-print(fig1, ['figs' filesep 'Figure_R1' ], '-dsvg');
+print(fig1, ['figs' filesep 'Figure_03_randomOptimal' ], '-dsvg');
 
 
 

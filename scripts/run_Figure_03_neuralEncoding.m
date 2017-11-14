@@ -9,7 +9,6 @@ addpathFolderStructure()
 
 set(0,'DefaultAxesFontSize',6)% .
 set(0,'DefaultAxesLabelFontSize', 8/6)
-
 % pre plot decisions 
 width = 1.8;     % Width in inches,   find column width in paper 
 height = 1.8;    % Height in inches
@@ -70,6 +69,8 @@ varPar = varParStruct(1);
 varPar.NLDgrad = -1;
 varPar.STAfreq = 1;
 varPar.STAwidth = 0.01;
+
+
 [X_strain, ~] = neuralEncoding( N0.strain,fixPar ,varPar);
 
 varPar = varParStruct(1);
@@ -190,5 +191,62 @@ myfiguresize = [left, bottom, width*stupid_ratio, height*stupid_ratio];
 set(fig03, 'PaperPosition', myfiguresize);
 
 print(fig03, ['figs' filesep 'Figure_03_neuralEncoding'], '-dsvg');
+
+
+
+
+%% plot 
+t_inst = 2001;
+% 0.strain.strain_10,dim_wing);
+% 
+% t_inst = 3008;
+dim_wing = [26,51,6000];
+% strain0 = reshape(X_strain,dim_wing);
+strain0 = reshape(X_fire,dim_wing);
+
+
+% dim_wing = [26,51,4000];
+% strain0 = reshape(N0.strain.strain_0,dim_wing);
+
+
+% figure treatment
+fig03b = figure();
+ax = gca();
+set(fig03b, 'Position', [fig03b.Position(1:2) width*100, 0.5*height*100]); %<- Set size
+
+% colormap(summer )
+% subplot(311)
+    pcolor(strain0(:,:,t_inst))
+
+shading flat
+    axis equal
+    axis off
+    
+colorbar
+    
+%%    
+% Setting paper size for saving 
+set(gca, 'LooseInset', get(gca(), 'TightInset')); % remove whitespace around figure
+% tightfig;
+
+% % % Here we preserve the size of the image when we save it.
+set(fig03b,'InvertHardcopy','on');
+set(fig03b,'PaperUnits', 'inches');
+papersize = get(fig03b, 'PaperSize');
+left = (papersize(1)- width)/2;
+bottom = (papersize(2)- height)/2;
+myfiguresize = [left, bottom, width, height];
+set(fig03b, 'PaperPosition', myfiguresize);
+
+ 
+% saving of image
+print(fig03b, ['figs' filesep 'Figure_03_neuralEncoding'], '-dpng', '-r300');
+
+% total hack, why does saving to svg scale image up???
+stupid_ratio = 15/16;
+myfiguresize = [left, bottom, width*stupid_ratio, height*stupid_ratio];
+set(fig03b, 'PaperPosition', myfiguresize);
+
+print(fig03b, ['figs' filesep 'Figure_03b_neuralEncoding'], '-dsvg');
 
 

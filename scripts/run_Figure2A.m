@@ -79,7 +79,7 @@ varParCombinationsR2A_allFilt = varParCombinationsAll(figMatch);
 %% Figure settings
 fig2 = figure();
 set(fig2, 'Position', [fig2.Position(1:2) width*100, height*100]); %<- Set size
-plot_on = true ;
+plot_on = false;
 
 %% Axis makeup 
 errLocFig2A = 36;
@@ -104,7 +104,7 @@ n_y = length(varParCombinationsR2A.phi_distList);
 d_x = 7;
 
 %% 
-
+ebar_linewidth = 0.3;
 for j = 1:n_y
     for k = 1:n_x
         sub_nr = (j-1)*d_x + k;
@@ -133,13 +133,13 @@ for j = 1:n_y
         %--------------------------------Allsensors Neural filt-------------------------    
         meanval = mean( nonzeros(  dataStructAllFilt.dataMatTot(plot_nr,:)  ) );
         stdval = std( nonzeros(    dataStructAllFilt.dataMatTot(plot_nr,:)  ) );
-        errorbar(errLocFig2A,meanval,stdval,'b','LineWidth',1)
-        plot([-1,1]+errLocFig2A,[meanval,meanval],'b','LineWidth',1)   
+        errorbar(errLocFig2A,meanval,stdval,'b','LineWidth',ebar_linewidth)
+        plot([-1,1]+errLocFig2A,[meanval,meanval],'b','LineWidth',ebar_linewidth)   
         %--------------------------------Allsensors no NF-------------------------    
         meanval = mean( nonzeros(  dataStructAllnoFilt.dataMatTot(plot_nr,:)  ) );
         stdval = std( nonzeros(    dataStructAllnoFilt.dataMatTot(plot_nr,:)  ) );
-        errorbar(errLocFig2A,meanval,stdval,'k','LineWidth',1)
-        plot([-1,1]+errLocFig2A,[meanval,meanval],'k','LineWidth',1)   
+        errorbar(errLocFig2A,meanval,stdval,'k','LineWidth',ebar_linewidth)
+        plot([-1,1]+errLocFig2A,[meanval,meanval],'k','LineWidth',ebar_linewidth)   
          
 
         %--------------------------------Figure cosmetics-------------------------    
@@ -223,6 +223,7 @@ set(fig2, 'PaperPosition', myfiguresize);
 
 %% Saving figure 
 print(fig2, ['figs' filesep 'Figure_R2' ], '-dpng', '-r600');
+% print(fig2, ['figs' filesep 'Figure_R2pdf' ], '-dpdf');
 
 %% 
 
@@ -263,8 +264,8 @@ subplot(6,8,[6:8,14:16,22:24]+24)
 
 
 
-print(fig2_heatmap, ['figs' filesep 'Figure_R2heatmap' ], '-dpng', '-r600');
 
+print(fig2_heatmap, ['figs' filesep 'Figure_R2heatmap' ], '-dpng', '-r600');
 % total hack, why does saving to svg scale image up???
 stupid_ratio = 15/16;
 myfiguresize = [left, bottom, width*stupid_ratio, height*stupid_ratio];

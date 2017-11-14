@@ -15,6 +15,9 @@ addpathFolderStructure()
 %% Run testcases
 % Specify testcase 
 par = setParameters();
+
+
+
 testCase = 3;
 par.baseZero = 0;
 par.xInclude = 0;
