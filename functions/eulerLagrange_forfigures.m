@@ -59,41 +59,27 @@ function [strain,figData] = eulerLagrange(frot, th,ph ,par )
     sigmoid = (C1.*t.^C3) ./ (C2+C1.*t.^C3);
     disturbance_diagnostics( sigmoid )
     
-    
-% Generate flapping disturbance 
-    phi_dot_disturbance = ph*whiteNoiseDisturbance(par);
-%     phi_disturbance = int(phi_dot_disturbance);
-
 % Specify local flapping function
+    phi_dot_disturbance = ph*whiteNoiseDisturbance(par);
     phi_bar =  deg2rad(flapamp) * (  ...
-        sin(2*pi*par.flapFrequency*t)  + par.harmonic*sin(2*pi*2*par.flapFrequency*t)  ...
-      ) ;
+        sin(2*pi*par.flapFrequency*t)  + par.harmonic*sin(2*pi*2*par.flapFrequency*t)      ) ;
     
     phi_dot_tot = (diff(phi_bar) + phi_dot_disturbance) .* sigmoid;
     phi = int(phi_dot_tot); 
-    
-    theta   = 0;
-    gamma   = 0;
-    rot_vec = [0, 0, 1];
-    
-    % diagnostic 4 
-    
 % Generate rotating disturbance 
     theta_dot_disturbance = th*whiteNoiseDisturbance(par);
-    
-    theta_bar_dot = frot;
-    theta_dot_tot = (theta_bar_dot + theta_dot_disturbance) .* sigmoid;
+    theta_dot_bar = frot;
+    theta_dot_tot = (theta_dot_bar + theta_dot_disturbance) .* sigmoid;
     theta = int(theta_dot_tot);
+% Generate set 3rd local rotation angle
+    gamma   = 0;
 
 % Specify global rotation function
     globalangle(1) = 0*t;
     globalangle(2) = 0*t;
     globalangle(3) = theta;
-%     globalangle(3) = int(globalAngle_dot3,t) - eval_local( int(globalAngle_dot3)) ;
 
-%     disturbance_diagnostics( diff(globalangle(3))  ) 
-%     disturbance_diagnostics( globalangle(3)    ) 
-
+% set output just for flapping 
     figData.theta_dot = diff(globalangle(3));
     figData.theta = globalangle(3);
     figData.phi_dot = diff(phi);

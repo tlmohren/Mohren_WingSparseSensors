@@ -45,52 +45,22 @@ function [strain] = eulerLagrange(frot, th,ph ,par )
 
 % Generate flapping disturbance 
     phi_dot_disturbance = ph*whiteNoiseDisturbance(par);
-%     disturbance_diagnostics(phi_dot_disturbance)
     phi_disturbance = int(phi_dot_disturbance);
-        
 % Specify local flapping function
     phi = deg2rad(flapamp) ...
         .*(  sin(2*pi*par.flapFrequency*t) ...
         + par.harmonic*sin(2*pi*2*par.flapFrequency*t) ) .* sigmoid ...
         + phi_disturbance;
-    
-    
-    
-% % %     phi0 = deg2rad(flapamp) ...
-% % %         .*(  sin(2*pi*par.flapFrequency*t) ...
-% % %         + par.harmonic*sin(2*pi*2*par.flapFrequency*t) ) .* sigmoid ...
-% % %         ;
-% % %     
-% % %          disturbance_diagnostics( diff(phi)-diff(phi0) )
-% % %          
-% % %      return 
-
-
-
-%     disturbance_diagnostics(  diff( ...
-%         deg2rad(flapamp) ...
-%         .*(  sin(2*pi*par.flapFrequency*t) ...
-%         + par.harmonic*sin(2*pi*2*par.flapFrequency*t) ) .* sigmoid ))
-%     disturbance_diagnostics( diff( phi)) 
-    
-    theta   = 0;
     gamma   = 0;
-    rot_vec = [0, 0, 1];
-    
-%     disturbance_diagnostics(diff(phi))
-    
-    
 % Generate rotating disturbance 
     theta_dot_disturbance = th*whiteNoiseDisturbance(par);
-%     disturbance_diagnostics(theta_dot_disturbance) 
     theta_disturbance = int(theta_dot_disturbance);
 
 % Specify global rotation function
     globalangle(1) = 0*t;
     globalangle(2) = 0*t;
-    globalangle(3) = rot_vec(3)*frot*t.*sigmoid + theta_disturbance;
-%     disturbance_diagnostics(globalangle(3)) 
-
+    globalangle(3) = frot*t.*sigmoid + theta_disturbance;
+    
 %Velocity and acceleration of the body (i.e. center base of plate)
     v0  = [0 0 0];
     dv0 = [0 0 0];

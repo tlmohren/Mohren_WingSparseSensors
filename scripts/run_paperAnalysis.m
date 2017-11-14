@@ -21,12 +21,11 @@
 clear all, close all, clc
 addpathFolderStructure()
 
-% parameterSetName    = 'R1toR4Iter10_delay4';
-parameterSetName    = 'R1R4_Iter5_delay5_eNet09';
-iter                = 5;
+runNumber            = 1;
+iter                = 10;
 figuresToRun        = {'R1','R2','R3','R4'};
-runOccurence        = 4;
 % select any from {'R2A','R2B','R2C','R3','R4','R2allSensorsnoFilt','R2allSensorsFilt} 
+parameterSetName    = ['R1toR4_Iter' num2str(iter) '_run' num2str(runNumber)];
 
 % Build struct that specifies all parameter combinations to run 
 [fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
@@ -47,8 +46,7 @@ for j = 1:length(varParStruct)
     % Run parameter combination for a set number of iterations ---------
     for k = 1:fixPar.iter
         try
-%             varPar.curIter = k+10; 
-            varPar.curIter = k+5*(runOccurence-1); 
+            varPar.curIter = k+10*(runNumber-1); 
             % Generate strain with Euler-Lagrange simulation ----------
             strainSet = eulerLagrangeConcatenate( fixPar,varPar);
             % Apply neural filters to strain --------------------------
