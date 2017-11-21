@@ -16,8 +16,8 @@ w = warning ('off','all');
 set(0,'defaultLineLineWidth',0.3);   % set the default line width to lw
 set(0,'defaultLineMarkerSize',2); % set the default line marker size to msz
 % pre plot decisions 
-width = 7;     % Width in inches,   find column width in paper 
-height = 2.5;    % Height in inches
+width = 4;     % Width in inches,   find column width in paper 
+height = 3;    % Height in inches
 plot_on = false ;
 
 %% data collection
@@ -27,7 +27,7 @@ plot_on = false ;
 % parameterSetName = 'R1R4_Iter3_delay5_eNet09';
 parameterSetName = 'R1R4_Iter5_delay5_eNet09';
 
-overflow_loc = 'D:\Mijn_documenten\Dropbox\A. PhD\C. Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
+overflow_loc = 'D:\Mijn_documenten\Dropbox\A_PhD\C_Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
 github_loc = 'accuracyData';
 
 try
@@ -158,23 +158,46 @@ end
 %% Heatmap & Mask 
 thresholdMatB( isnan(thresholdMatB) ) = 35;
 tickList = 1:5:length(varParCombinations.STAfreqList);
+% axisOptsFig3_heatMap = {
+%     'xtick', tickList,...
+%     'xticklabel',varParCombinations.STAfreqList(tickList),...
+%     'ytick', tickList,...
+%     'yticklabel',varParCombinations.STAwidthList(tickList), ...
+%      'clim',[0,35]};
 axisOptsFig3_heatMap = {
     'xtick', tickList,...
     'xticklabel',varParCombinations.STAfreqList(tickList),...
     'ytick', tickList,...
     'yticklabel',varParCombinations.STAwidthList(tickList), ...
-     'clim',[0,35]};
+     'clim',[0,30]};
 
-colorBarOpts = { 'YDir', 'reverse', 'Ticks' ,[0:10:30,34], 'TickLabels', {0,10,20,30,'$>$ 30' }  ,'TickLabelInterpreter','latex'};
-summerWithBlack = flipud(summer(300));
-summerWithBlack = [ summerWithBlack ; ones(50,3)*0.1];%     summerMa
+% colorBarOpts = { 'YDir', 'reverse', 'Ticks' ,[0:10:30,34], 'TickLabels', {0,10,20,30,'$>$ 30' }  ,'TickLabelInterpreter','latex'};
+
+colorBarOpts = { 'YDir', 'reverse', 'Ticks' ,[0:10:30], 'TickLabels', {0,10,20,'$>$ 30' }  ,'TickLabelInterpreter','latex'};
+% colBlack = flipud(hot(30));
+% colBlack = [ colBlack(16:45,:) ; ones(5,3)*0.1];%     summerMa
+% colBlack = flipud(viridis(30));
+% colBlack = flipud(summer(30));
+% colBlack = flipud(plasma(30));
+% colBlack = flipud(magma(30));
+% colBlack = flipud(inferno(30));
+colBlack = flipud(fake_parula(30));
+% colBlack = [ colBlack ; ones(5,3)*0.1];%     summerMa
+
+
+% summerWithBlack = flipud(fake_parula(30));
+% colBlack = flipud(fake_parula(45));
+% colBlack = [ colBlack(1:2:30,:);colBlack(31:end,:)  ];%     summerMa
+
+
+
 
 pltTop = repmat(13:19, 5, 1)+ repmat( (0:4)', [1,7])*19;
 pltBottom = repmat(13:19, 5, 1)+ repmat( (6:10)', [1,7])*19;
 
 subplot(11,19,pltTop(:))
     imagesc(thresholdMatB(:,:,2))
-    colormap( summerWithBlack );
+    colormap( colBlack );
     set(gca, axisOptsFig3_heatMap{:})
     h = colorbar;
     set( h, colorBarOpts{:})
@@ -185,7 +208,7 @@ subplot(11,19,pltTop(:))
     
 subplot(11,19,pltBottom(:))
     imagesc(thresholdMatB(:,:,1))
-    colormap( summerWithBlack );
+    colormap( colBlack );
     set(gca, axisOptsFig3_heatMap{:})
     h = colorbar;
     set( h, colorBarOpts{:})
@@ -199,20 +222,20 @@ subplot(11,19,pltBottom(:))
 % set(gca, 'LooseInset', get(gca(), 'TightInset')); % remove whitespace around figure
 % tightfig;
 % % % Here we preserve the size of the image when we save it.
-set(fig3,'InvertHardcopy','on');
-set(fig3,'PaperUnits', 'inches');
-papersize = get(fig3, 'PaperSize');
-left = (papersize(1)- width)/2;
-bottom = (papersize(2)- height)/2;
-myfiguresize = [left, bottom, width, height];
-set(fig3, 'PaperPosition', myfiguresize);
-
-%% Saving figure 
-print(fig3, ['figs' filesep 'Figure_R3' ], '-dpng', '-r600');
-
-% total hack, why does saving to svg scale image up???
-stupid_ratio = 15/16;
-myfiguresize = [left, bottom, width*stupid_ratio, height*stupid_ratio];
-set(fig3, 'PaperPosition', myfiguresize);
-
-print(fig3, ['figs' filesep 'Figure_R3' ], '-dsvg');
+% set(fig3,'InvertHardcopy','on');
+% set(fig3,'PaperUnits', 'inches');
+% papersize = get(fig3, 'PaperSize');
+% left = (papersize(1)- width)/2;
+% bottom = (papersize(2)- height)/2;
+% myfiguresize = [left, bottom, width, height];
+% set(fig3, 'PaperPosition', myfiguresize);
+% 
+% %% Saving figure 
+% print(fig3, ['figs' filesep 'Figure_R3' ], '-dpng', '-r600');
+% 
+% % total hack, why does saving to svg scale image up???
+% stupid_ratio = 15/16;
+% myfiguresize = [left, bottom, width*stupid_ratio, height*stupid_ratio];
+% set(fig3, 'PaperPosition', myfiguresize);
+% 
+% print(fig3, ['figs' filesep 'Figure_R3' ], '-dsvg');

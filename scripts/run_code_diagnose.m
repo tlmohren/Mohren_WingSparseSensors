@@ -25,9 +25,17 @@ strainSet = load(['eulerLagrangeData', filesep 'strainSet_th0.1ph0.312it2harm0.2
 varPar = varParStruct(1);
 %% Test neural encoding effert
 
-fixPar.STAdelay = 3.6;
+fixPar.STAdelay = 5;
+
+
 [X,G] = neuralEncoding(strainSet, fixPar,varPar );
-fixPar.STAdelay = 4;
+
+varPar.SSPOCon = [0];
+varPar.NLDgrad = -1;
+varPar.STAfreq = 1;
+varPar.STAwidth = 0.01;
+
+
 [X4,G] = neuralEncoding(strainSet, fixPar,varPar );
 
 figure();
@@ -43,7 +51,7 @@ varPar.wTrunc = 11; %% 11 does it for iter2 eNet 09
 fixPar.elasticNet = 0.9;
 % fixPar.sThreshold =  fixPar.rmodes/varPar.wTrunc;
 fixPar.singValsMult = 1;
-fixPar.rmodes = 26; % reduce from 30, solves it? Overfitting problem? 
+fixPar.rmodes = 30; % reduce from 30, solves it? Overfitting problem? 
 %% 
 % [acc,sensors ] = sparseWingSensors( X,G,fixPar, varPar);
 
@@ -108,20 +116,61 @@ fixPar.rmodes = 26; % reduce from 30, solves it? Overfitting problem?
         cls = classify_nc(Xtest, Phi, w_sspoc, centroid);            % NOTE: if Jared's is used, multiple outputs!
         acc =  sum(cls == Gtest)/numel(cls);
 
-        
-        
-        
+       
 q = length(sensors);
 fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q,acc])
 
+%%
+expo = round( - log10(max(abs(Xcls))));
+lims = [ round(min(Xcls),expo+1)-10^(-expo-1), ( round(max(Xcls),expo+1) +10^(-expo-1)) ];
+
+rangeBins = lims(1):10^(-expo-1)*0.8 :lims(2);
+binMids = rangeBins(1:end-1)+10^(-expo-1)*0.5;
+
+col = linspecer(2);
+midWay = length(Xcls)/2;
+[aCounts] = histcounts(Xcls(1:midWay),rangeBins);
+[bCounts] = histcounts(Xcls(midWay+1:end),rangeBins);
+
+yLims = [ max(aCounts),-max(bCounts)];
+
+figure()
+bar1 = bar(binMids,aCounts);
+ax1 = gca();
+hold on
+bar2 = bar(binMids,-bCounts,'r');
+ax2 = gca();
+
+axOpts = {'XLim',lims};
+barOpts1 = {'BarWidth',0.9,'EdgeColor','None','FaceColor',col(1,:)};
+barOpts2 = {'BarWidth',0.9,'EdgeColor','None','FaceColor',col(2,:)};
+set(ax1,axOpts{:})
+set(ax2,axOpts{:})
+set(bar1,barOpts1{:})
+set(bar2,barOpts2{:})
+
+
+yLims = [ max(aCounts),-max(bCounts)];
+txt1 = 'Flapping';
+txt2 = 'Flapping \& Rotating';
+text(binMids(19),yLims(1)*0.1,txt1)
+text(binMids(15),yLims(2)*1.3,txt2)
+
+axis off
+
+
+
+
+
+
 %% 
-%         big_modes = 1:23;
-%         big_modes = [19,22,23]
-        XtrainFake = Psi(:,big_modes)*diag(singVals(big_modes))*V(:,big_modes)';
-        acc = sensorLocClassify(  1:size(X,1) ,XtrainFake,Gtrain,XtrainFake(:,2401:3000),Gtest );
-        q = 1326;
-        
-        fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q,acc])
+% % % % %         big% % % % % %         big_modes = [19,22,23]
+% % % % %         XtrainFake = Psi(:,big_modes)*diag(singVals(big_modes))*V(:,big_modes)';
+% % % % %         acc = sensorLocClassify(  1:size(X,1) ,XtrainFake,Gtrain,XtrainFake(:,2401:3000),Gtest );
+% % % % %         q = 1326;
+% % % % %         
+% % % % %         fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q,acc])
+% % _modes = 1:23;
 %         figure();plot(XtrainFake(100,2500:2900))
         
 %% 
@@ -146,21 +195,96 @@ fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q
 %         XtrainFake = Psi4(:,big_modes4)*diag(singVals4(big_modes4))*V4(:,big_modes4)';
 %         [w_t, Psi4r, ~,~] = PCA_LDA_singVals(XtrainFake, Gtrain, 'nFeatures',varPar.wTrunc);
         
-        s4 = SSPOCelastic(Psir4,w_t4,fixParelasticNet);
+        s4 = SSPOCelastic(Psir4,w_t4,'alpha',fixPar.elasticNet);
         s4 = sum(s4, 2);   
         [~, I_top2] = sort( abs(s4),'descend');
         sensors_sort4 = I_top2(1:fixPar.rmodes);
         
         cutoff_lim4 = norm(s4, 'fro')/fixPar.rmodes;
-        sensors4 = sensors_sort4(  abs(s4(sensors_sort4))>= cutoff_lim4 )
+        sensors4 = sensors_sort4(  abs(s4(sensors_sort4))>= cutoff_lim4 );
 %         
 %         sensors4_empty = I_top2(1:varPar.wTrunc)
 %             sensors4 = sensors4_empty;
         
 %         sensors4 = sensors 
-acc = sensorLocClassify(  sensors4,Xtrain4,Gtrain,Xtest4,Gtest4 );
+% acc = sensorLocClassify(  sensors4,Xtrain4,Gtrain,Xtest4,Gtest4 );
+        n =  size(Xtest4,1);
+        classes = unique(Gtest); 
+        c = numel(classes); 
+        q = length(sensors4);
+
+        Phi = zeros(q, n);                                      % construct the measurement matrix Phi
+        for qi = 1:q,
+            Phi(qi, sensors4(qi)) = 1;
+        end;
+        % learn new classifier for sparsely measured data
+        w_sspoc= LDA_n(Phi * Xtrain4, Gtrain);
+        Xcls = w_sspoc' * (Phi * Xtrain4);
+
+        % compute centroid of each class in classifier space
+        centroid = zeros(c-1, c);
+        for i = 1:c, 
+            centroid(:,i) = mean(Xcls(:,Gtrain==classes(i)), 2);
+        end;
+        % use sparse sensors to classify X
+        cls = classify_nc(Xtest4, Phi, w_sspoc, centroid);            % NOTE: if Jared's is used, multiple outputs!
+        acc =  sum(cls == Gtest)/numel(cls);
+
+
+
+
+
+
+
 q = length(sensors4);
 fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q,acc])
+
+
+
+
+
+%% 
+expo = round( - log10(max(abs(Xcls))));
+lims = [ round(min(Xcls),expo+1)-10^(-expo-1), ( round(max(Xcls),expo+1) +10^(-expo-1)) ];
+
+rangeBins = lims(1):10^(-expo-1)*0.8 :lims(2);
+binMids = rangeBins(1:end-1)+10^(-expo-1)*0.5;
+
+col = linspecer(2);
+midWay = length(Xcls)/2;
+[aCounts] = histcounts(Xcls(1:midWay),rangeBins);
+[bCounts] = histcounts(Xcls(midWay+1:end),rangeBins);
+
+
+figure()
+bar1 = bar(binMids,aCounts);
+ax1 = gca();
+hold on
+bar2 = bar(binMids,-bCounts,'r');
+ax2 = gca();
+
+axOpts = {'XLim',lims};
+barOpts1 = {'BarWidth',0.9,'EdgeColor','None','FaceColor',col(1,:)};
+barOpts2 = {'BarWidth',0.9,'EdgeColor','None','FaceColor',col(2,:)};
+set(ax1,axOpts{:})
+set(ax2,axOpts{:})
+set(bar1,barOpts1{:})
+set(bar2,barOpts2{:})
+
+% txt1 = 'Flapping';
+% txt2 = 'Flapping \& Rotating';
+% text(6e-6,100,txt1)
+% text(3e-6,-300,txt2)
+
+
+yLims = [ max(aCounts),-max(bCounts)];
+txt1 = 'Flapping';
+txt2 = 'Flapping \& Rotating';
+text(binMids(19+2),yLims(1)*1.1,txt1)
+text(binMids(15+2),yLims(2)*1.1,txt2)
+
+axis off
+
 
 
 %% 

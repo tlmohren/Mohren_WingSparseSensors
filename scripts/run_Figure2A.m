@@ -15,7 +15,7 @@ addpathFolderStructure()
 w = warning ('off','all');
 
 % pre plot decisions 
-width = 7;     % Width in inches,   find column width in paper 
+width = 3.3;     % Width in inches,   find column width in paper 
 height = 2.5;    % Height in inches
 
 set(0,'DefaultAxesFontSize',8)% .
@@ -37,7 +37,7 @@ set(0,'DefaultAxesFontSize',8)% .
 % parameterSetName = 'R1R4_Iter3_delay5_eNet09';
 parameterSetName = 'R1R4_Iter5_delay5_eNet09';
 
-overflow_loc = 'D:\Mijn_documenten\Dropbox\A. PhD\C. Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
+overflow_loc = 'D:\Mijn_documenten\Dropbox\A_PhD\C_Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
 github_loc = 'accuracyData';
     
 try
@@ -82,16 +82,16 @@ set(fig2, 'Position', [fig2.Position(1:2) width*100, height*100]); %<- Set size
 plot_on = false;
 
 %% Axis makeup 
-errLocFig2A = 36;
+errLocFig2A = 34;
 axisOptsFig2Out = {...    
      'ytick',0.4:0.3:1 ,'xlim', [-1,errLocFig2A+2],'ylim',[0.4,1] ,...
-    'xtick',[0:10:30,errLocFig2A],'xticklabel',{[0:10:30],''},...   
+    'xtick',[0:10:30 ],'xticklabel',{[0:10:30] },...   
 %         'ytick',0.4:0.3:1 ,'xlim', [-1,errLocFig2A+2],'ylim',[0.4,1] ,...
 %     'xtick',[0:15:30,errLocFig2A ],'xticklabel',{'0','15','30','\textbf{ {1326}}'},...
     };
 axisOptsFig2In = {...    
      'ytick',0.4:0.3:1 ,'xlim', [-1,errLocFig2A+2],'ylim',[0.4,1] ,...
-    'xtick',[0:10:30,errLocFig2A],'xticklabel',{'','','','',''},...   
+    'xtick',[0:10:30],'xticklabel',{'','','','',''},...   
 %         'ytick',0.4:0.3:1 ,'xlim', [-1,errLocFig2A+2],'ylim',[0.4,1] ,...
 %     'xtick',[0:15:30,errLocFig2A ],'xticklabel',{'0','15','30','\textbf{ {1326}}'},...
     };
@@ -101,7 +101,7 @@ dotcol = {'.k','.r'};
 n_plots = 16; 
 n_x = length(varParCombinationsR2A.theta_distList);
 n_y = length(varParCombinationsR2A.phi_distList);
-d_x = 7;
+d_x = 4;
 
 %% 
 ebar_linewidth = 0.3;
@@ -174,40 +174,40 @@ print(fig2, ['figs' filesep 'Figure_R2ploteps' ], '-deps');
 
 
 %% 
-thresholdMat( isnan(thresholdMat) ) = 35;
-axisOptsFig2B_heatMap = {
-    'xtick', 1:length(varParCombinationsR2A.phi_distList),'xticklabel',varParCombinationsR2A.phi_distList, ...
-    'ytick', 1:length(varParCombinationsR2A.theta_distList),'yticklabel',varParCombinationsR2A.theta_distList,...
-      'clim',[0,35]};
-% colorBarOpts = { 'YDir', 'reverse', 'Ticks' ,[0:10:30,34], 'TickLabels', {0,10,20,30,'> 30' }  };  
-colorBarOpts = { 'YDir', 'reverse', 'Ticks' ,[0:10:30,34], 'TickLabels', {0,10,20,30,'$>$ 30' }  ,'TickLabelInterpreter','latex'};
-
-summerWithBlack = flipud(summer(300));
-summerWithBlack = [ summerWithBlack ; ones(50,3)*0.1];%     summerMa
-
-% subplot(n_y,d_x,[5:7,12:14])
-subplot(6,8,[6:8,14:16,22:24])
-% subplot(6,8,[15:16,23:24])
-
-    imagesc(thresholdMat(:,:,2))
-    colormap( summerWithBlack );
-    set(gca, axisOptsFig2B_heatMap{:})
-    h = colorbar;
-    set( h, colorBarOpts{:})
-    ylabel(h, 'Sensors for 75\% Accuracy', 'Interpreter', 'latex')
-    title('Optimal Sensors')
-    
-pbaspect([1 1 1])
-subplot(6,8,[6:8,14:16,22:24]+24)
-% subplot(n_y,d_x,[19:21,26:28])
-    imagesc(thresholdMat(:,:,1))
-    colormap( summerWithBlack );
-    set(gca, axisOptsFig2B_heatMap{:})
-    h = colorbar;
-    set( h, colorBarOpts{:})
-    ylabel(h, 'Sensors for 75\% Accuracy', 'Interpreter', 'latex')
-    title('Random Sensors ')
-    pbaspect([1 1 1])
+% thresholdMat( isnan(thresholdMat) ) = 35;
+% axisOptsFig2B_heatMap = {
+%     'xtick', 1:length(varParCombinationsR2A.phi_distList),'xticklabel',varParCombinationsR2A.phi_distList, ...
+%     'ytick', 1:length(varParCombinationsR2A.theta_distList),'yticklabel',varParCombinationsR2A.theta_distList,...
+%       'clim',[0,35]};
+% % colorBarOpts = { 'YDir', 'reverse', 'Ticks' ,[0:10:30,34], 'TickLabels', {0,10,20,30,'> 30' }  };  
+% colorBarOpts = { 'YDir', 'reverse', 'Ticks' ,[0:10:30,34], 'TickLabels', {0,10,20,30,'$>$ 30' }  ,'TickLabelInterpreter','latex'};
+% 
+% summerWithBlack = flipud(summer(300));
+% summerWithBlack = [ summerWithBlack ; ones(50,3)*0.1];%     summerMa
+% 
+% % subplot(n_y,d_x,[5:7,12:14])
+% subplot(6,8,[6:8,14:16,22:24])
+% % subplot(6,8,[15:16,23:24])
+% 
+%     imagesc(thresholdMat(:,:,2))
+%     colormap( summerWithBlack );
+%     set(gca, axisOptsFig2B_heatMap{:})
+%     h = colorbar;
+%     set( h, colorBarOpts{:})
+%     ylabel(h, 'Sensors for 75\% Accuracy', 'Interpreter', 'latex')
+%     title('Optimal Sensors')
+%     
+% pbaspect([1 1 1])
+% subplot(6,8,[6:8,14:16,22:24]+24)
+% % subplot(n_y,d_x,[19:21,26:28])
+%     imagesc(thresholdMat(:,:,1))
+%     colormap( summerWithBlack );
+%     set(gca, axisOptsFig2B_heatMap{:})
+%     h = colorbar;
+%     set( h, colorBarOpts{:})
+%     ylabel(h, 'Sensors for 75\% Accuracy', 'Interpreter', 'latex')
+%     title('Random Sensors ')
+%     pbaspect([1 1 1])
 
 %% Setting paper size for saving 
 % set(gca, 'LooseInset', get(gca(), 'TightInset')); % remove whitespace around figure
@@ -233,48 +233,48 @@ print(fig2, ['figs' filesep 'Figure_R2' ], '-dpng', '-r600');
 
 
 
-%% Figure heatmap part repeat 
-fig2_heatmap = figure();
-set(fig2_heatmap, 'Position', [fig2_heatmap.Position(1:2) width*100, height*100]); %<- Set size
-plot_on = true ;
-
-
-subplot(6,8,[6:8,14:16,22:24])
-% subplot(6,8,[15:16,23:24])
-
-    imagesc(thresholdMat(:,:,2))
-    colormap( summerWithBlack );
-    set(gca, axisOptsFig2B_heatMap{:})
-    h = colorbar;
-    set( h, colorBarOpts{:})
-    ylabel(h, 'Sensors for 75\% Accuracy', 'Interpreter', 'latex')
-    title('Optimal Sensors')
-    
-pbaspect([1 1 1])
-subplot(6,8,[6:8,14:16,22:24]+24)
-% subplot(n_y,d_x,[19:21,26:28])
-    imagesc(thresholdMat(:,:,1))
-    colormap( summerWithBlack );
-    set(gca, axisOptsFig2B_heatMap{:})
-    h = colorbar;
-    set( h, colorBarOpts{:})
-    ylabel(h, 'Sensors for 75\% Accuracy', 'Interpreter', 'latex')
-    title('Random Sensors ')
-    pbaspect([1 1 1])
-
-
-
-
-print(fig2_heatmap, ['figs' filesep 'Figure_R2heatmap' ], '-dpng', '-r600');
-% total hack, why does saving to svg scale image up???
-stupid_ratio = 15/16;
-myfiguresize = [left, bottom, width*stupid_ratio, height*stupid_ratio];
-set(fig2_heatmap, 'PaperPosition', myfiguresize);
-
-print(fig2_heatmap, ['figs' filesep 'Figure_R2heatmap' ], '-dsvg');
-
-
-set(0,'DefaultAxesFontSize',8)% .
+% %% Figure heatmap part repeat 
+% fig2_heatmap = figure();
+% set(fig2_heatmap, 'Position', [fig2_heatmap.Position(1:2) width*100, height*100]); %<- Set size
+% plot_on = true ;
+% 
+% 
+% subplot(6,8,[6:8,14:16,22:24])
+% % subplot(6,8,[15:16,23:24])
+% 
+%     imagesc(thresholdMat(:,:,2))
+%     colormap( summerWithBlack );
+%     set(gca, axisOptsFig2B_heatMap{:})
+%     h = colorbar;
+%     set( h, colorBarOpts{:})
+%     ylabel(h, 'Sensors for 75\% Accuracy', 'Interpreter', 'latex')
+%     title('Optimal Sensors')
+%     
+% pbaspect([1 1 1])
+% subplot(6,8,[6:8,14:16,22:24]+24)
+% % subplot(n_y,d_x,[19:21,26:28])
+%     imagesc(thresholdMat(:,:,1))
+%     colormap( summerWithBlack );
+%     set(gca, axisOptsFig2B_heatMap{:})
+%     h = colorbar;
+%     set( h, colorBarOpts{:})
+%     ylabel(h, 'Sensors for 75\% Accuracy', 'Interpreter', 'latex')
+%     title('Random Sensors ')
+%     pbaspect([1 1 1])
+% 
+% 
+% 
+% 
+% print(fig2_heatmap, ['figs' filesep 'Figure_R2heatmap' ], '-dpng', '-r600');
+% % total hack, why does saving to svg scale image up???
+% stupid_ratio = 15/16;
+% myfiguresize = [left, bottom, width*stupid_ratio, height*stupid_ratio];
+% set(fig2_heatmap, 'PaperPosition', myfiguresize);
+% 
+% print(fig2_heatmap, ['figs' filesep 'Figure_R2heatmap' ], '-dsvg');
+% 
+% 
+% set(0,'DefaultAxesFontSize',8)% .
 
 
 
