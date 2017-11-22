@@ -23,7 +23,7 @@ addpathFolderStructure()
 
 runNumber           = 1;
 iter                = 10;
-figuresToRun        = {'R1','R2','R3','R4'};
+figuresToRun        = {'R3','R4'};
 % select any from {'R2A','R2B','R2C','R3','R4','R2allSensorsnoFilt','R2allSensorsFilt} 
 parameterSetName    = ['R1toR4_Iter' num2str(iter) '_run' num2str(runNumber)];
 
