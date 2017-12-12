@@ -25,7 +25,7 @@ plot_on = false;
 
 %% Processing before plotting 
 % parameterSetName = 'R1R4_Iter3_delay5_eNet09';
-parameterSetName = 'R1R4_Iter5_delay5_eNet09';
+parameterSetName = 'R1test3_run1';
 
 overflow_loc = 'D:\Mijn_documenten\Dropbox\A_PhD\C_Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
 github_loc = 'accuracyData';

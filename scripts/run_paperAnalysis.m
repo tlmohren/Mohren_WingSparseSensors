@@ -22,9 +22,14 @@ clear all, close all, clc
 addpathFolderStructure()
 
 runNumber           = 1;
+<<<<<<< HEAD
 iter                = 3;
 % figuresToRun        = {'R1','R2','R3','R4'};
 figuresToRun        = {'R1'};
+=======
+iter                = 10;
+figuresToRun        = {'R3','R4'};
+>>>>>>> 9a911e87bba439d56bee4c9d27e951aec4167b79
 % select any from {'R2A','R2B','R2C','R3','R4','R2allSensorsnoFilt','R2allSensorsFilt} 
 parameterSetName    = ['R1test' num2str(iter) '_run' num2str(runNumber)];
 
