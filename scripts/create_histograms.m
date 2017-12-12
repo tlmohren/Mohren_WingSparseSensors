@@ -23,7 +23,7 @@ figuresToRun        = {'subSetTest'};
 [fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
 varParStruct = varParStruct(45);
 % strainSet = load('strainSet_th0.1ph0.312it1harm0.2.mat');
-strainSet = load(['eulerLagrangeData', filesep 'strainSet_th0.1ph0.312it2harm0.2.mat']);
+strainSet = load(['eulerLagrangeData', filesep 'strainSet_th0.1ph0.312it1harm0.2.mat']);
 varPar = varParStruct(1);
 %% Test neural encoding effert
 
@@ -40,7 +40,7 @@ varPar.STAwidth = 0.01;
 
 %% adjusted parameters 
 % varPar.wTrunc = 7;
-varPar.wTrunc = 11; %% 11 does it for iter2 eNet 09
+varPar.wTrunc = 10; %% 11 does it for iter2 eNet 09
 % varPar.wTrunc = 7; %% 11 does it for iter2 eNet 09
 fixPar.elasticNet = 0.9;
 % fixPar.sThreshold =  fixPar.rmodes/varPar.wTrunc;
@@ -107,6 +107,7 @@ fixPar.rmodes = 30; % reduce from 30, solves it? Overfitting problem?
         for i = 1:c, 
             centroid(:,i) = mean(XclsEncodedSparse(:,Gtrain==classes(i)), 2);
         end;
+        encodedSparseMidLine = mean(centroid);
         % use sparse sensors to classify X
         cls = classify_nc(Xtest, Phi, w_sspoc, centroid);            % NOTE: if Jared's is used, multiple outputs!
         acc =  sum(cls == Gtest)/numel(cls);
@@ -127,10 +128,12 @@ fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q
         for i = 1:c, 
             centroid(:,i) = mean(XclsEncoded(:,Gtrain==classes(i)), 2);
         end;
+        
+        encodedMidLine = mean(centroid);
         % use sparse sensors to classify X
         cls = classify_nc(Xtest, Phi, w_sspoc, centroid);            % NOTE: if Jared's is used, multiple outputs!
         acc =  sum(cls == Gtest)/numel(cls);
-sensors = 1:1326
+sensors = 1:1326;
 q = length(sensors);
 fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q,acc])
 
@@ -186,6 +189,8 @@ fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q
         for i = 1:c, 
             centroid(:,i) = mean(XclsStrain(:,Gtrain==classes(i)), 2);
         end;
+        
+        strainMidLine = mean(centroid);
         % use sparse sensors to classify X
         cls = classify_nc(Xtest4, Phi, w_sspoc, centroid);            % NOTE: if Jared's is used, multiple outputs!
         acc =  sum(cls == Gtest)/numel(cls);
@@ -198,6 +203,7 @@ fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q
 
 
 %% 
-save('LDAhistograms','XclsStrain','XclsEncoded','XclsEncodedSparse')
+save( ['introFigData' filesep 'LDAhistograms'],...
+    'XclsStrain','XclsEncoded','XclsEncodedSparse','encodedMidLine','strainMidLine','encodedSparseMidLine')
 
 

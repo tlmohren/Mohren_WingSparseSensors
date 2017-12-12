@@ -22,13 +22,16 @@ clear all, close all, clc
 addpathFolderStructure()
 
 runNumber           = 1;
-iter                = 10;
-figuresToRun        = {'R1','R2','R3','R4'};
+iter                = 3;
+% figuresToRun        = {'R1','R2','R3','R4'};
+figuresToRun        = {'R1'};
 % select any from {'R2A','R2B','R2C','R3','R4','R2allSensorsnoFilt','R2allSensorsFilt} 
-parameterSetName    = ['R1toR4_Iter' num2str(iter) '_run' num2str(runNumber)];
+parameterSetName    = ['R1test' num2str(iter) '_run' num2str(runNumber)];
 
 % Build struct that specifies all parameter combinations to run 
 [fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
+
+% varParStruct = varParStruct(45);
 
 %% Run eulerLagrangeSimulation (optional) and sparse sensor placement algorithm
 tic 
@@ -45,7 +48,7 @@ for j = 1:length(varParStruct)
     end
     % Run parameter combination for a set number of iterations ---------
     for k = 1:fixPar.iter
-        try
+%         try
             varPar.curIter = k+10*(runNumber-1); 
             % Generate strain with Euler-Lagrange simulation ----------
             strainSet = eulerLagrangeConcatenate( fixPar,varPar);
@@ -66,9 +69,9 @@ for j = 1:length(varParStruct)
             end
             % Print accuracy in command window --------------------
             fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q,acc])
-        catch
-            fprintf(['W_trunc = %1.0f, gave error \n'],[varPar.wTrunc])
-        end
+%         catch
+%             fprintf(['W_trunc = %1.0f, gave error \n'],[varPar.wTrunc])
+%         end
     end
     % save classification accuracy and sensor location in small .mat file
     fillString = 'Data_%s_dT%g_dP%g_sOn%g_STAw%g_STAf%g_NLDs%g_NLDg%g_wT%g_';

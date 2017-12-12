@@ -27,7 +27,6 @@ varPar = varParStruct(1);
 
 fixPar.STAdelay = 5;
 
-
 [X,G] = neuralEncoding(strainSet, fixPar,varPar );
 
 varPar.SSPOCon = [0];
@@ -64,6 +63,8 @@ fixPar.rmodes = 30; % reduce from 30, solves it? Overfitting problem?
         [w_r, Psi, singVals,V] = PCA_LDA_singVals(Xtrain, Gtrain, 'nFeatures',fixPar.rmodes);
         singValsR = singVals(1:length(w_r));
         
+        
+        size(w_r) 
         
         if fixPar.singValsMult == 1
             [~,Iw]=sort(abs(w_r).*singValsR,'descend');  
@@ -148,6 +149,8 @@ set(ax1,axOpts{:})
 set(ax2,axOpts{:})
 set(bar1,barOpts1{:})
 set(bar2,barOpts2{:})
+
+plot( [1,1]*mean(centroid),yLims,'k--','LineWidth',3)
 
 
 yLims = [ max(aCounts),-max(bCounts)];
@@ -275,6 +278,10 @@ set(bar2,barOpts2{:})
 % txt2 = 'Flapping \& Rotating';
 % text(6e-6,100,txt1)
 % text(3e-6,-300,txt2)
+
+
+plot( [1,1]*mean(centroid),yLims,'k--','LineWidth',3)
+
 
 
 yLims = [ max(aCounts),-max(bCounts)];

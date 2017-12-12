@@ -50,7 +50,9 @@ for j1 = 1:length(paramStruct);
             nameMatches = dir([fixPar.data_loc filesep saveNameBase '*']);
 
             if ~isempty(nameMatches)
-                for k2 = 1:length(nameMatches)
+%                 for k2 = 1:length(nameMatches)
+                for k2 = 1: (fixPar.nIterFig/fixPar.nIterSim)
+                    
                     tempDat = load( [fixPar.data_loc filesep nameMatches(k2).name] ); 
                     [q_vec,it] = ind2sub(size(tempDat.DataMat),find(tempDat.DataMat));
                     for k3 = 1:length(q_vec)
@@ -62,6 +64,7 @@ for j1 = 1:length(paramStruct);
 
                     end
                 end
+                display( ['loaded ' num2str(fixPar.nIterFig) ' out of ' num2str( length(nameMatches)*fixPar.nIterSim) 'results'])
             end
        end
     else            

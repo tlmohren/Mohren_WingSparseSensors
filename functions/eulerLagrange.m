@@ -56,10 +56,11 @@ function [strain] = eulerLagrange(frot, th,ph ,par )
     theta_dot_disturbance = th*whiteNoiseDisturbance(par);
     theta_disturbance = int(theta_dot_disturbance);
 
+    theta = frot*t.*sigmoid + theta_disturbance;
 % Specify global rotation function
     globalangle(1) = 0*t;
     globalangle(2) = 0*t;
-    globalangle(3) = frot*t.*sigmoid + theta_disturbance;
+    globalangle(3) = theta;
     
 %Velocity and acceleration of the body (i.e. center base of plate)
     v0  = [0 0 0];
