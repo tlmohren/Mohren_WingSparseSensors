@@ -11,8 +11,6 @@ function [q ] = sigmFitParam( x,y,varargin )
 
     if isempty(x) || ~any(y>0.75)
         q = nan;
-%     elseif
-%     elseif 
     else
         xadd = [-5:0,x];
         y = [ones(1,6)*0.5,y];
@@ -26,35 +24,35 @@ function [q ] = sigmFitParam( x,y,varargin )
         lastQ = 30;
         beta = nlinfit(xadd,y,modelfun,beta0,opts);
         syms xs 
-        xa = eval(solve(modelfun(beta,xs) == trheshold))
+        xa = eval(solve(modelfun(beta,xs) == trheshold));
 
         if ~any(y<0.75)
 %             q =x(1);
-            display('~any(y<0.75)')
+%             display('~any(y<0.75)')
         elseif isreal( modelfun(beta,xa)  ) == 1 && xa <=lastQ && xa> 0 ;
             q = xa;
-            display('q = xa')
-            modelfun(beta,q)
+%             display('q = xa')
+%             modelfun(beta,q)
         elseif ~any(modelfun(beta,xadd) <=trheshold)
             q = x(1);
-            display('q = x(1)')
+%             display('q = x(1)')
         else
             q = nan;
         end
         if q<x(1)
-            q = x(1)
+            q = x(1);
             
         end
-
+        display( beta) 
         if inputs.plot_show == true
             hold on 
-            plot(xadd,modelfun(beta,xadd),'k--','LineWidth',1)
+            x_int = 0:0.1:30;
+            plot(x_int,modelfun(beta,x_int),'k--','LineWidth',1)
             plot([0,lastQ],[trheshold,trheshold],':k','LineWidth',1)
             if ~isnan(q)
                 plot([q,q],[0.4,1],':k','LineWidth',1)
             end
         end
     end
-    q 
 end
 

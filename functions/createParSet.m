@@ -1,4 +1,4 @@
-function [ fixPar,varyPar ] = createParSet(name,iter)
+function [ fixPar,varPar ] = createParSet(name,iter)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 % variable parameters 
@@ -36,6 +36,7 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
 %   
 %    -----------------------------------------------
     
+    standardPar.wTruncList = 1:fixPar.rmodes;
     standardPar.SSPOConList = [0,1];
     standardPar.theta_distList = 0.1;
     standardPar.phi_distList = 0.312 ;
@@ -51,92 +52,88 @@ function [ fixPar,varyPar ] = createParSet(name,iter)
     
     if strfind(name,'subPart')
         standardPar.theta_distList = 1;
-        standardPar.phi_distList = 3.12 ;
-%      fixPar.sThreshold  = 1;
+        standardPar.phi_distList = 3.12;
         fixPar.singValsMult = 1;
         fixPar.elasticNet = 0.9;
-%         fixPar.rmodes = 26;
         fixPar.rmodes = 30;
-%         fixPar.STAdelay = 3.6;
         standardPar.wTruncList = 3:5;
         standardPar.SSPOConList = [1];
-%     fixPar.normalizeVal = 3.63e-4; % for delay = 4
     end
     % ----------------------------------------------------
     for j = 1:11
         if j == 1
-            varyPar(j) = standardPar;
-            varyPar(j).resultName = 'R2A_disturbance';
-            varyPar(j).theta_distList = [0.001,0.01,0.1,1] * 10;
-            varyPar(j).phi_distList =[0.001,0.01,0.1,1] * 31.2 ;
+            varPar(j) = standardPar;
+            varPar(j).resultName = 'R2A_disturbance';
+            varPar(j).theta_distList = [0.001,0.01,0.1,1] * 10;
+            varPar(j).phi_distList =[0.001,0.01,0.1,1] * 31.2 ;
         elseif j == 2
-            varyPar(j) = standardPar;
-            varyPar(j).resultName = 'R2B_disturbance_theta';
-            varyPar(j).theta_distList = spa_sf( 10.^[-2:0.1:2] ,2);
+            varPar(j) = standardPar;
+            varPar(j).resultName = 'R2B_disturbance_theta';
+            varPar(j).theta_distList = spa_sf( 10.^[-2:0.1:2] ,2);
         elseif j == 3
-            varyPar(j) = standardPar;
-            varyPar(j).resultName = 'R2C_disturbance_phi';
-            varyPar(j).phi_distList = spa_sf( 10.^[-2:0.1:2] ,2) * 3.12;
+            varPar(j) = standardPar;
+            varPar(j).resultName = 'R2C_disturbance_phi';
+            varPar(j).phi_distList = spa_sf( 10.^[-2:0.1:2] ,2) * 3.12;
         elseif j == 4
-            varyPar(j) = standardPar;
-            varyPar(j).resultName = 'R3_STA';
-            varyPar(j).STAfreqList = linspace(0,2,11);        
-            varyPar(j).STAwidthList = linspace(0,20,11);
-            varyPar(j).STAwidthList(1) = 0.1;
+            varPar(j) = standardPar;
+            varPar(j).resultName = 'R3_STA';
+            varPar(j).STAfreqList = linspace(0,2,11);        
+            varPar(j).STAwidthList = linspace(0,20,11);
+            varPar(j).STAwidthList(1) = 0.1;
         elseif j == 5
-            varyPar(j) = standardPar;
-            varyPar(j).resultName = 'R4_NLD';
+            varPar(j) = standardPar;
+            varPar(j).resultName = 'R4_NLD';
             
-%             varyPar(j).NLDshiftList= linspace(-1 ,1,11);
+%             varPar(j).NLDshiftList= linspace(-1 ,1,11);
             tempVec = linspace(-1 ,1,11);
-            varyPar(j).NLDshiftList  = [tempVec(1:8), 0.5, tempVec(9:end)];
+            varPar(j).NLDshiftList  = [tempVec(1:8), 0.5, tempVec(9:end)];
             
-            varyPar(j).NLDgradList = spa_sf( linspace(1,5.4,11).^2 ,2 );
+            varPar(j).NLDgradList = spa_sf( linspace(1,5.4,11).^2 ,2 );
         elseif j == 6
-            varyPar(j) = standardPar;
-            varyPar(j).resultName = 'R2allSensorsNoFilt_disturbance';
-            varyPar(j).theta_distList = [0.001,0.01,0.1,1] * 10;
-            varyPar(j).phi_distList =[0.001,0.01,0.1,1] * 31.2 ;
-            varyPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
-            varyPar(j).SSPOConList = [0];
-            varyPar(j).NLDgradList = -1;
-            varyPar(j).STAfreqList = 1;
-            varyPar(j).STAwidthList = 0.01;
+            varPar(j) = standardPar;
+            varPar(j).resultName = 'R2allSensorsNoFilt_disturbance';
+            varPar(j).theta_distList = [0.001,0.01,0.1,1] * 10;
+            varPar(j).phi_distList =[0.001,0.01,0.1,1] * 31.2 ;
+            varPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
+            varPar(j).SSPOConList = [0];
+            varPar(j).NLDgradList = -1;
+            varPar(j).STAfreqList = 1;
+            varPar(j).STAwidthList = 0.01;
         elseif j == 7
-            varyPar(j) = standardPar;
-            varyPar(j).resultName = 'R2allSensorsFilt_disturbance';
-            varyPar(j).theta_distList = [0.001,0.01,0.1,1] * 10;
-            varyPar(j).phi_distList =[0.001,0.01,0.1,1] * 31.2 ;
-            varyPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
-            varyPar(j).SSPOConList = [0];
+            varPar(j) = standardPar;
+            varPar(j).resultName = 'R2allSensorsFilt_disturbance';
+            varPar(j).theta_distList = [0.001,0.01,0.1,1] * 10;
+            varPar(j).phi_distList =[0.001,0.01,0.1,1] * 31.2 ;
+            varPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
+            varPar(j).SSPOConList = [0];
         elseif j == 8
-            varyPar(j) = standardPar;
-            varyPar(j).resultName = 'R1_disturbance';
-            varyPar(j).theta_distList = 0.1;
-            varyPar(j).phi_distList =0.312;
+            varPar(j) = standardPar;
+            varPar(j).resultName = 'R1_disturbance';
+            varPar(j).theta_distList = 0.1;
+            varPar(j).phi_distList =0.312;
         elseif j == 9
-            varyPar(j) = standardPar;
-            varyPar(j).resultName = 'R1_allSensorsNoFilt';
-            varyPar(j).theta_distList = 0.1;
-            varyPar(j).phi_distList =0.312;
-            varyPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
-            varyPar(j).SSPOConList = [0];
-%             varyPar(j).NLDshiftList = [-5];
-            varyPar(j).NLDgradList = -1;
-            varyPar(j).STAfreqList = 1;
-            varyPar(j).STAwidthList = 0.01;
+            varPar(j) = standardPar;
+            varPar(j).resultName = 'R1_allSensorsNoFilt';
+            varPar(j).theta_distList = 0.1;
+            varPar(j).phi_distList =0.312;
+            varPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
+            varPar(j).SSPOConList = [0];
+%             varPar(j).NLDshiftList = [-5];
+            varPar(j).NLDgradList = -1;
+            varPar(j).STAfreqList = 1;
+            varPar(j).STAwidthList = 0.01;
         elseif j == 10
-            varyPar(j) = standardPar;
-            varyPar(j).resultName = 'R1_allSensorsFilt';
-            varyPar(j).theta_distList = 0.1;
-            varyPar(j).phi_distList =0.312;
-            varyPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
-            varyPar(j).SSPOConList = [0];
+            varPar(j) = standardPar;
+            varPar(j).resultName = 'R1_allSensorsFilt';
+            varPar(j).theta_distList = 0.1;
+            varPar(j).phi_distList =0.312;
+            varPar(j).wTruncList = fixPar.chordElements*fixPar.spanElements;
+            varPar(j).SSPOConList = [0];
         elseif j == 11
-            varyPar(j) = standardPar;
-            varyPar(j).resultName = 'subSetTest';
-            varyPar(j).theta_distList = 1;
-            varyPar(j).phi_distList =3.12;
+            varPar(j) = standardPar;
+            varPar(j).resultName = 'subSetTest';
+            varPar(j).theta_distList = 1;
+            varPar(j).phi_distList =3.12;
         end
     end
         

@@ -48,7 +48,6 @@ for j1 = 1:length(paramStruct);
                         varPar.STAwidth , varPar.STAfreq , varPar.NLDshift , varPar.NLDgrad , wTrunc };
             saveNameBase = sprintf( fillString,fillCell{:} );
             nameMatches = dir([fixPar.data_loc filesep saveNameBase '*']);
-
             if ~isempty(nameMatches)
 %                 for k2 = 1:length(nameMatches)
                 for k2 = 1: (fixPar.nIterFig/fixPar.nIterSim)
