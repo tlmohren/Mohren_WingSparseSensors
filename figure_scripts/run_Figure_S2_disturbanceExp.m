@@ -19,17 +19,6 @@ N0= load(['introFigData' filesep 'noise0'],'strain');
 N1=load(['introFigData' filesep 'noise1'],'strain');
 
 
-% flap_d31_2 = load(['introFigData' filesep 'flapDisturbance_31_2']);
-
-% % flap_d1 = load(['introFigData' filesep 'flapDisturbance']);
-% flap_d10 = load(['introFigData' filesep 'flapDisturbance_10']);
-% flap_d3_12 = load(['introFigData' filesep 'flapDisturbance_3_12']);
-
-
-
-% anglesDisturbanceFig
-% t = 0:0.001:1;
-% 
 %% figure treatment
 figS3 = figure();
 ax = gca();

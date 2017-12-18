@@ -14,8 +14,8 @@ fontSize = 8;
 legend_location = 'NorthOutside';
 
 %% Get data
-N0= load(['introFigData' filesep 'noise0'],'strain');
-N1=load(['introFigData' filesep 'noise1'],'strain');
+N0= load(['figData' filesep 'noise0'],'strain');
+N1=load(['figData' filesep 'noise1'],'strain');
 dim_wing = [26,51,4000];
 strain0 = reshape(N0.strain.strain_0,dim_wing);
 strain10 = reshape(N0.strain.strain_10,dim_wing);

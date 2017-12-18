@@ -20,22 +20,9 @@ height = 3.8;    % Height in inches
 
 set(0,'DefaultAxesFontSize',7)% .
 % set(0,'DefaultAxesLabelFontSize', 8/6)
-
 %% Data collection 
-% parameterSetName    = 'R1R2withExpFilterIter5';
-% parameterSetName    = 'R1toR4Iter10_delay4';
-% parameterSetName    = 'R1R2Iter5_delay3_6_normval377';
-% parameterSetName = 'R1R2Iter5_delay4_newNormalization'
-% parameterSetName    = 'R1R4Iter10_delay3_6_fixSTAwidth';
-% parameterSetName    = 'R1R2Iter10_delay4_singValsMult0';
-% parameterSetName   = 'R1R2Iter10_delay5_singValsMult1_eNet09'
-% parameterSetName    = 'subPartPaperR1Iter3_delay5_singValsMult1_eNet085';
-% parameterSetName    = 'R1R2Iter7_delay5_singValsMult1_eNet095';
-% parameterSetName = 'R1R2Iter5_delay5_singValsMult1_eNet085';gith
-% parameterSetName   = 'R1R2Iter7_delay3_singValsMult1_eNet09'
-% parameterSetName = 'R1R2AIter5_delay4_singValsMult1_eNet09'
-% parameterSetName = 'R1R4_Iter3_delay5_eNet09';
-parameterSetName = 'R1R4_Iter5_delay5_eNet09';
+% parameterSetName = 'R1toR4_Iter5_delay5_eNet09';
+parameterSetName = 'R1toR4_Iter10_run1';
 
 overflow_loc = 'D:\Mijn_documenten\Dropbox\A_PhD\C_Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
 github_loc = 'accuracyData';
@@ -48,28 +35,37 @@ catch
     load([overflow_loc filesep 'parameterSet_' parameterSetName ])
     fixPar.data_loc = overflow_loc;
 end 
-    
 
 fixPar.nIterFig = 10;
-fixPar.nIterSim = 5; 
+fixPar.nIterSim = 10; 
+data
+% figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2A' )));
+% varParCombinationsR2A = varParCombinationsAll(figMatch);
+% [dataStruct,paramStruct] = combineDataMat(fixPar,varParCombinationsR2A);
 
 
-figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2A' )));
-varParCombinationsR2A = varParCombinationsAll(figMatch);
-[dataStruct,paramStruct] = combineDataMat(fixPar,varParCombinationsR2A);
+[dataStruct,paramStruct]                    = combineDataMat( fixPar, simulation_menu.R2_q );
+
+[dataStructAllnoFilt,paramStructAllnoFilt]  = combineDataMat( fixPar, simulation_menu.R2_all_nofilt );
+
+[dataStructAllFilt,paramStructAllFilt]      = combineDataMat( fixPar, simulation_menu.R2_all_filt );
+
+
+
+% display('added paths')
+% %
+% figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2allSensorsNoFilt' )));
+% varParCombinationsR2A_allNoFilt = varParCombinationsAll(figMatch);
+% [dataStructAllnoFilt,paramStructAllnoFilt] = combineDataMat(fixPar,varParCombinationsR2A_allNoFilt);
+% 
+% figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2allSensorsFilt' )));
+% varParCombinationsR2A_allFilt = varParCombinationsAll(figMatch);
+% [dataStructAllFilt,paramStructAllFilt] = combineDataMat(fixPar,varParCombinationsR2A_allFilt);
+
+
+
 ind_SSPOCoff = find( ~[paramStruct.SSPOCon]);
 ind_SSPOCon = find([paramStruct.SSPOCon]);
-
-display('added paths')
-%
-figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2allSensorsNoFilt' )));
-varParCombinationsR2A_allNoFilt = varParCombinationsAll(figMatch);
-[dataStructAllnoFilt,paramStructAllnoFilt] = combineDataMat(fixPar,varParCombinationsR2A_allNoFilt);
-
-figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2allSensorsFilt' )));
-varParCombinationsR2A_allFilt = varParCombinationsAll(figMatch);
-[dataStructAllFilt,paramStructAllFilt] = combineDataMat(fixPar,varParCombinationsR2A_allFilt);
-
 %% 
 
 tw = 2;
@@ -115,8 +111,8 @@ col = {[1,1,1]*100/255,'-r'};
 dotcol = {'.k','.r'}; 
 
 n_plots = 16; 
-n_x = length(varParCombinationsR2A.theta_distList);
-n_y = length(varParCombinationsR2A.phi_distList);
+n_x = length( simulation_menu.R2_q.theta_distList);
+n_y = length(simulation_menu.R2_q.phi_distList);
 d_x = 4;
 
 
@@ -143,7 +139,7 @@ phantomV = {'$\phantom{}$','$\phantom{}$','$\phantom{0}$','$\phantom{}$'};
 for j = 1:4
    inds = subGrid( 2, RowS(j):RowE(j) );
    subplot(pY,pX,inds(:))
-   tx = [phantomH{j} ' $\dot{\phi^*}=$' num2str( spa_sf(varParCombinationsR2A.phi_distList(j),2) )];
+   tx = [phantomH{j} ' $\dot{\phi^*}=$' num2str( spa_sf( simulation_menu.R2_q.phi_distList(j),2) )];
    txt1 = text(0,0, tx  ,'FontSize',fszM );
    axis off
    
@@ -155,7 +151,7 @@ for j = 1:4
         pc = patch(x,y,[1,1,1]*0.85,'EdgeColor','none');
    end
    
-   tx = [phantomV{j} ' $\dot{\theta^*}=$' num2str( spa_sf(varParCombinationsR2A.theta_distList(j),2)  ) ];
+   tx = [phantomV{j} ' $\dot{\theta^*}=$' num2str( spa_sf(simulation_menu.R2_q.theta_distList(j),2)  ) ];
    text(0,0,tx  ,'FontSize',fszM ,'Rotation',90 )
    axis off
    

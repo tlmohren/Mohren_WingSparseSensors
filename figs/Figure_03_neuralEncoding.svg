@@ -2862,10 +2862,9 @@
       /><path style="stroke:none;" d="M445 257.7212 L446.9423 255.7788 L445 255.7788 Z"
     /></g
     ><g transform="matrix(1.9423,0,0,1.9423,445.9712,206.25)" style="fill-opacity:0; fill:rgb(0,0,0); text-rendering:optimizeSpeed; color-rendering:optimizeSpeed; image-rendering:optimizeSpeed; shape-rendering:crispEdges; color-interpolation:sRGB; stroke:rgb(0,0,0); stroke-opacity:0;"
-    ><image x="0" y="0" width="51" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAaCAIAAACVYPODAAAAbElEQVR42mP4/ufD
-4EQMoy4bddmoy0ZdNuqyEegyDudWIBp0Ltv6aDeHQyMQDcowG3XZaN4cddmoy0Zd
-NuqyQeyyL7/fuq06h0fR19/vIHUtZu0LQZ9/vSHGMqBF+G3Z8GAHqGpyaweiwesy
-ANiizpKuow22AAAAAElFTkSuQmCC" style="clip-path:url(#clipPath2);" height="26" preserveAspectRatio="none"
+    ><image x="0" y="0" width="51" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAaCAIAAACVYPODAAAAVElEQVR42mP4/ufD
+4EQMoy4bddmoy0ZdNuqyEegyDodGIBp0LtvycNcgddngDbNB7bLRvDnqslGXjbps
+1GV0dZnT0tPE1LWYIhBE9eocUTsNQpcBADw3znN8dIZWAAAAAElFTkSuQmCC" style="clip-path:url(#clipPath2);" height="26" preserveAspectRatio="none"
     /></g
     ><g transform="translate(445.1942,256.1673)" style="font-size:9px; text-rendering:geometricPrecision; color-rendering:optimizeQuality; image-rendering:optimizeQuality; font-family:'mwa_cmbx10'; color-interpolation:linearRGB;"
     ><path style="stroke:none;" d="M7.267 -4.0938 L7.267 -6.0157 Q7.2826 -6.1094 7.3764 -6.125 L7.6107 -6.125 Q7.6889 -6.1094 7.7201 -6.0157 Q7.7201 -5.4375 8.0248 -5.086 Q8.3295 -4.7344 8.8061 -4.586 Q9.2826 -4.4375 9.8451 -4.4375 Q10.3295 -4.4375 10.642 -4.7188 Q10.9545 -5 10.9545 -5.4688 Q10.9545 -5.8282 10.7045 -6.1094 Q10.4545 -6.3907 10.1107 -6.4688 L8.8139 -6.75 Q8.392 -6.8438 8.0326 -7.0938 Q7.6732 -7.3438 7.4701 -7.7188 Q7.267 -8.0938 7.267 -8.5313 Q7.267 -9.0938 7.5326 -9.5079 Q7.7982 -9.9219 8.2514 -10.1329 Q8.7045 -10.3438 9.267 -10.3438 Q10.1889 -10.3438 10.8139 -9.8594 L11.267 -10.3125 Q11.3139 -10.3438 11.3451 -10.3438 L11.4545 -10.3438 Q11.5482 -10.3282 11.5639 -10.25 L11.5639 -8.3125 Q11.5482 -8.2188 11.4545 -8.2032 L11.2201 -8.2032 Q11.1264 -8.2188 11.1107 -8.3125 Q11.0482 -8.8282 10.8139 -9.1875 Q10.5795 -9.5469 10.1811 -9.7344 Q9.7826 -9.9219 9.267 -9.9219 Q8.9701 -9.9219 8.7201 -9.8204 Q8.4701 -9.7188 8.3217 -9.5079 Q8.1732 -9.2969 8.1732 -9 Q8.1732 -8.6719 8.4154 -8.4297 Q8.6576 -8.1875 8.9857 -8.1094 L10.267 -7.8282 Q10.9701 -7.6719 11.4154 -7.1563 Q11.8607 -6.6407 11.8607 -5.9375 Q11.8607 -5.4844 11.7123 -5.125 Q11.5639 -4.7657 11.2982 -4.5079 Q11.0326 -4.25 10.6576 -4.1172 Q10.2826 -3.9844 9.8451 -3.9844 Q9.3139 -3.9844 8.8529 -4.0938 Q8.392 -4.2032 8.017 -4.4688 L7.5639 -4.0157 Q7.5326 -4 7.4857 -3.9844 L7.3764 -3.9844 Q7.2826 -4 7.267 -4.0938 Z"

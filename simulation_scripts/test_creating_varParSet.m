@@ -5,7 +5,7 @@ clc;clear all;close all
 
 fixPar.rmodes = 30; 
 % sim_to_run = {'R1','R2','R3','R4','S1','S2'};
-sim_to_run = {'R1'};
+sim_to_run = {'test'};
 % R1 
 simulation_menu. R1_standard. wTruncList = 1:fixPar.rmodes;
 simulation_menu. R1_standard. SSPOConList = [0,1];
@@ -16,9 +16,11 @@ simulation_menu. R1_standard. STAfreqList = 1;
 simulation_menu. R1_standard. NLDshiftList = [0.5];
 simulation_menu. R1_standard. NLDgradList = [10];
 % R1 all sensors, filt 
+simulation_menu. R1_all_filt = simulation_menu.R1_standard;
 simulation_menu. R1_all_filt. SSPOConList = [0] ;
 simulation_menu. R1_all_filt. wTruncList = [1326] ;
 % R1 all sensors, no filter/encoding 
+simulation_menu. R1_all_nofilt = simulation_menu.R1_standard;
 simulation_menu. R1_all_nofilt. SSPOConList = [0] ;
 simulation_menu. R1_all_nofilt. wTruncList = [1326] ;
 simulation_menu. R1_all_nofilt. NLDgradList = -1; 
@@ -52,6 +54,11 @@ simulation_menu. R4. NLDgradList = spa_sf( linspace(1,5.4,11).^2 ,2 );
 simulation_menu. S1_thetaDist. theta_distList = spa_sf( 10.^[-2:0.1:2] ,2);
 %S2 
 simulation_menu. S2_phiDist. phi_distList = spa_sf( 10.^[-2:0.1:2] ,2) * 3.12;
+%S2 
+simulation_menu. test. phi_distList =[1,2,3];
+simulation_menu. test. theta_distList = [5,6,7,8];
+simulation_menu. test. wTruncList = [11,12];
+simulation_menu. test. SSPOConList = [0];
 
 %% Determine course selection from menu 
 courses = fields(simulation_menu);
@@ -91,6 +98,9 @@ for j = I_sim_boolean()
         repTemp(k) = length( varParParent.(standardLists{k}) );
         paramVec = varParParent.( standardLists{k});
         paramCube = bsxfun(@times, oneBlock,  reshape( paramVec, repTemp)  );
+        k 
+        dim_l
+        squeeze(paramCube) 
         % for every parameter combination instance, set dimension k parameter 
         for k2 = 1:total_l
            varParChild( childN + k2).course = courses{j};

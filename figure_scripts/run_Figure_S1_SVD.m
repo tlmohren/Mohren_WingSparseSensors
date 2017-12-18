@@ -19,9 +19,13 @@ width = 7;     % Width in inches,   find column width in paper
 height = 4;    % Height in inches
 
 %%  data gathering 
-[fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
+% [fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
+
+parameterSetName = 'R1_Iter100';
+load(['accuracyData' filesep 'parameterSet_' parameterSetName ])
+
 varParStruct = varParStruct(45);
-strainStruct = load(['introFigData' filesep 'noise1.mat'] );
+strainStruct = load(['figData' filesep 'noise1.mat'] );
 strainSet = strainStruct.strain;
 varPar = varParStruct(1);
 [X,G] = neuralEncoding(strainSet, fixPar,varPar );

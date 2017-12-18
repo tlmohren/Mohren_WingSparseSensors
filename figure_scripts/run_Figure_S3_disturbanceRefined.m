@@ -22,7 +22,8 @@ set(0,'DefaultAxesFontSize',7)% .
 % set(0,'DefaultAxesLabelFontSize', 8/6)
 
 %% Data collection 
-parameterSetName = 'R1R4_Iter5_delay5_eNet09';
+% parameterSetName = 'R1R4_Iter5_delay5_eNet09';
+parameterSetName = 'R1toR4_Iter10_run1';
 
 overflow_loc = 'D:\Mijn_documenten\Dropbox\A_PhD\C_Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
 github_loc = 'accuracyData';
@@ -37,24 +38,32 @@ catch
 end 
     
 fixPar.nIterFig = 10;
-fixPar.nIterSim = 5; 
+fixPar.nIterSim = 10; 
 
-figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2B' )));
-varParCombinationsR2B = varParCombinationsAll(figMatch);
-[dataStructB,paramStructB] = combineDataMat(fixPar,varParCombinationsR2B);
+% figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2B' )));
+% varParCombinationsR2B = varParCombinationsAll(figMatch);
+
+
+
+[dataStructA,paramStructA] = combineDataMat( fixPar, simulation_menu.S3A_phiDist );
+ind_SSPOCoffA = find( ~[paramStructA.SSPOCon]);
+ind_SSPOConA = find([paramStructA.SSPOCon]);
+
+% figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2C' )));
+% varParCombinationsR2C = varParCombinationsAll(figMatch);
+
+
+
+% [dataStructC,paramStructC] = combineDataMat(fixPar,varParCombinationsR2C);
+[dataStructB,paramStructB] = combineDataMat(fixPar,  simulation_menu.S3B_thetaDist );
+
 ind_SSPOCoffB = find( ~[paramStructB.SSPOCon]);
 ind_SSPOConB = find([paramStructB.SSPOCon]);
-
-figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2C' )));
-varParCombinationsR2C = varParCombinationsAll(figMatch);
-[dataStructC,paramStructC] = combineDataMat(fixPar,varParCombinationsR2C);
-ind_SSPOCoffC = find( ~[paramStructC.SSPOCon]);
-ind_SSPOConC = find([paramStructC.SSPOCon]);
 
 
 %% Figure settings
 fig_S5 = figure();
-set(fig_S5, 'Position', [fig_S5.Position(1:2) width*100, height*100]); %<- Set size
+set(fig_S5, 'Position', [ 100,100 width*100, height*100]); %<- Set size
 plot_on = false;
 
 fszL = 8;  
@@ -65,7 +74,22 @@ col = {[1,1,1]*100/255,'-r'};
 dotcol = {'.k','.r'}; 
 
 %% 
-n_x = length(varParCombinationsR2B.theta_distList);
+n_x = length(simulation_menu.S3A_phiDist.phi_distList);
+for k = 1:n_x
+    %---------------------------------SSPOCoff-------------------------
+    Dat_I = ind_SSPOCoffA( k);
+    [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStructA );
+    realNumbers = find(~isnan(meanVec));
+    thresholdMatA(k,1) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
+
+    %---------------------------------SSPOCon-------------------------
+    Dat_I = ind_SSPOConA(k);
+    [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStructA );
+    realNumbers = find(~isnan(meanVec));
+    thresholdMatA(k,2) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
+end
+
+n_x = length(simulation_menu.S3B_thetaDist.theta_distList);
 for k = 1:n_x
     %---------------------------------SSPOCoff-------------------------
     Dat_I = ind_SSPOCoffB( k);
@@ -80,51 +104,36 @@ for k = 1:n_x
     thresholdMatB(k,2) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
 end
 
-n_x = length(varParCombinationsR2C.phi_distList);
-for k = 1:n_x
-    %---------------------------------SSPOCoff-------------------------
-    Dat_I = ind_SSPOCoffC( k);
-    [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStructC );
-    realNumbers = find(~isnan(meanVec));
-    thresholdMatC(k,1) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
-
-    %---------------------------------SSPOCon-------------------------
-    Dat_I = ind_SSPOConC(k);
-    [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStructC );
-    realNumbers = find(~isnan(meanVec));
-    thresholdMatC(k,2) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
-end
-
 %% 
 cols = [ [1,1,1]*0.5 ; 
             1,0,0 ];
         
-fig2SimsC = mod(log10(varParCombinationsR2C.phi_distList/0.00312) ,1) == 0;
-fig2SimsB = mod(log10(varParCombinationsR2B.theta_distList/0.01) ,1) == 0;
+fig2SimsC = mod(log10(simulation_menu.S3A_phiDist.phi_distList/0.00312) ,1) == 0;
+fig2SimsB = mod(log10(simulation_menu.S3B_thetaDist.theta_distList/0.01) ,1) == 0;
 
 % figure()
 subplot(211)
-    semilogx(varParCombinationsR2C.phi_distList, thresholdMatC(:,1),'Color',cols(1,:))
+    semilogx(simulation_menu.S3A_phiDist.phi_distList, thresholdMatA(:,1),'Color',cols(1,:))
     hold on
-    semilogx(varParCombinationsR2C.phi_distList, thresholdMatC(:,2),'Color',cols(2,:))
+    semilogx(simulation_menu.S3A_phiDist.phi_distList, thresholdMatA(:,2),'Color',cols(2,:))
 
 
-    plot(varParCombinationsR2C.phi_distList(fig2SimsC ), thresholdMatC(fig2SimsC ,1)','o','Color',cols(1,:))
-    plot(varParCombinationsR2C.phi_distList(fig2SimsC ), thresholdMatC(fig2SimsC ,2),'o','Color',cols(2,:))
+    plot(simulation_menu.S3A_phiDist.phi_distList(fig2SimsC ), thresholdMatA(fig2SimsC ,1)','o','Color',cols(1,:))
+    plot(simulation_menu.S3A_phiDist.phi_distList(fig2SimsC ), thresholdMatA(fig2SimsC ,2),'o','Color',cols(2,:))
 
 
     xlabel('Disturbance $\dot{\phi}^*$ [rad/s]'); ylabel(['Number of Sensors, q,' char(10) 'Required for 75\% Accuracy'],'Rotation',0)
     legend('Random Sensors','SSPOC Sensors','Location','Best')
 
 subplot(212)
-    semilogx(varParCombinationsR2B.theta_distList, thresholdMatB(:,1),'Color',cols(1,:))
+    semilogx(simulation_menu.S3B_thetaDist.theta_distList, thresholdMatB(:,1),'Color',cols(1,:))
     hold on
-    semilogx(varParCombinationsR2B.theta_distList, thresholdMatB(:,2),'Color',cols(2,:))
+    semilogx(simulation_menu.S3B_thetaDist.theta_distList, thresholdMatB(:,2),'Color',cols(2,:))
     xlabel('Disturbance $\dot{\theta}^*$ [rad/s]'); ylabel(['Number of Sensors, q,' char(10) 'Required for 75\% Accuracy'],'Rotation',0)
     legend('Random Sensors','SSPOC Sensors','Location','Best')
 
-    plot(varParCombinationsR2B.theta_distList(fig2SimsC ), thresholdMatB(fig2SimsB ,1)','o','Color',cols(1,:))
-    plot(varParCombinationsR2B.theta_distList(fig2SimsC ), thresholdMatB(fig2SimsB ,2),'o','Color',cols(2,:))
+    plot(simulation_menu.S3B_thetaDist.theta_distList(fig2SimsC ), thresholdMatB(fig2SimsB ,1)','o','Color',cols(1,:))
+    plot(simulation_menu.S3B_thetaDist.theta_distList(fig2SimsC ), thresholdMatB(fig2SimsB ,2),'o','Color',cols(2,:))
 
 
 %% Setting paper size for saving 

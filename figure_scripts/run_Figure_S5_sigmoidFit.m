@@ -21,8 +21,43 @@ legend_location = 'Best';
 plot_on = false;
 
 %% Processing before plotting 
+% % parameterSetName = 'R1R4_Iter3_delay5_eNet09';
+% % parameterSetName = 'R1_Iter100';
+% % 
+% % overflow_loc = 'D:\Mijn_documenten\Dropbox\A_PhD\C_Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
+% % github_loc = 'accuracyData';
+% % try
+% %     load([github_loc filesep 'parameterSet_' parameterSetName ])
+% %     fixPar.data_loc = github_loc;
+% % catch
+% %     display('not on github, looking at old data')
+% %     load([overflow_loc filesep 'parameterSet_' parameterSetName ])
+% %     fixPar.data_loc = overflow_loc;
+% % end 
+% % 
+% % fixPar.nIterFig = 100;
+% % fixPar.nIterSim = 100; 
+% % 
+% % figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R1_disturbance' )));
+% % varParCombinations_R1 = varParCombinationsAll(figMatch);
+% % [dataStruct,paramStruct] = combineDataMat(fixPar,varParCombinations_R1);
+% % 
+% % ind_SSPOCoff = find( ~[paramStruct.SSPOCon]);
+% % ind_SSPOCon = find([paramStruct.SSPOCon]);
+% % 
+% % figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R1_allSensorsNoFilt' )));
+% % varParCombinations_allNoFilt = varParCombinationsAll(figMatch);
+% % [dataStructAllnoFilt,paramStructAllnoFilt] = combineDataMat(fixPar,varParCombinations_allNoFilt);
+% % 
+% % figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R1_allSensorsFilt' )));
+% % varParCombinations_allFilt = varParCombinationsAll(figMatch);
+% % [dataStructAllFilt,paramStructAllFilt] = combineDataMat(fixPar,varParCombinations_allFilt);
+
+
 % parameterSetName = 'R1R4_Iter3_delay5_eNet09';
 parameterSetName = 'R1_Iter100';
+% parameterSetName = 'R1_Iter1';
+
 
 overflow_loc = 'D:\Mijn_documenten\Dropbox\A_PhD\C_Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
 github_loc = 'accuracyData';
@@ -38,20 +73,13 @@ end
 fixPar.nIterFig = 100;
 fixPar.nIterSim = 100; 
 
-figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R1_disturbance' )));
-varParCombinations_R1 = varParCombinationsAll(figMatch);
-[dataStruct,paramStruct] = combineDataMat(fixPar,varParCombinations_R1);
+[dataStruct,paramStruct] = combineDataMat( fixPar, simulation_menu.R1_standard );
+[dataStructAllnoFilt,paramStructAllnoFilt] = combineDataMat(fixPar,simulation_menu.R1_all_nofilt);
+[dataStructAllFilt,paramStructAllFilt] = combineDataMat(fixPar,simulation_menu.R1_all_filt);
 
+%  R1_all_filt
 ind_SSPOCoff = find( ~[paramStruct.SSPOCon]);
 ind_SSPOCon = find([paramStruct.SSPOCon]);
-
-figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R1_allSensorsNoFilt' )));
-varParCombinations_allNoFilt = varParCombinationsAll(figMatch);
-[dataStructAllnoFilt,paramStructAllnoFilt] = combineDataMat(fixPar,varParCombinations_allNoFilt);
-
-figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R1_allSensorsFilt' )));
-varParCombinations_allFilt = varParCombinationsAll(figMatch);
-[dataStructAllFilt,paramStructAllFilt] = combineDataMat(fixPar,varParCombinations_allFilt);
 
 
 %% setup figure

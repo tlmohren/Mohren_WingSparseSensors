@@ -13,15 +13,17 @@ scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
 addpath([scriptLocation filesep 'scripts']);
 addpathFolderStructure()
 
-parameterSetName    = ' ';
-iter                = 1;
-figuresToRun        = {'subSetTest'};
+% parameterSetName    = ' ';
+% iter                = 1;
+% figuresToRun        = {'subSetTest'};
 width = 6;
 height = 6;
 
 % Build struct that specifies all parameter combinations to run 
-[fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
-varParStruct = varParStruct(45);
+% [fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
+% varParStruct = varParStruct(45);
+parameterSetName = 'R1_Iter100';
+load(['accuracyData' filesep 'parameterSet_' parameterSetName ])
 varPar = varParStruct(1);
 
 strainSet = load(['eulerLagrangeData', filesep 'strainSet_th0.1ph0.312it2harm0.2.mat']);

@@ -16,11 +16,14 @@ inputs = p.Results;
 %    error('SSPOCelastic:DimensionPsiMismatchR','number of modes in Psi do not match length of R.') 
 % end
 
+% fields(varParCombinations)
+
+% createVarParStruct(varParCombinations) 
 
 
 
 m = fixPar.rmodes;
-varParCombinations.resultName = {varParCombinations.resultName};
+% varParCombinations.resultName = {varParCombinations.resultName};
 mn = length(varParCombinations.wTruncList);
 n = prod( structfun(@length,varParCombinations)) / mn;
 

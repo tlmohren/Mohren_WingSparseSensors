@@ -43,7 +43,7 @@ function [q ] = sigmFitParam( x,y,varargin )
             q = x(1);
             
         end
-        display( beta) 
+        
         if inputs.plot_show == true
             hold on 
             x_int = 0:0.1:30;

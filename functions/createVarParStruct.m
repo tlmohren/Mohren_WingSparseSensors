@@ -1,7 +1,7 @@
 function [ varParChild, simulation_menu] = createVarParStruct( fixPar, sim_to_run)
 
     % sim_to_run = {'R1','R2','R3','R4','S1','S2'};
-    % R1 
+    % R1, also to be the standard values for other sims if not overwritten 
     simulation_menu. R1_standard. wTruncList = 1:fixPar.rmodes;
     simulation_menu. R1_standard. SSPOConList = [0,1];
     simulation_menu. R1_standard. theta_distList = 0.1;
@@ -11,23 +11,28 @@ function [ varParChild, simulation_menu] = createVarParStruct( fixPar, sim_to_ru
     simulation_menu. R1_standard. NLDshiftList = [0.5];
     simulation_menu. R1_standard. NLDgradList = [10];
     % R1 all sensors, filt 
+    simulation_menu. R1_all_filt = simulation_menu.R1_standard;
     simulation_menu. R1_all_filt. SSPOConList = [0] ;
     simulation_menu. R1_all_filt. wTruncList = [1326] ;
     % R1 all sensors, no filter/encoding 
+    simulation_menu. R1_all_nofilt = simulation_menu.R1_standard;
     simulation_menu. R1_all_nofilt. SSPOConList = [0] ;
     simulation_menu. R1_all_nofilt. wTruncList = [1326] ;
     simulation_menu. R1_all_nofilt. NLDgradList = -1; 
     simulation_menu. R1_all_nofilt. STAfreqList = 1;
     simulation_menu. R1_all_nofilt. STAwidthList = 0.01;
     % R2
-    simulation_menu. R2. theta_distList = [0.001,0.01,0.1,1] * 10;
-    simulation_menu. R2. phi_distList =[0.001,0.01,0.1,1] * 31.2;
+    simulation_menu. R2_q = simulation_menu.R1_standard;
+    simulation_menu. R2_q. theta_distList = [0.001,0.01,0.1,1] * 10;
+    simulation_menu. R2_q. phi_distList =[0.001,0.01,0.1,1] * 31.2;
     % R2 all sensors, filt
+    simulation_menu. R2_all_filt = simulation_menu.R1_standard;
     simulation_menu. R2_all_filt. theta_distList = [0.001,0.01,0.1,1] * 10;
     simulation_menu. R2_all_filt. phi_distList =[0.001,0.01,0.1,1] * 31.2 ;
     simulation_menu. R2_all_filt. wTruncList = 1326;
     simulation_menu. R2_all_filt. SSPOConList = [0];
     % R2 all sensors, no filt
+    simulation_menu. R2_all_nofilt = simulation_menu.R1_standard;
     simulation_menu. R2_all_nofilt. theta_distList = [0.001,0.01,0.1,1] * 10;
     simulation_menu. R2_all_nofilt. phi_distList =[0.001,0.01,0.1,1] * 31.2 ;
     simulation_menu. R2_all_nofilt. wTruncList = 1326;
@@ -36,17 +41,22 @@ function [ varParChild, simulation_menu] = createVarParStruct( fixPar, sim_to_ru
     simulation_menu. R2_all_nofilt. STAfreqList = 1;
     simulation_menu. R2_all_nofilt. STAwidthList = 0.01;
     %R3 
+    simulation_menu. R3 = simulation_menu.R1_standard;
     simulation_menu. R3. STAfreqList = linspace(0,2,11);        
     simulation_menu. R3. STAwidthList = linspace(0,20,11);
     simulation_menu. R3. STAwidthList(1) = 0.1;
     %R4
+    simulation_menu. R4 = simulation_menu.R1_standard;
     tempVec = linspace(-1 ,1,11);
     simulation_menu. R4. NLDshiftList  = [tempVec(1:8), 0.5, tempVec(9:end)];
     simulation_menu. R4. NLDgradList = spa_sf( linspace(1,5.4,11).^2 ,2 );
     %S1
-    simulation_menu. S1_thetaDist. theta_distList = spa_sf( 10.^[-2:0.1:2] ,2);
     %S2 
-    simulation_menu. S2_phiDist. phi_distList = spa_sf( 10.^[-2:0.1:2] ,2) * 3.12;
+    simulation_menu. S3A_phiDist = simulation_menu.R1_standard;
+    simulation_menu. S3A_phiDist. phi_distList = spa_sf( 10.^[-2:0.1:2] ,2) * 3.12;
+    
+    simulation_menu. S3B_thetaDist = simulation_menu.R1_standard;
+    simulation_menu. S3B_thetaDist. theta_distList = spa_sf( 10.^[-2:0.1:2] ,2);
 
     %% Determine course selection from menu 
     courses = fields(simulation_menu);
@@ -65,7 +75,7 @@ function [ varParChild, simulation_menu] = createVarParStruct( fixPar, sim_to_ru
     I_sim_boolean = find( sim_run_boolean )';
     for j = I_sim_boolean()
         % find what Lists to overwrite 
-        Lists = fields( simulation_menu.( courses{j}  ) ); 
+        changeLists = fields( simulation_menu.( courses{j}  ) ); 
         % determine how many simulations are already in varParChild
         childN = length( varParChild );
         % Load standard list 
@@ -73,8 +83,8 @@ function [ varParChild, simulation_menu] = createVarParStruct( fixPar, sim_to_ru
         standardLists = fields( simulation_menu. R1_standard);
         n = length(standardLists);
         % overwrite Lists that are not standard
-        for k = 1:length(Lists)
-            varParParent.( Lists{k}) = simulation_menu. (courses{j}). (Lists{k});
+        for k = 1:length(changeLists)
+            varParParent.( changeLists{k}) = simulation_menu. (courses{j}). (changeLists{k});
         end
         % find dimensions of n-dimensional parameter hypercube
         dim_l = structfun(@length,varParParent)';
@@ -82,10 +92,10 @@ function [ varParChild, simulation_menu] = createVarParStruct( fixPar, sim_to_ru
         % for every dimension in n, create hypercube of combinations 
         for k = 1:n
             oneBlock =  ones(dim_l);
-            repTemp = ones( n, 1 )';
-            repTemp(k) = length( varParParent.(standardLists{k}) );
+            repVec = ones( n, 1 )';
+            repVec(k) = length( varParParent.(standardLists{k}) );
             paramVec = varParParent.( standardLists{k});
-            paramCube = bsxfun(@times, oneBlock,  reshape( paramVec, repTemp)  );
+            paramCube = bsxfun(@times, oneBlock,  reshape( paramVec, repVec)  );
             % for every parameter combination instance, set dimension k parameter 
             for k2 = 1:total_l
                varParChild( childN + k2).course = courses{j};
@@ -93,5 +103,3 @@ function [ varParChild, simulation_menu] = createVarParStruct( fixPar, sim_to_ru
             end
         end
     end
-
-end

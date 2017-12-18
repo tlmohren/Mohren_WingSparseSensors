@@ -21,7 +21,6 @@ legend_location = 'Best';
 plot_on = false;
 
 %% Processing before plotting 
-% parameterSetName = 'R1R4_Iter3_delay5_eNet09';
 parameterSetName = 'R1_Iter100';
 
 overflow_loc = 'D:\Mijn_documenten\Dropbox\A_PhD\C_Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
@@ -38,22 +37,13 @@ end
 fixPar.nIterFig = 100;
 fixPar.nIterSim = 100; 
 
-figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R1_disturbance' )));
-varParCombinations_R1 = varParCombinationsAll(figMatch);
-[dataStruct,paramStruct] = combineDataMat(fixPar,varParCombinations_R1);
+[dataStruct,paramStruct] = combineDataMat( fixPar, simulation_menu.R1_standard );
+[dataStructAllnoFilt,paramStructAllnoFilt] = combineDataMat(fixPar,simulation_menu.R1_all_nofilt);
+[dataStructAllFilt,paramStructAllFilt] = combineDataMat(fixPar,simulation_menu.R1_all_filt);
 
+%  R1_all_filt
 ind_SSPOCoff = find( ~[paramStruct.SSPOCon]);
 ind_SSPOCon = find([paramStruct.SSPOCon]);
-
-figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R1_allSensorsNoFilt' )));
-varParCombinations_allNoFilt = varParCombinationsAll(figMatch);
-[dataStructAllnoFilt,paramStructAllnoFilt] = combineDataMat(fixPar,varParCombinations_allNoFilt);
-
-figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R1_allSensorsFilt' )));
-varParCombinations_allFilt = varParCombinationsAll(figMatch);
-[dataStructAllFilt,paramStructAllFilt] = combineDataMat(fixPar,varParCombinations_allFilt);
-
-
 %% setup figure
 fig1 = figure();
 subplot(5,3,4:15)
@@ -102,8 +92,6 @@ for k2 = 1:size(dataStruct.dataMatTot,2)
         data = nan(length(y_data),30);
         data(:,k2) = y_data;
 
-    %     scatter(
-%          plotSpread( data ,'distributionMarker','s','categoryColors',colNew(2,:))
         plotSpread( data ,'distributionMarker','.','distributionColors','r','spreadWidth',1)
     end
 %     stval = std(y_data);

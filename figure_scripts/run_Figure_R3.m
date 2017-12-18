@@ -42,7 +42,7 @@ nldHeatSub = subGrid( (1:12)+16  , (1:17)+30 );
 
 
 %% data collection
-parameterSetName = 'R1R4_Iter5_delay5_eNet09';
+parameterSetName = 'R1toR4_Iter10_run1';
 overflow_loc = 'D:\Mijn_documenten\Dropbox\A_PhD\C_Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
 github_loc = 'accuracyData';
 try
@@ -55,15 +55,21 @@ catch
 end 
 
 fixPar.nIterFig = 10;
-fixPar.nIterSim = 5; 
+fixPar.nIterSim = 10; 
 %% Collect STA thresholdMat
 
 if collect_thresholdMat == true 
-    figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R3' )));
-    varParCombinations = varParCombinationsAll(figMatch);
-    [dataStructB,paramStructB] = combineDataMat(fixPar,varParCombinations);
+    
+%     figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R3' )));
+%     varParCombinations = varParCombinationsAll(figMatch);
+%     [dataStructB,paramStructB] = combineDataMat(fixPar,varParCombinations);
+    
+    [dataStruct,paramStruct]                    = combineDataMat( fixPar, simulation_menu.R3 );
+    
     ind_SSPOCoffB = find( ~[paramStructB.SSPOCon]);
     ind_SSPOConB = find([paramStructB.SSPOCon]);
+    
+    
     n_x = length(varParCombinations.STAwidthList);
     n_y =  length(varParCombinations.STAfreqList);
     n_plots = n_x*n_y;
@@ -111,7 +117,7 @@ if collect_thresholdMat == true
     end
     % save('STANLDthresholdMat','STAthresholdMat','NLDthresholdMat')
 else
-    load(['introFigData' filesep 'STANLDthresholdMat'])
+    load(['figData' filesep 'STANLDthresholdMat'])
 end 
 
 %% Figure 3
@@ -208,11 +214,15 @@ subplot(pY,pX,nldFunSub(:))
     
     
 %% Axis makeup 
-figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R3' )));
-varParCombinationsSTA = varParCombinationsAll(figMatch);
+% figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R3' )));
+% paramStructSTA = varParCombinationsAll(figMatch);
 
-n_x = length(varParCombinationsSTA.STAwidthList);
-n_y =  length(varParCombinationsSTA.STAfreqList);
+
+[dataStructSTA,paramStructSTA]                    = combineDataMat( fixPar, simulation_menu.R3 );
+
+
+n_x = length(simulation_menu.R3.STAwidthList);
+n_y =  length(simulation_menu.R3.STAfreqList);
 d_x = n_x;
 pltSTA = repmat(13:19, 5, 1)+ repmat( (0:4)', [1,7])*19;
 
@@ -222,12 +232,12 @@ for j = 1:n_y
         plot_nr = staGridSub( j,k);
         subplot(pY,pX, plot_nr)
         hold on
-%         varPar.STAfreq = varParCombinationsSTA.STAfreqList(j);
-%         varPar.STAwidth = varParCombinationsSTA.STAwidthList(k);
-        varPar.STAfreq = varParCombinationsSTA.STAfreqList(k);
-        varPar.STAwidth = varParCombinationsSTA.STAwidthList(j);
-        varPar.NLDshift = varParCombinationsSTA.NLDshiftList;
-        varPar.NLDgrad = varParCombinationsSTA.NLDgradList;
+%         varPar.STAfreq = simulation_menu.R3.STAfreqList(j);
+%         varPar.STAwidth = simulation_menu.R3.STAwidthList(k);
+        varPar.STAfreq = simulation_menu.R3.STAfreqList(k);
+        varPar.STAwidth = simulation_menu.R3.STAwidthList(j);
+        varPar.NLDshift = simulation_menu.R3.NLDshiftList;
+        varPar.NLDgrad = simulation_menu.R3.NLDgradList;
         [STAfunc,NLDfunc]= createNeuralFilt (fixPar,varPar);
         if  isfield(fixPar,'subSamp') == 0 
             STAt = -39:1:0;
@@ -246,11 +256,12 @@ for j = 1:n_y
 end
 
 %% 
-figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R4' )));
-varParCombinationsNLD = varParCombinationsAll(figMatch);
+% figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R4' )));
+% paramStructNLD = varParCombinationsAll(figMatch);
+[dataStructNLD,paramStructNLD]                    = combineDataMat( fixPar, simulation_menu.R4 );
 
-n_x = length(varParCombinationsNLD.NLDgradList);
-n_y =  length(varParCombinationsNLD.NLDshiftList);
+n_x = length(simulation_menu.R4.NLDgradList);
+n_y =  length(simulation_menu.R4.NLDshiftList);
 
 for j = 1:n_y
     for k = 1:n_x
@@ -258,10 +269,10 @@ for j = 1:n_y
         plot_nr = nldGridSub( j,k);
         subplot(pY,pX, plot_nr)
         hold on
-        varPar.STAwidth = varParCombinationsNLD.STAwidthList(1);
-        varPar.STAfreq = varParCombinationsNLD.STAfreqList(1);
-        varPar.NLDshift = varParCombinationsNLD.NLDshiftList(j);
-        varPar.NLDgrad = varParCombinationsNLD.NLDgradList(k);
+        varPar.STAwidth = simulation_menu.R4.STAwidthList(1);
+        varPar.STAfreq = simulation_menu.R4.STAfreqList(1);
+        varPar.NLDshift = simulation_menu.R4.NLDshiftList(j);
+        varPar.NLDgrad = simulation_menu.R4.NLDgradList(k);
         [STAfunc,NLDfunc]= createNeuralFilt (fixPar,varPar);
         NLDs = -1:0.1:1;
         plot( NLDs,NLDfunc(NLDs),'k')

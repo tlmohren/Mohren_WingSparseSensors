@@ -11,18 +11,13 @@ set(0,'DefaultAxesFontSize',8)% .
 set(0,'DefaultAxesLabelFontSize', 8)
 
 
-load(['introFigData' filesep  'LDAhistograms' ]);
+load(['figData' filesep  'LDAhistograms' ]);
 
 % pre plot decisions 
 width = 9.5;     % Width in inches,   find column width in paper 
 height = 4.5;    % Height in inches
 
 n_bins = 15;
-
-% colScheme = flipud([253,174,97
-% 254,224,139
-% 255,255,191
-% 217,239,139])/255;
 
 colScheme = [255,245,239
     227, 214, 244
@@ -138,14 +133,36 @@ ax = gca();
 set(fig03, 'Position', [fig03.Position(1:2) width*100, height*100]); %<- Set size
 
 %%  Get data
-N0= load(['introFigData' filesep 'noise0'],'strain');
+N0= load(['figData' filesep 'noise0'],'strain');
+
+
+
+
+
+parameterSetName = 'R1_Iter100';
+load(['accuracyData' filesep 'parameterSet_' parameterSetName ])
+    
+% fixPar.nIterFig = 100;
+% fixPar.nIterSim = 100; 
+% 
+% [dataStruct,paramStruct] = combineDataMat( fixPar, simulation_menu.R1_standard);
+% [dataStructAllnoFilt,paramStructAllnoFilt] = combineDataMat(fixPar,simulation_menu.R1_all_nofilt);
+% [dataStructAllFilt,paramStructAllFilt] = combineDataMat(fixPar,simulation_menu.R1_all_filt);
+
+% fixPar = createFixParStruct( parameterSetName,iter);
+% [ varParStruct,simulation_menu ] = createVarParStruct( fixPar, figuresToRun);
+
+
+
 
 
 parameterSetName    = ' ';
 iter                = 1;
 fontSize            = 7;
 figuresToRun        = {'R1_allSensorsFilt'};
-[fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
+
+% [fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
+
 varPar = varParStruct(1);
 [STAFunc, NLDFunc] = createNeuralFilt( fixPar,varPar );
 
@@ -199,7 +216,7 @@ subplot(pY,pX,strainTextSub(:) );
     
 % subplot(642) 
 subplot(pY,pX,strainHeatMapSub(:) )
-    N0= load(['introFigData' filesep 'noise0'],'strain');
+    N0= load(['figData' filesep 'noise0'],'strain');
     dim_wing = [26,51,4000];
     t_inst = 3008;
     sensorSpec = [10,10];
@@ -243,7 +260,7 @@ subplot(pY,pX,strainClassSub(:) )
 subplot(pY,pX,strainHistSub(:) )
 %     barPlots(XclsStrain, n_bins, colScheme(1,:), edgeCol, barOpts1, barOpts2)
 
-%     load(['introFigData' filesep  'LDAhistograms' ]);
+%     load(['figData' filesep  'LDAhistograms' ]);
     expo = round( - log10(max(abs(XclsStrain))));
     xLims = [ round(min(XclsStrain),expo+1)-10^(-expo-1), ( round(max(XclsStrain),expo+1) +10^(-expo-1)) ];
 
@@ -335,7 +352,7 @@ subplot(pY,pX,neuralTextSub(:) )
     axis off
     
 subplot(pY,pX,STASub(:) )
-    STAstruct = load( ['introFigData' filesep  'STA and StdM4 N2' ]);
+    STAstruct = load( ['figData' filesep  'STA and StdM4 N2' ]);
     plot(linspace(-40,0,160),STAstruct.STA(1:10:1600),'k')
     axis([-50,10,-0.9,1.2])
     box off
@@ -345,7 +362,7 @@ subplot(pY,pX,STASub(:) )
     axis off    
     tx = text(0,0, 'STA($t$)','FontSize',fontSize);
 subplot(pY,pX,NLDSub(:) )
-    NLDstruct = load(['introFigData' filesep 'NLDM4 N2' ]);
+    NLDstruct = load(['figData' filesep 'NLDM4 N2' ]);
     plot(NLDstruct.Bin_Centers_Store{:},NLDstruct.fire_rate{:}/max(NLDstruct.fire_rate{:}),'k')
     xlabel('Strain Projection on Feature');ylabel('Probability of Firing')
     hold on
@@ -415,10 +432,6 @@ subplot(pY,pX,pfireTraceSub(:) )
     
     
     
-    
-    
-    
-    
 %% Second row plots 
 
 
@@ -441,39 +454,16 @@ subplot(pY,pX,pfireHistSub(:) )
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 %% Third row plots 
-        parameterSetName = 'R1R4_Iter5_delay5_eNet09';
-        overflow_loc = 'D:\Mijn_documenten\Dropbox\A_PhD\C_Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
-        github_loc = 'accuracyData';
-        try
-            load([github_loc filesep 'parameterSet_' parameterSetName ])
-            fixPar.data_loc = github_loc;
-        catch
-            display('not on github, looking at old data')
-            load([overflow_loc filesep 'parameterSet_' parameterSetName ])
-            fixPar.data_loc = overflow_loc;
-        end 
-        figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R1_disturbance' )));
-        varParCombinations_R1 = varParCombinationsAll(figMatch);
-        
-fixPar.nIterFig = 50;
-fixPar.nIterSim = 5; 
+%     
+fixPar.nIterFig = 100;
+fixPar.nIterSim = 100; 
+fixPar.data_loc = 'accuracyData';
+[dataStruct,paramStruct] = combineDataMat(fixPar,simulation_menu.R1_standard);
 
-
-        [dataStruct,paramStruct] = combineDataMat(fixPar,varParCombinations_R1);
-        q = 13;
-        binar = get_pdf( dataStruct.sensorMatTot(2,q,1:q,:));
-        sensorloc_tot = reshape(binar,fixPar.chordElements,fixPar.spanElements); 
+q = 13;
+binar = get_pdf( dataStruct.sensorMatTot(2,q,1:q,:));
+sensorloc_tot = reshape(binar,fixPar.chordElements,fixPar.spanElements); 
         
 subplot(pY,pX,sspocClassSub(:) )
     x = [0 1 1 0];  y = [0 0 1 1] ;
@@ -491,8 +481,6 @@ subplot(pY,pX,sspocClassSub(:) )
     axOpts = {'DataAspectRatio',[1,1,1],'PlotBoxAspectRatio',[3,4,4],'XLim',[0,52],'YLim',[0,27]};
     set(ax,axOpts{:})
     axis off
-    
-    
     
     
 subplot(pY,pX,sspocHistSub(:) )
@@ -528,62 +516,7 @@ subplot(pY,pX,sspocNoteSub(:) )
     tx = text(0.1,0.3,textIn,'FontSize',fontSize);
     axis off
     
-%     load(['introFigData' filesep  'LDAhistograms' ]);
-%     expo = round( - log10(max(abs(XclsEncodedSparse))));
-%     xLims = [ round(min(XclsEncodedSparse),expo+1)-10^(-expo-1), ( round(max(XclsEncodedSparse),expo+1) +10^(-expo-1)) ];
-% 
-%     rangeBins = linspace(xLims(1), xLims(2), n_bins);
-%     binMids = rangeBins(1:end-1)+10^(-expo-1)*0.5;
-% 
-%     midWay = length(XclsStrain)/2;
-%     [aCounts] = histcounts(XclsEncodedSparse(1:midWay), rangeBins);
-%     [bCounts] = histcounts(XclsEncodedSparse(midWay+1:end), rangeBins);
-%     yLims = [ max(aCounts),-max(bCounts)];
-% 
-%     x = [xLims(1) xLims(2) xLims(2) xLims(1)];
-%     y = [yLims(2),yLims(2),yLims(1),yLims(1)];
-%     pc = patch(x,y,colScheme(4,:),'EdgeColor',edgeCol);
-%         hold on
-%     bar1 = bar(binMids,aCounts);
-%     bar2 = bar(binMids,-bCounts,'r');
-%     
-%     set(bar1,barOpts1{:})
-%     set(bar2,barOpts2{:})
-%     axis([xLims(1),xLims(2),yLims(2),yLims(1)])    
-%     axis off
-
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-   
-    
-
-%     txt1 = 'No Rotation';
-%     txt2 = 'Rotation';
-%     text(binMids(end-5),yLims(1)*0.2,txt1,'FontSize',fontSize )
-%     text(binMids(end-5),yLims(2)*1.1,txt2,'FontSize',fontSize )
-%     axis off
     
     
 %% Setting paper size for saving 
