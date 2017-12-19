@@ -1,4 +1,4 @@
-function [ XclsStrain,XclsEncoded] = create_histograms( )
+% function [ XclsStrain,XclsEncoded] = create_histograms( )
 %------------------------------
 % run_paperAnalysis
 % Runs simulations and analysis for the paper:
@@ -8,8 +8,6 @@ function [ XclsStrain,XclsEncoded] = create_histograms( )
 %   Last updated: 2017/07/03  (TLM)
 
 %------------------------------
-
-
 
 % scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
 % addpath([scriptLocation filesep 'scripts']);

@@ -9,30 +9,23 @@
 %   Last updated: 2017/07/03  (TLM)
 %------------------------------
 clc;clear all; close all
-
 addpathFolderStructure()
 w = warning ('off','all');
 
-% pre plot decisions 
-width = 4;     % Width in inches,   find column width in paper 
-height = 4.5;    % Height in inches
-fsz = 8;      % Fontsize
-legend_location = 'Best';
-plot_on = false;
+% figure decisions 
+width       = 4;     % Width in inches,   find column width in paper 
+height      = 4.5;    % Height in inches
+fsz         = 8;      % Fontsize
+labels_on   = false;
+% plot_on     = false;
+sigmoid_fit = true;
 
 %% Processing before plotting 
 parameterSetName = 'R1_Iter100';
-
 overflow_loc = 'D:\Mijn_documenten\Dropbox\A_PhD\C_Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
-github_loc = 'accuracyData';
-try
-    load([github_loc filesep 'parameterSet_' parameterSetName ])
-    fixPar.data_loc = github_loc;
-catch
-    display('not on github, looking at old data')
-    load([overflow_loc filesep 'parameterSet_' parameterSetName ])
-    fixPar.data_loc = overflow_loc;
-end 
+
+load( ['accuracyData' filesep 'parameterSet_' parameterSetName ] )
+fixPar.data_loc = 'accuracyData';
 
 fixPar.nIterFig = 100;
 fixPar.nIterSim = 100; 
@@ -67,7 +60,8 @@ if any(ind_SSPOCoff)
     
     pltSSPOCoff = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),plotCol{1});
 end
-sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
+
+sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show', false);
         
 %---------------------------------SSPOCon-------------------------
 Dat_I = ind_SSPOCon(1);
@@ -75,116 +69,89 @@ Dat_I = ind_SSPOCon(1);
 realNumbers = find(~isnan(meanVec));
 
 dotSize = 50;
-% break
 %%
-% figure();hold on
-
-colNew = [0 0.4470 0.7410;...
-    0.8500 0.3250 0.0980];
-%
 for k2 = 1:size(dataStruct.dataMatTot,2)
-%     iters = length(nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)) );
     y_data = nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)); 
-%     fc ='g';
     mv = mean(y_data);
     med(k2) = median(y_data);
     if ~isempty(y_data)
         data = nan(length(y_data),30);
         data(:,k2) = y_data;
-
         plotSpread( data ,'distributionMarker','.','distributionColors','r','spreadWidth',1)
     end
-%     stval = std(y_data);
-%     if length(y_data) >1
-%         if stval <1e-5
-%             [F,XI,U] = ksdensity(y_data,'bandwidth',0.001);
-%         else
-%             [F,XI,U] = ksdensity(y_data);
-%         end
-%         if U>=0.01
-%             [F,XI,U] = ksdensity(y_data,'bandwidth',0.002);
-%         end
-%         fill(k2+[F -fliplr(F)]/max(F)*0.5, [XI fliplr(XI)],'r')
-%     end
-%     scatter( k2*ones(length(y_data),1), y_data, '.k')
-    
 end
-%
-% axOpts = 
-% ax = gca();
-% set(ax,axOpts{:})
 
-pltSSPOCon = plot(realNumbers, meanVec(realNumbers),plotCol{2});
+Dat_I = ind_SSPOCon( 1);
+[ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
+realNumbers = find(~isnan(meanVec));
+sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',2);
 
 
+%% plot the line? 
+% pltSSPOCon = plot(realNumbers, meanVec(realNumbers),plotCol{2});
+pltSSPOCon = plot(0,0);
+%% 
 %--------------------------------Allsensors Neural filt-------------------------    
 meanval = mean( nonzeros(  dataStructAllFilt.dataMatTot(1,:)  ) );
 stdval = std( nonzeros(    dataStructAllFilt.dataMatTot(1,:)  ) );
-
 scatter(errLocFig1A,meanval,50,'rd','filled')
 
 %--------------------------------Allsensors no NF-------------------------    
 meanval = mean( nonzeros(  dataStructAllnoFilt.dataMatTot(1,:)  ) );
 stdval = std( nonzeros(    dataStructAllnoFilt.dataMatTot(1,:)  ) );
-
-% eBar = errorbar(errLocFig1A, meanval, stdval,'k','LineWidth',1);
 scatter(errLocFig1A,meanval,50,'filled','kd')
-% plot([-1,1]+errLocFig1A, [meanval, meanval],'k','LineWidth',1)   
 
 %% Legend 
 % legend_entries = { 'Random Sensors', 'SSPOC Sensors'};
 legend_entries = { ['Random Sensors,' char(10) '$\phantom{.....}$ Encoded'],...
                     ['SSPOC Sensors,'  char(10) '$\phantom{.....}$ Encoded']};
 
+legend_location = 'Best';
 legVec = [pltSSPOCoff.mainLine, pltSSPOCon];
 legOpts = {'FontSize',fsz,'Location',legend_location};
-[leg,lns] = legend(legVec,legend_entries, legOpts{:});
 
 allText1 = ['All Sensors,' char(10) 'Raw Strain'];
 allText2 = ['All Sensors,' char(10)  'Encoded'];
-tx1 = text(20,0.5,allText1,'FontSize',fsz);
-tx2 = text(20,0.7,allText2,'FontSize',fsz);
 
-%% --------------------------------Figure cosmetics-------------------------    
-xlabel('Number of Sensors, $q$'); ylabel('Cross-Validated Accuracy')
 grid on 
 axPlot = gca();
 set(axPlot, axisOptsFig1A{:})
-drawnow
-break_axis('axis','x','position',(errLocFig1A -30)/2+30, 'length',0.05)
+if labels_on == true
+    [leg,lns] = legend(legVec,legend_entries, legOpts{:});
+
+    tx1 = text(20,0.5,allText1,'FontSize',fsz);
+    tx2 = text(20,0.7,allText2,'FontSize',fsz);  
+    xlabel('Number of Sensors, $q$'); ylabel('Cross-Validated Accuracy')
+    break_axis('axis','x','position',(errLocFig1A -30)/2+30, 'length',0.05)
+    
+end
 
 %% Sensor locations 
-
 q = 13;
-binar = get_pdf( dataStruct.sensorMatTot(2,q,1:q,:));
-sensorloc_tot = reshape(binar,fixPar.chordElements,fixPar.spanElements); 
-colorBarOpts = { 'YDir', 'reverse', 'Ticks' ,0:0.5:1, 'TickLabels', {1:-0.5:0}  ,'TickLabelInterpreter','latex'};
-axOpts = {'DataAspectRatio',[1,1,1],'PlotBoxAspectRatio',[3,4,4],'XLim',[0,52],'YLim',[0,27]};
+binar           = get_pdf( dataStruct.sensorMatTot(2,q,1:q,:));
+sensorloc_tot   = reshape(binar,fixPar.chordElements,fixPar.spanElements); 
+
+colorBarOpts    = { 'YDir', 'reverse', 'Ticks' ,0:0.5:1, 'TickLabels', {1:-0.5:0}  ,'TickLabelInterpreter','latex'};
+axOpts          = {'DataAspectRatio',[1,1,1],'PlotBoxAspectRatio',[3,4,4],'XLim',[0,52],'YLim',[0,27]};
 
 subplot(5,3,[1,2])
-        x = [0 1 1 0]* (fixPar.spanElements+1);  y = [0 0 1 1]* (fixPar.chordElements+1);
-        pc = patch(x,y,[1,1,1]*210/255,'EdgeColor','k');
-        hold on 
-        [X,Y] = meshgrid(1:fixPar.spanElements,1:fixPar.chordElements);
-        n_steps = 5;
-        lims = linspace(0,1,n_steps);
-        for j = 2:n_steps
-            
-            I = find( (sensorloc_tot>lims(j-1)) .* (sensorloc_tot<=lims(j)) );
-            sc = scatter(X(I) ,Y(I) , 50 ,'.','r');
-        end
-        sensorloc_tot = round(sensorloc_tot*4);
-        I = find( sensorloc_tot );      
+    x   = [0 1 1 0]* (fixPar.spanElements+1);  
+    y   = [0 0 1 1]* (fixPar.chordElements+1);
+    pc  = patch(x,y,[1,1,1]*255/255,'EdgeColor','k');
+    hold on 
+    [X,Y] = meshgrid(1:fixPar.spanElements,1:fixPar.chordElements);
+    I = find( sensorloc_tot );      
+    sc  = scatter(X(I) ,Y(I) , 100 ,'.','r');      
         
-        ax = gca(); 
-        set(ax,axOpts{:})
-        axis off
     hold on
     scatter(0,13,100,'.k')
     plot([1,1]*0,[-0.5,27],'k','LineWidth',1)
     plot(x,y,'k','LineWidth',0.5)
-    hold on
-
+    
+    ax = gca(); 
+    set(ax,axOpts{:})
+    
+    axis off
 
 %% Setting paper size for saving 
 set(gca, 'LooseInset', get(gca(), 'TightInset')); % remove whitespace around figure

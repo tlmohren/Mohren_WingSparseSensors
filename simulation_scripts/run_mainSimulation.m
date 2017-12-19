@@ -15,18 +15,19 @@
 clear all, close all, clc
 addpathFolderStructure()
 
-% figuresToRun        = {'R2'};
-iter                = 5;
-% parameterSetName    = ['R2_Iter' num2str(iter)];
+figuresToRun        = {'R2'};
+iter                = 10;
+parameterSetName    = ['R2_Iter' num2str(iter)];
 
 
-figuresToRun        = {'R1','R2','R3','R4','S'};
+% figuresToRun        = {'R1','R2','R3','R4','S'};
 % iter                = 10;
 % parameterSetName = 'R1toR4_Iter10_run1';
 % parameterSetName = 'R1toR4_Iter5_delay5_eNet09';
-parameterSetName = 'R1R4_Iter5_delay5_eNet09'
+% parameterSetName = 'R1R4_Iter5_delay5_eNet09'
 
 % Build struct that specifies all parameter combinations to run 
+% [fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
 
 fixPar = createFixParStruct( parameterSetName,iter);
 [ varParStruct,simulation_menu ] = createVarParStruct( fixPar, figuresToRun);

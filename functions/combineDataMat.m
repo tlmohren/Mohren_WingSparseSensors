@@ -66,7 +66,7 @@ for j1 = 1:length(paramStruct);
 
                     end
                 end
-                display( ['loaded ' num2str(fixPar.nIterFig) ' out of ' num2str( length(nameMatches)*fixPar.nIterSim) 'results'])
+%                 display( ['loaded ' num2str(fixPar.nIterFig) ' out of ' num2str( length(nameMatches)*fixPar.nIterSim) 'results'])
             end
        end
     else            

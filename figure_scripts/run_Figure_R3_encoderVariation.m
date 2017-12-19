@@ -19,7 +19,7 @@ set(0,'defaultLineMarkerSize',2); % set the default line marker size to msz
 width = 9.5;     % Width in inches,   find column width in paper 
 height = 4.5;    % Height in inches
 plot_on = false ;
-collect_thresholdMat = false; 
+collect_thresholdMat = true; 
 
 fsz = 8;
 fszL = 10; 
@@ -42,7 +42,8 @@ nldHeatSub = subGrid( (1:12)+16  , (1:17)+30 );
 
 
 %% data collection
-parameterSetName = 'R1toR4_Iter10_run1';
+% parameterSetName = 'R1toR4_Iter10_run1';
+parameterSetName = 'R1R4_Iter5_delay5_eNet09';
 overflow_loc = 'D:\Mijn_documenten\Dropbox\A_PhD\C_Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
 github_loc = 'accuracyData';
 try
@@ -64,58 +65,63 @@ if collect_thresholdMat == true
 %     varParCombinations = varParCombinationsAll(figMatch);
 %     [dataStructB,paramStructB] = combineDataMat(fixPar,varParCombinations);
     
-    [dataStruct,paramStruct]                    = combineDataMat( fixPar, simulation_menu.R3 );
+    [dataStructR3,paramStructR3]                    = combineDataMat( fixPar, simulation_menu.R3 );
     
-    ind_SSPOCoffB = find( ~[paramStructB.SSPOCon]);
-    ind_SSPOConB = find([paramStructB.SSPOCon]);
+    ind_SSPOCoffR3 = find( ~[paramStructR3.SSPOCon]);
+    ind_SSPOConR3 = find([paramStructR3.SSPOCon]);
     
     
-    n_x = length(varParCombinations.STAwidthList);
-    n_y =  length(varParCombinations.STAfreqList);
+    n_x = length( simulation_menu.R3.STAwidthList);
+    n_y =  length( simulation_menu.R3.STAfreqList);
     n_plots = n_x*n_y;
     for j = 1:n_y
         for k = 1:n_x
             sub_nr = (j-1)*n_y + k;
             %---------------------------------SSPOCoff-------------------------
-            Dat_I = ind_SSPOCoffB( sub_nr);
-            [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStructB );
+            Dat_I = ind_SSPOCoffR3( sub_nr);
+            [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStructR3 );
             realNumbers = find(~isnan(meanVec));
             STAthresholdMat(j,k,1) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
             %---------------------------------SSPOCon-------------------------
-            Dat_I = ind_SSPOConB(sub_nr);
-            [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStructB );
+            Dat_I = ind_SSPOConR3(sub_nr);
+            [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStructR3 );
             realNumbers = find(~isnan(meanVec));
             STAthresholdMat(j,k,2) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
         end
     end
+    
     % Collect NLD thresholdMat
-    figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R4' )));
-    varParCombinations = varParCombinationsAll(figMatch);
-    [dataStructB,paramStructB] = combineDataMat(fixPar,varParCombinations);
-    ind_SSPOCoffB = find( ~[paramStructB.SSPOCon]);
-    ind_SSPOConB = find([paramStructB.SSPOCon]);
-    n_x =  length(varParCombinations.NLDgradList);
-    n_y = length(varParCombinations.NLDshiftList);
-
+%     figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R4' )));
+%     varParCombinations = varParCombinationsAll(figMatch);
+%     [dataStructB,paramStruct] = combineDataMat(fixPar,varParCombinations);
+%     ind_SSPOCoffB = find( ~[paramStruct.SSPOCon]);
+%     ind_SSPOConB = find([paramStruct.SSPOCon]);
+    
+    [ dataStructR4,paramStructR4]                    = combineDataMat( fixPar, simulation_menu.R4 );
+    
+    ind_SSPOCoffR4 = find( ~[paramStructR4.SSPOCon]);
+    ind_SSPOConR4 = find([paramStructR4.SSPOCon]);
     
     
+    n_x =  length( simulation_menu.R4.NLDgradList);
+    n_y = length( simulation_menu.R4.NLDshiftList);
     
     for j = 1:n_y
         for k = 1:n_x
             sub_nr = (j-1)*n_x + k;
             %---------------------------------SSPOCoff-------------------------
-            Dat_I = ind_SSPOCoffB( sub_nr);
-            [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStructB );
+            Dat_I = ind_SSPOCoffR4( sub_nr);
+            [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStructR4 );
             realNumbers = find(~isnan(meanVec));
             NLDthresholdMat(j,k,1) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
             %--------------------------------SSPOCon-------------------------
-            Dat_I = ind_SSPOConB(sub_nr);
-            [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStructB );
+            Dat_I = ind_SSPOConR4(sub_nr);
+            [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStructR4 );
             realNumbers = find(~isnan(meanVec));        
             NLDthresholdMat(j,k,2) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
         end
     end
-    % save('STANLDthresholdMat','STAthresholdMat','NLDthresholdMat')
+    save('STANLDthresholdMat','STAthresholdMat','NLDthresholdMat')
 else
     load(['figData' filesep 'STANLDthresholdMat'])
 end 

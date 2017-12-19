@@ -25,6 +25,9 @@ function [ fixPar ] = createFixParStruct(name,iter)
     fixPar.singValsMult = 1;
     fixPar.determineNorm = 0;
     fixPar.elasticNet = 0.9;
+%     fixPar.data_loc = 'accuracyData'; ;;
+%     fixPar.data_loc = 'accuracyData'; 
+    fixPar.data_loc = 'D:\Mijn_documenten\Dropbox\A_PhD\C_Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
     % to phase out -----------------------------------------------
     % currently used for Euler-lagrange simulation
     fixPar.sampFreq = 1e3;

@@ -75,22 +75,28 @@ end
 varParChild = [];
 childN = 0; 
 I_sim_boolean = find( sim_run_boolean )';
+
 for j = I_sim_boolean()
     % find what Lists to overwrite 
 	Lists = fields( simulation_menu.( courses{j}  ) ); 
+    
     % determine how many simulations are already in varParChild
     childN = length( varParChild );
+    
     % Load standard list 
     varParParent = simulation_menu. R1_standard; 
     standardLists = fields( simulation_menu. R1_standard);
     n = length(standardLists);
+    
     % overwrite Lists that are not standard
     for k = 1:length(Lists)
         varParParent.( Lists{k}) = simulation_menu. (courses{j}). (Lists{k});
     end
+    
     % find dimensions of n-dimensional parameter hypercube
     dim_l = structfun(@length,varParParent)';
     total_l = prod(dim_l);
+    
     % for every dimension in n, create hypercube of combinations 
     for k = 1:n
         oneBlock =  ones(dim_l);
