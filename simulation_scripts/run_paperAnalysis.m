@@ -15,9 +15,9 @@
 clear all, close all, clc
 addpathFolderStructure()
 
-figuresToRun        = {'R2'};
+figuresToRun        = {'R3','R4'};
 iter                = 10;
-parameterSetName    = ['R2_Iter' num2str(iter)];/
+parameterSetName    = ['R3R4_Iter' num2str(iter)];
 
 
 % figuresToRun        = {'R1','R2','R3','R4','S'};
