@@ -26,9 +26,7 @@ overflow_loc = 'D:\Mijn_documenten\Dropbox\A_PhD\C_Papers\ch_Wingsensors\Mohren_
 
 load( ['accuracyData' filesep 'parameterSet_' parameterSetName ] )
 fixPar.data_loc = 'accuracyData';
-
 fixPar.nIterFig = 100;
-fixPar.nIterSim = 100; 
 
 [dataStruct,paramStruct] = combineDataMat( fixPar, simulation_menu.R1_standard );
 [dataStructAllnoFilt,paramStructAllnoFilt] = combineDataMat(fixPar,simulation_menu.R1_all_nofilt);
@@ -51,25 +49,19 @@ plotCol = {[1,1,1]*100/255,'-r'};
 dotcol = {'.k','.r'}; 
 hold on
 
-%% Figure 1
-%---------------------------------SSPOCoff-------------------------
+%% ---------------------------------Plot SSPOC and random sensors -------------------------
 if any(ind_SSPOCoff)
     Dat_I = ind_SSPOCoff( 1);
     [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
     realNumbers = find(~isnan(meanVec));
-    
     pltSSPOCoff = shadedErrorBar(realNumbers, meanVec(realNumbers),stdVec(realNumbers),plotCol{1});
 end
-
 sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show', false);
-        
-%---------------------------------SSPOCon-------------------------
+
+%--------------------------------SSPOCon-------------------------
 Dat_I = ind_SSPOCon(1);
 [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
 realNumbers = find(~isnan(meanVec));
-
-dotSize = 50;
-%%
 for k2 = 1:size(dataStruct.dataMatTot,2)
     y_data = nonzeros(dataStruct.dataMatTot(Dat_I,k2,:)); 
     mv = mean(y_data);
@@ -84,25 +76,21 @@ end
 Dat_I = ind_SSPOCon( 1);
 [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStruct );
 realNumbers = find(~isnan(meanVec));
-sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',2);
-
+sigmFitParam( realNumbers,meanVec(realNumbers),'plot_show',2);
 
 %% plot the line? 
-% pltSSPOCon = plot(realNumbers, meanVec(realNumbers),plotCol{2});
-pltSSPOCon = plot(0,0);
-%% 
 %--------------------------------Allsensors Neural filt-------------------------    
 meanval = mean( nonzeros(  dataStructAllFilt.dataMatTot(1,:)  ) );
 stdval = std( nonzeros(    dataStructAllFilt.dataMatTot(1,:)  ) );
-scatter(errLocFig1A,meanval,50,'rd','filled')
+    scatter(errLocFig1A,meanval,50,'rd','filled')
 
 %--------------------------------Allsensors no NF-------------------------    
 meanval = mean( nonzeros(  dataStructAllnoFilt.dataMatTot(1,:)  ) );
 stdval = std( nonzeros(    dataStructAllnoFilt.dataMatTot(1,:)  ) );
-scatter(errLocFig1A,meanval,50,'filled','kd')
+    scatter(errLocFig1A,meanval,50,'filled','kd')
 
 %% Legend 
-% legend_entries = { 'Random Sensors', 'SSPOC Sensors'};
+pltSSPOCon = plot(0,0);   % get line for legend only 
 legend_entries = { ['Random Sensors,' char(10) '$\phantom{.....}$ Encoded'],...
                     ['SSPOC Sensors,'  char(10) '$\phantom{.....}$ Encoded']};
 
@@ -118,12 +106,10 @@ axPlot = gca();
 set(axPlot, axisOptsFig1A{:})
 if labels_on == true
     [leg,lns] = legend(legVec,legend_entries, legOpts{:});
-
     tx1 = text(20,0.5,allText1,'FontSize',fsz);
     tx2 = text(20,0.7,allText2,'FontSize',fsz);  
     xlabel('Number of Sensors, $q$'); ylabel('Cross-Validated Accuracy')
     break_axis('axis','x','position',(errLocFig1A -30)/2+30, 'length',0.05)
-    
 end
 
 %% Sensor locations 
@@ -141,16 +127,12 @@ subplot(5,3,[1,2])
     hold on 
     [X,Y] = meshgrid(1:fixPar.spanElements,1:fixPar.chordElements);
     I = find( sensorloc_tot );      
-    sc  = scatter(X(I) ,Y(I) , 100 ,'.','r');      
-        
-    hold on
+    sc  = scatter(X(I) ,Y(I) , 100 ,'.','r');    
     scatter(0,13,100,'.k')
     plot([1,1]*0,[-0.5,27],'k','LineWidth',1)
     plot(x,y,'k','LineWidth',0.5)
-    
     ax = gca(); 
     set(ax,axOpts{:})
-    
     axis off
 
 %% Setting paper size for saving 
@@ -164,16 +146,12 @@ left = (papersize(1)- width)/2;
 bottom = (papersize(2)- height)/2;
 myfiguresize = [left, bottom, width, height];
 set(fig1, 'PaperPosition', myfiguresize);
-
 % Saving figure 
 print(fig1, ['figs' filesep 'Figure_R1' ], '-dpng', '-r600');
-
 % total hack, why does saving to svg scale image up???
 stupid_ratio = 15/16;
 myfiguresize = [left, bottom, width*stupid_ratio, height*stupid_ratio];
 set(fig1, 'PaperPosition', myfiguresize);
 
 print(fig1, ['figs' filesep 'Figure_R1' ], '-dsvg');
-
-
 

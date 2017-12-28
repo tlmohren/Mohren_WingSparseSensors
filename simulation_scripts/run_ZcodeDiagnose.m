@@ -9,20 +9,16 @@
 %------------------------------
 clear all, close all, clc
 
-scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
-addpath([scriptLocation filesep 'scripts']);
 addpathFolderStructure()
 
+iter                = 1; % number of iterations 
 parameterSetName    = ' ';
-iter                = 1;
-figuresToRun        = {'subSetTest'};
+figuresToRun        = {'E1'};
 
-% Build struct that specifies all parameter combinations to run 
-[fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
-varParStruct = varParStruct(45);
-% strainSet = load('strainSet_th0.1ph0.312it1harm0.2.mat');
+fixPar = createFixParStruct( parameterSetName,iter);
+[ varParStruct,simulation_menu ] = createVarParStruct( fixPar, figuresToRun);
+
 strainSet = load(['eulerLagrangeData', filesep 'strainSet_th0.1ph0.312it2harm0.2.mat']);
-varPar = varParStruct(1);
 %% Test neural encoding effert
 
 fixPar.STAdelay = 5;

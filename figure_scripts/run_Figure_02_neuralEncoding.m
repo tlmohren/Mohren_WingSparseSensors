@@ -6,33 +6,30 @@ clc;clear all;close all
 scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
 addpath([scriptLocation filesep 'scripts']);
 addpathFolderStructure()
-
+%% 
 set(0,'DefaultAxesFontSize',8)% .
 set(0,'DefaultAxesLabelFontSize', 8)
-
-
 load(['figData' filesep  'LDAhistograms' ]);
 
 % pre plot decisions 
 width = 9.5;     % Width in inches,   find column width in paper 
 height = 4.5;    % Height in inches
 
+% general plotting options 
 n_bins = 15;
+edgeCol = 'none';
+col = linspecer(2);
+barOpts1 = {'BarWidth',0.7,'EdgeColor','none','FaceColor',col(1,:)}
+barOpts2 = {'BarWidth',0.7,...
+        'FaceColor',col(2,:),...
+        'EdgeColor','none',...
+        };
 
+% define color schemes 
 colScheme = [255,245,239
     227, 214, 244
     255,246,213
     255,230,213]/255;
-
-
-edgeCol = 'none';
-col = linspecer(2);
-    barOpts1 = {'BarWidth',0.7,'EdgeColor','none','FaceColor',col(1,:)};
-%     barOpts2 = {'BarWidth',0.9,'EdgeColor','k','FaceColor',col(2,:)};
-    barOpts2 = {'BarWidth',0.7,...
-        'FaceColor',col(2,:),...
-        'EdgeColor','none',...
-        };
 
 inoffensiveBlue =[247,252,240
 224,243,219
@@ -54,11 +51,10 @@ fireRed = [255,247,236
 215,48,31
 179,0,0
 127,0,0];
-
 fireScheme = colorSchemeInterp(fireRed/255, 500);
     
     
-    
+% subplot madness 
 pX = 38;
 pY = 14;
 subGrid = reshape(1:(pX*pY),pX,pY)';
@@ -67,8 +63,6 @@ dx = 1;
 dt = 5;
 dn = 6;
 dy = 4;
-
-
 
 Row1S = 1;
 Row1E = 3;
@@ -97,14 +91,12 @@ Col5E = Col5S + 5;
 Col6S = Col5E + 1;
 Col6E = Col6S + 4;
 
-
 strainTitle = subGrid( 	  Row1S:Row1E , (Col1S:Col1E ) );
 neuralTitle = subGrid( 	  Row2S:Row3E , (Col1S:Col1E ) );
 
 strainTextSub = subGrid( 	  Row1S:Row1E , (Col2S:Col2E ) );
 strainHeatMapSub = subGrid( Row1S:Row1S+1         ,(Col3S+1:Col3E-1)   );
 strainTraceSub = subGrid(    Row1E:Row1E           ,  (Col3S+1:Col3E-1)   );
-
 
 neuralTextSub = subGrid(     Row2S:Row2E     ,  (Col2S:Col2E ) );
 STASub  = subGrid(          Row3S:Row3S         ,  (Col2S:Col2E-1 ) );
@@ -126,7 +118,6 @@ strainNoteSub = subGrid(     Row1S:Row1E         , Col6S:Col6E );
 pfireNoteSub = subGrid(      Row2S:Row2E     , Col6S:Col6E ); 
 sspocNoteSub = subGrid(     Row3S:Row3E     ,Col6S:Col6E ); 
 
-
 %% figure treatment
 fig03 = figure();
 ax = gca();
@@ -135,40 +126,15 @@ set(fig03, 'Position', [fig03.Position(1:2) width*100, height*100]); %<- Set siz
 %%  Get data
 N0= load(['figData' filesep 'noise0'],'strain');
 
-
-
-
-
 parameterSetName = 'R1_Iter100';
 load(['accuracyData' filesep 'parameterSet_' parameterSetName ])
-    
-% fixPar.nIterFig = 100;
-% fixPar.nIterSim = 100; 
-% 
-% [dataStruct,paramStruct] = combineDataMat( fixPar, simulation_menu.R1_standard);
-% [dataStructAllnoFilt,paramStructAllnoFilt] = combineDataMat(fixPar,simulation_menu.R1_all_nofilt);
-% [dataStructAllFilt,paramStructAllFilt] = combineDataMat(fixPar,simulation_menu.R1_all_filt);
-
-% fixPar = createFixParStruct( parameterSetName,iter);
-% [ varParStruct,simulation_menu ] = createVarParStruct( fixPar, figuresToRun);
-
-
-
-
-
 parameterSetName    = ' ';
 iter                = 1;
 fontSize            = 7;
 figuresToRun        = {'R1_allSensorsFilt'};
 
-% [fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
-
 varPar = varParStruct(1);
 [STAFunc, NLDFunc] = createNeuralFilt( fixPar,varPar );
-
-fixPar.nIterFig = 50;
-fixPar.nIterSim = 5; 
-
 
 %% strain modify
 tSTA = -40:0.1:0;
@@ -200,21 +166,13 @@ subplot(pY,pX,strainTitle(:) );
     tx = text(0.1,0.45,['\bf{Neurally}' char(10) '\bf{Encoded}' char(10) '$\phantom{.}$  \bf{Strain}'],'FontSize',titleFont,'fontweight','bold');
     axis off
     
-    
-    
 %%  First row plots 
-
 subplot(pY,pX,strainTextSub(:) );
-%     hold on
-%     ax = gca();
-%     y = [ax.YLim(1).*[1,1], ax.YLim(2).*[1,1]]
-%     y = [ax.YLim(1).*[1,1], ax.YLim(2).*[1,1]]
     x = [0 1 1 0];  y = [0 0 1 1];
     pc = patch(x,y,colScheme(1,:),'EdgeColor',edgeCol);
     tx = text(0.1,0.3,'\bf{Strain}$\mathbf{(x,y,t)}$','FontSize',fontSize,'fontweight','bold');
     axis off
     
-% subplot(642) 
 subplot(pY,pX,strainHeatMapSub(:) )
     N0= load(['figData' filesep 'noise0'],'strain');
     dim_wing = [26,51,4000];
@@ -229,26 +187,18 @@ subplot(pY,pX,strainHeatMapSub(:) )
     set(ax1,axOpts{:})
     set(pc1,pcOpts{:})
     axis off
-
     hold on
     scatter(1,13,100,'.k')
     plot([1,1]*1,[0,26],'k','LineWidth',1)
     plot([1,51,51,1],[1,1,26,26],'k','LineWidth',0.5)
     
 subplot(pY,pX,strainTraceSub(:) )
-% subplot(646)
     timeInd = 1000:1200;
     strain  = squeeze(strain0( sensorSpec(1),sensorSpec(2),timeInd ));
     lim = [min(strain),max(strain)];
     plot( strain,'k' )
-%     hold on
     axis([1,length(timeInd),lim(1)*1,lim(2)*1 ])
     axis off
-    
-%     ax = gca();
-%     x = [ax.XLim, fliplr(ax.XLim)];  y = [ax.YLim, fliplr(ax.YLim)];
-%     pc = patch(x,y,backColor,'EdgeColor',edgeCol);
-% %     axis off
 %
 subplot(pY,pX,strainClassSub(:) )
     x = [0 1 1 0];  y = [0 0 1 1];
@@ -258,9 +208,6 @@ subplot(pY,pX,strainClassSub(:) )
     axis off
     
 subplot(pY,pX,strainHistSub(:) )
-%     barPlots(XclsStrain, n_bins, colScheme(1,:), edgeCol, barOpts1, barOpts2)
-
-%     load(['figData' filesep  'LDAhistograms' ]);
     expo = round( - log10(max(abs(XclsStrain))));
     xLims = [ round(min(XclsStrain),expo+1)-10^(-expo-1), ( round(max(XclsStrain),expo+1) +10^(-expo-1)) ];
 
@@ -275,7 +222,6 @@ subplot(pY,pX,strainHistSub(:) )
     yLims = [ max(aCounts),-max(bCounts)];
     ystep = (yLims(1)-yLims(2))/n_bins;
     
-    
     xLimsBase = xLims +[-1,1]*xstep*1;
     yLimsMid = yLims +[1,-1]*ystep*2;
     
@@ -287,9 +233,9 @@ subplot(pY,pX,strainHistSub(:) )
     pc = patch(x,y,colScheme(1,:),'EdgeColor',edgeCol);
         hold on
 %     
-%     cols = linspecer(3)
     bar1 = bar(binMids,aCounts );
     bar2 = bar(binMids,-bCounts,'r');
+    
     % baseline and midline 
     plot(xLimsBase,[0,0],'k','LineWidth',0.5)
     plot([1,1]*strainMidLine,yLimsMid,'k-','LineWidth',0.5)
@@ -311,37 +257,11 @@ subplot(pY,pX,strainHistSub(:) )
         ['$\phantom{..}$ With' char(10) 'Rotation'],'Color',...
         txtcol(2,:),'FontSize',fontSize)
 
-%     text(
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
 
 
+    
+    
 %% Neural box plots 
    
 subplot(pY,pX,neuralTextSub(:) )
@@ -357,8 +277,6 @@ subplot(pY,pX,STASub(:) )
     axis([-50,10,-0.9,1.2])
     box off
     hold on 
-%     quiver(-40,-0.8,10,0,'k')
-%     quiver(-40,-0.8,0,1,'k')
     axis off    
     tx = text(0,0, 'STA($t$)','FontSize',fontSize);
 subplot(pY,pX,NLDSub(:) )
@@ -367,22 +285,8 @@ subplot(pY,pX,NLDSub(:) )
     xlabel('Strain Projection on Feature');ylabel('Probability of Firing')
     hold on
     axis([-1.1,1.1,-0.2,1])
-    
-%     quiver(-0.7,-0.1,0.4,0,'k')
-%     quiver(-0.7,-0.1,0,0.6,'k')
     text(0.733,0.3, 'NLD($\xi$)','FontSize',fontSize)
     axis off
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -393,7 +297,6 @@ subplot(pY,pX,NLDSub(:) )
 subplot(pY,pX,pfireTextSub(:) )
     x = [0 1 1 0];  y = [0 0 1 1];
     pc = patch(x,y,colScheme(2,:),'EdgeColor',edgeCol);
-%     tx = text(0.1,0.3,'P$_{fire}(x,y,t)$','FontSize',fontSize);
     tx = text(0.1,0.3,'\bf{Pfire}($\mathbf{x,y,t}$)','FontSize',fontSize);
     axis off
     
@@ -422,45 +325,27 @@ subplot(pY,pX,pfireTraceSub(:) )
     axis off
     
    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 %% Second row plots 
-
-
 subplot(pY,pX,pfireClassSub(:) )
     x = [0 1 1 0];  y = [0 0 1 1] ;
     pc = patch(x,y, colScheme(3,:),'EdgeColor',edgeCol);
     tx = text(0.1,0.3,textIn,'FontSize',fontSize);
     axis off
-    
-    
-    
     if mean(XclsEncoded(1:end/2)) > 0 
         XclsEncoded = -XclsEncoded;
     end
     
-    
 subplot(pY,pX,pfireHistSub(:) )
     barPlots(XclsEncoded,encodedMidLine, n_bins, colScheme(3,:), edgeCol, barOpts1, barOpts2)
 
-    
-    
+
     
 %% Third row plots 
-%     
 fixPar.nIterFig = 100;
-fixPar.nIterSim = 100; 
 fixPar.data_loc = 'accuracyData';
 [dataStruct,paramStruct] = combineDataMat(fixPar,simulation_menu.R1_standard);
-
 q = 13;
 binar = get_pdf( dataStruct.sensorMatTot(2,q,1:q,:));
 sensorloc_tot = reshape(binar,fixPar.chordElements,fixPar.spanElements); 
@@ -473,10 +358,8 @@ subplot(pY,pX,sspocClassSub(:) )
         char(10),'for Optimal Classification'];
     textIn = [' \bf{ Sparse Sensor}' char(10),...
         '$\phantom{.}$ \bf{Locations}'];
-
     im = imagesc(  (sensorloc_tot));
     tx = text(0.1,0.8,textIn,'FontSize',7,'Interpreter','latex');
-%     colormap(newColBrew)
     ax = gca(); 
     axOpts = {'DataAspectRatio',[1,1,1],'PlotBoxAspectRatio',[3,4,4],'XLim',[0,52],'YLim',[0,27]};
     set(ax,axOpts{:})
@@ -491,8 +374,6 @@ subplot(pY,pX,sspocHistSub(:) )
 
     
 subplot(pY,pX,strainNoteSub(:) )
-%     x = [0 1 1 0];  y = [0 0 1 1];
-%     pc = patch(x,y,colScheme(1,:),'EdgeColor',edgeCol);
     textIn = ['$\phantom{.}q = 1326$' char(10),...
                 'Poor Classification'];
     tx = text(0.1,0.3,textIn,'FontSize',fontSize);
@@ -500,16 +381,12 @@ subplot(pY,pX,strainNoteSub(:) )
     
     
 subplot(pY,pX,pfireNoteSub(:) )
-%     x = [0 1 1 0];  y = [0 0 1 1];
-%     pc = patch(x,y,colScheme(1,:),'EdgeColor',edgeCol);
     textIn = ['$\phantom{.}q = 1326$' char(10),...
                 'Good Classification'];
     tx = text(0.1,0.3,textIn,'FontSize',fontSize);
     axis off
     
 subplot(pY,pX,sspocNoteSub(:) )
-%     x = [0 1 1 0];  y = [0 0 1 1];
-%     pc = patch(x,y,colScheme(1,:),'EdgeColor',edgeCol);
     textIn = ['$\phantom{.}{\boldmath q = 13}$' char(10),...
                 '\bf{Good Classification}' char(10),...
                 '\bf{Efficient}'];
@@ -518,10 +395,8 @@ subplot(pY,pX,sspocNoteSub(:) )
     
     
     
-    
 %% Setting paper size for saving 
 set(gca, 'LooseInset', get(gca(), 'TightInset')); % remove whitespace around figure
-% tightfig;
 
 % % % Here we preserve the size of the image when we save it.
 set(fig03,'InvertHardcopy','on');
@@ -531,7 +406,6 @@ left = (papersize(1)- width)/2;
 bottom = (papersize(2)- height)/2;
 myfiguresize = [left, bottom, width, height];
 set(fig03, 'PaperPosition', myfiguresize);
-
  
 % saving of image
 print(fig03, ['figs' filesep 'Figure_03_neuralEncoding'], '-dpng', '-r300');

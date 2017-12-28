@@ -57,16 +57,31 @@ function [ varParChild, simulation_menu] = createVarParStruct( fixPar, sim_to_ru
     
     simulation_menu. S3B_thetaDist = simulation_menu.R1_standard;
     simulation_menu. S3B_thetaDist. theta_distList = spa_sf( 10.^[-2:0.1:2] ,2);
+    
+    simultaion_menu. E1 = simulation_menu.R1_standard;
+    simulation_menu. E1. wTruncList = 10;
+    simulation_menu. E1. SSPOConList = [0,1];
 
     %% Determine course selection from menu 
     courses = fields(simulation_menu);
     sim_run_boolean = zeros(size(courses) );
-    for j = 1:length(sim_to_run)
+    
+    if ischar( sim_to_run )
        for k = 1:length(courses)
-           if any( strfind( courses{k}, sim_to_run{j}) );
+           if any( strfind( courses{k}, sim_to_run) );
                 sim_run_boolean(k) = 1;
            end
        end
+    elseif  iscell( sim_to_run) 
+        for j = 1:length(sim_to_run)
+           for k = 1:length(courses)
+               if any( strfind( courses{k}, sim_to_run{j}) );
+                    sim_run_boolean(k) = 1;
+               end
+           end
+        end
+    else
+        error('Incorrect sim_to_run input')
     end
 
     %% Created a structure with all parameter combinations 

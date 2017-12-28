@@ -1,4 +1,4 @@
-function [accuracy, sensors] = sparseWingSensors(X,G,fixPar,varyPar)
+function [accuracy, sensors] = sparseWingSensors(X,G,fixPar,varPar)
 %[accuracy, sensors] = sparseWingSensors(X,G,par)
 %    takes data [X] with rows being sensors, and columns being sensor data snapshots in time.
 %   [par] specifies things like truncation mode, raddom vs. optimal sensor
@@ -22,7 +22,7 @@ function [accuracy, sensors] = sparseWingSensors(X,G,fixPar,varyPar)
     
     [Xtrain, Xtest, Gtrain, Gtest] = predictTrain(X, G, fixPar.trainFraction);
     
-    sensors = sensorLocSSPOC(Xtrain,Gtrain,fixPar,varyPar);
+    sensors = sensorLocSSPOC(Xtrain,Gtrain,fixPar,varPar);
 
     accuracy = sensorLocClassify(  sensors,Xtrain,Gtrain,Xtest,Gtest );
 

@@ -1,5 +1,4 @@
 function [ dataStruct,paramStruct ] = combineDataMat(fixPar,varParCombinations)
-%function [ dataStruct,paramStruct ] = combineDataMat(fixPar,varParCombinations)
 %   Detailed explanation goes here
 
 % % % required inputs
@@ -9,21 +8,8 @@ p.addRequired('varParCombinations', @(x) isstruct(x));
 p.parse(fixPar,varParCombinations);
 inputs = p.Results;
 
-% % % determine combination input
-% [n, r] = size(Psi); %
-% [r_w, c] = size(w); %
-% if r ~= r_w 
-%    error('SSPOCelastic:DimensionPsiMismatchR','number of modes in Psi do not match length of R.') 
-% end
-
-% fields(varParCombinations)
-
-% createVarParStruct(varParCombinations) 
-
-
 
 m = fixPar.rmodes;
-% varParCombinations.resultName = {varParCombinations.resultName};
 mn = length(varParCombinations.wTruncList);
 n = prod( structfun(@length,varParCombinations)) / mn;
 
@@ -37,11 +23,12 @@ end
 
 varParCombinationsShort = varParCombinations;
 varParCombinationsShort.wTruncList = 1;
+% varParCombinationsShort 
 paramStruct =  createParListSingle(varParCombinationsShort);           
+% paramStruct 
 
 for j1 = 1:length(paramStruct);   
     varPar = paramStruct(j1);     
-
     if varParCombinations.wTruncList(end)<=30
        for j2 = 1:length(varParCombinations.wTruncList)
             wTrunc = varParCombinations.wTruncList(j2);
@@ -53,7 +40,7 @@ for j1 = 1:length(paramStruct);
             nameMatches = dir([fixPar.data_loc filesep saveNameBase '*']);
             if ~isempty(nameMatches)
 %                 for k2 = 1:length(nameMatches)
-                for k2 = 1: (fixPar.nIterFig/fixPar.nIterSim)
+                for k2 = 1: (fixPar.nIterFig/fixPar.iter)
                     
                     tempDat = load( [fixPar.data_loc filesep nameMatches(k2).name] ); 
                     [q_vec,it] = ind2sub(size(tempDat.DataMat),find(tempDat.DataMat));
@@ -74,7 +61,6 @@ for j1 = 1:length(paramStruct);
         fillCell = {fixPar.saveNameParameters ,varPar.theta_dist , varPar.phi_dist, varPar.SSPOCon , ...
                     varPar.STAwidth , varPar.STAfreq , varPar.NLDshift , varPar.NLDgrad , varParCombinations.wTruncList(end) };
         saveNameBase = sprintf( fillString,fillCell{:} );
-%             ['data' filesep saveNameBase '*'];
         nameMatches = dir([fixPar.data_loc filesep saveNameBase '*']);      
 
         if ~isempty(nameMatches);

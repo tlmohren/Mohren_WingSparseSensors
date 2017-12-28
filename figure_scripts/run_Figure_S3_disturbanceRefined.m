@@ -13,13 +13,10 @@ clc;clear all; close all
 % set(groot, 'defaultAxesTickLabelInterpreter', 'factory');
 addpathFolderStructure()
 w = warning ('off','all');
-
 % pre plot decisions 
 width = 6;     % Width in inches,   find column width in paper 
 height =6;    % Height in inches
-
 set(0,'DefaultAxesFontSize',7)% .
-% set(0,'DefaultAxesLabelFontSize', 8/6)
 
 %% Data collection 
 % parameterSetName = 'R1R4_Iter5_delay5_eNet09';
@@ -40,21 +37,10 @@ end
 fixPar.nIterFig = 10;
 fixPar.nIterSim = 10; 
 
-% figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2B' )));
-% varParCombinationsR2B = varParCombinationsAll(figMatch);
-
-
-
 [dataStructA,paramStructA] = combineDataMat( fixPar, simulation_menu.S3A_phiDist );
 ind_SSPOCoffA = find( ~[paramStructA.SSPOCon]);
 ind_SSPOConA = find([paramStructA.SSPOCon]);
 
-% figMatch = find(~cellfun('isempty', strfind({varParCombinationsAll.resultName} , 'R2C' )));
-% varParCombinationsR2C = varParCombinationsAll(figMatch);
-
-
-
-% [dataStructC,paramStructC] = combineDataMat(fixPar,varParCombinationsR2C);
 [dataStructB,paramStructB] = combineDataMat(fixPar,  simulation_menu.S3B_thetaDist );
 
 ind_SSPOCoffB = find( ~[paramStructB.SSPOCon]);
@@ -65,11 +51,10 @@ ind_SSPOConB = find([paramStructB.SSPOCon]);
 fig_S5 = figure();
 set(fig_S5, 'Position', [ 100,100 width*100, height*100]); %<- Set size
 plot_on = false;
-
 fszL = 8;  
 fszM = 7;
 fszS = 6; 
-%% Axis makeup 
+% Axis makeup 
 col = {[1,1,1]*100/255,'-r'};
 dotcol = {'.k','.r'}; 
 
@@ -111,7 +96,6 @@ cols = [ [1,1,1]*0.5 ;
 fig2SimsC = mod(log10(simulation_menu.S3A_phiDist.phi_distList/0.00312) ,1) == 0;
 fig2SimsB = mod(log10(simulation_menu.S3B_thetaDist.theta_distList/0.01) ,1) == 0;
 
-% figure()
 subplot(211)
     semilogx(simulation_menu.S3A_phiDist.phi_distList, thresholdMatA(:,1),'Color',cols(1,:))
     hold on
@@ -135,11 +119,8 @@ subplot(212)
     plot(simulation_menu.S3B_thetaDist.theta_distList(fig2SimsC ), thresholdMatB(fig2SimsB ,1)','o','Color',cols(1,:))
     plot(simulation_menu.S3B_thetaDist.theta_distList(fig2SimsC ), thresholdMatB(fig2SimsB ,2),'o','Color',cols(2,:))
 
-
 %% Setting paper size for saving 
-% set(gca, 'LooseInset', get(gca(), 'TightInset')); % remove whitespace around figure
-% tightfig;
-% % % Here we preserve the size of the image when we save it.
+
 set(fig_S5,'InvertHardcopy','on');
 set(fig_S5,'PaperUnits', 'inches');
 papersize = get(fig_S5, 'PaperSize');
@@ -147,15 +128,12 @@ left = (papersize(1)- width)/2;
 bottom = (papersize(2)- height)/2;
 myfiguresize = [left, bottom, width, height];
 set(fig_S5, 'PaperPosition', myfiguresize);
-
-%% Saving figure 
+% Saving figure 
 print(fig_S5, ['figs' filesep 'Figure_S5' ], '-dpng', '-r600'); 
-
 
 stupid_ratio = 15/16;
 myfiguresize = [left, bottom, width*stupid_ratio, height*stupid_ratio];
 set(fig_S5, 'PaperPosition', myfiguresize);
-
 print(fig_S5, ['figs' filesep 'Figure_S5'], '-dsvg', '-r600');
 
 

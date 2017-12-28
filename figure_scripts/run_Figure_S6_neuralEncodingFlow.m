@@ -13,19 +13,12 @@ scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
 addpath([scriptLocation filesep 'scripts']);
 addpathFolderStructure()
 
-% parameterSetName    = ' ';
-% iter                = 1;
-% figuresToRun        = {'subSetTest'};
 width = 6;
 height = 6;
 
-% Build struct that specifies all parameter combinations to run 
-% [fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
-% varParStruct = varParStruct(45);
 parameterSetName = 'R1_Iter100';
 load(['accuracyData' filesep 'parameterSet_' parameterSetName ])
 varPar = varParStruct(1);
-
 strainSet = load(['eulerLagrangeData', filesep 'strainSet_th0.1ph0.312it2harm0.2.mat']);
 %% Test neural encoding effert
 
@@ -50,7 +43,7 @@ n_conv = ( fixPar.simStartup  *fixPar.sampFreq*fixPar.subSamp +2 -length(STAt) )
 n_out = (fixPar.simEnd-fixPar.simStartup) * fixPar.sampFreq*fixPar.subSamp;
 t = (1:size(strainSet.(fn{1}),2))/fixPar.sampFreq;
 tNew = linspace(t(1),t(end),size(strainSet.(fn{1}),2)*fixPar.subSamp);
-%     end
+
 m = size(strainSet.(fn{1}),1);
 
 % Part1) For each individual sensor, convolve strain with match filter over time.
@@ -72,19 +65,13 @@ end
 
 X = NLDFunc( convMat/fixPar.normalizeVal/fixPar.subSamp );
 
-
 if fixPar.determineNorm == 1
     X.tempNorm = max(convMat(:));
 end
 
-
-
 %% 
 fig_S7 = figure();
-% subplot(5,3,4:15)
 set(fig_S7, 'Position', [100 100 width*100, height*100]); %<- Set size
-
-
 
 inoffensiveBlue =[247,252,240
 224,243,219
@@ -154,11 +141,9 @@ sb1 = subplot(pY,pX, reshape( subMat(1,2:3),1,[] ) );
     set(h,barOpts{:})   
     ylabel(h, 'Strain','Interpreter','Latex','Rotation',0)
     scatter(Js,Is,'ok','filled')
-    
 
 subplot(pY,pX, reshape( subMat(2,:),1,[] ) )
     text(0,0,'Strain ')
-    % strainSet.strain_10
     plot(t, strainSet.strain_10( sensor, I_strain)  ,'k')
     strainAx = gca();
     set(strainAx, strainOpts{:})
@@ -178,7 +163,6 @@ subplot(pY,pX, reshape( subMat(3,3),1,[] ) )
     text(-20,0.5,'STA (t)')
     
 subplot(pY,pX, reshape( subMat(4,3),1,[] ) )
-
     similarity = convMat/fixPar.normalizeVal/fixPar.subSamp;
     similarity_inst = similarity(sensor,3e3+t_show-1e3);
     text(0,0,'NLD')
@@ -192,11 +176,9 @@ subplot(pY,pX, reshape( subMat(4,3),1,[] ) )
     plot( [1,1]*similarity_inst,[0,1]*NLDval,'k:')
     scatter(-1,NLDval,'ok','filled')
     xlabel('$\xi$'); ylabel('Prob. fire')
-    
     axNLD = gca();
     set( axNLD, NLDopts{:})
     text( -1, NLDval ,num2str( round(NLDval,2) ) )
-
     text(0,0.5,'NLD ($\xi$)')
     
 subplot(pY,pX, reshape( subMat(5,:),1,[] ) )
@@ -229,15 +211,11 @@ sb = subplot(pY,pX, reshape( subMat(6,2:3),1,[] ) );
     plot([1,51,51,1],[1,1,26,26],'k','LineWidth',0.5)
     h = colorbar;
     barOpts = {'Limits',[0,1],...
-%         'Ticks',[-6:3:0]*1e-4,...
         };
     set(h,barOpts{:})
     ylabel(h, 'Prob. Fire','Interpreter','Latex','Rotation',0)
     scatter(Js,Is,'ok','filled')
-   
-    
-    
-    
+
 
 %% Setting paper size for saving 
 set(gca, 'LooseInset', get(gca(), 'TightInset')); % remove whitespace around figure
@@ -250,10 +228,8 @@ left = (papersize(1)- width)/2;
 bottom = (papersize(2)- height)/2;
 myfiguresize = [left, bottom, width, height];
 set(fig_S7, 'PaperPosition', myfiguresize);
-
 % Saving figure 
 print(fig_S7, ['figs' filesep 'Figure_S7' ], '-dpng', '-r600');
-
 % total hack, why does saving to svg scale image up???
 stupid_ratio = 15/16;
 myfiguresize = [left, bottom, width*stupid_ratio, height*stupid_ratio];
