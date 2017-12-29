@@ -15,7 +15,7 @@
 clear all, close all, clc
 addpathFolderStructure()
 
-figuresToRun        = {'R3','R4'};
+figuresToRun        = {'R4'};
 iter                = 10;
 parameterSetName    = ['R3R4_Iter' num2str(iter)];
 
@@ -48,9 +48,11 @@ for j = 1:length(varParStruct)
         DataMat = zeros(1,fixPar.iter);
         SensMat = [];
     end
+    
+    
     % Run parameter combination for a set number of iterations ---------
     for k = 1:fixPar.iter
-%         try
+        try
             varPar.curIter = k; 
             % Generate strain with Euler-Lagrange simulation ----------
             strainSet = eulerLagrangeConcatenate( fixPar,varPar);
@@ -71,9 +73,9 @@ for j = 1:length(varParStruct)
             end
             % Print accuracy in command window --------------------
             fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q,acc])
-%         catch
-%             fprintf(['W_trunc = %1.0f, gave error \n'],[varPar.wTrunc])
-%         end
+        catch
+            fprintf(['W_trunc = %1.0f, gave error \n'],[varPar.wTrunc])
+        end
     end
     % save classification accuracy and sensor location in small .mat file
     fillString = 'Data_%s_dT%g_dP%g_sOn%g_STAw%g_STAf%g_NLDs%g_NLDg%g_wT%g_';
