@@ -1,15 +1,11 @@
 %------------------------------
-% run_Figure1_Figure2A_ThetaDistVSPhiDist.m
-%
-% Plots figures 1 and 2A
-%
-% Sparse wing sensors for optimal classification using neural filters(...)
-% Mohren T.L., Daniel T.L., Brunton B.W.
-% Submitted to (...)
-%   Last updated: 2017/07/03  (TLM)
+% run_Figure_R3_encoderVariation
+% 
+% Neural inspired sensors enable sparse, efficient classification of spatiotemporal data
+% Mohren T.L., Daniel T.L., Brunton S.L., Brunton B.W.
+%   Last updated: 2018/01/16  (TM)
 %------------------------------
 clc;clear all; close all 
-
 addpathFolderStructure()
 
 % figure decisions 
@@ -18,11 +14,11 @@ set(0,'defaultLineLineWidth',0.3);   % set the default line width to lw
 set(0,'defaultLineMarkerSize',2); % set the default line marker size to msz
 width = 9.5;     % Width in inches,   find column width in paper 
 height = 4.5;    % Height in inches
-plot_on = false ;
-collect_thresholdMat = false; 
+collect_thresholdMat = true; 
 fsz = 8;
 fszL = 10; 
 
+plot_on = false ;
 % subplot setup
 pX = 50;
 pY = 28;
@@ -38,18 +34,10 @@ staHeatSub = subGrid( (1:11)    , (1:17)+30 );
 nldHeatSub = subGrid( (1:12)+16  , (1:17)+30 );
 
 %% data collection
-% parameterSetName = 'R1toR4_Iter10_run1';
-parameterSetName = 'R1R4_Iter5_delay5_eNet09';
-overflow_loc = 'D:\Mijn_documenten\Dropbox\A_PhD\C_Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
-github_loc = 'accuracyData';
-try
-    load([github_loc filesep 'parameterSet_' parameterSetName ])
-    fixPar.data_loc = github_loc;
-catch
-    display('not on github, looking at old data')
-    load([overflow_loc filesep 'parameterSet_' parameterSetName ])
-    fixPar.data_loc = overflow_loc;
-end 
+parameterSetName = 'R3R4_Iter10';
+load(['accuracyData' filesep 'parameterSet_' parameterSetName ])
+fixPar.data_loc = 'accuracyData';
+
 
 fixPar.nIterFig = 10;
 fixPar.nIterSim = 10; 
@@ -101,7 +89,7 @@ if collect_thresholdMat == true
             NLDthresholdMat(j,k,2) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
         end
     end
-    save('STANLDthresholdMat','STAthresholdMat','NLDthresholdMat')
+    save( ['figData' filesep 'STANLDthresholdMat'] ,'STAthresholdMat','NLDthresholdMat')
 else
     load(['figData' filesep 'STANLDthresholdMat'])
 end 

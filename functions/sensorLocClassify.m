@@ -1,7 +1,10 @@
 function [ accuracy ] = sensorLocClassify(  sensors,Xtrain,Gtrain,Xtest,Gtest )
 %[ accuracy ] = SensorLocClassify(  sensors,Xtrain,Gtrain,Xtest,Gtest )
-%   Created: 2017/??/??  (TLM)
-%   Last updated: 2017/07/03  (TLM)
+% 
+% Neural inspired sensors enable sparse, efficient classification of spatiotemporal data
+% Mohren T.L., Daniel T.L., Brunton S.L., Brunton B.W.
+%   Last updated: 2018/01/16  (TM)
+%------------------------------
 
     n =  size(Xtest,1);
     classes = unique(Gtest); 

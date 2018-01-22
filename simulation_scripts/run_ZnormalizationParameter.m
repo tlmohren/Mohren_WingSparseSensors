@@ -1,15 +1,11 @@
 %------------------------------
-% run_paperAnalysis
-% Runs simulations and analysis for the paper:
-% Sparse wing sensors for optimal classification using neural filters(...)
-% Mohren T.L., Daniel T.L., Brunton B.W.
-% Submitted to (...)
-%   Last updated: 2017/07/03  (TLM)
-
-% fixPar = struct with fixed parameters used throughout the simulation
-% varParList = struct(1:5).xxx  contains lists of variable parameters 
-% combinationStruct contains all required combinations specified in varParList
-% varPar is one combination specified in combinationStruct
+% run_ZnormalizationParameters
+% This script is used to find the normalization parameter C for the neural
+% encoding. 
+% 
+% Neural inspired sensors enable sparse, efficient classification of spatiotemporal data
+% Mohren T.L., Daniel T.L., Brunton S.L., Brunton B.W.
+%   Last updated: 2018/01/16  (TM)
 %------------------------------
 clear all, close all, clc
 addpathFolderStructure()
@@ -17,19 +13,18 @@ addpathFolderStructure()
 parameterSetName    = 'normalizationParam';
 iter                = 10;
 figuresToRun        = {'R1'};
-% select any from {'R2A','R2B','R2C','R3','R4','R2allSensorsnoFilt','R2allSensorsFilt} 
 
 % Build struct that specifies all parameter combinations to run 
-[fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
+addpathFolderStructure()
+parameterSetName    = 'Example 1';
+figuresToRun        = 'E1'; % run Example 1 
+iter                = 1; % number of iterations 
+fixPar              = createFixParStruct( parameterSetName,iter); % load fixed parameters 
+[ varParStruct,~]   = createVarParStruct( fixPar, figuresToRun); % load variable parameters 
+varPar = varParStruct(1);
 fixPar.determineNorm = 1;
-varParStruct(1).theta_dist = 0.1;
-varParStruct(1).phi_dist = 0.312;
-% varParStruct(1).theta_dist = 0.1;
-% varParStruct(1).phi_dist = 0.312;
 %% Run eulerLagrangeSimulation (optional) and sparse sensor placement algorithm
 
-j=1;
-varPar = varParStruct(j);
 % Run parameter combination for a set number of iterations ---------
 for k = 1:fixPar.iter
     varPar.curIter = k; 
@@ -43,4 +38,4 @@ for k = 1:fixPar.iter
 end
 meanNorm = mean(normVals);
 fprintf('Mean norm is = %1.5f \n',[ meanNorm])
-save(['data' filesep 'normalizationVal_th0_1ph0_312.mat'],'meanNorm','fixPar','varPar')
+save(['eulerLagrangeData' filesep 'normalizationVal_th0_1ph0_312.mat'],'meanNorm','fixPar','varPar')

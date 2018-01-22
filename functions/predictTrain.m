@@ -3,7 +3,7 @@ function [Xtrain, Xtest, Gtrain, Gtest] = predictTrain(X, G, trainRatio)
 % For each class in X as defined by G, that part of X is split into
 % training and test. 
 % TLM 2017/10/12  
-
+% ----------------------------------------------------------
 % required inputs
 p = inputParser; 
 p.addRequired('X', @isnumeric);
@@ -48,5 +48,3 @@ for j = 1:length(unique(G)) % 2 classes
     Xtrain = [Xtrain addTrainData];
     Xtest = [Xtest addTestData];
 end
-end
-

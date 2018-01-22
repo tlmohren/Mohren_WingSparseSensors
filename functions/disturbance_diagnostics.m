@@ -1,7 +1,11 @@
 function  disturbance_diagnostics( th_d )
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
-
+%disturbance_diagnostics evaluates the band limited white noise disturbance
+% and plots it 
+% 
+% Neural inspired sensors enable sparse, efficient classification of spatiotemporal data
+% Mohren T.L., Daniel T.L., Brunton S.L., Brunton B.W.
+%   Last updated: 2018/01/16  (TM)
+%------------------------------
     t = 0:0.001:4;
     meanval = mean(eval(th_d))
     stdev = std(eval(th_d))

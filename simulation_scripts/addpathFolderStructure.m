@@ -1,10 +1,9 @@
 function addpathFolderStructure()
 %addpathFolderStructure() Creates folder to store simulation data, adds
 %folders to workspace, and checks if CVX is installed 
-%   Last updated: 2017/07/03  (TLM)
+%   Last updated: 2018/01/16  (TM)
 
 % Find location of this script 
-    
     scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
     cd(scriptLocation );
 
@@ -17,7 +16,5 @@ function addpathFolderStructure()
     if size(strfind(path, 'cvx')) < 1
         warning('CVX might not be installed correctly or at all. This code requires CVX to run.');
     end
-
-
 end
 

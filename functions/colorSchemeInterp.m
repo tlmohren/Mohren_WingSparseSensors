@@ -1,32 +1,18 @@
 function [Cinterp ] = colorSchemeInterp( colorScheme, nInterp )
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+% colorSchemeInterp interpolates a colorscheme from e.g. colorbrewer
 
-
-% strain_data = purpWhiteGreen ;
-% x = 
-% figure()
-% plot(x,purpleStrain)
-% 
-% x = 1:;
+% Neural inspired sensors enable sparse, efficient classification of spatiotemporal data
+% Mohren T.L., Daniel T.L., Brunton S.L., Brunton B.W.
+%   Last updated: 2018/01/16  (TM)
+%------------------------------
 
 [nOrig,~] = size(colorScheme);
-
-% nOrig = length(strain_data );
-
-% nNew = 15
 
 xOrig = 1:nOrig;
 xInterp = linspace(1,nOrig,nInterp);
 Cinterp = zeros(nInterp,3);
 
-%     figure();
-    for j = 1:3
-        Cinterp(:,j) = interp1(xOrig, colorScheme(:,j), xInterp);
-%     %     Cinterp = Cfun(xInterp)
-%         plot(xOrig,colorScheme(:,j) )
-%         hold on
-%         plot(xInterp,Cinterp(:,j) ,'o')
-    end
+for j = 1:3
+    Cinterp(:,j) = interp1(xOrig, colorScheme(:,j), xInterp);
 end
 

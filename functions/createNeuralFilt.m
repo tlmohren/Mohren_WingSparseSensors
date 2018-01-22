@@ -1,7 +1,11 @@
 function [ STAFunc,NLDFunc] = createNeuralFilt( fixPar,varPar )
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
-
+%createNeuralFilt creates functions for neural filters based on parameters
+%in input
+% 
+% Neural inspired sensors enable sparse, efficient classification of spatiotemporal data
+% Mohren T.L., Daniel T.L., Brunton S.L., Brunton B.W.
+%   Last updated: 2018/01/16  (TM)
+%------------------------------
     STAFunc = @(t) cos( varPar.STAfreq*(t+ fixPar.STAdelay)  ).*exp(-(t+fixPar.STAdelay).^2 / varPar.STAwidth.^2);
 
     STAt = -39:0;   

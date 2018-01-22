@@ -1,15 +1,11 @@
 %------------------------------
-% run_paperAnalysis
-% Runs simulations and analysis for the paper:
-% Sparse wing sensors for optimal classification using neural filters(...)
-% Mohren T.L., Daniel T.L., Brunton B.W.
-% Submitted to (...)
-%   Last updated: 2017/07/03  (TLM)
-
-% fixPar = struct with fixed parameters used throughout the simulation
-% varParList = struct(1:5).xxx  contains lists of variable parameters 
-% combinationStruct contains all required combinations specified in varParList
-% varPar is one combination specified in combinationStruct
+% run_mainSimulation
+% Runs a set of classifications for parameter combinations in figures
+% Every 100th combination the results are synced with git 
+% 
+% Neural inspired sensors enable sparse, efficient classification of spatiotemporal data
+% Mohren T.L., Daniel T.L., Brunton S.L., Brunton B.W.
+%   Last updated: 2018/01/16  (TM)
 %------------------------------
 
 clear all, close all, clc
@@ -19,22 +15,10 @@ figuresToRun        = {'R2'};
 iter                = 10;
 parameterSetName    = ['R2_Iter' num2str(iter)];
 
-
-% figuresToRun        = {'R1','R2','R3','R4','S'};
-% iter                = 10;
-% parameterSetName = 'R1toR4_Iter10_run1';
-% parameterSetName = 'R1toR4_Iter5_delay5_eNet09';
-% parameterSetName = 'R1R4_Iter5_delay5_eNet09'
-
-% Build struct that specifies all parameter combinations to run 
-% [fixPar,~ ,varParStruct ] = createParListTotal( parameterSetName,figuresToRun,iter );
-
 fixPar = createFixParStruct( parameterSetName,iter);
 [ varParStruct,simulation_menu ] = createVarParStruct( fixPar, figuresToRun);
 save( ['accuracyData' filesep 'parameterSet_', parameterSetName '.mat'], ...
         'fixPar','varParStruct','simulation_menu')
-
-% varParStruct = varParStruct(45);
 
 %% Run eulerLagrangeSimulation (optional) and sparse sensor placement algorithm
 tic 
@@ -51,7 +35,7 @@ for j = 1:length(varParStruct)
     end
     % Run parameter combination for a set number of iterations ---------
     for k = 1:fixPar.iter
-%         try
+        try
             varPar.curIter = k; 
             % Generate strain with Euler-Lagrange simulation ----------
             strainSet = eulerLagrangeConcatenate( fixPar,varPar);
@@ -72,9 +56,9 @@ for j = 1:length(varParStruct)
             end
             % Print accuracy in command window --------------------
             fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q,acc])
-%         catch
-%             fprintf(['W_trunc = %1.0f, gave error \n'],[varPar.wTrunc])
-%         end
+        catch
+            fprintf(['W_trunc = %1.0f, gave error \n'],[varPar.wTrunc])
+        end
     end
     % save classification accuracy and sensor location in small .mat file
     fillString = 'Data_%s_dT%g_dP%g_sOn%g_STAw%g_STAf%g_NLDs%g_NLDg%g_wT%g_';

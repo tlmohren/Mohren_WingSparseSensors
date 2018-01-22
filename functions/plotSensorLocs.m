@@ -1,8 +1,11 @@
 function  plotSensorLocs( binar,fixPar)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
-
-
+% plotSensorLocs plots the probability density function of sensors on the
+% wing 
+% 
+% Neural inspired sensors enable sparse, efficient classification of spatiotemporal data
+% Mohren T.L., Daniel T.L., Brunton S.L., Brunton B.W.
+%   Last updated: 2018/01/16  (TM)
+%------------------------------
 
 sensorloc_tot = reshape(binar,fixPar.chordElements,fixPar.spanElements); 
 
@@ -11,10 +14,6 @@ set(gca,'YDir','normal')
 hold on 
 
 rectangle('Position',[0.5,0.5,fixPar.spanElements,fixPar.chordElements])
-% rectangle('Position',[0.5,par.chordElements+0.5,par.spanElements,par.chordElements])
 h = gca;  % Handle to currently active axes
 set(h, 'YDir', 'reverse');
-
-
-end
 

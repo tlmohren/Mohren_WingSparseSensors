@@ -1,6 +1,10 @@
 function  barPlots(Xcls, midLine, n_bins, backCol, edgeCol, barOpts1, barOpts2)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+%barPlots Quick function to plot bars in figure 
+% 
+% Neural inspired sensors enable sparse, efficient classification of spatiotemporal data
+% Mohren T.L., Daniel T.L., Brunton S.L., Brunton B.W.
+%   Last updated: 2018/01/16  (TM)
+%------------------------------
 
     expo = round( - log10(max(abs(Xcls))));
     xLims = [ round(min(Xcls),expo+1)-10^(-expo-1), ( round(max(Xcls),expo+1) +10^(-expo-1)) ];
@@ -39,7 +43,7 @@ function  barPlots(Xcls, midLine, n_bins, backCol, edgeCol, barOpts1, barOpts2)
     axis([xLimsPatch(1),xLimsPatch(2),yLimsPatch(2),yLimsPatch(1)])
     axis off
     
-    text( xLimsBase(2),0,'$w$','FontSize',7)
+    text( xLimsBase(2),0,'$\bm{\eta}$','FontSize',7)
     
 end
 

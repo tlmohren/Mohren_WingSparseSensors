@@ -1,15 +1,11 @@
 %------------------------------
-% run_Figure1_Figure2A_ThetaDistVSPhiDist.m
-%
-% Plots figures 1 and 2A
-%
-% Sparse wing sensors for optimal classification using neural filters(...)
-% Mohren T.L., Daniel T.L., Brunton B.W.
-% Submitted to (...)
-%   Last updated: 2017/07/03  (TLM)
+% run_Figure_R2_disturbance
+% 
+% Neural inspired sensors enable sparse, efficient classification of spatiotemporal data
+% Mohren T.L., Daniel T.L., Brunton S.L., Brunton B.W.
+%   Last updated: 2018/01/16  (TM)
 %------------------------------
 clc;clear all; close all 
-
 addpathFolderStructure()
 w = warning ('off','all');
 
@@ -123,7 +119,7 @@ for j = 1:n_y
         %--------------------------------Allsensors Neural filt-------------------------    
         meanval = mean( nonzeros(  dataStructAllFilt.dataMatTot(plot_nr,:)  ) );
         stdval = std( nonzeros(    dataStructAllFilt.dataMatTot(plot_nr,:)  ) );
-        scatter(errLocFig2A,meanval,8,'filled','bd')
+        scatter(errLocFig2A,meanval,8,'filled','rd')
   
         %--------------------------------Allsensors no NF-------------------------    
         meanval = mean( nonzeros(  dataStructAllnoFilt.dataMatTot(plot_nr,:)  ) );

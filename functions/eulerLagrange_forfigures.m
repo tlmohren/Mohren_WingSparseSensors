@@ -4,7 +4,7 @@ function [strain,figData] = eulerLagrange(frot, th,ph ,par )
 % Created by Annika Eberle % September 20, 2013
 % Modified by Thomas Mohren, 2015-07-02
 % Modified by Jared Callaham, 6/23/16
-% Modified by Thomas Mohren, 2017-04-05
+% Modified by Thomas Mohren, 2018-01-16
 
 % Outputs: 
 % x = x position

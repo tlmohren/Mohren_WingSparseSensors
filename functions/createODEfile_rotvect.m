@@ -27,6 +27,9 @@ function [M K Ma Ia Q] = createODEfile_rotvect(a,b,E,G,nu,h,density,dampingfacto
 % Ma = angular vel mass matrix
 % Ia = angular vel inertia matrix 
 % Q = damping matrix 
+% 
+% Eberle et al (2015)
+%------------------------------
 
 %% Specify Parameters
 

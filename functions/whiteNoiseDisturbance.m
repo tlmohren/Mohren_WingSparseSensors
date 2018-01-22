@@ -1,6 +1,11 @@
 function [unitDisturbance ] = whiteNoiseDisturbance( par )
-%UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
+% whiteNoiseDisturbance creates band-limited white noise function of
+% specified limits and number of frequencies
+% 
+% Neural inspired sensors enable sparse, efficient classification of spatiotemporal data
+% Mohren T.L., Daniel T.L., Brunton S.L., Brunton B.W.
+%   Last updated: 2018/01/16  (TM)
+%------------------------------
     syms t 
     freqs = rand(par.nFreq,1)* (par.freqEnd-par.freq0) + par.freq0;
     phase = rand(par.nFreq,1)*2*pi;

@@ -1,7 +1,11 @@
 function [ varParList ] = createParListSingle( par)
-%UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
-
+% createParListSingle assembles a structure of parameter sets for
+% assembling data in combineDataMat
+%
+% Neural inspired sensors enable sparse, efficient classification of spatiotemporal data
+% Mohren T.L., Daniel T.L., Brunton S.L., Brunton B.W.
+%   Last updated: 2018/01/16  (TM)
+%------------------------------
     count = 0;
     for j1 = 1:length(par.theta_distList)
         for j2 = 1:length(par.phi_distList)

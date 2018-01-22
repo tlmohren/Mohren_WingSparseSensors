@@ -1,16 +1,11 @@
 %------------------------------
-% run_paperAnalysis
-% Runs simulations and analysis for the paper:
-% Sparse wing sensors for optimal classification using neural filters(...)
-% Mohren T.L., Daniel T.L., Brunton B.W.
-% Submitted to (...)
-%   Last updated: 2017/07/03  (TLM)
-
+% run_Figure_S6_neuralEncodingFlow
+% 
+% Neural inspired sensors enable sparse, efficient classification of spatiotemporal data
+% Mohren T.L., Daniel T.L., Brunton S.L., Brunton B.W.
+%   Last updated: 2018/01/16  (TM)
 %------------------------------
 clear all, close all, clc
-
-scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
-addpath([scriptLocation filesep 'scripts']);
 addpathFolderStructure()
 
 width = 6;

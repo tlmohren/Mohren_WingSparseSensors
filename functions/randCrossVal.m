@@ -5,7 +5,7 @@ function [trainData, testData, Gtrain, Gtest] = randCrossVal(X, G, trainRatio)
 % have an equal number to each other in both sets.
 % (original) Sam Kinn: 5/9/2016
 % TLM 2017/10/12  
-
+%-----------------------------------------------------------
 % required inputs
 p = inputParser; 
 p.addRequired('X', @isnumeric);

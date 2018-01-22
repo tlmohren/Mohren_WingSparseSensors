@@ -1,10 +1,11 @@
-% -------------------------
-% TLM 2017
-% -----------------------------
+%------------------------------
+% run_Figure_S2_disturbanceExp
+% 
+% Neural inspired sensors enable sparse, efficient classification of spatiotemporal data
+% Mohren T.L., Daniel T.L., Brunton S.L., Brunton B.W.
+%   Last updated: 2018/01/16  (TM)
+%------------------------------
 clc;clear all;close all
-
-scriptLocation = fileparts(fileparts(mfilename('fullpath') ));
-addpath([scriptLocation filesep 'scripts']);
 addpathFolderStructure()
 
 % pre plot decisions 

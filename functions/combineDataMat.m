@@ -1,13 +1,17 @@
 function [ dataStruct,paramStruct ] = combineDataMat(fixPar,varParCombinations)
-%   Detailed explanation goes here
+% combineDataMat collects data for a certain figure from accuracyData
 
-% % % required inputs
+% Neural inspired sensors enable sparse, efficient classification of spatiotemporal data
+% Mohren T.L., Daniel T.L., Brunton S.L., Brunton B.W.
+%   Last updated: 2018/01/16  (TM)
+%------------------------------
+
+%required inputs
 p = inputParser; 
 p.addRequired('fixPar', @(x) isstruct(x));
 p.addRequired('varParCombinations', @(x) isstruct(x));
 p.parse(fixPar,varParCombinations);
 inputs = p.Results;
-
 
 m = fixPar.rmodes;
 mn = length(varParCombinations.wTruncList);
@@ -23,9 +27,7 @@ end
 
 varParCombinationsShort = varParCombinations;
 varParCombinationsShort.wTruncList = 1;
-% varParCombinationsShort 
-paramStruct =  createParListSingle(varParCombinationsShort);           
-% paramStruct 
+paramStruct =  createParListSingle(varParCombinationsShort);     
 
 for j1 = 1:length(paramStruct);   
     varPar = paramStruct(j1);     
