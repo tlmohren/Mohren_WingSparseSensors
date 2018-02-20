@@ -110,55 +110,92 @@ fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q
 
 
 %% Run the classification again without neural encoding 
-[Xtrain4, Xtest4, Gtrain4, Gtest4] = predictTrain(X4, G, fixPar.trainFraction);
-[w_r4, Psi4, singVals4,V4] = PCA_LDA_singVals(Xtrain4, Gtrain4, 'nFeatures',fixPar.rmodes);
-singValsR4 = singVals4(1:length(w_r4));
-if fixPar.singValsMult == 1
-    [~,Iw]=sort(abs(w_r4).*singValsR4,'descend');  
-else
-    [~,Iw]=sort(abs(w_r4),'descend');  
-end
-big_modes4 = Iw(1:varPar.wTrunc);
-Psir4 = Psi4(:,big_modes4);
-w_t4 = w_r4(big_modes4);
-a4 = Psir4'*Xtrain4;
-w_t4 = LDA_n(a4, Gtrain);
-s4 = SSPOCelastic(Psir4,w_t4,'alpha',fixPar.elasticNet);
-s4 = sum(s4, 2);   
-[~, I_top2] = sort( abs(s4),'descend');
-sensors_sort4 = I_top2(1:fixPar.rmodes);
-cutoff_lim4 = norm(s4, 'fro')/fixPar.rmodes;
-sensors4 = sensors_sort4(  abs(s4(sensors_sort4))>= cutoff_lim4 );
+% % % [Xtrain4, Xtest4, Gtrain4, Gtest4] = predictTrain(X4, G, fixPar.trainFraction);
+% % % [w_r4, Psi4, singVals4,V4] = PCA_LDA_singVals(Xtrain4, Gtrain4, 'nFeatures',fixPar.rmodes);
+% % % singValsR4 = singVals4(1:length(w_r4));
+% % % if fixPar.singValsMult == 1
+% % %     [~,Iw]=sort(abs(w_r4).*singValsR4,'descend');  
+% % % else
+% % %     [~,Iw]=sort(abs(w_r4),'descend');  
+% % % end
+% % % big_modes4 = Iw(1:varPar.wTrunc);
+% % % Psir4 = Psi4(:,big_modes4);
+% % % w_t4 = w_r4(big_modes4);
+% % % a4 = Psir4'*Xtrain4;
+% % % w_t4 = LDA_n(a4, Gtrain);
+% % % s4 = SSPOCelastic(Psir4,w_t4,'alpha',fixPar.elasticNet);
+% % % s4 = sum(s4, 2);   
+% % % [~, I_top2] = sort( abs(s4),'descend');
+% % % sensors_sort4 = I_top2(1:fixPar.rmodes);
+% % % cutoff_lim4 = norm(s4, 'fro')/fixPar.rmodes;
+% % % sensors4 = sensors_sort4(  abs(s4(sensors_sort4))>= cutoff_lim4 );
+% % % 
+% % % n =  size(Xtest4,1);
+% % % classes = unique(Gtest); 
+% % % c = numel(classes); 
+% % % q = length(sensors4);
+% % % 
+% % % Phi = zeros(q, n);                                      % construct the measurement matrix Phi
+% % % for qi = 1:q,
+% % %     Phi(qi, sensors4(qi)) = 1;
+% % % end;
+% % % % learn new classifier for sparsely measured data
+% % % w_sspoc= LDA_n(Phi * Xtrain4, Gtrain);
+% % % Xcls = w_sspoc' * (Phi * Xtrain4);
+% % % 
+% % % % compute centroid of each class in classifier space
+% % % centroid = zeros(c-1, c);
+% % % for i = 1:c, 
+% % %     centroid(:,i) = mean(Xcls(:,Gtrain==classes(i)), 2);
+% % % end;
+% % % % use sparse sensors to classify X
+% % % Xcls = w_sspoc'*(Phi * Xtest4);
+% % % 
+% % % cls = zeros(1, size(Xcls,2));
+% % % for i = 1:size(Xcls,2),
+% % %     D = centroid - repmat(Xcls(:,i), 1, size(centroid,2));
+% % %     D = sqrt(sum(D.^2, 1));
+% % % 
+% % %     [~, cls(i)] = min(D);
+% % % end;
+% % % 
+% % % acc =  sum(cls == Gtest)/numel(cls);
+% % % q = length(sensors4);
+% % % fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q,acc])
 
-n =  size(Xtest4,1);
-classes = unique(Gtest); 
-c = numel(classes); 
-q = length(sensors4);
 
-Phi = zeros(q, n);                                      % construct the measurement matrix Phi
-for qi = 1:q,
-    Phi(qi, sensors4(qi)) = 1;
-end;
-% learn new classifier for sparsely measured data
-w_sspoc= LDA_n(Phi * Xtrain4, Gtrain);
-Xcls = w_sspoc' * (Phi * Xtrain4);
 
-% compute centroid of each class in classifier space
-centroid = zeros(c-1, c);
-for i = 1:c, 
-    centroid(:,i) = mean(Xcls(:,Gtrain==classes(i)), 2);
-end;
-% use sparse sensors to classify X
-Xcls = w_sspoc'*(Phi * Xtest4);
 
-cls = zeros(1, size(Xcls,2));
-for i = 1:size(Xcls,2),
-    D = centroid - repmat(Xcls(:,i), 1, size(centroid,2));
-    D = sqrt(sum(D.^2, 1));
+    
+%% Plot sensor locations on the wing 
+binar           = zeros(fixPar.chordElements,fixPar.spanElements,1);
+binar(sensors)  = 1;
+sensorloc_tot   = reshape( binar, fixPar.chordElements,fixPar.spanElements); 
 
-    [~, cls(i)] = min(D);
-end;
+colorBarOpts    = { 'YDir', 'reverse', 'Ticks' ,0:0.5:1, 'TickLabels', {1:-0.5:0}  ,'TickLabelInterpreter','latex'};
+axOpts          = {'DataAspectRatio',[1,1,1],'PlotBoxAspectRatio',[3,4,4],'XLim',[0,52],'YLim',[0,27]};
+x               = [0 1 1 0]* (fixPar.spanElements+1);  
+y               = [0 0 1 1]* (fixPar.chordElements+1);
+[X,Y]           = meshgrid(1:fixPar.spanElements,1:fixPar.chordElements);
+I               = find( sensorloc_tot );    
 
-acc =  sum(cls == Gtest)/numel(cls);
-q = length(sensors4);
-fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q,acc])
+dotColor = ones(length(w_sspoc),1)*[0,0,1];
+dotColor(w_sspoc>=0,:) = ones(length(nonzeros(w_sspoc>=0)),1)*[1,0,0];
+
+
+figure()
+    pc  = patch(x,y,[1,1,1]*255/255,'EdgeColor','k');
+    hold on   
+%     scatter(X(I) ,Y(I) , 100 ,'.','r');      
+    dot_legend =  scatter(X(I) ,Y(I) , 100 ,dotColor,'.');    
+    dot_legend2 =  scatter(X(I(3)) ,Y(I(3)) , 100 ,dotColor(3,:),'.');    
+    scatter(0,13,100,'.k')
+    plot([1,1]*0,[-0.5,27],'k','LineWidth',1)
+    ax = gca(); 
+    set(ax,axOpts{:})
+    axis off
+    legend([dot_legend,dot_legend2],'Positive weight','Negative weight')
+%     legend(
+    
+    
+    

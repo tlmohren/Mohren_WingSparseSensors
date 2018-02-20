@@ -16,7 +16,7 @@ fixPar              = createFixParStruct( parameterSetName,iter); % load fixed p
 
 %%%%%%%%%%%%%%% Choices to make %%%%%%%%%%%%%%%%%%%%%%%%
 sparse_sensors_on           = 1; % choose 1 for sparse sensors ON, if 0 the sensors will be random 
-desired_number_of_sensors   = 13; % choose an integer between 1 and 30
+desired_number_of_sensors   = 11; % choose an integer between 1 and 30
 rerun_structural_simulation_on = 0; % choose to load structural euler-lagrange simulation results, or to rerun them
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -31,6 +31,7 @@ if rerun_structural_simulation_on
     fixPar.saveSim      = 0;
 end
 varPar.curIter      = 1;
+% varPar.phi_dist = 31
 
 %% Run the exampale simulation
 strainSet       = eulerLagrangeConcatenate( fixPar,varPar);

@@ -11,9 +11,9 @@
 clear all, close all, clc
 addpathFolderStructure()
 
-figuresToRun        = {'R2'};
+figuresToRun        = {'S3C'};
 iter                = 10;
-parameterSetName    = ['R2_Iter' num2str(iter)];
+parameterSetName    = ['S3C_phiDistnoSTA' num2str(iter)];
 
 fixPar = createFixParStruct( parameterSetName,iter);
 [ varParStruct,simulation_menu ] = createVarParStruct( fixPar, figuresToRun);
