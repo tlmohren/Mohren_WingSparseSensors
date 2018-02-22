@@ -10,7 +10,7 @@ clear all, close all, clc
 addpathFolderStructure()
 parameterSetName    = 'Example 1';
 figuresToRun        = 'E1'; % run Example 1 
-iter                = 1; % number of iterations 
+iter                = 4; % number of iterations 
 fixPar              = createFixParStruct( parameterSetName,iter); % load fixed parameters 
 [ varParStruct,~]   = createVarParStruct( fixPar, figuresToRun); % load variable parameters 
 
@@ -30,8 +30,8 @@ if rerun_structural_simulation_on
     fixPar.runSim       = 1;
     fixPar.saveSim      = 0;
 end
-varPar.curIter      = 1;
-% varPar.phi_dist = 31
+varPar.curIter      = iter;
+varPar.phi_dist = 31.2;
 
 %% Run the exampale simulation
 strainSet       = eulerLagrangeConcatenate( fixPar,varPar);

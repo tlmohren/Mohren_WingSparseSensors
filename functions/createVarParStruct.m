@@ -66,8 +66,8 @@ simulation_menu. S3B_thetaDist. theta_distList = spa_sf( 10.^[-2:0.1:2] ,2);
 
 
 simulation_menu. S3C_phiDistnoSTA = simulation_menu.R1_standard;
-simulation_menu. S3C_phiDistNoSTA. phi_distList = spa_sf( 10.^[-2:0.1:2] ,2) * 3.12;
-simulation_menu. S3C_phiDistNoSTA. STAwidthList(1) = 0.1;
+simulation_menu. S3C_phiDistnoSTA. phi_distList = spa_sf( 10.^[-2:0.1:2] ,2) * 3.12;
+simulation_menu. S3C_phiDistnoSTA. STAwidthList(1) = 0.1;
 
 simultaion_menu. E1 = simulation_menu.R1_standard;
 simulation_menu. E1. wTruncList = 10;
