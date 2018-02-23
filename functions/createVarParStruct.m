@@ -73,6 +73,11 @@ simulation_menu. S3D_thetaDistnoSTA = simulation_menu.R1_standard;
 simulation_menu. S3D_thetaDistnoSTA. theta_distList = spa_sf( 10.^[-2:0.1:2] ,2);
 simulation_menu. S3D_thetaDistnoSTA. STAwidthList(1) = 0.1;
 
+
+simulation_menu. S4_vectorExtract = simulation_menu.R1_standard;
+simulation_menu. S4_vectorExtract. theta_distList = 1;
+simulation_menu. S4_vectorExtract. phi_distList = 31.2;
+
 simultaion_menu. E1 = simulation_menu.R1_standard;
 simulation_menu. E1. wTruncList = 10;
 simulation_menu. E1. SSPOConList = [0,1];
