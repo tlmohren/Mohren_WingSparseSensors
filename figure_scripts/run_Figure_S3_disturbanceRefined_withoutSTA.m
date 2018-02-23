@@ -14,8 +14,9 @@ height =6;    % Height in inches
 set(0,'DefaultAxesFontSize',7)% .
 
 %% Data collection 
-% parameterSetName = 'R1R4_Iter5_delay5_eNet09';
-parameterSetName = 'S3C_phiDistnoSTA10';
+parameterSetName = 'R1R4_Iter5_delay5_eNet09';
+% parameterSetName = 'R1toR4_Iter10_run1';
+% parameterSetName = 'R1toR4_Iter10_delay4';
 
 overflow_loc = 'D:\Mijn_documenten\Dropbox\A_PhD\C_Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
 github_loc = 'accuracyData';
@@ -41,6 +42,11 @@ ind_SSPOConA = find([paramStructA.SSPOCon]);
 ind_SSPOCoffB = find( ~[paramStructB.SSPOCon]);
 ind_SSPOConB = find([paramStructB.SSPOCon]);
 
+load(['accuracyData' filesep 'parameterSet_' 'S3C_phiDistnoSTA10' ])
+fixPar.nIterFig = 10;
+[dataStructC,paramStructC] = combineDataMat( fixPar,  simulation_menu.S3C_phiDistnoSTA );
+ind_SSPOCoffC = find( ~[paramStructC.SSPOCon]);
+ind_SSPOConC = find([paramStructC.SSPOCon]);
 
 %% Figure settings
 fig_S5 = figure();
@@ -84,21 +90,52 @@ for k = 1:n_x
     thresholdMatB(k,2) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
 end
 
+
+
+%% 
+n_x = length(simulation_menu.S3C_phiDistnoSTA.phi_distList );
+for k = 1:n_x
+    %---------------------------------SSPOCoff-------------------------
+    Dat_I = ind_SSPOCoffC( k);
+    [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStructC );
+    realNumbers = find(~isnan(meanVec));
+    thresholdMatC(k,1) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
+
+    %---------------------------------SSPOCon-------------------------
+    Dat_I = ind_SSPOConC(k);
+    [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStructC );
+    realNumbers = find(~isnan(meanVec));
+    thresholdMatC(k,2) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
+end
+%% check sigmoidFit, what happends without distu
+figure()
+for k = 1:n_x
+    Dat_I = ind_SSPOConC(k);
+    [ meanVec,stdVec, iters] = getMeanSTD( Dat_I,dataStructC );
+    realNumbers = find(~isnan(meanVec));
+    plot_on = 1;
+    thresholdMatC(k,2) = sigmFitParam(realNumbers,meanVec(realNumbers),'plot_show',plot_on);
+   subplot(7,6,k)
+   plot(realNumbers,meanVec(realNumbers)  )
+   axis([1,30,0.4,1])
+end
+
+
 %% 
 cols = [ [1,1,1]*0.5 ; 
             1,0,0 ];
         
-fig2SimsC = mod(log10(simulation_menu.S3A_phiDist.phi_distList/0.00312) ,1) == 0;
+fig2SimsA = mod(log10(simulation_menu.S3A_phiDist.phi_distList/0.00312) ,1) == 0;
 fig2SimsB = mod(log10(simulation_menu.S3B_thetaDist.theta_distList/0.01) ,1) == 0;
 
 subplot(211)
-    semilogx(simulation_menu.S3A_phiDist.phi_distList, thresholdMatA(:,1),'Color',cols(1,:))
+    l1=semilogx(simulation_menu.S3A_phiDist.phi_distList, thresholdMatA(:,1),'Color',cols(1,:));
     hold on
-    semilogx(simulation_menu.S3A_phiDist.phi_distList, thresholdMatA(:,2),'Color',cols(2,:))
+    l2=semilogx(simulation_menu.S3A_phiDist.phi_distList, thresholdMatA(:,2),'Color',cols(2,:));
 
 
-    plot(simulation_menu.S3A_phiDist.phi_distList(fig2SimsC ), thresholdMatA(fig2SimsC ,1)','o','Color',cols(1,:))
-    plot(simulation_menu.S3A_phiDist.phi_distList(fig2SimsC ), thresholdMatA(fig2SimsC ,2),'o','Color',cols(2,:))
+    plot(simulation_menu.S3A_phiDist.phi_distList(fig2SimsA ), thresholdMatA(fig2SimsA ,1)','o','Color',cols(1,:))
+    plot(simulation_menu.S3A_phiDist.phi_distList(fig2SimsA ), thresholdMatA(fig2SimsA ,2),'o','Color',cols(2,:))
 
 
     xlabel('Disturbance $\dot{\phi}^*$ [rad/s]'); ylabel(['Number of Sensors, q,' char(10) 'Required for 75\% Accuracy'],'Rotation',0)
@@ -111,9 +148,25 @@ subplot(212)
     xlabel('Disturbance $\dot{\theta}^*$ [rad/s]'); ylabel(['Number of Sensors, q,' char(10) 'Required for 75\% Accuracy'],'Rotation',0)
     legend('Random Sensors','SSPOC Sensors','Location','Best')
 
-    plot(simulation_menu.S3B_thetaDist.theta_distList(fig2SimsC ), thresholdMatB(fig2SimsB ,1)','o','Color',cols(1,:))
-    plot(simulation_menu.S3B_thetaDist.theta_distList(fig2SimsC ), thresholdMatB(fig2SimsB ,2),'o','Color',cols(2,:))
+    plot(simulation_menu.S3B_thetaDist.theta_distList(fig2SimsB ), thresholdMatB(fig2SimsB ,1)','o','Color',cols(1,:))
+    plot(simulation_menu.S3B_thetaDist.theta_distList(fig2SimsA ), thresholdMatB(fig2SimsB ,2),'o','Color',cols(2,:))
 
+    
+subplot(211)
+% subplot(311)
+    semilogx(simulation_menu.S3C_phiDistnoSTA.phi_distList, thresholdMatC(:,1),':','Color',cols(1,:))
+    hold on
+    l4 =semilogx(simulation_menu.S3C_phiDistnoSTA.phi_distList, thresholdMatC(:,2),':','Color',cols(2,:));
+
+
+    plot(simulation_menu.S3C_phiDistnoSTA.phi_distList(fig2SimsA ), thresholdMatC(fig2SimsA ,1)','o','Color',cols(1,:))
+    plot(simulation_menu.S3C_phiDistnoSTA.phi_distList(fig2SimsA ), thresholdMatC(fig2SimsA ,2),'o','Color',cols(2,:))
+
+% 
+%     xlabel('Disturbance $\dot{\phi}^*$ [rad/s]'); ylabel(['Number of Sensors, q,' char(10) 'Required for 75\% Accuracy'],'Rotation',0)
+    legend([l1,l2,l4],'Random Sensors','SSPOC Sensors','SSPOC sensors without STA','Best')
+%     
+    
 %% Setting paper size for saving 
 
 set(fig_S5,'InvertHardcopy','on');
