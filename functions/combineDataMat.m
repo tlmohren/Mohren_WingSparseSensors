@@ -20,6 +20,7 @@ n = prod( structfun(@length,varParCombinations)) / mn;
 if varParCombinations.wTruncList(end)<=30
     dataMatTot = zeros( n , m , fixPar.iter);
     sensorMatTot = zeros( n , m , m ,fixPar.iter);
+    weightMatTot = zeros( n , m , m ,fixPar.iter);
 else
     dataMatTot = zeros( n , fixPar.iter);
     sensorMatTot = [];
