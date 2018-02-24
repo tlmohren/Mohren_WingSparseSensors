@@ -52,6 +52,7 @@ for j1 = 1:length(paramStruct);
                         dataMatTot(j1,q, prev+1) = tempDat.DataMat(q_vec(k3),it(k3)); 
 
                         sensorMatTot(j1,q,1:q, prev+1) = tempDat.SensMat(q_vec(k3),1:q_vec(k3),it(k3)); 
+                        weightMatTot(j1,q,1:q, prev+1) = tempDat.WeightMat(q_vec(k3),1:q_vec(k3),it(k3)); 
 
                     end
                 end
@@ -79,6 +80,7 @@ for j1 = 1:length(paramStruct);
 end
 dataStruct.dataMatTot = dataMatTot;
 dataStruct.sensorMatTot = sensorMatTot;
+dataStruct.weightMatTot = weightMatTot;
 dataStruct.paramStruct = paramStruct;
 
 end
