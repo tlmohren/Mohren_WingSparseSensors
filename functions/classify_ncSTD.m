@@ -67,8 +67,8 @@ c = 2*log( ( s_dev(2)/s_dev(1)) ) + centroid(2)^2/s_dev(2)^2 - centroid(1)^2/s_d
 x_int(1) = (-b+sqrt(b^2-4*a*c))/(2*a);
 x_int(2) = (-b-sqrt(b^2-4*a*c))/(2*a);
 
-std_sep_I = find( (x_int>=min(centroid)) & (x_int<=max(centroid)) )
-std_sep = x_int(std_sep_I)
+std_sep_I = find( (x_int>=min(centroid)) & (x_int<=max(centroid)) );
+std_sep = x_int(std_sep_I);
 
 
 [min_centroid,I] = min(centroid);
@@ -100,15 +100,15 @@ for i = 1:size(Xcls,2),
 %     [~, cls(i)] = min(D_std);
 end;
 
-figure();
-% plot(1:300,Xcls(1:300),'.r')
-plot( find(cls == 1) , Xcls( (cls ==1) ),'r.')
-hold on 
-plot( find(cls == 2) , Xcls( (cls ==2) ),'b.')
-% plot( 301:600 ,Xcls(301:600),'.b')
-plot( [1,300], centroid(1)*[1,1] ,'k')
-plot( [301,600], centroid(2)*[1,1] ,'k')
-plot( [1,600], sep_line*[1,1] ,'k--')
-plot( [1,600], mean_sep*[1,1] ,'k:')
+% figure();
+% % plot(1:300,Xcls(1:300),'.r')
+% plot( find(cls == 1) , Xcls( (cls ==1) ),'r.')
+% hold on 
+% plot( find(cls == 2) , Xcls( (cls ==2) ),'b.')
+% % plot( 301:600 ,Xcls(301:600),'.b')
+% plot( [1,300], centroid(1)*[1,1] ,'k')
+% plot( [301,600], centroid(2)*[1,1] ,'k')
+% plot( [1,600], sep_line*[1,1] ,'k--')
+% plot( [1,600], mean_sep*[1,1] ,'k:')
 
 % plot(
