@@ -9,10 +9,10 @@
 %------------------------------
 clear all, close all, clc
 addpathFolderStructure()
-iter                = 1; % number of iterations 
+iter                = 3; % number of iterations 
 phi_dist            = 31.2;
 % phi_dist            = 0.312;
-theta_dist          = 1;
+theta_dist          = 0.1;
 parameterSetName    = ' ';
 figuresToRun        = {'E1'};
 
@@ -41,11 +41,10 @@ varPar.STAwidth = 0.01;
 %     legend('Neural encoding on','Neural encoding off ') 
 
 %% adjusted parameters 
-% fixPar.elasticNet = 0.9;
+varPar.wTrunc = 9;  
+fixPar.elasticNet = 0.9;
 fixPar.singValsMult = 1;
 fixPar.rmodes = 30; 
-varPar.wTrunc = 15;
-fixPar.elasticNet = 0.9;
 %% 
 
 [Xtrain, Xtest, Gtrain, Gtest] = predictTrain(X, G, fixPar.trainFraction);
@@ -64,7 +63,7 @@ c = numel(classes);
 centroid = zeros(c-1, c);
 for i = 1:c,
     centroid(:,i) = mean(Xcls(:,G==classes(i)), 2);
-end
+end;
 singValsR = singVals(1:length(w_r));
 
 if fixPar.singValsMult == 1
@@ -73,11 +72,8 @@ else
     [~,Iw]=sort(abs(w_r),'descend');  
 end
 big_modes = Iw(1:varPar.wTrunc);
-
-% Psir = Psi(:,1:varPar.wTrunc);
-% w_t = w_r(1:varPar.wTrunc);
-
 Psir = Psi(:,big_modes);
+
 w_t = w_r(big_modes);
 
 a = Psir'*Xtrain;
@@ -88,35 +84,9 @@ s = sum(s, 2);
 [~, I_top2] = sort( abs(s),'descend');
 
 sensors_sort = I_top2(1:fixPar.rmodes);
-sensors = sensors_sort(1:3)
+cutoff_lim = norm(s, 'fro')/fixPar.rmodes;
+sensors = sensors_sort(  abs(s(sensors_sort))>= cutoff_lim )
 
-
-% [~,Isort ] = sort(abs(s(sensors_sort)),'descend')
-% cutoff_lim = norm(s, 'fro')/fixPar.rmodes;
-% sensors = sensors_sort(  abs(s(sensors_sort))>= cutoff_lim )
-
-
-%% 
-%         randloc = randperm(1326); 
-%         
-%         
-%         minLoc = 1300; 
-%         randLarge = randloc(randloc>minLoc);
-%         sensors = randLarge(1:3);
-% randsens = permute(1:1326)
-% sensors         = [1301, 1313 ,  1326]';
-% sensors         = [1303, 1316 ,  1324]';
-% sensors         = [1305, 1318 ,  1322]';
-% sensors         = [1306, 1320,  1322]';
-% sensors         = [1319, 1320,  1321]';
-% % sensors         = [1301, 1302,  1303]';
-% sensors         = [1201:1203]';
-% sensors         = [1301,   1326]';
-% sensors         = [1301, 1313 ]';
-% sensors         = [ 1313 ,  1326]';
-% sensors = [1310, 1325];
-
-% sensors         = [1301, 1305, 1313]';
 
 
 n =  size(Xtest,1);
@@ -237,7 +207,7 @@ differenceScheme = colorSchemeInterp(orangePurple/255,500);
 % pcolor(eig_fire)
 % colormap(fireScheme)
 % colormap(differenceScheme)
-%Plot sensor locations on the wing 
+%% Plot sensor locations on the wing 
 binar           = zeros(fixPar.chordElements,fixPar.spanElements,1);
 binar(sensors)  = 1;
 sensorloc_tot   = reshape( binar, fixPar.chordElements,fixPar.spanElements); 
@@ -267,7 +237,7 @@ pcolor(eig_fire)
 colormap(differenceScheme)
 %     scatter(X(I) ,Y(I) , 100 ,'.','r');      
     dot_legend =  scatter(X(I) ,Y(I) ,   ceil( abs( w_sspoc)*10)*100 ,dotColor,'.');    
-%     dot_legend2 =  scatter(X(I(3)) ,Y(I(3)) , 100 ,dotColor(3,:),'.');    
+    dot_legend2 =  scatter(X(I(3)) ,Y(I(3)) , 100 ,dotColor(3,:),'.');    
     scatter(0,13,100,'.k')
     plot([1,1]*0,[-0.5,27],'k','LineWidth',1)
     ax = gca(); 

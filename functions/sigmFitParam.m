@@ -21,6 +21,7 @@ modelfun = @(c,x)( 0.5 + c(2) ./ (1+ exp( - (x-c(3))./c(4) )  ) );
 if isempty(x) 
     q = nan;
     bet = [0,0,0,0];
+    lastQ = 30;
 else
     xadd = [0,x];
     yadd = [0.5,y];

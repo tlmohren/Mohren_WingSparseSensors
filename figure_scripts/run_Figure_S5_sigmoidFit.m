@@ -96,24 +96,29 @@ scatter(errLocFig1A,meanval,50,'filled','kd')
 
 
 %% Legend 
-legend_entries = { ['Random Sensors, Encoded'],...
-                    ['SSPOC Sensors, Encoded'],...
+legend_entries = { ['Randomly placed sensors'],...
+                    ['SSPOC Sensors'],...
                     'Sigmoidal Fit',...
-                    'Intersection 75\%'};
+                    'Intersection w. 0.75'};
+legend_entries = { ['SSPOC Sensors'],...
+                ['Randomly placed sensors'],...                
+                    'Sigmoidal Fit',...
+                    'Intersection w. 0.75'};
 a = plot([1,2],[1,2],'k:');
 b = plot([1,2],[1,2],'k--');
 
 legVec = [pltSSPOCoff.mainLine, pltSSPOCon, a,b];
 legOpts = {'FontSize',fsz,'Location',legend_location};
-[leg,lns] = legend(legVec,legend_entries, legOpts{:});
+[leg,lns] = legend(legVec([2,1,3,4]),legend_entries, legOpts{:});
 
-allText1 = ['All Sensors,' char(10) 'Raw Strain'];
-allText2 = ['All Sensors,' char(10)  'Encoded'];
-tx1 = text(20,0.5,allText1,'FontSize',fsz);
-tx2 = text(20,0.7,allText2,'FontSize',fsz);
-
+allText1 = ['Raw' char(10) 'Strain' ];
+allText2 = ['Neural' char(10) 'Encoded'  char(10) 'Strain'];
+tx1 = text(34.5,0.6,allText1,'FontSize',fsz);
+tx2 = text(34,0.8,allText2,'FontSize',fsz);
+tx1.HorizontalAlignment = 'center';
+tx2.HorizontalAlignment = 'center';
 %% -------------------------------Figure cosmetics-------------------------    
-xlabel('Number of Sensors, $q$'); ylabel('Cross-Validated Accuracy')
+xlabel('Number of Sensors, $q$'); ylabel('Accuracy on Validation Data')
 grid on 
 axPlot = gca();
 set(axPlot, axisOptsFig1A{:})
