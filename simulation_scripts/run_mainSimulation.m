@@ -12,7 +12,7 @@ clear all, close all, clc
 addpathFolderStructure()
 
 figuresToRun        = {'R2'};
-iter                = 100;
+iter                = 10;
 parameterSetName    = ['R2_stdevClass' num2str(iter)];
 
 fixPar = createFixParStruct( parameterSetName,iter);
