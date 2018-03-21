@@ -80,7 +80,13 @@ else
     sep_line = mean_sep;
 end
 classes = [1,2];
-    
+%     
+% [V,I ] = min(s_dev);
+% in_between = (Xcls >= min(x_int) ) & ( Xcls <= max(x_int)) 
+% cls(in_between) = I;
+% cls(~in_between) = I;
+
+
 for i = 1:size(Xcls,2),
     if Xcls(:,i) <= sep_line
         cls(i) = I;

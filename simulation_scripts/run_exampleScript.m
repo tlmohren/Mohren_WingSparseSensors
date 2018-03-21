@@ -34,21 +34,21 @@ if rerun_structural_simulation_on
 end
 varPar.curIter      = iter;
 % varPar.phi_dist = 31.2;
-varPar.phi_dist = 3.12;
-varPar.theta_dist = 1;
-% % varPar.phi_dist = 0.312;
-% varPar.theta_dist = 0.1;
+% varPar.phi_dist = 3.12;
+% varPar.theta_dist = 1;
+varPar.phi_dist = 0.312;
+varPar.theta_dist = 0.1;
 
 %% Run the exampale simulation
 strainSet       = eulerLagrangeConcatenate( fixPar,varPar);
 [X,G]           = neuralEncoding(strainSet, fixPar,varPar );
 [Xtrain, Xtest, Gtrain, Gtest] = predictTrain(X, G, fixPar.trainFraction);
-% [sensors, Psir, w_t]    = sensorLocSSPOCWeights(Xtrain,Gtrain,fixPar,varPar);
+[sensors, Psir, w_t]    = sensorLocSSPOCWeights(Xtrain,Gtrain,fixPar,varPar);
 % sensors         = [1301, 1313]; % ,1326]'
 % sensors         = [1301, 1313 ,  1326]'; 
-sensors         = [1301, 1313 , 1314 , 1315,1316,  1326]'; 
+% sensors         = [1301, 1313 , 1314 , 1315,1316,  1326]'; 
 % sensors         = [1301:1326]; 
-% sensors         = 1:1326;
+sensors         = 1:1326;
 % accuracy        = sensorLocClassify(  sensors,Xtrain,Gtrain,Xtest,Gtest );
 [ accuracy, w_sspoc ]       = sensorLocClassifyWeights(  sensors,Xtrain,Gtrain,Xtest,Gtest );
 

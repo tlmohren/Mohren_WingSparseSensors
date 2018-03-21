@@ -13,6 +13,8 @@ iter                = 1; % number of iterations
 % phi_dist            = 31.2;
 phi_dist            = 0.312;
 theta_dist          = 0.1;
+% phi_dist            = 31.2;
+% theta_dist          = 1;
 parameterSetName    = ' ';
 figuresToRun        = {'E1'};
 
@@ -41,7 +43,7 @@ varPar.STAwidth = 0.01;
 %     legend('Neural encoding on','Neural encoding off ') 
 
 %% adjusted parameters 
-varPar.wTrunc = 15;  
+varPar.wTrunc = 10;  
 fixPar.elasticNet = 0.9;
 fixPar.singValsMult = 1;
 fixPar.rmodes = 30; 
@@ -104,9 +106,13 @@ Xcls = w_sspoc' * (Phi * Xtrain);
 centroid = zeros(c-1, c);
 for i = 1:c, 
     centroid(:,i) = mean(Xcls(:,Gtrain==classes(i)), 2);
+    s_dev(:,i) = std(Xcls(:,Gtrain==classes(i)));
 end;
 % use sparse sensors to classify X
 cls = classify_nc(Xtest, Phi, w_sspoc, centroid);            % NOTE: if Jared's is used, multiple outputs!
+acc =  sum(cls == Gtest)/numel(cls);
+fprintf('W_trunc = %1.0f, q = %1.0f, giving accuracy =%4.2f \n',[varPar.wTrunc,q,acc])
+cls = classify_ncSTD(Xtest, Phi, w_sspoc, centroid,s_dev);            % NOTE: if Jared's is used, multiple outputs!
 acc =  sum(cls == Gtest)/numel(cls);
 
 q = length(sensors);

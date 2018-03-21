@@ -19,11 +19,13 @@ sigmoid_fit = true;
 
 %% Processing before plotting 
 parameterSetName = 'R1_Iter100';
+% parameterSetName = 'R1_stdevClass100';
 overflow_loc = 'D:\Mijn_documenten\Dropbox\A_PhD\C_Papers\ch_Wingsensors\Mohren_WingSparseSensors_githubOverflow';
 
 load( ['accuracyData' filesep 'parameterSet_' parameterSetName ] )
 fixPar.data_loc = 'accuracyData';
 fixPar.nIterFig = 100;
+% fixPar.nIterFig = 3;
 
 [dataStruct,paramStruct] = combineDataMat( fixPar, simulation_menu.R1_standard );
 [dataStructAllnoFilt,paramStructAllnoFilt] = combineDataMat(fixPar,simulation_menu.R1_all_nofilt);
@@ -150,5 +152,6 @@ stupid_ratio = 15/16;
 myfiguresize = [left, bottom, width*stupid_ratio, height*stupid_ratio];
 set(fig1, 'PaperPosition', myfiguresize);
 
-print(fig1, ['figs' filesep 'Figure_R1' ], '-dsvg');
+% print(fig1, ['figs' filesep 'Figure_R1_wSTDclassify' ], '-dsvg');
+print(fig1, ['figs' filesep 'Figure_R1' ], '-dpng');
 
