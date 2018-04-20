@@ -55,7 +55,8 @@ end
 if inputs.plot_show == true
     hold on 
     x_int = 0:0.1:30;
-    plot(x_int,modelfun(bet,x_int),'k--','LineWidth',1)
+%     plot(x_int,modelfun(bet,x_int),'k--','LineWidth',1)
+    plot(x_int,modelfun(bet,x_int),'r','LineWidth',1)
     plot([0,lastQ],[threshold,threshold],':k','LineWidth',1)
     if ~isnan(q)
         plot([q,q],[0.4,1],':k','LineWidth',1)
